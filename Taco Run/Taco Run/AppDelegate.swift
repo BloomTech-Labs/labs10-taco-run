@@ -14,6 +14,8 @@ import GoogleSignIn
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
     
+    
+    
 
     var window: UIWindow?
 
@@ -24,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         FirebaseApp.configure()
         
         GIDSignIn.sharedInstance()?.clientID = FirebaseApp.app()?.options.clientID
-        GIDSignIn.sharedInstance()?.delegate = self
+        GIDSignIn.sharedInstance().delegate = self
         
         return true
     }
@@ -32,27 +34,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         
         if let error = error {
-            //TODO: error loggin in with google
+            // TODO: error signing with google
             print(error.localizedDescription)
             return
         }
-        
         
         guard let authentication = user.authentication else { return }
         let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken,
                                                        accessToken: authentication.accessToken)
         
+        
         Auth.auth().signInAndRetrieveData(with: credential) { (authResult, error) in
             if let error = error {
-                // TODO: error logging in with google
+                // TODO: error signing in with google
                 print(error.localizedDescription)
                 return
             }
             // User is signed in with google
-            
+            guard let user = Auth.auth().currentUser else { return }
+            print("User signed in with google: \(user.displayName)")
         }
-        
     }
+
+    
+
     
     func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any])
         -> Bool {

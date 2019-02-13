@@ -17,13 +17,26 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate {
     @IBOutlet weak var passText: UITextField!
     @IBOutlet weak var emailText: UITextField!
     
-    
+    var authListener: AuthStateDidChangeListenerHandle?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         GIDSignIn.sharedInstance().uiDelegate = self
-        GIDSignIn.sharedInstance().signIn()
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        setupAuthListeners()
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        Auth.auth().removeStateDidChangeListener(authListener!)
         
     }
     
@@ -59,6 +72,14 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate {
                 return
             }
             
+            
+        }
+    }
+    
+    
+    func setupAuthListeners() {
+    
+        authListener = Auth.auth().addStateDidChangeListener { (auth, user) in
             self.performSegue(withIdentifier: "toMain", sender: self)
         }
     }
