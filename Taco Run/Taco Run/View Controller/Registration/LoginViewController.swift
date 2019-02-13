@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import FirebaseAuth
 
 
 class LoginViewController: UIViewController {
@@ -26,25 +26,38 @@ class LoginViewController: UIViewController {
     
     @IBAction func loginTapped(_ sender: Any) {
         
+        guard let email = emailText.text, !email.isEmpty else {
+            // TODO: error no email
+            return
+        }
         
+        guard let pass = passText.text, !pass.isEmpty else {
+            // TODO: error no pass
+            return
+        }
         
+        loginUser(withEmail: email, andPass: pass)
+
     }
     
     
     func loginUser(withEmail email: String, andPass pass: String) {
         
-        guard !email.isEmpty else {
-            //TODO: show no email error
-            return
+        Auth.auth().createUser(withEmail: email, password: pass) { (result, error) in
+            
+            if let error = error {
+                // TODO: alert error loggin in
+                print(error.localizedDescription)
+                return
+            }
+            
+            guard let user = result?.user else {
+                //TODO: error no user in result
+                return
+            }
+            
+            self.performSegue(withIdentifier: "toMain", sender: self)
         }
-        
-        guard !pass.isEmpty else {
-            // TODO: show no pass error
-            return
-        }
-        
-        
-        
     }
     
     

@@ -56,11 +56,20 @@
                     <connections>
                         <outlet property="emailText" destination="fyh-G7-yym" id="gSP-hI-VRe"/>
                         <outlet property="passText" destination="Hvr-7Y-bx2" id="6mi-hC-1EL"/>
+                        <segue destination="SEr-CD-Sod" kind="presentation" identifier="toMain" id="U8r-fg-xU0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MLX-sg-sqe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="772" y="-24.7376311844078"/>
+        </scene>
+        <!--mainNav-->
+        <scene sceneID="BTT-A4-9EK">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="mainNav" id="SEr-CD-Sod" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EdL-Ar-Ftw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1470" y="-26"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="0z8-3I-fbD">
