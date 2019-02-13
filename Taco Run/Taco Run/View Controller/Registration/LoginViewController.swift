@@ -8,9 +8,10 @@
 
 import UIKit
 import FirebaseAuth
+import GoogleSignIn
 
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, GIDSignInUIDelegate {
 
     
     @IBOutlet weak var passText: UITextField!
@@ -21,7 +22,9 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-       
+        GIDSignIn.sharedInstance().uiDelegate = self
+        GIDSignIn.sharedInstance().signIn()
+        
     }
     
     @IBAction func loginTapped(_ sender: Any) {

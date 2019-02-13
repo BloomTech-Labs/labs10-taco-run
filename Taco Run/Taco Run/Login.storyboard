@@ -42,9 +42,24 @@
                                     </button>
                                 </subviews>
                             </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="eWd-Ci-IaZ">
+                                <rect key="frame" x="157.5" y="420.5" width="60" height="60"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E6g-Rn-xbH" customClass="GIDSignInButton">
+                                        <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="60" id="hxX-1z-mmo"/>
+                                            <constraint firstAttribute="width" constant="60" id="xpK-4j-LQT"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="eWd-Ci-IaZ" firstAttribute="centerX" secondItem="Upq-Od-1dL" secondAttribute="centerX" id="Jw0-VA-ITQ"/>
+                            <constraint firstItem="eWd-Ci-IaZ" firstAttribute="top" secondItem="wM1-RJ-ejp" secondAttribute="bottom" constant="20" id="Ox7-Vp-9GL"/>
                             <constraint firstItem="wM1-RJ-ejp" firstAttribute="centerX" secondItem="Upq-Od-1dL" secondAttribute="centerX" id="YfL-5v-aME"/>
                             <constraint firstItem="wM1-RJ-ejp" firstAttribute="centerY" secondItem="Upq-Od-1dL" secondAttribute="centerY" id="cUS-Yt-aG4"/>
                             <constraint firstItem="lHS-66-JKK" firstAttribute="trailing" secondItem="wM1-RJ-ejp" secondAttribute="trailing" constant="40" id="e2e-dR-7P1"/>
