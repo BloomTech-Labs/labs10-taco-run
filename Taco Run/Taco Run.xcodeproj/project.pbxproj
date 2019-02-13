@@ -104,10 +104,10 @@
 				1132B8EB22148AA100DADAC1 /* Login.storyboard */,
 				118D54CE2212125800326F04 /* Main.storyboard */,
 				118D54CA2212125800326F04 /* AppDelegate.swift */,
+				118D54E52212196D00326F04 /* Controller */,
 				1132B8E62213AF3B00DADAC1 /* View Controller */,
 				118D54EC221222F700326F04 /* Views */,
 				118D54DE2212183600326F04 /* Model */,
-				118D54E52212196D00326F04 /* Controller */,
 				118D54E62212197D00326F04 /* Extra */,
 			);
 			path = "Taco Run";
