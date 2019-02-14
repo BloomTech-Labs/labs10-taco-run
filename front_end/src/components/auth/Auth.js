@@ -1,5 +1,5 @@
 import React from 'react';
-//import axios from 'axios';
+import axios from 'axios';
 import './fonts/font-awesome-4.7.0/css/font-awesome.min.css';
 import './vendor/bootstrap/css/bootstrap.min.css';
 import './fonts/iconic/css/material-design-iconic-font.min.css';
@@ -56,11 +56,6 @@ class Auth extends React.Component {
 		})
 	}
 
-	Github = () => {
-		this.props.githubAuth()
-		this.props.history.push("/events")
-	}
-
 	Google = () => {
 		this.props.googleAuth()
 		this.props.history.push("/events")
@@ -76,11 +71,17 @@ class Auth extends React.Component {
 		this.props.history.push("/events")
 	}
 
+
 	SignIn = (event) => {
 		event.preventDefault()
 		let user = {email: this.state.logEmail, password: this.state.logPass}
-		this.props.signIn(user)
-		this.props.history.push("/events")
+		axios.post('https://production-taco.herokuapp.com/users', {name: this.state.SignUpName,email: this.state.SignUpEmail})
+		.then(resp => {
+			localStorage.setItem('user_id', resp.data)
+		}).then(() => {
+			this.props.signIn(user)
+			this.props.history.push("/events")
+		})
 	}
 
 	SignUp = (event) => {
@@ -93,15 +94,23 @@ class Auth extends React.Component {
 
 		let user = {username: this.state.SignUpName, email: this.state.SignUpEmail, password: this.state.SignUpPass}
 
+		axios.post('https://production-taco.herokuapp.com/users', {name: this.state.SignUpName,email: this.state.SignUpEmail})
+		.then(resp => {
+
+			localStorage.setItem('user_id', resp.data)
+		})
+		.then(() => {
+
 		/*
 			nice work around to make them be called one at a time
 			this way the not authorized page does not show up for a few seconds
 			before the props has a change to update.
 		*/
-		
-		window.setTimeout (() => { this.props.signUp(user) }, 0);
-    window.setTimeout (() => { this.setState({logEmail: '', logPass: '', SignUpName: '', SignUpPass: '', SignUpConfirm: '', SignUpEmail: '' }) }, 0);
-    window.setTimeout (() => { this.props.history.push("/events") }, 0);
+
+			window.setTimeout (() => { this.props.signUp(user) }, 0);
+	    window.setTimeout (() => { this.setState({logEmail: '', logPass: '', SignUpName: '', SignUpPass: '', SignUpConfirm: '', SignUpEmail: '' }) }, 0);
+	    window.setTimeout (() => { this.props.history.push("/events") }, 0);
+		})
 	}
 
 	handleChange = event => {
@@ -109,7 +118,7 @@ class Auth extends React.Component {
  	}
 
 	render() {
-		console.log(this.props)
+		//console.log(this.props)
 		return (
 			<div>
 				{this.state.log ? (
@@ -198,9 +207,6 @@ class Auth extends React.Component {
 
 										<div className="login100-social-item bg3" onClick={this.Google}>
 											<i className="fa fa-google"></i>
-										</div>
-										<div className="login100-social-item bg4" onClick={this.Github}>
-											<i className="fa fa-github"></i>
 										</div>
 									</div>
 
@@ -326,7 +332,6 @@ const mapDispatchToProps = (dispatch) => {
 		twitterAuth: () => dispatch(twitterAuth()),
 		facebookAuth: () => dispatch(facebookAuth()),
 		googleAuth: () => dispatch(googleAuth()),
-		githubAuth: () => dispatch(githubAuth()),
 		passReset: (email) => dispatch(passReset(email))
 	}
 }

@@ -3,6 +3,7 @@ const initState = {authError: null}
 const authReducer = (state=initState, action) => {
 	switch (action.type){
 		case "SIGNUP_SUCCESS":
+			console.log('signup success')
 			return {...state, authError: null}
 		case "LOGIN_SUCCESS":
 			console.log('login success');
@@ -16,8 +17,6 @@ const authReducer = (state=initState, action) => {
 		case "TWITTER_SUCCESS":
 			return {...state, authError: null}
 		case "GOOGLE_SUCCESS":
-			return {...state, authError: null}
-		case "GITHUB_SUCCESS":
 			return {...state, authError: null}
 		default: 
 			return state
