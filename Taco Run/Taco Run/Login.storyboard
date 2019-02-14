@@ -18,59 +18,25 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="22" translatesAutoresizingMaskIntoConstraints="NO" id="wM1-RJ-ejp">
-                                <rect key="frame" x="40" y="266.5" width="295" height="134"/>
-                                <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fyh-G7-yym">
-                                        <rect key="frame" x="0.0" y="0.0" width="295" height="30"/>
-                                        <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Pass" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Hvr-7Y-bx2">
-                                        <rect key="frame" x="0.0" y="52" width="295" height="30"/>
-                                        <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vM6-yb-ktI">
-                                        <rect key="frame" x="0.0" y="104" width="295" height="30"/>
-                                        <state key="normal" title="Login"/>
-                                        <connections>
-                                            <action selector="loginTapped:" destination="bnw-79-hlU" eventType="touchUpInside" id="vF2-hJ-Kbh"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                            </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eWd-Ci-IaZ">
-                                <rect key="frame" x="157.5" y="420.5" width="60" height="60"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E6g-Rn-xbH">
-                                        <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="60" id="hxX-1z-mmo"/>
-                                            <constraint firstAttribute="width" constant="60" id="xpK-4j-LQT"/>
-                                        </constraints>
-                                    </view>
-                                </subviews>
-                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vkn-mK-O7l">
+                                <rect key="frame" x="147" y="462" width="80" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Get Started"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="919-cP-cmP">
+                                <rect key="frame" x="147" y="462" width="80" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Get Started"/>
+                                <connections>
+                                    <action selector="getStartedTapped:" destination="bnw-79-hlU" eventType="touchUpInside" id="QmS-79-AzR"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="eWd-Ci-IaZ" firstAttribute="centerX" secondItem="Upq-Od-1dL" secondAttribute="centerX" id="Jw0-VA-ITQ"/>
-                            <constraint firstItem="eWd-Ci-IaZ" firstAttribute="top" secondItem="wM1-RJ-ejp" secondAttribute="bottom" constant="20" id="Ox7-Vp-9GL"/>
-                            <constraint firstItem="wM1-RJ-ejp" firstAttribute="centerX" secondItem="Upq-Od-1dL" secondAttribute="centerX" id="YfL-5v-aME"/>
-                            <constraint firstItem="wM1-RJ-ejp" firstAttribute="centerY" secondItem="Upq-Od-1dL" secondAttribute="centerY" id="cUS-Yt-aG4"/>
-                            <constraint firstItem="lHS-66-JKK" firstAttribute="trailing" secondItem="wM1-RJ-ejp" secondAttribute="trailing" constant="40" id="e2e-dR-7P1"/>
-                            <constraint firstItem="wM1-RJ-ejp" firstAttribute="leading" secondItem="lHS-66-JKK" secondAttribute="leading" constant="40" id="r7g-id-acR"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="lHS-66-JKK"/>
                     </view>
                     <navigationItem key="navigationItem" id="zJf-uX-V2s"/>
                     <connections>
-                        <outlet property="emailText" destination="fyh-G7-yym" id="gSP-hI-VRe"/>
-                        <outlet property="passText" destination="Hvr-7Y-bx2" id="6mi-hC-1EL"/>
                         <segue destination="SEr-CD-Sod" kind="presentation" identifier="toMain" id="U8r-fg-xU0"/>
                     </connections>
                 </viewController>

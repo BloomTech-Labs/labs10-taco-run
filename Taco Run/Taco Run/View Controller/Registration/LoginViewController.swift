@@ -26,12 +26,7 @@ class LoginViewController: UIViewController, AuthUIDelegate, FUIAuthDelegate {
         
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        setupAuthListeners()
 
-    }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -39,53 +34,13 @@ class LoginViewController: UIViewController, AuthUIDelegate, FUIAuthDelegate {
         Auth.auth().removeStateDidChangeListener(authListener!)
         
     }
-    
-    @IBAction func loginTapped(_ sender: Any) {
-        
-        guard let email = emailText.text, !email.isEmpty else {
-            // TODO: error no email
-            return
-        }
-        
-        guard let pass = passText.text, !pass.isEmpty else {
-            // TODO: error no pass
-            return
-        }
-        
-        loginUser(withEmail: email, andPass: pass)
-
-    }
-    
-    
-    func loginUser(withEmail email: String, andPass pass: String) {
-        
-        Auth.auth().signIn(withEmail: email, password: pass) { (result, error) in
-            
-            if let error = error {
-                // TODO: alert error loggin in
-                print(error.localizedDescription)
-                return
-            }
-            
-//            guard let user = result?.user else {
-//                //TODO: error no user in result
-//                return
-//            }
-            
-            
-        }
-    }
-    
 
     
     
-    func setupAuthListeners() {
-    
-        authListener = Auth.auth().addStateDidChangeListener { (auth, user) in
-            self.performSegue(withIdentifier: "toMain", sender: self)
-        }
+    @IBAction func getStartedTapped(_ sender: Any) {
+        
+        setupFirebaseUI()
     }
-    
     
     func setupFirebaseUI() {
         
@@ -114,8 +69,6 @@ class LoginViewController: UIViewController, AuthUIDelegate, FUIAuthDelegate {
                 self.loginSession()
             }
         }
-        
-        
     }
     
     func loginSession() {
