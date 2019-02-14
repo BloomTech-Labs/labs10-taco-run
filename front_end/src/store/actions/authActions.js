@@ -47,7 +47,7 @@ export const signUp = (user) => {
 			})
 		})
 		.then(() => {
-			dispatch({type: "SIGNUP_SUCCESS", payload: {user: user.username, email: user.email} })
+			dispatch({type: "SIGNUP_SUCCESS" })
 		})
 		.catch(error => {
 			dispatch({type: 'SIGNUP_ERROR'})
