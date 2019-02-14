@@ -55,7 +55,7 @@
                                 </constraints>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qzT-XQ-5p2">
-                                <rect key="frame" x="124.5" y="105" width="126" height="30"/>
+                                <rect key="frame" x="125" y="105" width="125.5" height="30"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="25"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -140,27 +140,32 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fR0-vm-XGf">
                                 <rect key="frame" x="137.5" y="557" width="100" height="100"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HcR-mg-YsA">
-                                        <rect key="frame" x="3" y="3" width="94" height="70"/>
-                                        <color key="backgroundColor" red="0.031372549020000001" green="0.25098039220000001" blue="0.41960784309999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create Event" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DM9-6O-nWV">
-                                        <rect key="frame" x="0.5" y="76" width="99" height="21"/>
+                                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4vc-pp-5vx">
+                                        <rect key="frame" x="0.0" y="0.0" width="100" height="77"/>
+                                        <state key="normal" image="plus"/>
+                                        <connections>
+                                            <action selector="plusButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jaD-Lt-oVi"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create Event" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DM9-6O-nWV">
+                                        <rect key="frame" x="0.5" y="77" width="99" height="20"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="20" id="wEs-N2-1DC"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" red="0.0" green="0.58980089430000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="DM9-6O-nWV" firstAttribute="centerX" secondItem="fR0-vm-XGf" secondAttribute="centerX" id="8mO-wv-1g7"/>
-                                    <constraint firstAttribute="trailing" secondItem="HcR-mg-YsA" secondAttribute="trailing" constant="3" id="Ify-ME-sUF"/>
-                                    <constraint firstItem="HcR-mg-YsA" firstAttribute="top" secondItem="fR0-vm-XGf" secondAttribute="top" constant="3" id="Vll-KS-SSK"/>
+                                    <constraint firstItem="4vc-pp-5vx" firstAttribute="leading" secondItem="fR0-vm-XGf" secondAttribute="leading" id="M35-4w-XW9"/>
+                                    <constraint firstItem="DM9-6O-nWV" firstAttribute="top" secondItem="4vc-pp-5vx" secondAttribute="bottom" id="Ojf-LO-73F"/>
+                                    <constraint firstAttribute="trailing" secondItem="4vc-pp-5vx" secondAttribute="trailing" id="QWF-tt-JrY"/>
                                     <constraint firstAttribute="height" constant="100" id="aID-MM-aFf"/>
-                                    <constraint firstItem="DM9-6O-nWV" firstAttribute="top" secondItem="HcR-mg-YsA" secondAttribute="bottom" constant="3" id="bKj-dW-0DH"/>
                                     <constraint firstAttribute="bottom" secondItem="DM9-6O-nWV" secondAttribute="bottom" constant="3" id="crb-gZ-Qp0"/>
+                                    <constraint firstItem="4vc-pp-5vx" firstAttribute="top" secondItem="fR0-vm-XGf" secondAttribute="top" id="ppd-Lm-3AD"/>
                                     <constraint firstAttribute="width" constant="100" id="qt3-Ch-cty"/>
-                                    <constraint firstItem="HcR-mg-YsA" firstAttribute="leading" secondItem="fR0-vm-XGf" secondAttribute="leading" constant="3" id="rGU-V2-CJ4"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -188,6 +193,8 @@
                     </navigationItem>
                     <connections>
                         <outlet property="createEventView" destination="fR0-vm-XGf" id="bbE-Q5-0lU"/>
+                        <outlet property="plusButton" destination="4vc-pp-5vx" id="4Ad-kP-l7s"/>
+                        <segue destination="ZQh-9e-Yas" kind="show" identifier="toNewEvent" id="vy4-5i-dGE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -246,4 +253,7 @@
             <point key="canvasLocation" x="349.60000000000002" y="792.95352323838085"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="plus" width="72" height="72"/>
+    </resources>
 </document>

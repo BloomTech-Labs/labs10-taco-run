@@ -11,6 +11,7 @@ import UIKit
 class MainVC: UIViewController {
 
     @IBOutlet weak var createEventView: UIView!
+    @IBOutlet weak var plusButton: UIButton!
     
     var user: User!
     
@@ -18,20 +19,25 @@ class MainVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        setupGestureRecognizers()
     }
     
+    @IBAction func plusButtonTapped(_ sender: Any) {
+        newEventTapped()
+    }
     
     func setupGestureRecognizers() {
         
         let newEventGesture = UITapGestureRecognizer(target: self, action: #selector(newEventTapped))
         
         createEventView.addGestureRecognizer(newEventGesture)
+        
+        plusButton.imageView?.contentMode = UIView.ContentMode.scaleAspectFit
     }
     
     @objc func newEventTapped() {
         
-        
+        performSegue(withIdentifier: "toNewEvent", sender: nil)
         
     }
     
