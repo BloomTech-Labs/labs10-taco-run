@@ -1,3 +1,25 @@
+import axios from 'axios';
+
+
+/*
+	there are two helper functions I made to make my axios calls
+	so I can both sign in user and get the users id on localstorage for future calls
+*/
+
+const makeSocial = async (username, email, id, cb, firebase) => {
+	await cb(username, email)
+	return firebase.database().ref(`users/${id}`).set({
+		username: username, email: email
+	})
+}
+
+const makeAxios = async (name, email) => {
+	axios.post('https://production-taco.herokuapp.com/users', {name: name, email: email })
+	.then(res => {
+		localStorage.setItem('user_id', res.data)
+	})
+}
+
 export const signIn = (creds) => {
 	return (dispatch, getState, {getFirebase}) => {
 		const firebase = getFirebase();
@@ -5,7 +27,7 @@ export const signIn = (creds) => {
 			creds.email,
 			creds.password
 		).then(response => {
-			console.log(response)
+			//console.log(response)
 			dispatch({type: 'LOGIN_SUCCESS'})
 		}).catch(err => {
 			console.log(err)
@@ -19,13 +41,13 @@ export const signUp = (user) => {
 		const firebase = getFirebase();
 		firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
 		.then(response => {
-			console.log(response);
+			//console.log(response);
 			return firebase.database().ref(`users/${response.user.uid}`).set({
 				username: user.username, email: user.email
 			})
 		})
 		.then(() => {
-			dispatch({type: "SIGNUP_SUCCESS"})
+			dispatch({type: "SIGNUP_SUCCESS", payload: {user: user.username, email: user.email} })
 		})
 		.catch(error => {
 			dispatch({type: 'SIGNUP_ERROR'})
@@ -42,10 +64,7 @@ export const facebookAuth = () => {
 			let username = response.additionalUserInfo.profile.name
 			let email = response.additionalUserInfo.profile.email
 			let id = response.additionalUserInfo.profile.id
-			console.log(response)
-			return firebase.database().ref(`users/${id}`).set({
-				username: username, email: email
-			})
+			makeSocial(username, email, id, makeAxios, firebase)
 		})
 		.then(() => {
 			dispatch({type: "FACEBOOK_SUCCESS"})
@@ -71,10 +90,8 @@ export const twitterAuth = () => {
 
 			let email = 'name@twitter.com'
 			let id = response.additionalUserInfo.profile.id
-			console.log(response)
-			return firebase.database().ref(`users/${id}`).set({
-				username: username, email: email
-			})
+			//console.log(response)
+			makeSocial(username, email, id, makeAxios, firebase)
 			dispatch({type: "TWITTER_SUCCESS"})
 		})
 	}
@@ -86,36 +103,14 @@ export const googleAuth = () => {
 		let provider = new firebase.auth.GoogleAuthProvider();
 		firebase.auth().signInWithPopup(provider)
 		.then(response => {
-			console.log(response)
+			//console.log(response)
 			let username = response.additionalUserInfo.profile.name
 			let email = response.additionalUserInfo.profile.email
 			let id = response.additionalUserInfo.profile.id
-			return firebase.database().ref(`users/${id}`).set({
-				username: username, email: email
-			})
+			makeSocial(username, email, id, makeAxios, firebase)
 		})
 		.then(() => {
 			dispatch({type: "GOOGLE_SUCCESS"})
-		})
-	}
-}
-
-export const githubAuth = () => {
-	return (dispatch, getState, {getFirebase}) => {
-		const firebase = getFirebase();
-		let provider = new firebase.auth.GithubAuthProvider();
-		firebase.auth().signInWithPopup(provider)
-		.then(response => {
-			console.log(response)
-			let username = response.additionalUserInfo.profile.name
-			let email = response.additionalUserInfo.profile.email
-			let id = response.additionalUserInfo.profile.id
-			return firebase.database().ref(`users/${id}`).set({
-				username: username, email: email
-			})
-		})
-		.then(() => {
-			dispatch({type: "GITHUB_SUCCESS"})
 		})
 	}
 }
@@ -125,7 +120,7 @@ export const passReset = (email) => {
 		const firebase = getFirebase();
 		firebase.auth().sendPasswordResetEmail(email)
 		.then(response => {
-			console.log(response)
+			//console.log(response)
 		})
 	}
 }

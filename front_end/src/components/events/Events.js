@@ -1,15 +1,24 @@
 import React from 'react';
-//import axios from 'axios';
+import axios from 'axios';
 import firebase from 'firebase';
 import {connect} from 'react-redux';
 
 class Events extends React.Component {
 	constructor(props){
 		super(props);
-		this.state = {};
+		this.state = {
+			users: []
+		};
 	}
 
-	componentDidMount(){}
+	componentDidMount(){
+		axios.get('https://production-taco.herokuapp.com/users')
+		.then(res => {
+			this.setState({
+				users: res.data
+			})
+		})
+	}
 
 	logOut = (event) => {
 		event.preventDefault()
@@ -18,11 +27,21 @@ class Events extends React.Component {
 	}
 
 	render() {
-		console.log(this.props)
+		//console.log(this.state)
 		return (
 			<div>
 				<div>Success</div>
 				<button onClick={this.logOut}>Sign Out</button>
+				<h2>Registerd Accounts</h2>
+				<div>
+					{this.state.users.map(user => {
+						return <div key={user.id}>
+							<p>Name: {user.name}</p>
+							<p>Email: {user.email}</p>
+						</div>
+					})}
+				</div>
+
 			</div>
 		)
 	}
