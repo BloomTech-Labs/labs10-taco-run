@@ -7,22 +7,22 @@
 //
 
 import UIKit
-import FirebaseAuth
-import GoogleSignIn
+import FirebaseUI
+import Firebase
 
+class LoginViewController: UIViewController, AuthUIDelegate, FUIAuthDelegate {
 
-class LoginViewController: UIViewController, GIDSignInUIDelegate {
-
-    
     @IBOutlet weak var passText: UITextField!
     @IBOutlet weak var emailText: UITextField!
+    
     
     var authListener: AuthStateDidChangeListenerHandle?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        GIDSignIn.sharedInstance().uiDelegate = self
+
+        setupFirebaseUI()
         
     }
     
@@ -30,7 +30,7 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate {
         super.viewWillAppear(animated)
         
         setupAuthListeners()
-        
+
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -59,7 +59,7 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate {
     
     func loginUser(withEmail email: String, andPass pass: String) {
         
-        Auth.auth().createUser(withEmail: email, password: pass) { (result, error) in
+        Auth.auth().signIn(withEmail: email, password: pass) { (result, error) in
             
             if let error = error {
                 // TODO: alert error loggin in
@@ -67,14 +67,16 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate {
                 return
             }
             
-            guard let user = result?.user else {
-                //TODO: error no user in result
-                return
-            }
+//            guard let user = result?.user else {
+//                //TODO: error no user in result
+//                return
+//            }
             
             
         }
     }
+    
+
     
     
     func setupAuthListeners() {
@@ -85,6 +87,41 @@ class LoginViewController: UIViewController, GIDSignInUIDelegate {
     }
     
     
+    func setupFirebaseUI() {
+        
+        let authUI = FUIAuth.defaultAuthUI()
+        authUI?.delegate = self
+        
+        
+        let providers: [FUIAuthProvider] = [
+            FUIGoogleAuth(),
+            FUIFacebookAuth(),
+            FUITwitterAuth(),
+            FUIEmailAuth()
+            ]
+        
+        authUI?.providers = providers
+        
+        // listen for changes in the authorization state
+        authListener = Auth.auth().addStateDidChangeListener { (auth, user) in
+            
+            
+            if user != nil {
+                self.performSegue(withIdentifier: "toMain", sender: self)
+                
+            } else {
+                // user must sign in
+                self.loginSession()
+            }
+        }
+        
+        
+    }
+    
+    func loginSession() {
+        let authViewController = FUIAuth.defaultAuthUI()!.authViewController()
+        self.present(authViewController, animated: true, completion: nil)
+    }
     
     /*
     // MARK: - Navigation

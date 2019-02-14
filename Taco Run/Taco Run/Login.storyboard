@@ -13,7 +13,7 @@
         <!--Login View Controller-->
         <scene sceneID="syz-St-KOP">
             <objects>
-                <viewController id="bnw-79-hlU" customClass="LoginViewController" customModule="Taco_Run" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="loginViewController" id="bnw-79-hlU" customClass="LoginViewController" customModule="Taco_Run" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Upq-Od-1dL">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -42,10 +42,10 @@
                                     </button>
                                 </subviews>
                             </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="eWd-Ci-IaZ">
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eWd-Ci-IaZ">
                                 <rect key="frame" x="157.5" y="420.5" width="60" height="60"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E6g-Rn-xbH" customClass="GIDSignInButton">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E6g-Rn-xbH">
                                         <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
@@ -89,7 +89,7 @@
         <!--Navigation Controller-->
         <scene sceneID="0z8-3I-fbD">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="7Wm-8h-Rtl" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="loginNav" automaticallyAdjustsScrollViewInsets="NO" id="7Wm-8h-Rtl" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="8U4-Gv-IA4">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>

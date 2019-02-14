@@ -13,7 +13,7 @@
         <!--User Name-->
         <scene sceneID="qSz-WH-aZh">
             <objects>
-                <viewController id="aqe-6O-HpX" sceneMemberID="viewController">
+                <viewController id="aqe-6O-HpX" customClass="ProfileViewController" customModule="Taco_Run" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="udd-dJ-G1r">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -21,6 +21,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V5s-K8-Cqu">
                                 <rect key="frame" x="15" y="35" width="34" height="30"/>
                                 <state key="normal" title="Back"/>
+                                <connections>
+                                    <action selector="backButtonTapped:" destination="aqe-6O-HpX" eventType="touchUpInside" id="hEk-zl-PcE"/>
+                                </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bsj-1d-A9c">
                                 <rect key="frame" x="162.5" y="35" width="50" height="50"/>
@@ -57,6 +60,13 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LQr-fM-UhI">
+                                <rect key="frame" x="312" y="35" width="48" height="30"/>
+                                <state key="normal" title="Logout"/>
+                                <connections>
+                                    <action selector="logoutTapped:" destination="aqe-6O-HpX" eventType="touchUpInside" id="kQj-Ve-59s"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -72,10 +82,12 @@
                             <constraint firstItem="bsj-1d-A9c" firstAttribute="top" secondItem="jZC-e9-I7B" secondAttribute="top" constant="15" id="Rgv-ll-eCz"/>
                             <constraint firstItem="gEG-Tm-7Q0" firstAttribute="leading" secondItem="jZC-e9-I7B" secondAttribute="leading" constant="40" id="Syf-pF-z9j"/>
                             <constraint firstItem="zyb-8k-FZk" firstAttribute="centerX" secondItem="udd-dJ-G1r" secondAttribute="centerX" id="Tls-VT-4ya"/>
+                            <constraint firstItem="LQr-fM-UhI" firstAttribute="top" secondItem="jZC-e9-I7B" secondAttribute="top" constant="15" id="UKE-QL-8wC"/>
                             <constraint firstItem="2jD-Wz-uHt" firstAttribute="leading" secondItem="jZC-e9-I7B" secondAttribute="leading" constant="8" id="XrZ-IK-CP9"/>
                             <constraint firstItem="V5s-K8-Cqu" firstAttribute="leading" secondItem="jZC-e9-I7B" secondAttribute="leading" constant="15" id="cdX-pl-f3U"/>
                             <constraint firstItem="zyb-8k-FZk" firstAttribute="leading" secondItem="jZC-e9-I7B" secondAttribute="leading" constant="40" id="eM6-7r-ESQ"/>
                             <constraint firstItem="jZC-e9-I7B" firstAttribute="trailing" secondItem="2jD-Wz-uHt" secondAttribute="trailing" constant="8" id="ff9-24-7Ig"/>
+                            <constraint firstItem="jZC-e9-I7B" firstAttribute="trailing" secondItem="LQr-fM-UhI" secondAttribute="trailing" constant="15" id="hIC-4S-tku"/>
                             <constraint firstItem="qzT-XQ-5p2" firstAttribute="top" secondItem="bsj-1d-A9c" secondAttribute="bottom" constant="20" id="kfu-ZR-jxa"/>
                             <constraint firstItem="CQh-cj-g9X" firstAttribute="bottom" secondItem="jZC-e9-I7B" secondAttribute="bottom" id="oSJ-Vy-gJv"/>
                             <constraint firstItem="CQh-cj-g9X" firstAttribute="leading" secondItem="jZC-e9-I7B" secondAttribute="leading" id="rTh-EC-lcD"/>

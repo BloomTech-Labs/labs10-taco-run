@@ -15,5 +15,16 @@ pod 'Firebase/Core'
 pod 'Firebase/Auth'
 pod 'GoogleSignIn'
 
+pod 'FacebookCore'
+pod 'FacebookLogin'
+pod 'FacebookShare'
+
+pod 'FirebaseUI/Auth'
+
+pod 'FirebaseUI/Google'
+pod 'FirebaseUI/Facebook'
+pod 'FirebaseUI/Twitter'
+pod 'FirebaseUI/Email'
+
 
 end
