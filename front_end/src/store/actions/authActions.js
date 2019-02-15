@@ -50,6 +50,7 @@ export const signUp = (user) => {
 			dispatch({type: "SIGNUP_SUCCESS" })
 		})
 		.catch(error => {
+			console.log(error)
 			dispatch({type: 'SIGNUP_ERROR'})
 		})
 	}

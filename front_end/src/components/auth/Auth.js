@@ -94,12 +94,12 @@ class Auth extends React.Component {
 
 		let user = {username: this.state.SignUpName, email: this.state.SignUpEmail, password: this.state.SignUpPass}
 
-		// axios.post('https://production-taco.herokuapp.com/users', {name: this.state.SignUpName,email: this.state.SignUpEmail})
-		// .then(resp => {
+		axios.post('https://production-taco.herokuapp.com/users', {name: this.state.SignUpName,email: this.state.SignUpEmail})
+		.then(resp => {
 
-		// 	localStorage.setItem('user_id', resp.data)
-		// })
-		// .then(() => {
+			localStorage.setItem('user_id', resp.data)
+		})
+		.then(() => {
 
 		/*
 			nice work around to make them be called one at a time
@@ -110,6 +110,7 @@ class Auth extends React.Component {
 			window.setTimeout (() => { this.props.signUp(user) }, 0);
 	    window.setTimeout (() => { this.setState({logEmail: '', logPass: '', SignUpName: '', SignUpPass: '', SignUpConfirm: '', SignUpEmail: '' }) }, 0)
 	    window.setTimeout (() => { this.props.history.push("/events") }, 0);
+	   })
 
 	}
 
