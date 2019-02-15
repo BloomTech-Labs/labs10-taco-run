@@ -5,9 +5,10 @@
     - Sign out button ?
     - Home button --> redirect to user's event page or maybe for v1.0 the GetStarted Component (we will discuss this as a group)
     - Display User's "Name"
-    - Make a button to show Stripe feature (hard code this for now, could just display in an <h1>Stripe Feature</h1>)
+    - Make a button to show Stripe component --> Billing.js (hard code this for now, could just display in an <h1>Stripe Feature</h1>)
 */
 import React from 'react';
+import Billing from '../billing/Billing.js';
 
 class UserSettings extends React.Component {
   state = {
