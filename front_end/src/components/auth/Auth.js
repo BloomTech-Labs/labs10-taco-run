@@ -75,8 +75,10 @@ class Auth extends React.Component {
 	SignIn = (event) => {
 		event.preventDefault()
 		let user = {email: this.state.logEmail, password: this.state.logPass}
-		axios.post('https://production-taco.herokuapp.com/users', {name: this.state.SignUpName,email: this.state.SignUpEmail})
+		axios.post('https://production-taco.herokuapp.com/users', {name: '', email: this.state.logEmail})
 		.then(resp => {
+			console.log(resp.data)
+			console.log(user)
 			localStorage.setItem('user_id', resp.data)
 		}).then(() => {
 			this.props.signIn(user)
@@ -130,8 +132,8 @@ class Auth extends React.Component {
 										Login
 									</span>
 
-									<div className="wrap-input100 validate-input m-b-23" data-validate = "Username is reauired">
-										<span className="label-input100">Username</span>
+									<div className="wrap-input100 validate-input m-b-23" data-validate = "User Email is reauired">
+										<span className="label-input100">User Email</span>
 
 										<input 
 											className="input100" 

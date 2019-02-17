@@ -1,18 +1,5 @@
 import axios from 'axios';
 
-
-/*
-	there are two helper functions I made to make my axios calls
-	so I can both sign in user and get the users id on localstorage for future calls
-*/
-
-const makeSocial = async (username, email, id, cb, firebase) => {
-	await cb(username, email)
-	return firebase.database().ref(`users/${id}`).set({
-		username: username, email: email
-	})
-}
-
 const makeAxios = async (name, email) => {
 	axios.post('https://production-taco.herokuapp.com/users', {name: name, email: email })
 	.then(res => {
@@ -26,7 +13,8 @@ export const signIn = (creds) => {
 		firebase.auth().signInWithEmailAndPassword(
 			creds.email,
 			creds.password
-		).then(() => {
+		).then((rsp) => {
+			console.log(rsp)
 			dispatch({type: 'LOGIN_SUCCESS'})
 		}).catch(err => {
 			console.log(err)
