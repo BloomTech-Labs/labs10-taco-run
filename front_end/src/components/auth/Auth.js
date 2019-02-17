@@ -58,17 +58,14 @@ class Auth extends React.Component {
 
 	Google = () => {
 		this.props.googleAuth()
-		this.props.history.push("/events")
 	}
 
 	Twitter = () => {
 		this.props.twitterAuth()
-		this.props.history.push("/events")
 	}
 
 	Facebook = () => {
 		this.props.facebookAuth()
-		this.props.history.push("/events")
 	}
 
 
@@ -82,7 +79,6 @@ class Auth extends React.Component {
 			localStorage.setItem('user_id', resp.data)
 		}).then(() => {
 			this.props.signIn(user)
-			this.props.history.push("/events")
 		})
 	}
 
@@ -111,7 +107,6 @@ class Auth extends React.Component {
 
 			window.setTimeout (() => { this.props.signUp(user) }, 0);
 	    window.setTimeout (() => { this.setState({logEmail: '', logPass: '', SignUpName: '', SignUpPass: '', SignUpConfirm: '', SignUpEmail: '' }) }, 0);
-	    window.setTimeout (() => { this.props.history.push("/events") }, 0);
 		})
 	}
 
