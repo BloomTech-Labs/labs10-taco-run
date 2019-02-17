@@ -7,6 +7,12 @@ const makeAxios = async (name, email) => {
 	})
 }
 
+export const reset = () => {
+	return (dispatch) => {
+		dispatch({type: 'RESET ERROR'})
+	}
+}
+
 export const signIn = (creds) => {
 	return (dispatch, getState, {getFirebase}) => {
 		const firebase = getFirebase();
@@ -16,9 +22,9 @@ export const signIn = (creds) => {
 		).then((rsp) => {
 			console.log(rsp)
 			dispatch({type: 'LOGIN_SUCCESS'})
-		}).catch(err => {
-			console.log(err)
-			dispatch({type: 'LOGIN_ERROR', err})
+		}).catch(error => {
+			console.log(error)
+			dispatch({type: 'LOGIN_ERROR', payload: error.message})
 		})
 	}
 }
@@ -31,7 +37,8 @@ export const signUp = (user) => {
 			dispatch({type: "SIGNUP_SUCCESS", payload: {user: user.username, email: user.email} })
 		})
 		.catch(error => {
-			dispatch({type: 'SIGNUP_ERROR'})
+			console.log(error)
+			dispatch({type: 'SIGNUP_ERROR', payload: error.message})
 		})
 	}
 }

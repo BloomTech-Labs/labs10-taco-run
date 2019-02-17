@@ -12,6 +12,7 @@ import './css/main.css';
 import './css/util.css';
 import './custom.css';
 import Popup from 'reactjs-popup'
+import ErrorAlert from '../alerts/ErrorAlert.js';
 
 import {signIn, signUp, facebookAuth, twitterAuth, googleAuth, githubAuth, passReset} from '../../store/actions/authActions.js';
 import {connect} from 'react-redux';
@@ -115,17 +116,24 @@ class Auth extends React.Component {
  	}
 
 	render() {
-		//console.log(this.props)
+		console.log(this.props)
 		return (
 			<div>
 				{this.state.log ? (
 					<div className="limiter">
+
+					{this.props.error ? (
+							<ErrorAlert/>
+						) : null}
+
+
 						<div className="container-login100 custom">
 							<div className="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
 								<form className="login100-form validate-form">
 									<span className="login100-form-title p-b-49">
 										Login
 									</span>
+
 
 									<div className="wrap-input100 validate-input m-b-23" data-validate = "User Email is reauired">
 										<span className="label-input100">User Email</span>
@@ -223,8 +231,13 @@ class Auth extends React.Component {
 
 					) : 
 
-
 					<div className="limiter">
+
+						{this.props.error ? (
+							<ErrorAlert />
+						) : null}
+
+
 						<div className="container-login100 custom">
 							<div className="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
 								<form className="login100-form validate-form">
@@ -262,6 +275,31 @@ class Auth extends React.Component {
 
 										<span className="focus-input100" data-symbol="&#xf206;"></span>
 									</div>
+
+
+
+									<Popup modal>
+
+	
+							  		{close => {
+								  		return <FormE>
+								  			<div>
+								  				<div></div>
+									  			<p onClick={close}>X</p>
+								  			</div>
+										  	<input
+										  		type="text"
+										  		name="resetEmail"
+										  		placeholder="Enter Reset Email"
+										  		onChange={this.handleChange}
+										  		value={this.state.resetEmail}
+										  	/>
+										  	<p onClick={() => {this.Reset(); close()}}>send reset</p>
+										  </FormE>
+							  		}}									  
+									</Popup>
+
+
 
 									<div className="wrap-input100 validate-input">
 										<span className="label-input100">Password</span>
@@ -319,7 +357,10 @@ class Auth extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-	return {auth: state.firebase.auth}
+	return {
+		auth: state.firebase.auth,
+		error: state.auth.authError
+	}
 }
 
 const mapDispatchToProps = (dispatch) => {
