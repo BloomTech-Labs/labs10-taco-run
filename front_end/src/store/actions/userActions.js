@@ -16,7 +16,7 @@ export const fetchUser = id => {
   return dispatch => {
     dispatch({ type: USER_FETCH_START });
     axios
-      .get(`http://localhost:5555/users/${id}/info`)
+      .get(`https://production-taco.herokuapp.com/users/${id}/info`)
       .then(res => {
         dispatch({ type: USER_FETCH_COMPLETE, payload: res.data });
       })
@@ -30,7 +30,7 @@ export const fetchFavorites = id => {
   return dispatch => {
     dispatch({ type: FAVORITES_FETCH_START });
     axios
-      .get(`http://localhost:5555/favorites/${id}`)
+      .get(`https://production-taco.herokuapp.com/favorites/${id}`)
       .then(res => {
         dispatch({ type: FAVORITES_FETCH_COMPLETE, payload: res.data });
       })
@@ -44,7 +44,7 @@ export const fetchFriends = id => {
   return dispatch => {
     dispatch({ type: FRIENDS_FETCH_START });
     axios
-      .get(`http://localhost:5555/users_friends/${id}`)
+      .get(`https://production-taco.herokuapp.com/users_friends/${id}`)
       .then(res => {
         dispatch({ type: FRIENDS_FETCH_COMPLETE, payload: res.data });
       })
