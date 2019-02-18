@@ -56,6 +56,9 @@ export const facebookAuth = () => {
 		.then(() => {
 			dispatch({type: "FACEBOOK_SUCCESS"})
 		})
+		.catch(error => {
+			dispatch({type: 'FACEBOOK_ERROR', payload: error.message})
+		})
 	}
 }
 
@@ -71,6 +74,9 @@ export const twitterAuth = () => {
 		})
 		.then(() => {
 			dispatch({type: "TWITTER_SUCCESS"})
+		})
+		.catch(error => {
+			dispatch({type: "TWITTER_ERROR", payload: error.message})
 		})
 	}
 }
@@ -89,6 +95,9 @@ export const googleAuth = () => {
 		.then(() => {
 			dispatch({type: "GOOGLE_SUCCESS"})
 		})
+		.catch(error => {
+			dispatch({type: "GOOGLE_ERROR", payload: error.message})
+		})
 	}
 }
 
@@ -98,6 +107,9 @@ export const passReset = (email) => {
 		firebase.auth().sendPasswordResetEmail(email)
 		.then(() => {
 			dispatch({type: "RESET_SUCCESS"})
+		})
+		.catch(error => {
+			dispatch({type: "RESET_ERROR", payload: error.message})
 		})
 	}
 }

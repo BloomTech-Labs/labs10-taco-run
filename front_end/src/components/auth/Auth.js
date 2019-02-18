@@ -13,6 +13,7 @@ import './css/util.css';
 import './custom.css';
 import Popup from 'reactjs-popup'
 import ErrorAlert from '../alerts/ErrorAlert.js';
+import { withAlert } from 'react-alert'
 
 import {signIn, signUp, facebookAuth, twitterAuth, googleAuth, githubAuth, passReset} from '../../store/actions/authActions.js';
 import {connect} from 'react-redux';
@@ -30,6 +31,7 @@ class Auth extends React.Component {
 			SignUpEmail: '',
 			resetEmail: '',
 			log: true,
+			alert: alert
 		};
 	}
 
@@ -51,7 +53,7 @@ class Auth extends React.Component {
 	Reset = () => {
 		let email = this.state.resetEmail
 		this.props.passReset(email)
-		alert('email sent')
+		//alert('email sent')
 		this.setState({
 			resetEmail: '',
 		})
@@ -72,6 +74,9 @@ class Auth extends React.Component {
 
 	SignIn = (event) => {
 		event.preventDefault()
+		if (!this.state.logEmail || !this.state.logPass){
+			this.props.alert.show('please provide full info')
+		}
 		let user = {email: this.state.logEmail, password: this.state.logPass}
 		axios.post('https://production-taco.herokuapp.com/users', {name: '', email: this.state.logEmail})
 		.then(resp => {
@@ -116,7 +121,7 @@ class Auth extends React.Component {
  	}
 
 	render() {
-		console.log(this.props)
+		console.log(this.state)
 		return (
 			<div>
 				{this.state.log ? (
@@ -374,4 +379,4 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(withAlert()(Auth))
