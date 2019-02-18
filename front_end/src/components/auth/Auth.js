@@ -12,6 +12,8 @@ import './css/main.css';
 import './css/util.css';
 import './custom.css';
 import Popup from 'reactjs-popup'
+import ErrorAlert from '../alerts/ErrorAlert.js';
+import { withAlert } from 'react-alert'
 
 import {signIn, signUp, facebookAuth, twitterAuth, googleAuth, githubAuth, passReset} from '../../store/actions/authActions.js';
 import {connect} from 'react-redux';
@@ -29,6 +31,7 @@ class Auth extends React.Component {
 			SignUpEmail: '',
 			resetEmail: '',
 			log: true,
+			alert: alert
 		};
 	}
 
@@ -50,7 +53,7 @@ class Auth extends React.Component {
 	Reset = () => {
 		let email = this.state.resetEmail
 		this.props.passReset(email)
-		alert('email sent')
+		//alert('email sent')
 		this.setState({
 			resetEmail: '',
 		})
@@ -58,29 +61,30 @@ class Auth extends React.Component {
 
 	Google = () => {
 		this.props.googleAuth()
-		this.props.history.push("/events")
 	}
 
 	Twitter = () => {
 		this.props.twitterAuth()
-		this.props.history.push("/events")
 	}
 
 	Facebook = () => {
 		this.props.facebookAuth()
-		this.props.history.push("/events")
 	}
 
 
 	SignIn = (event) => {
 		event.preventDefault()
+		if (!this.state.logEmail || !this.state.logPass){
+			this.props.alert.show('please provide full info')
+		}
 		let user = {email: this.state.logEmail, password: this.state.logPass}
-		axios.post('https://production-taco.herokuapp.com/users', {name: this.state.SignUpName,email: this.state.SignUpEmail})
+		axios.post('https://production-taco.herokuapp.com/users', {name: '', email: this.state.logEmail})
 		.then(resp => {
+			console.log(resp.data)
+			console.log(user)
 			localStorage.setItem('user_id', resp.data)
 		}).then(() => {
 			this.props.signIn(user)
-			this.props.history.push("/events")
 		})
 	}
 
@@ -109,7 +113,6 @@ class Auth extends React.Component {
 
 			window.setTimeout (() => { this.props.signUp(user) }, 0);
 	    window.setTimeout (() => { this.setState({logEmail: '', logPass: '', SignUpName: '', SignUpPass: '', SignUpConfirm: '', SignUpEmail: '' }) }, 0);
-	    window.setTimeout (() => { this.props.history.push("/events") }, 0);
 		})
 	}
 
@@ -118,11 +121,17 @@ class Auth extends React.Component {
  	}
 
 	render() {
-		//console.log(this.props)
+		console.log(this.state)
 		return (
 			<div>
 				{this.state.log ? (
 					<div className="limiter">
+
+					{this.props.error ? (
+							<ErrorAlert/>
+						) : null}
+
+
 						<div className="container-login100 custom">
 							<div className="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
 								<form className="login100-form validate-form">
@@ -130,8 +139,9 @@ class Auth extends React.Component {
 										Login
 									</span>
 
-									<div className="wrap-input100 validate-input m-b-23" data-validate = "Username is reauired">
-										<span className="label-input100">Username</span>
+
+									<div className="wrap-input100 validate-input m-b-23" data-validate = "User Email is reauired">
+										<span className="label-input100">User Email</span>
 
 										<input 
 											className="input100" 
@@ -226,8 +236,13 @@ class Auth extends React.Component {
 
 					) : 
 
-
 					<div className="limiter">
+
+						{this.props.error ? (
+							<ErrorAlert />
+						) : null}
+
+
 						<div className="container-login100 custom">
 							<div className="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
 								<form className="login100-form validate-form">
@@ -265,6 +280,31 @@ class Auth extends React.Component {
 
 										<span className="focus-input100" data-symbol="&#xf206;"></span>
 									</div>
+
+
+
+									<Popup modal>
+
+	
+							  		{close => {
+								  		return <FormE>
+								  			<div>
+								  				<div></div>
+									  			<p onClick={close}>X</p>
+								  			</div>
+										  	<input
+										  		type="text"
+										  		name="resetEmail"
+										  		placeholder="Enter Reset Email"
+										  		onChange={this.handleChange}
+										  		value={this.state.resetEmail}
+										  	/>
+										  	<p onClick={() => {this.Reset(); close()}}>send reset</p>
+										  </FormE>
+							  		}}									  
+									</Popup>
+
+
 
 									<div className="wrap-input100 validate-input">
 										<span className="label-input100">Password</span>
@@ -322,7 +362,10 @@ class Auth extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-	return {auth: state.firebase.auth}
+	return {
+		auth: state.firebase.auth,
+		error: state.auth.authError
+	}
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -336,4 +379,4 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(withAlert()(Auth))

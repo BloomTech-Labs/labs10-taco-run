@@ -9,10 +9,14 @@ const db = require('../config.js')
 //-------------------------------------------
 router.post("", (req, res) => {
   const { name, email } = req.body;
-  
+
+  if (!name || !email){
+    return res.status(500).json({msg: 'please provide full information'})
+  }
+
   //get request to check if user exists
   db('users')
-  .where({ name, email })
+  .where({ email })
   .then(response => {
 
     //if users is not already here imput user to database
