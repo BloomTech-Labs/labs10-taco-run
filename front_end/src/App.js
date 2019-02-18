@@ -49,4 +49,4 @@ const mapStateToProps = (state) => {
 	return {auth: state.firebase.auth}
 }
 
-export default connect(mapStateToProps, null)(withRouter(App));
+export default withRouter(connect(mapStateToProps, null)(App));
