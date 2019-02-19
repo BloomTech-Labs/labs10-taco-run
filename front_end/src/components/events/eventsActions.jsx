@@ -16,3 +16,13 @@ export const createEvent = (event) => {
       }
     }
   }
+
+
+  export const deleteEvent = (eventId) => {
+    return {
+      type: DELETE_EVENT,
+      payload: {
+        eventId
+      }
+    }
+  }
