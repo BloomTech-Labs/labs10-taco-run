@@ -1,4 +1,5 @@
-import { CREATE_EVENT, DELETE_EVENT, UPDATE_EVENT } from './eventConstants';
+import { createReducer } from './reducerUtil';
+import { CREATE_EVENT, DELETE_EVENT, UPDATE_EVENT } from './eventConstant';
 
 const initialState = [];
 
@@ -27,9 +28,3 @@ export const createEvent = (state, payload) => {
     [DELETE_EVENT]: deleteEvent
   })
 
-  createReducer = (initialState, fnMap) => {
-    return (state = initialState, {type, payload}) => {
-      const handler = fnMap[type];
-  
-      return handler ? handler(state, payload): state
-    };
