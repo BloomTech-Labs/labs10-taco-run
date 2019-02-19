@@ -37,12 +37,15 @@ export const RightNav = styled.div`
 `
 
 export const LeftNav = styled.div`
-	margin-left: 2%;
 	> p {
 		font-family: 'Roboto', sans-serif;
 		font-size: 1.2rem;
 		min-width: 130px;
 		padding: 10px .5%;
+		&:hover {
+			background-color: #eaeaea;
+			cursor: pointer;
+		}
 		
 		@media (max-width: 645px){
 			font-size: 1.8rem;
