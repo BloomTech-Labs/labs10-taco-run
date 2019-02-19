@@ -3,11 +3,16 @@ import axios from 'axios';
 import firebase from 'firebase';
 import {connect} from 'react-redux';
 
+const eventsDashboard = [];
+
 class Events extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			users: []
+			users: [],
+			events: eventsDashboard,
+            isOpen: false,
+            selectedEvent: null
 		};
 	}
 
@@ -15,7 +20,7 @@ class Events extends React.Component {
 		axios.get('https://production-taco.herokuapp.com/users')
 		.then(res => {
 			this.setState({
-				users: res.data
+				users: res.data,
 			})
 		})
 	}
@@ -25,6 +30,25 @@ class Events extends React.Component {
 		firebase.auth().signOut();
 		this.props.history.push("/")
 	}
+
+	handleFormOpen = () => {
+        this.setState({ 
+          selectedEvent: null,
+          isOpen: true 
+        })
+    };
+    handleCancel = () => {
+        this.setState({ isOpen: false })
+    };
+
+    handleEditEvent = (eventToUpdate) => () => {
+      this.setState({
+        selectedEvent: eventToUpdate,
+        isOpen: true
+      })
+
+    };
+
 
 	render() {
 		//console.log(this.state)
