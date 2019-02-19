@@ -28,6 +28,10 @@ class Nav extends React.Component {
 		this.props.history.push("/create-event")
 	}
 
+	started = () => {
+		this.props.history.push("/get-started")
+	}
+
 	render() {
 		return (
 			<MainNav>
@@ -35,6 +39,7 @@ class Nav extends React.Component {
 					<p>Lets Get Tacos</p>
 				</LeftNav>
 				<RightNav>
+					<p onClick={this.started}>Started</p>
 					<p onClick={this.events}>Events</p>
 					<p onClick={this.profile}>Profile</p>
 					<p onClick={this.users}>Users</p>

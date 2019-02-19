@@ -1,21 +1,37 @@
-/* 
-  - This is the first page the user gets redirected to once they login / signup
-  - I would load buttons that redirect directly to other endpoints
-    - events page
-    - etc.
-*/
 import React from 'react';
+//import axios from 'axios';
 
 class GetStarted extends React.Component {
-  state = {
-    example: ''
+  constructor(props){
+    super(props);
+    this.state = {};
   }
+
+  componentDidMount(){
+
+  }
+
+  // extra in case you need to reference
+
+  // handleChange = event => {
+   //    this.setState({[event.target.name]: event.target.value})
+   //  }
+
+  //  <form>
+  //   <input
+  //     type="text"
+  //     placeholder='example'
+  //     onChange={this.handleChange}
+  //     name="example"
+  //     value={this.state.example}
+  //   />
+  // </form>
 
   render() {
     return (
-      <h1>GetStarted Page !</h1>
-    );
-  } // --> render() brace
-} // --> class brace
+      <div></div>
+    )
+  }
+}
 
 export default GetStarted;
