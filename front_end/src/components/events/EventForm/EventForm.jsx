@@ -10,7 +10,7 @@ const emptyEvent = {
 }
 
 export default class EventForm extends Component {
-  state= {
+  state = {
     event: emptyEvent
   }
 
