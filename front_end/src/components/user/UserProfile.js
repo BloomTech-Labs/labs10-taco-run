@@ -136,7 +136,7 @@ class UserProfile extends React.Component {
           )}
 
           <div className="results-container">
-            {this.state.message === "failed" ? (
+            {this.state.favoritesFlag === true ? (
               // Results for Favorites
               <div id="results" ref={node => (this.node = node)}>
                 {this.props.favorites.map(result => {
