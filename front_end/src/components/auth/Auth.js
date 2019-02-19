@@ -14,6 +14,7 @@ import './custom.css';
 import Popup from 'reactjs-popup'
 import ErrorAlert from '../alerts/ErrorAlert.js';
 import { withAlert } from 'react-alert'
+import { Link } from 'react-router-dom'
 
 import {signIn, signUp, facebookAuth, twitterAuth, googleAuth, githubAuth, passReset} from '../../store/actions/authActions.js';
 import {connect} from 'react-redux';
@@ -230,6 +231,7 @@ class Auth extends React.Component {
 										</button>
 									</div>
 								</form>
+								<div className="flexed"><Link to="/"><p className="tolanding">Go back</p></Link></div>
 							</div>
 						</div>
 					</div>
@@ -351,6 +353,7 @@ class Auth extends React.Component {
 										</button>
 									</div>
 								</form>
+								<div className="flexed"><Link to="/"><p className="tolanding">Go back</p></Link></div>
 							</div>
 						</div>
 					</div>
