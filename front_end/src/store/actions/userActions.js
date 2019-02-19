@@ -64,7 +64,6 @@ export const searchUsers = term => {
     axios
       .get(`http://localhost:5555/users/search/${term}`)
       .then(res => {
-        console.log(res);
         dispatch({ type: USERS_SEARCH_COMPLETE, payload: res.data });
       })
       .catch(err => {

@@ -37,3 +37,36 @@
 #Favorites {
   display: block;
 }
+
+/* --------------CSS for results-------------- */
+#results {
+  max-width: 200px;
+  width: 100%;
+  display: none;
+}
+
+.result-display {
+  display: flex;
+  border: 1px solid grey;
+  background-color: #fff;
+  height: 50px;
+  transition: 0.2s;
+}
+
+.result-display:hover {
+  background-color: rgba(192, 192, 192, 1);
+}
+
+.result-image {
+  height: 100px;
+  width: 100px;
+}
+
+.result-name {
+  color: black;
+  font-size: 0.8em;
+}
+
+.result-name a {
+  text-decoration: none;
+}

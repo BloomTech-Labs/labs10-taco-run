@@ -102,7 +102,7 @@ const userReducer = (state = initialState, action) => {
     case USERS_SEARCH_COMPLETE:
       return {
         ...state,
-        friends: action.payload,
+        users: action.payload,
         searchingUsers: false,
         searchedUsers: true
       };
