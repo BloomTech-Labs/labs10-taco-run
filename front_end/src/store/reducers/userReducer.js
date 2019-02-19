@@ -1,17 +1,3 @@
-import {
-  USER_FETCH_START,
-  USER_FETCH_COMPLETE,
-  USER_FETCH_ERROR,
-  FAVORITES_FETCH_START,
-  FAVORITES_FETCH_COMPLETE,
-  FAVORITES_FETCH_ERROR,
-  FRIENDS_FETCH_START,
-  FRIENDS_FETCH_COMPLETE,
-  FRIENDS_FETCH_ERROR,
-  USERS_SEARCH_START,
-  USERS_SEARCH_COMPLETE,
-  USERS_SEARCH_ERROR
-} from "../actions/userActions";
 
 const initialState = {
   user: {},
@@ -33,13 +19,13 @@ const initialState = {
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
-    case USER_FETCH_START:
+    case "USER_FETCH_START":
       return {
         ...state,
         fetchingUser: true
       };
 
-    case USER_FETCH_COMPLETE:
+    case "USER_FETCH_COMPLETE":
       return {
         ...state,
         user: action.payload,
@@ -47,19 +33,19 @@ const userReducer = (state = initialState, action) => {
         fetchedUser: true
       };
 
-    case USER_FETCH_ERROR:
+    case "USER_FETCH_ERROR":
       return {
         ...state,
         error: "Error fetching user"
       };
 
-    case FAVORITES_FETCH_START:
+    case "FAVORITES_FETCH_START":
       return {
         ...state,
         fetchingFavorites: true
       };
 
-    case FAVORITES_FETCH_COMPLETE:
+    case "FAVORITES_FETCH_COMPLETE":
       return {
         ...state,
         favorites: action.payload,
@@ -67,19 +53,19 @@ const userReducer = (state = initialState, action) => {
         fetchedFavorites: true
       };
 
-    case FAVORITES_FETCH_ERROR:
+    case "FAVORITES_FETCH_ERROR":
       return {
         ...state,
         error: "Error fetching favorites"
       };
 
-    case FRIENDS_FETCH_START:
+    case "FRIENDS_FETCH_START":
       return {
         ...state,
         fetchingFriends: true
       };
 
-    case FRIENDS_FETCH_COMPLETE:
+    case "FRIENDS_FETCH_COMPLETE":
       return {
         ...state,
         friends: action.payload,
@@ -87,19 +73,19 @@ const userReducer = (state = initialState, action) => {
         fetchedFriends: true
       };
 
-    case FRIENDS_FETCH_ERROR:
+    case "FRIENDS_FETCH_ERROR":
       return {
         ...state,
         error: "Error fetching friends"
       };
 
-    case USERS_SEARCH_START:
+    case "USERS_SEARCH_START":
       return {
         ...state,
         searchingUsers: true
       };
 
-    case USERS_SEARCH_COMPLETE:
+    case "USERS_SEARCH_COMPLETE":
       return {
         ...state,
         users: action.payload,
@@ -107,7 +93,7 @@ const userReducer = (state = initialState, action) => {
         searchedUsers: true
       };
 
-    case USERS_SEARCH_ERROR:
+    case "USERS_SEARCH_ERROR":
       return {
         ...state,
         error: "Error searching users"

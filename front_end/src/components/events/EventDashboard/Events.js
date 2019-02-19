@@ -3,7 +3,11 @@ import axios from 'axios';
 import { Grid } from 'semantic-ui-react';
 import firebase from 'firebase';
 import {connect} from 'react-redux';
-import {deleteEvent} from '../../store/actions/eventActions.js';
+import {deleteEvent} from '../../../store/actions/eventsActions.js';
+
+//rom '../../store/actions/authActions.js';
+
+
 import EventList from '../EventList/EventList';
 import cuid from 'cuid';
 
