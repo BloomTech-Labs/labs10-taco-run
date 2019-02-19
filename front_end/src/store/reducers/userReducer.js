@@ -7,7 +7,10 @@ import {
   FAVORITES_FETCH_ERROR,
   FRIENDS_FETCH_START,
   FRIENDS_FETCH_COMPLETE,
-  FRIENDS_FETCH_ERROR
+  FRIENDS_FETCH_ERROR,
+  USERS_SEARCH_START,
+  USERS_SEARCH_COMPLETE,
+  USERS_SEARCH_ERROR
 } from "../actions/userActions";
 
 const initialState = {
@@ -21,7 +24,11 @@ const initialState = {
 
   friends: [],
   fetchingFriends: false,
-  fetchedFriends: false
+  fetchedFriends: false,
+
+  users: [],
+  searchingUsers: false,
+  searchedUsers: false
 };
 
 const userReducer = (state = initialState, action) => {
@@ -63,7 +70,7 @@ const userReducer = (state = initialState, action) => {
     case FAVORITES_FETCH_ERROR:
       return {
         ...state,
-        error: "Error fetching friends"
+        error: "Error fetching favorites"
       };
 
     case FRIENDS_FETCH_START:
@@ -84,6 +91,26 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         error: "Error fetching friends"
+      };
+
+    case USERS_SEARCH_START:
+      return {
+        ...state,
+        searchingUsers: true
+      };
+
+    case USERS_SEARCH_COMPLETE:
+      return {
+        ...state,
+        friends: action.payload,
+        searchingUsers: false,
+        searchedUsers: true
+      };
+
+    case USERS_SEARCH_ERROR:
+      return {
+        ...state,
+        error: "Error searching users"
       };
 
     default:

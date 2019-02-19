@@ -12,6 +12,10 @@ export const FRIENDS_FETCH_START = "FRIENDS_FETCH_START";
 export const FRIENDS_FETCH_COMPLETE = "FRIENDS_FETCH_COMPLETE";
 export const FRIENDS_FETCH_ERROR = "FRIENDS_FETCH_ERROR";
 
+export const USERS_SEARCH_START = "USERS_SEARCH_START";
+export const USERS_SEARCH_COMPLETE = "USERS_SEARCH_COMPLETE";
+export const USERS_SEARCH_ERROR = "USERS_SEARCH_ERROR";
+
 export const fetchUser = id => {
   return dispatch => {
     dispatch({ type: USER_FETCH_START });
@@ -50,6 +54,21 @@ export const fetchFriends = id => {
       })
       .catch(err => {
         dispatch({ type: FRIENDS_FETCH_ERROR });
+      });
+  };
+};
+
+export const searchUsers = term => {
+  return dispatch => {
+    dispatch({ type: USERS_SEARCH_START });
+    axios
+      .get(`http://localhost:5555/users/search/${term}`)
+      .then(res => {
+        console.log(res);
+        dispatch({ type: USERS_SEARCH_COMPLETE, payload: res.data });
+      })
+      .catch(err => {
+        dispatch({ type: USERS_SEARCH_ERROR });
       });
   };
 };

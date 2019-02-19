@@ -5,11 +5,12 @@
 */
 import React from "react";
 import { connect } from "react-redux";
-import Nav from '../nav/Nav.js'
+import Nav from "../nav/Nav.js";
 import {
   fetchUser,
   fetchFavorites,
-  fetchFriends
+  fetchFriends,
+  searchUsers
 } from "../../store/actions/userActions";
 import "./UserProfile.css";
 
@@ -24,14 +25,14 @@ class UserProfile extends React.Component {
     });
   };
 
-  componentDidMount() {
-    // fetchUser
-    this.props.fetchUser(localStorage.getItem("user_id"));
-    // fetchFavorites
-    this.props.fetchFavorites(localStorage.getItem("user_id"));
-    // fetchFriends
-    this.props.fetchFriends(localStorage.getItem("user_id"));
-  }
+  handleSubmit = e => {
+    console.log(this.state.search);
+    e.preventDefault();
+    this.setState({
+      search: ""
+    });
+    this.props.searchUsers(this.state.search);
+  };
 
   openTab = (evt, tabName) => {
     var i, tabcontent, tablinks;
@@ -47,12 +48,20 @@ class UserProfile extends React.Component {
     evt.currentTarget.className += "active";
   };
 
+  componentDidMount() {
+    // fetchUser
+    this.props.fetchUser(localStorage.getItem("user_id"));
+    // fetchFavorites
+    this.props.fetchFavorites(localStorage.getItem("user_id"));
+    // fetchFriends
+    this.props.fetchFriends(localStorage.getItem("user_id"));
+  }
+
   render() {
     return (
       <div className="profile">
         <Nav />
         <div className="profile-details">
-
           <h1>{this.props.user.name}</h1>
           <h3>Tacos Per Month:</h3>
           <h3>Hard or Soft:</h3>
@@ -63,7 +72,15 @@ class UserProfile extends React.Component {
 
         {/* Search Bar */}
         <div className="profile-search-friends">
-          <input type="text" placeholder="Search.." />
+          <form onSubmit={this.handleSubmit}>
+            <input
+              type="search"
+              placeholder="Find a new friend"
+              value={this.state.search}
+              name="search"
+              onChange={this.handleChange}
+            />
+          </form>
         </div>
 
         <div className="profile-personal-container">
@@ -130,6 +147,7 @@ export default connect(
   {
     fetchUser,
     fetchFavorites,
-    fetchFriends
+    fetchFriends,
+    searchUsers
   }
 )(UserProfile);
