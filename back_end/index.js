@@ -16,12 +16,14 @@ const eventsRoutes = require('./Routes/eventsRoutes')
 const users_eventsRoutes = require('./Routes/users_eventsRoutes')
 const favoritesRoutes = require('./Routes/favoritesRoutes')
 const users_friendsRoutes = require('./Routes/users_friendsRoutes')
+const paymentRoutes = require("./Routes/paymentRoutes");
 
 server.use('/users', userRoutes)
 server.use('/events', eventsRoutes)
 server.use('/users_events', users_eventsRoutes)
 server.use('/favorites', favoritesRoutes)
 server.use('/users_friends', users_friendsRoutes)
+server.use("/payments", paymentRoutes);
 
 let app = server.listen(process.env.PORT || 5555, function () {
   let port = app.address().port;

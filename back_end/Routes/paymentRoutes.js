@@ -4,7 +4,7 @@ const express = require("express"); // --> intialize express and express router
 const router = express.Router();
 
 require("dotenv").config(); // --> use the .env file
-server.use(require('body-parser').text()) // --> add body-parser for stripe
+router.use(require('body-parser').text()) // --> add body-parser for stripe
 
 router.post("", (req, res) => {
   let amount = 1000 // --> $10.00
