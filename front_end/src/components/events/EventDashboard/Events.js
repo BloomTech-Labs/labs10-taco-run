@@ -3,8 +3,9 @@ import axios from 'axios';
 import { Grid } from 'semantic-ui-react';
 import firebase from 'firebase';
 import {connect} from 'react-redux';
-import { deleteEvent } from '../eventActions';
+import {deleteEvent} from '../../store/actions/eventActions.js';
 import EventList from '../EventList/EventList';
+import cuid from 'cuid';
 
 
 const eventsDashboard = [];
@@ -26,6 +27,7 @@ class Events extends React.Component {
 	}
 
 	componentDidMount(){
+		let id = localStorage.getItem("user_id")
 		axios.get(`https://production-taco.herokuapp.com/users${id}`)
 		.then(res => {
 			this.setState({
@@ -69,8 +71,8 @@ class Events extends React.Component {
 	} 
 
 	handleCreateEvent = (newEvent) => {
-		newEvent.id = cuid();
-		newEvent.hostPhotoURL = '/assets/user.png';
+		let id = cuid();
+		let hostPhotoURL = '/assets/user.png';
 		const updatedEvents = [...this.state.events, newEvent];
 		this.setState({
 			events: updatedEvents,
@@ -92,7 +94,7 @@ class Events extends React.Component {
 		return (
 			<Grid>
         <Grid.Column width={10}>
-          <EventList deleteEvent={this.handleDeleteEvent} events={events} />
+          <EventList deleteEvent={this.handleDeleteEvent} events={this.state.events} />
         </Grid.Column>
         <Grid.Column width={6} />
       </Grid>

@@ -11,7 +11,7 @@ import LandingPage from "./components/landing/LandingPage";
 import UserSettings from "./components/user/UserSettings";
 import Billing from "./components/billing/Billing";
 import GetStarted from "./components/get_started/GetStarted";
-import Events from "./components/events/Events.js";
+import Events from "./components/events/EventDashboard/Events.js";
 import SingleEvent from "./components/events/SingleEvent";
 import UserProfile from "./components/user/UserProfile";
 import Users from "./components/users/Users.js";
