@@ -15,7 +15,7 @@ exports.up = function(knex, Promise) {
       .notNullable()
 
       //location is the city
-      tbl
+    tbl
         .string('venue', 255)
         .notNullable()
 
