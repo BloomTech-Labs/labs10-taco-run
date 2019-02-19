@@ -1,10 +1,10 @@
 /* This is where the billing API endpoint will go (Stripe Feature) */
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY) // --> initialize stripe
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY); // --> initialize stripe
 const express = require("express"); // --> intialize express and express router
 const router = express.Router();
 
 require("dotenv").config(); // --> use the .env file
-router.use(require('body-parser').text()) // --> add body-parser for stripe
+router.use(require("body-parser").text()); // --> add body-parser for stripe
 
 router.post("", (req, res) => {
   let amount = 1000 // --> $10.00
