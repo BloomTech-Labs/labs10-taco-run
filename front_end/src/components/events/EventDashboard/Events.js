@@ -96,31 +96,15 @@ class Events extends React.Component {
         </Grid.Column>
         <Grid.Column width={6} />
       </Grid>
-
-
-			<div>
-				<div>Success</div>
-				<button onClick={this.logOut}>Sign Out</button>
-				<h2>Registerd Accounts</h2>
-				<div>
-					{this.state.users.map(user => {
-						return <div key={user.id}>
-							<p>Name: {user.name}</p>
-							<p>Email: {user.email}</p>
-						</div>
-					})}
-				</div>
-
-			</div>
-		)
+		);
 	}
-}
+};
 
 const mapStateToProps = (state) => {
 	return {
 		auth: state.firebase.auth,
 		events: state.events
 	}
-}
+};
 
 export default connect(mapStateToProps, actions)(Events);
