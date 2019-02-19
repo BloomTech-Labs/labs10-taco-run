@@ -74,11 +74,9 @@ router.get("/search", (req, res) => {
     .then(response => {
       var fuse = new Fuse(response, options);
       var result = fuse.search(trend);
-      console.log(result);
       res.status(200).json(result);
     })
     .catch(error => {
-      console.log(error);
       res.status(500).json(error);
     });
 });
