@@ -92,6 +92,21 @@ router.get('/:id', (req, res) => {
 	})
 })
 
+// READ
+// Get User Info
+// get http://localhost:5555/users-info/:id
+router.get("/:id/info", (req, res) => {
+  const { id } = req.params;
+  db("users")
+    .where("users.id", id)
+    .then(response => {
+      res.status(200).json(response[0]);
+    })
+    .catch(error => {
+      res.status(500).json(error);
+    });
+});
+
 //UPDATE
 //update a user
 //put http://localhost:5555/users/:id
