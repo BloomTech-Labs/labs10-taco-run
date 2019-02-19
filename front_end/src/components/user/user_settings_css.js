@@ -2,10 +2,10 @@ import styled from 'styled-components'
 
 export const ProfileForm = styled.form`
 	> h2 {
-		margin: 15px 0 50px 0;
+		margin: 15px 0px;
 	}
 	> h3 {
-		margin: 30px 0 15px 0;
+		margin: 15px 0;
 	}
 	display:flex;
 	flex-direction:column;
@@ -21,7 +21,7 @@ export const ProfileForm = styled.form`
 `
 export const ContainForm = styled.div`
 	max-width: 800px;
-	margin: 0 auto;
+	margin: 40px auto;
 	width: 96%;
 	border: solid black 1px;
 	padding: 2%;
@@ -29,6 +29,10 @@ export const ContainForm = styled.div`
 		margin-top: 20px;
 	}
 	border-radius: 4px;
+	> h1 {
+		text-align: center;
+		margin-bottom: 30px;
+	}
 `
 
 export const Reset = styled.div`
@@ -57,9 +61,12 @@ export const Switch = styled.div`
 `
 
 export const SwitchTab = styled.div`
-	background-color: blue;
 	width: 100%;
-	color: white;
 	text-align: center;
 	border:solid black 1px;
+	padding: 1%;
+	font-size: 18px;
+	&:hover {
+		cursor:pointer;
+	}
 `
