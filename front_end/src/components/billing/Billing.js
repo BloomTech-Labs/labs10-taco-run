@@ -4,17 +4,23 @@
   - This will be loaded into the UserSettings component
 */
 import React from 'react';
+import StripeCheckout from "react-stripe-checkout";
+import axios from "axios";
 
-class Billing extends React.Component {
-  state = {
-    example: ''
-  }
+class Billing extends React.Component {  
+  // onToken = token => {
+  //   axios.post()
+  //     .then(response => alert(response.data.outcome.seller_message))
+  //     .catch(err => console.log(err));
+  // };
 
   render() {
     return (
-      <h1>Billing Feature Here</h1>
+      <div className = "stripe-checkout-wrapper">
+        <h1>Stripe Checkout Here</h1>      
+      </div>
     );
-  } // --> render() brace
-} // --> class brace
+  }; // --> render() brace
+}; // --> class brace
 
 export default Billing;
