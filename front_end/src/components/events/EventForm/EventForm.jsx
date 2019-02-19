@@ -118,12 +118,12 @@ export default class EventForm extends Component {
   }
 }
 
-export default connect(mapState, actions)(EventForm);
 
 // mapStateToProps
 const mapStateToProps = state => {
     return {
-      
+        auth: state.firebase.auth,
+        user: state.userReducer.user
     };
   };
   
