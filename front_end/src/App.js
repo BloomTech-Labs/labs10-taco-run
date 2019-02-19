@@ -22,13 +22,13 @@ class App extends Component {
       <div>
       		{this.props.auth.isEmpty? (
       			<Switch>
-      				<Route exact path='/' component={Auth}/>
+              <Route exact path = '/' component={LandingPage} />
+      				<Route exact path='/auth' component={Auth}/>
       				<Route component={NotAuth}/>
       			</Switch>
       		) : 
       		<div>
       			<Switch>							
-		      		<Route exact path = '/' component={LandingPage} />
 		      		<Route exact path = '/events' component={Events} />
 							<Route exact path = '/auth' component = {Auth} />
 							<Route exact path = '/user-settings' component = {UserSettings} />
@@ -49,4 +49,4 @@ const mapStateToProps = (state) => {
 	return {auth: state.firebase.auth}
 }
 
-export default connect(mapStateToProps, null)(withRouter(App));
+export default withRouter(connect(mapStateToProps, null)(App));

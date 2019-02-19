@@ -40,3 +40,28 @@
 	cursor: pointer;
 	color: #a64bf4;
 }
+
+.tolanding {
+	border: solid black 1px;
+	text-align: center;
+	padding: 1%;
+	width: 80px;
+	display: inline-block;
+	border-radius: 3px;
+	background-color:red;
+	color:white;
+	margin-top: 20px;
+	box-sizing: border-box;
+}
+
+.tolanding:hover{
+	background-color:white;
+	color:red;
+	cursor:pointer;
+}
+
+.flexed {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}

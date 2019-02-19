@@ -1,0 +1,23 @@
+.customb {
+	background-image: url("img/header-bg.jpg");
+	padding: 50px 0;
+	box-sizing: border-box;
+	background-repeat: repeat;
+}
+
+
+#colorf {
+	color: #3c2727;
+}
+
+.imgs {
+	width: 200px;
+	height: 200px;
+}
+
+.alignI {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
