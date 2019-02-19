@@ -7,11 +7,20 @@ exports.up = function(knex, Promise) {
       .notNullable()
 
     tbl
-      .string('location', 128)
+      .string('date')
       .notNullable()
 
     tbl
-      .string('date')
+      .string('location', 128)
+      .notNullable()
+
+      //location is the city
+    tbl
+        .string('venue', 255)
+        .notNullable()
+
+    tbl
+      .string('hostedBy', 128)
       .notNullable()
 
   })
