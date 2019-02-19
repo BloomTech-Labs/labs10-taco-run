@@ -64,11 +64,17 @@ class UserProfile extends React.Component {
     // evt.currentTarget.className += "active";
 
     // function to set flag to change certain details on page
-    if (this.state.favoritesFlag == true) {
+    if (
+      evt.currentTarget.id === "friends" &&
+      this.state.favoritesFlag == true
+    ) {
       this.setState({
         favoritesFlag: false
       });
-    } else if (this.state.favoritesFlag == false) {
+    } else if (
+      evt.currentTarget.id === "favorites" &&
+      this.state.favoritesFlag == false
+    ) {
       this.setState({
         favoritesFlag: true
       });
@@ -106,18 +112,32 @@ class UserProfile extends React.Component {
 
         {/* Search Bar */}
         <div className="profile-search-friends">
-          <form onSubmit={this.handleSubmit}>
-            <input
-              type="search"
-              placeholder="Find a new friend"
-              value={this.state.search}
-              name="search"
-              onChange={this.handleChange}
-            />
-          </form>
+          {/* Form for Search Results */}
+          {this.state.favoritesFlag === true ? (
+            <form onSubmit={this.handleSubmit}>
+              <input
+                type="search"
+                placeholder="Add a new favorite"
+                value={this.state.search}
+                name="search"
+                onChange={this.handleChange}
+              />
+            </form>
+          ) : (
+            <form onSubmit={this.handleSubmit}>
+              <input
+                type="search"
+                placeholder="Find a new friend"
+                value={this.state.search}
+                name="search"
+                onChange={this.handleChange}
+              />
+            </form>
+          )}
+
           <div className="results-container">
-            {//Check if message failed
-            this.state.message === "failed" ? (
+            {this.state.message === "failed" ? (
+              // Results for Favorites
               <div id="results" ref={node => (this.node = node)}>
                 {this.props.favorites.map(result => {
                   if (result !== undefined) {
@@ -140,6 +160,7 @@ class UserProfile extends React.Component {
                 })}
               </div>
             ) : (
+              // Results for Users
               <div id="results" ref={node => (this.node = node)}>
                 {this.props.users.map(result => {
                   if (result !== undefined) {
@@ -169,12 +190,14 @@ class UserProfile extends React.Component {
           {/* Tabs */}
           <div className="tab">
             <button
+              id="favorites"
               className="tablinks"
               onClick={event => this.openTab(event, "Favorites")}
             >
               Favorites
             </button>
             <button
+              id="friends"
               className="tablinks"
               onClick={event => this.openTab(event, "Friends")}
             >
