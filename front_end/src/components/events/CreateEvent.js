@@ -1,4 +1,5 @@
 import React from 'react';
+import Nav from '../nav/Nav.js'
 //import axios from 'axios';
 
 class CreateEvent extends React.Component {
@@ -27,7 +28,12 @@ class CreateEvent extends React.Component {
 
 	render() {
 		return (
-			<div>Lets Create An Event!</div>
+			<div>
+				<Nav />
+				<div>
+					Lets Create An Event!
+				</div>
+			</div>
 		)
 	}
 }

@@ -5,6 +5,7 @@
 */
 import React from "react";
 import { connect } from "react-redux";
+import Nav from '../nav/Nav.js'
 import {
   fetchUser,
   fetchFavorites,
@@ -49,7 +50,9 @@ class UserProfile extends React.Component {
   render() {
     return (
       <div className="profile">
+        <Nav />
         <div className="profile-details">
+
           <h1>{this.props.user.name}</h1>
           <h3>Tacos Per Month:</h3>
           <h3>Hard or Soft:</h3>

@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import firebase from 'firebase';
 import {connect} from 'react-redux';
+import Nav from '../nav/Nav.js'
 
 const eventsDashboard = [];
 
@@ -54,6 +55,7 @@ class Events extends React.Component {
 		//console.log(this.state)
 		return (
 			<div>
+				<Nav />
 				<div>Success</div>
 				<button onClick={this.logOut}>Sign Out</button>
 				<h2>Registerd Accounts</h2>
