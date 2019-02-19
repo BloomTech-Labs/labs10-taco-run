@@ -1,6 +1,8 @@
 import React from 'react';
 import {MainNav, LeftNav, RightNav} from './nav_css.js'
 import { withRouter } from "react-router-dom";
+import firebase from 'firebase';
+import {connect} from 'react-redux';
 
 class Nav extends React.Component {
 	constructor(){
@@ -32,11 +34,17 @@ class Nav extends React.Component {
 		this.props.history.push("/get-started")
 	}
 
+	logOut = (event) => {
+		event.preventDefault()
+		firebase.auth().signOut();
+		this.props.history.push("/")
+	}
+
 	render() {
 		return (
 			<MainNav>
 				<LeftNav id="noHover">
-					<p>Lets Get Tacos</p>
+					<p onClick={this.logOut}>Sign Out</p>
 				</LeftNav>
 				<RightNav>
 					<p onClick={this.started}>Started</p>
@@ -50,4 +58,9 @@ class Nav extends React.Component {
 	}
 }
 
-export default withRouter(Nav);
+
+const mapStateToProps = (state) => {
+	return {auth: state.firebase.auth}
+}
+
+export default withRouter(connect(mapStateToProps, null)(Nav));

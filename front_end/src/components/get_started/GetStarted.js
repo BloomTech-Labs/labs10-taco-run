@@ -1,4 +1,5 @@
 import React from 'react';
+import Nav from '../nav/Nav.js'
 //import axios from 'axios';
 
 class GetStarted extends React.Component {
@@ -29,7 +30,12 @@ class GetStarted extends React.Component {
 
   render() {
     return (
-      <div></div>
+      <div>
+        <Nav/>
+        <div>
+          hello world
+        </div>
+      </div>
     )
   }
 }

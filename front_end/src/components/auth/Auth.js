@@ -120,9 +120,7 @@ class Auth extends React.Component {
 
 			window.setTimeout (() => { this.props.signUp(user) }, 0);
 	    window.setTimeout (() => { this.setState({logEmail: '', logPass: '', SignUpName: '', SignUpPass: '', SignUpConfirm: '', SignUpEmail: '' }) }, 0);
-		})
-		.then(() => {
-			this.props.history.push("/get-started")
+	    window.setTimeout (() => { this.props.history.push("/get-started") }, 0);
 		})
 	}
 
