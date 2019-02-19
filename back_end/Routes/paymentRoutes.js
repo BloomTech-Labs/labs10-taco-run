@@ -3,9 +3,9 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY) // --> initializ
 const express = require("express"); // --> intialize express and express router
 const router = express.Router();
 
-require("dotenv").config() // --> use the .env file
+require("dotenv").config(); // --> use the .env file
 
-server.post("", (req, res) => {
+router.post("", (req, res) => {
   let amount = 1000 // --> $10.00
 
 // --> 1. Create a customer object
@@ -25,8 +25,10 @@ server.post("", (req, res) => {
     )
     .then(charge => res.send(charge))
     .catch(err => {
-      console.log("Error:", err)
-      res.status(500).send({ error: "Purchase Failed" })
-    })
-})
+      console.log("Error:", err);
+      res.status(500).send({ error: "Purchase Failed" });
+    });
+});
+
+module.exports = router;
 
