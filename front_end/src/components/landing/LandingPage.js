@@ -6,10 +6,8 @@ import Navigation from '../navigation/Navigation.js';
 import places from './img/places.png'
 import events from './img/event.png'
 import medias from './img/SocialMedia.png'
+import run from './img/running.png'
 import { Link } from 'react-router-dom'
-
-//banner-content
-
 
 class LandingPage extends React.Component {
   state = {
@@ -19,12 +17,13 @@ class LandingPage extends React.Component {
   render() {
     return (
       <div>
+
         <section class="customb relative">
           <div class="container">
             <div class="row fullscreen d-flex align-items-center justify-content-start">
               <div class="banner-content col-lg-8 col-md-12" >
                 <h1 id="colorf">
-                  Lets Get Taco's          
+                  Lets Get Tacos          
                 </h1>
                 <Link to="/auth"><div class="primary-btn header-btn text-uppercase">Register</div></Link>
               </div>                        
@@ -32,11 +31,12 @@ class LandingPage extends React.Component {
           </div>
         </section>
 
-        <section class="top-dish-area section-gap" id="dish">
+        <section class="top-dish-area spacing" id="dish">
           <div class="container">
             <div class="row d-flex justify-content-center">
               <div class="menu-content pb-60 col-lg-8">
                 <div class="title text-center">
+                  <img src={run} />
                   <h1 class="mb-10">Welcome</h1>
                   <p>We are A scheduling app for people to meet up and eat tacos.</p>
                 </div>
