@@ -57,9 +57,8 @@ router.get("", (req, res) => {
 // READ
 // Get users based off search term using fuse.js for fuzzy search
 // get http://localhost:5555/users/search
-router.get("/search", (req, res) => {
-  const trend = req.body.trend;
-
+router.get("/search/:term", (req, res) => {
+  const term = req.params.term;
   var options = {
     shouldSort: true,
     threshold: 0.4,
@@ -73,7 +72,7 @@ router.get("/search", (req, res) => {
   db("users")
     .then(response => {
       var fuse = new Fuse(response, options);
-      var result = fuse.search(trend);
+      var result = fuse.search(term);
       res.status(200).json(result);
     })
     .catch(error => {
