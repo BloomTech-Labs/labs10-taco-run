@@ -1,28 +1,84 @@
-/* 
-  - Use the balsamiq design for reference
-  - Main concepts for this component:
-    - Ability to change email & password
-    - Sign out button ?
-    - Home button --> redirect to user's event page or maybe for v1.0 the GetStarted Component (we will discuss this as a group)
-    - Display User's "Name"
-    - Make a button to show Stripe component --> Billing.js (hard code this for now, could just display in an <h1>Stripe Feature</h1>)
-*/
 import React from 'react';
 import Billing from '../billing/Billing.js';
+import Nav from '../nav/Nav.js'
+import Select from 'react-select';
+import './settings.css'
+import {ProfileForm, ContainForm, Reset, Switch, SwitchTab} from './user_settings_css.js'
+//import axios from 'axios';
+
+const options = [
+  { value: 'phone', label: 'phone' },
+  { value: 'email', label: 'email' },
+];
 
 class UserSettings extends React.Component {
-  state = {
-    example: ''
+  constructor(props){
+    super(props);
+    this.state = {
+      name: '',
+      email: '',
+      phone: '',
+      bymail: true,
+      byphone: false,
+      selectedOption: null,
+    };
+  }
+
+  componentDidMount(){}
+
+  // extra in case you need to reference
+
+  handleChange = event => {
+    this.setState({[event.target.name]: event.target.value})
+  }
+
+  handleSelect = (selectedOption) => {
+    this.setState({ selectedOption });
+    console.log(`Option selected:`, selectedOption);
   }
 
   render() {
     return (
-      <div className = "user-settings-wrapper">
-        <h1>User Settings Page</h1>
+      <div>
+        <Nav/>
+        <ContainForm>
+          <Switch>
+            <div>
+              <SwitchTab>Billing</SwitchTab>
+              <SwitchTab>Profile</SwitchTab>
+            </div>
+          </Switch>
+          <ProfileForm>
+            <h2>Edit Profile</h2>
+            <input
+              type="text"
+              placeholder='Edit Email'
+              onChange={this.handleChange}
+              name="email"
+              value={this.state.email}
+            />
+            <input
+              type="text"
+              placeholder='Edit Name'
+              onChange={this.handleChange}
+              name="name"
+              value={this.state.name}
+            />
+            <h3>Reminder Method</h3>
+            <Select
+              value={this.state.selectedOption}
+              onChange={this.handleSelect}
+              options={options}
+              isSearchable={true}
+              isMulti={true}
+              className="select"
+            />
+          </ProfileForm>
+          <Reset>Pass Reset Email</Reset>
+        </ContainForm>
       </div>
-    );
-  } // --> render() brace
-
-} // --> class brace
+    )
+  }
+}
 
 export default UserSettings;
