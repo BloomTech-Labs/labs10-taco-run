@@ -109,6 +109,7 @@ class UserSettings extends React.Component {
                   className="select"
                 />
               </ProfileForm>
+              <div>SUBMIT</div>
               <Reset>Pass Reset Email</Reset>
             </div>
           ) 
