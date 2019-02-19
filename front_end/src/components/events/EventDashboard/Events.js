@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Grid } from 'semantic-ui-react';
 import firebase from 'firebase';
 import {connect} from 'react-redux';
-import { deleteEvent } from '../eventActions';
+import { deleteEvent } from '../eventsActions';
 import EventList from '../EventList/EventList';
 
 
@@ -26,7 +26,7 @@ class Events extends React.Component {
 	}
 
 	componentDidMount(){
-		axios.get(`https://production-taco.herokuapp.com/users${id}`)
+		axios.get(`https://production-taco.herokuapp.com/users`)
 		.then(res => {
 			this.setState({
 				users: res.data,
@@ -69,7 +69,8 @@ class Events extends React.Component {
 	} 
 
 	handleCreateEvent = (newEvent) => {
-		newEvent.id = cuid();
+		newEvent.id = '';
+		// cuid();
 		newEvent.hostPhotoURL = '/assets/user.png';
 		const updatedEvents = [...this.state.events, newEvent];
 		this.setState({
@@ -88,6 +89,7 @@ class Events extends React.Component {
 
 
 	render() {
+		const { events } = this.props;
 		//console.log(this.state)
 		return (
 			<Grid>

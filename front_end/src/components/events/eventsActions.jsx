@@ -1,4 +1,4 @@
-import { CREATE_EVENT, DELETE_EVENT, UPDATE_EVENT } from './eventConstants';
+import { CREATE_EVENT, DELETE_EVENT, UPDATE_EVENT } from './eventConstant';
 
 export const createEvent = (event) => {
     return {
@@ -8,6 +8,7 @@ export const createEvent = (event) => {
       }
     }
   }
+  
   export const updateEvent = (event) => {
     return {
       type: UPDATE_EVENT,
@@ -16,7 +17,6 @@ export const createEvent = (event) => {
       }
     }
   }
-
 
   export const deleteEvent = (eventId) => {
     return {
