@@ -1,42 +1,74 @@
 import React, { Component } from 'react';
 import { Segment, Form, Button } from 'semantic-ui-react';
+import { fetchUser } from "../../store/actions/userActions";
+import { createEvent, updateEvent } from '../eventActions'
 
-const emptyEvent = {
-  title: '',
-  date:'',
-  city:'',
-  venue:'',
-  hostedBy:''
-}
+
+const mapStateToProps = (state, ownProps) => {
+    const eventId = ownProps.match.params.id;
+  
+    let event = {
+      title: '',
+      date: '',
+      city: '',
+      venue: '',
+      hostedBy: ''
+    }
+  
+    if (eventId && state.events.length > 0) {
+      event = state.events.filter(event => event.id === eventId)[0]
+    }
+  
+    return {
+      event
+    }
+  }
+  
+  const actions = {
+    createEvent,
+    updateEvent
+  }
+  
+
+
 
 export default class EventForm extends Component {
-  state = {
-    event: emptyEvent
-  }
+    state = {
+        event: Object.assign({}, this.props.event);
+      }
 
   componentDidMount() {
+       // fetchUser
+    this.props.fetchUser(localStorage.getItem("user_id"));
+
     if (this.props.selectedEvent !== null) {
       this.setState({
         event: this.props.selectedEvent
       })
     }
   }
-  componentWillReceiveProps(nextProps) {
-    console.log('current: ', this.props.eslectedEvent);
-    console.log('next: ', nextProps.selectedEvent);
-    if (nextProps.selectedEvent !== this.props.selectedEvent) {
-      this.setState({
-        event: nextProps.selectedEvent || emptyEvent
-      })
-    }
-  }
+//   componentWillReceiveProps(nextProps) {
+//     console.log('current: ', this.props.eslectedEvent);
+//     console.log('next: ', nextProps.selectedEvent);
+//     if (nextProps.selectedEvent !== this.props.selectedEvent) {
+//       this.setState({
+//         event: nextProps.selectedEvent || emptyEvent
+//       })
+//     }
+//   }
 
   onFormSubmit = (evt) => {
     evt.preventDefault();
     if (this.state.event.id) {
       this.props.updateEvent(this.state.event);
+      this.props.history.goBack();
     } else {
-      this.props.createEvent(this.state.event)
+      const newEvent = {
+        ...this.state.event,
+        hostPhotoURL: '/assets/user.png'
+      }
+      this.props.createEvent(newEvent)
+      this.props.history.push('/events')
     }
 
   }
@@ -85,3 +117,20 @@ export default class EventForm extends Component {
     );
   }
 }
+
+export default connect(mapState, actions)(EventForm);
+
+// mapStateToProps
+const mapStateToProps = state => {
+    return {
+      
+    };
+  };
+  
+  export default connect(
+    mapStateToProps,
+    {
+      fetchUser, createEvent, updateEvent
+    }
+  )(EventForm);
+  
