@@ -1,5 +1,4 @@
 import React from 'react';
-import Billing from '../billing/Billing.js';
 import Nav from '../nav/Nav.js'
 import Select from 'react-select';
 import './settings.css'
@@ -8,6 +7,8 @@ import axios from 'axios';
 import { withAlert } from 'react-alert'
 import PhoneInput from 'react-phone-number-input'
 import { isValidPhoneNumber } from 'react-phone-number-input'
+import Billing from '../billing/Billing.js'
+import StripeCheckout from "react-stripe-checkout";
 
 const options = [
   { value: 'phone', label: 'phone' },
@@ -114,7 +115,7 @@ class UserSettings extends React.Component {
             </div>
           ) 
             : 
-            <div>Billing page here</div>
+            <Billing/>
           }
 
         </ContainForm>

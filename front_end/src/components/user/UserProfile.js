@@ -101,6 +101,7 @@ class UserProfile extends React.Component {
     return (
       <div className="profile">
         <Nav />
+        <Link to='/user-settings'><p>edit profile</p></Link>
         <div className="profile-details">
           <h1>{this.props.user.name}</h1>
           <h3>Tacos Per Month: 1000</h3>

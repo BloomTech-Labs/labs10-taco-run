@@ -11,6 +11,30 @@ exports.up = function(knex, Promise) {
       .notNullable()
       .unique()
 
+    tbl
+      .boolean('isPremium')
+      .defaultTo(false)
+
+    tbl
+      .string('phone', 128)
+
+    tbl
+      .specificType('reminder', 'text ARRAY')
+
+    tbl
+      .string('hard_or_soft', 128)
+      .defaultTo('unassigned')
+
+    tbl
+      .string('heat_pref', 128)
+      .defaultTo('unassigned')
+
+
+    tbl
+      .string('street_gourmet', 128)
+      .defaultTo('unassigned')
+
+
   })
 };
 

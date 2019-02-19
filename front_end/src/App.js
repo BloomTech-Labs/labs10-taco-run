@@ -9,7 +9,6 @@ import { Switch } from "react-router-dom";
 // --> Components List
 import LandingPage from "./components/landing/LandingPage";
 import UserSettings from "./components/user/UserSettings";
-import Billing from "./components/billing/Billing";
 import GetStarted from "./components/get_started/GetStarted";
 import Events from "./components/events/EventDashboard/Events";
 import SingleEvent from "./components/events/SingleEvent";
@@ -33,7 +32,6 @@ class App extends Component {
       			<Switch>							
 		      		<Route exact path = '/events' component={Events} />
 							<Route exact path = '/user-settings' component = {UserSettings} />
-							<Route exact path = '/billing' component = {Billing} />
 							<Route exact path = '/get-started' component = {GetStarted} />
 							<Route exact path = '/single-event' component = {SingleEvent} />
 							<Route exact path = '/user-profile' component = {UserProfile} />	
