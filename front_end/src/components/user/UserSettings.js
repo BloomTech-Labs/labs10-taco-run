@@ -101,7 +101,38 @@ class UserSettings extends React.Component {
     })
   }
 
-  //var className = this.state.clicked ? 'click-state' : 'base-state';
+  submitEdit = (event) => {
+    event.preventDefault()
+    let ar = []
+
+    for (let i = 0; i < this.state.selectedOption.length; i++){
+      ar.push(this.state.selectedOption[i].value)
+    }
+
+    if (this.state.name === ''){
+      this.setState({
+        name: this.state.usersName
+      })
+    }
+
+    let edited_user = {
+      name: this.state.name,
+      phone: this.state.phone,
+      reminder: ar,
+      hard_or_soft: this.state.selectedOption1.value,
+      heat_pref: this.state.selectedOption2.value,
+      street_gourmet: this.state.selectedOption3.value
+    }
+
+    if (isValidPhoneNumber(this.state.phone) === false && this.state.phone.length > 0){
+      this.props.alert.show('not valid phone number')
+      this.setState({
+        phone: '',
+        name: ''
+      })
+      return
+    } 
+  }
 
   render() {
     return (
@@ -118,15 +149,15 @@ class UserSettings extends React.Component {
           {this.state.profile ? 
           (
             <div>
-              <ProfileForm>
+              <ProfileForm onSubmit={this.submitEdit}>
                 <Reset>Reset Pass</Reset>
                 <h2>Edit Profile</h2>
                 <input
                   type="text"
                   placeholder='Edit Name'
                   onChange={this.handleChange}
-                  name="email"
-                  value={this.state.email}
+                  name="name"
+                  value={this.state.name}
                 />
                 <PhoneInput
                   country="US"
@@ -179,7 +210,7 @@ class UserSettings extends React.Component {
                   />
                 </div>
               </FlexDiv>
-            <Submit>SUBMIT</Submit>
+            <Submit onClick={this.submitEdit}>SUBMIT</Submit>
           </div>
           ) 
             : 
