@@ -1,6 +1,7 @@
 import React from 'react';
 import StripeCheckout from "react-stripe-checkout";
 import axios from "axios";
+import { withAlert } from 'react-alert'
 
 class Billing extends React.Component {
   constructor(){
@@ -26,7 +27,7 @@ class Billing extends React.Component {
       */
 
       response.json().then(data => {
-        alert(`Thank you for your purchase!`);
+        this.props.alert.show('Thank you for your purchase!')
         let id = localStorage.getItem("user_id")
         let upgrade = {isPremium: true}
         axios.put(`https://production-taco.herokuapp.com/users/${id}/prem`, upgrade)
@@ -62,7 +63,7 @@ class Billing extends React.Component {
   */
 
   render() {
-    console.log(this.state)
+    console.log(this.props)
     return (
       <div>
         {this.state.loading ? (
@@ -92,4 +93,4 @@ class Billing extends React.Component {
   }; 
 };
 
-export default Billing;
+export default withAlert()(Billing);
