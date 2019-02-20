@@ -46,7 +46,7 @@ class CreateEvent extends React.Component {
 // --> Use the createEvent() from actions & pass in the event object as param
 		this.props.createEvent(this.state.event);
 		this.props.history.push("/events"); // --> redirect to dashboard
-	}
+	};
 
 
 
@@ -64,7 +64,14 @@ class CreateEvent extends React.Component {
 				</form>
 			</div>
 		)
+	} // --> render() brace
+} // --> class brace
+
+const mapStateToProps = state => {
+	return {
+		auth: state.firebase.auth,
+		user: state.userReducer.user
 	}
 }
 
-export default CreateEvent;
+export default connect(mapStateToProps, { createEvent })(CreateEvent);
