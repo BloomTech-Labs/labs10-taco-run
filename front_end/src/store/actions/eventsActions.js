@@ -8,6 +8,10 @@ export const EVENT_DELETE_START = "EVENT_DELETE_START";
 export const EVENT_DELETE_COMPLETE = "EVENT_DELETE_COMPLETE";
 export const EVENT_DELETE_ERROR = "EVENT_DELETE_ERROR";
 
+export const EVENT_UPDATE_START = "EVENT_UPDATE_START";
+export const EVENT_UPDATE_COMPLETE = "EVENT_UPDATE_COMPLETE";
+export const EVENT_UPDATE_ERROR = "EVENT_UPDATE_ERROR";
+
 export const createEvent = () => {
   return dispatch => {
     dispatch({ type: EVENTS_CREATE_START });
@@ -33,5 +37,21 @@ export const deleteEvent = event => {
       .catch(err => {
         dispatch({ type: EVENT_DELETE_ERROR });
       });
+  };
+};
+
+export const updateEvent = event => {
+  return dispatch =>  {
+    dispatch => ({type: UPDATE_EVENT_START});
+    axios
+      .put(`https://production-taco.herokuapp.com/event/${event}`)
+      .then(res => {
+        dispatch({ type:EVENT_UPDATE_COMPLETE, payload: res.data })
+      })
+      .catch(err => {
+        dispatch({
+          type: EVENT_UPDATE_ERROR
+         })
+      })
   };
 };
