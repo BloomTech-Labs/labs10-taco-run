@@ -55,7 +55,8 @@ export const createEvent = (event) => {
     dispatch({ type: EVENTS_CREATE_START });
     axios
       .post(`https://production-taco.herokuapp.com/events`, event)
-      .then(res => {        
+      .then(res => {       
+        alert("event successfully made!");
         dispatch({ type: EVENTS_CREATE_COMPLETE, payload: res.data });
       })
       .catch(err => {
