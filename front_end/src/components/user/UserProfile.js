@@ -231,6 +231,7 @@ class UserProfile extends React.Component {
                   <div className="location-picture">
                     {/* <img /> */}
                     <h3>{favorite.name}</h3>
+                    <h6>{favorite.location}</h6>
                   </div>
                 </div>
                 // </Link>
