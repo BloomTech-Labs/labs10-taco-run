@@ -86,8 +86,10 @@ const eventsReducer = (state = initialState, action) => {
     case EVENT_DELETE_COMPLETE:
       return {
         ...state,
+        events: state.events.filter( each => each["id"] !== action.payload["id"]),
         deletingEvent: false,
-        deletedEvent: true
+        deletedEvent: true,
+        error: null,
       };
 
     case EVENT_DELETE_ERROR:
@@ -100,14 +102,27 @@ const eventsReducer = (state = initialState, action) => {
         return {
           ...state,
           creatingEvent: true,
-          createdEvent: false
+          createdEvent: false,
         };
         
-      case EVENTS_CREATE_START:
+      case EVENTS_CREATE_COMPLETE:
         return {
           ...state,
-          creatingEvent: true,
-          createdEvent: false
+          events: state.events.map( eachEvent => (
+            eachEvent._id === action.payload.eachEvent._id ?
+            action.payload.eachEvent :
+            eachEvent
+          )),
+          creatingEvent: false,
+          createdEvent: true,
+          error: null,
+        };
+        case EVENTS_CREATE_ERROR:
+        return {
+          ...state,
+          creatingEvent: false,
+          createdEvent: false,
+          error: "Error deleting events"
         };
 
       case EVENTS_UPDATE_START:
@@ -121,9 +136,14 @@ const eventsReducer = (state = initialState, action) => {
       case EVENTS_UPDATE_COMPLETE:
       return {
         ...state,
-        events: action.payload,
+        events: state.events.map( eachOne => (
+          eachOne.id === action.payload.eachOne.id ?
+          action.payload.eachOne :
+          eachOne
+        )),
         updatingEvents: false,
-        updatedEvents: true
+        updatedEvents: true,
+        error: null,
       };
 
       case EVENTS_UPDATE_ERROR:
