@@ -17,7 +17,9 @@ import {
 } from "../actions/eventsActions";
 
 const initialState = {
+  event: {},
   events: [],
+  attendees: [],
   fetchingEvents: false,
   fetchedEvents: false,
   fetchingEvent: false,
@@ -28,7 +30,7 @@ const initialState = {
   createdEvent: false,
   deletingEvent: false,
   deletedEvent: false,
-  error: null,
+  error: null
 };
 
 const eventsReducer = (state = initialState, action) => {
@@ -39,7 +41,7 @@ const eventsReducer = (state = initialState, action) => {
         fetchingEvents: true,
         fetchedEvents: false
       };
-      case EVENT_GET_START:
+    case EVENT_GET_START:
       return {
         ...state,
         fetchingEvent: true,
@@ -51,22 +53,23 @@ const eventsReducer = (state = initialState, action) => {
         events: action.payload,
         fetchingEvents: false,
         fetchedEvents: true,
-        error: null,
+        error: null
       };
-      case EVENT_GET_COMPLETE:
+    case EVENT_GET_COMPLETE:
       return {
         ...state,
-        events: action.payload.event,
+        event: action.payload,
+        attendees: action.payload.users,
         fetchingEvent: false,
         fetchedEvent: true,
-        error: null,
+        error: null
       };
     case EVENTS_GET_ERROR:
       return {
         ...state,
         error: "Error fetching events"
       };
-      case EVENT_GET_ERROR:
+    case EVENT_GET_ERROR:
       return {
         ...state,
         error: "Error fetching this event"
@@ -82,41 +85,41 @@ const eventsReducer = (state = initialState, action) => {
         // events: state.events.filter( each => each["id"] !== action.payload["id"]),
         deletingEvent: false,
         deletedEvent: true,
-        error: null,
+        error: null
       };
     case EVENT_DELETE_ERROR:
       return {
         ...state,
         error: "Error deleting events"
       };
-      case EVENTS_CREATE_START:
-        return {
-          ...state,
-          creatingEvent: true,
-          createdEvent: false,
-        };
-        
-      case EVENTS_CREATE_COMPLETE:
-        return {
-          ...state,
-          // events: state.events.map( eachEvent => (
-          //   eachEvent._id === action.payload.eachEvent._id ?
-          //   action.payload.eachEvent :
-          //   eachEvent
-          // )),
-          creatingEvent: false,
-          createdEvent: true,
-          error: null,
-        };
-        case EVENTS_CREATE_ERROR:
-        return {
-          ...state,
-          creatingEvent: false,
-          createdEvent: false,
-          error: "Error deleting events"
-        };
+    case EVENTS_CREATE_START:
+      return {
+        ...state,
+        creatingEvent: true,
+        createdEvent: false
+      };
 
-      case EVENT_UPDATE_START:
+    case EVENTS_CREATE_COMPLETE:
+      return {
+        ...state,
+        // events: state.events.map( eachEvent => (
+        //   eachEvent._id === action.payload.eachEvent._id ?
+        //   action.payload.eachEvent :
+        //   eachEvent
+        // )),
+        creatingEvent: false,
+        createdEvent: true,
+        error: null
+      };
+    case EVENTS_CREATE_ERROR:
+      return {
+        ...state,
+        creatingEvent: false,
+        createdEvent: false,
+        error: "Error deleting events"
+      };
+
+    case EVENT_UPDATE_START:
       return {
         ...state,
         events: action.payload,
@@ -124,7 +127,7 @@ const eventsReducer = (state = initialState, action) => {
         updatedEvents: false
       };
 
-      case EVENT_UPDATE_COMPLETE:
+    case EVENT_UPDATE_COMPLETE:
       return {
         ...state,
         // events: state.events.map( eachOne => (
@@ -134,14 +137,14 @@ const eventsReducer = (state = initialState, action) => {
         // )),
         updatingEvents: false,
         updatedEvents: true,
-        error: null,
+        error: null
       };
 
-      case EVENT_UPDATE_ERROR:
-        return {
-          ...state,
-          error: "Error updating Events"
-        }
+    case EVENT_UPDATE_ERROR:
+      return {
+        ...state,
+        error: "Error updating Events"
+      };
 
     default:
       return state;

@@ -20,35 +20,33 @@ export const EVENTS_CREATE_START = "EVENTS_CREATE_START";
 export const EVENTS_CREATE_COMPLETE = "EVENTS_CREATE_COMPLETE";
 export const EVENTS_CREATE_ERROR = "EVENTS_CREATE_ERROR";
 
-const BASE_URL = 'https://production-taco.herokuapp.com';
+const BASE_URL = "https://production-taco.herokuapp.com";
 
 export const getEvents = () => dispatch => {
-  dispatch({types:EVENTS_GET_START});
+  dispatch({ types: EVENTS_GET_START });
   axios
     .get(`https://production-taco.herokuapp.com/event`)
-    .then( res => {
-      dispatch({type: EVENTS_GET_COMPLETE, payload: res.data
-      })
+    .then(res => {
+      dispatch({ type: EVENTS_GET_COMPLETE, payload: res.data });
     })
-    .catch( err => {
-      dispatch({type: EVENTS_GET_ERROR, payload: err
-      })
-    })
-}
+    .catch(err => {
+      dispatch({ type: EVENTS_GET_ERROR, payload: err });
+    });
+};
 
-export const getEvent = (id) => dispatch => {
+export const getEvent = id => dispatch => {
   dispatch({ type: EVENT_GET_START });
 
   axios
-    .get(`${BASE_URL}/get/${id}`)
-    .then( res => {
-      dispatch({type: EVENT_GET_COMPLETE, payload:  res.data
-      })
+    .get(`${BASE_URL}/events/${id}`)
+    .then(res => {
+      console.log(res);
+      dispatch({ type: EVENT_GET_COMPLETE, payload: res.data });
     })
-    .catch( err => {
-      dispatch({type: EVENT_GET_ERROR, payload: err})
-    })
-}
+    .catch(err => {
+      dispatch({ type: EVENT_GET_ERROR, payload: err });
+    });
+};
 
 export const createEvent = () => {
   return dispatch => {
@@ -79,17 +77,18 @@ export const deleteEvent = event => {
 };
 
 export const updateEvent = event => {
-  return dispatch =>  {
-    dispatch({type: EVENT_UPDATE_START});
+  return dispatch => {
+    dispatch({ type: EVENT_UPDATE_START });
     axios
       .put(`https://production-taco.herokuapp.com/event/${event}`)
       .then(res => {
-        dispatch({ type:EVENT_UPDATE_COMPLETE, payload: res.data })
+        dispatch({ type: EVENT_UPDATE_COMPLETE, payload: res.data });
       })
       .catch(err => {
         dispatch({
-          type: EVENT_UPDATE_ERROR, payload: err
-         })
-      })
+          type: EVENT_UPDATE_ERROR,
+          payload: err
+        });
+      });
   };
 };
