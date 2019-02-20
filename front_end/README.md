@@ -16,3 +16,67 @@ Welcome to our Labs 10 project, Taco Run! Here at Taco Run, you can:
   
   - We as a group wanted to create an app that fills the gap in interaction, allowing users to meet up over a shared interest of tacos!
 ---
+## Technologies and Frameworks Used
+
+Components List:
+  - Get_Started
+  - 404 Page
+  - Login / Sign Up Page
+  - Billing Page
+  - Events / Events Dashboard Page
+  - Landing Page
+  - Navigation
+  - User Settings / User Profile Page 
+---
+
+**Get Started Page** built with:
+  - React
+  - Styled Components
+---
+
+**404 Page** built with:
+  - React
+  - React-Router-Dom
+---
+
+**Login / Sign Up Page** built with:
+  - React + Redux
+  - Axios
+  - Material-UI
+  - Reactjs-popup
+  - Firebase Auth
+  - React-Alert
+---
+
+**Billing Page** built with:
+  - React
+  - React-stripe-checkout
+  - Axios
+---
+
+**Events / Events Dashboard Page** built with:
+  - React + Redux
+  - Axios
+  - Semantic-ui-react 
+  - React-router-dom
+---
+
+**Landing Page** built with:
+  - React
+  - React-router-dom  
+---
+
+**Navigation Component** built with:
+  - React + Redux
+  - React-router-dom
+  - Firebase Auth (for signout)
+---
+
+**User Settings / User Profile Page** built with:
+  - React
+  - React-select
+  - Axios
+  - Styled Components
+
+> --END of Technologies and Frameworks Section--
+---
