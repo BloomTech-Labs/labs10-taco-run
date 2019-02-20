@@ -20,9 +20,15 @@ const initialState = {
   events: [],
   fetchingEvents: false,
   fetchedEvents: false,
-
+  fetchingEvent: false,
+  fetchedEvent: false,
+  updatingEvent: false,
+  updatedEvent: false,
+  creatingEvent: false,
+  createdEvent: false,
   deletingEvent: false,
-  deletedEvent: false
+  deletedEvent: false,
+  error: null,
 };
 
 const eventsReducer = (state = initialState, action) => {
@@ -30,7 +36,14 @@ const eventsReducer = (state = initialState, action) => {
     case EVENTS_GET_START:
       return {
         ...state,
-        fetchingEvents: true
+        fetchingEvents: true,
+        fetchedEvents: false
+      };
+      case EVENT_GET_START:
+      return {
+        ...state,
+        fetchingEvent: true,
+        fetchedEvent: false
       };
 
     case EVENTS_GET_COMPLETE:
@@ -38,7 +51,17 @@ const eventsReducer = (state = initialState, action) => {
         ...state,
         events: action.payload,
         fetchingEvents: false,
-        fetchedEvents: true
+        fetchedEvents: true,
+        error: null,
+      };
+
+      case EVENT_GET_COMPLETE:
+      return {
+        ...state,
+        events: action.payload.event,
+        fetchingEvent: false,
+        fetchedEvent: true,
+        error: null,
       };
 
     case EVENTS_GET_ERROR:
@@ -47,11 +70,18 @@ const eventsReducer = (state = initialState, action) => {
         error: "Error fetching events"
       };
 
+      case EVENT_GET_ERROR:
+      return {
+        ...state,
+        error: "Error fetching this event"
+      };
+
     case EVENT_DELETE_START:
       return {
         ...state,
         deletingEvent: true
       };
+
 
     case EVENT_DELETE_COMPLETE:
       return {
@@ -65,6 +95,20 @@ const eventsReducer = (state = initialState, action) => {
         ...state,
         error: "Error deleting events"
       };
+
+      case EVENTS_CREATE_START:
+        return {
+          ...state,
+          creatingEvent: true,
+          createdEvent: false
+        };
+        
+      case EVENTS_CREATE_START:
+        return {
+          ...state,
+          creatingEvent: true,
+          createdEvent: false
+        };
 
       case EVENTS_UPDATE_START:
       return {
