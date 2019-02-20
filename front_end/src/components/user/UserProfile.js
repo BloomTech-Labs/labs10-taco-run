@@ -13,18 +13,22 @@ import {
   searchUsers
 } from "../../store/actions/userActions";
 import { Link } from "react-router-dom";
+import { Dropdown } from "semantic-ui-react";
 import "./UserProfile.css";
 
 class UserProfile extends React.Component {
   state = {
     search: "",
-    favoritesFlag: true
+    favoritesFlag: true,
+    value: "All"
   };
 
-  handleChange = e => {
+  handleSelect = e => {
+    e.preventDefault();
     this.setState({
-      [e.target.name]: e.target.value
+      value: e.target.value
     });
+    console.log(e.target.value, this.state.value);
   };
 
   handleSubmit = e => {
@@ -101,7 +105,9 @@ class UserProfile extends React.Component {
     return (
       <div className="profile">
         <Nav />
-        <Link to='/user-settings'><p>edit profile</p></Link>
+        <Link to="/user-settings">
+          <p>edit profile</p>
+        </Link>
         <div className="profile-details">
           <h1>{this.props.user.name}</h1>
           <h3>Tacos Per Month: 1000</h3>
@@ -115,15 +121,38 @@ class UserProfile extends React.Component {
         <div className="profile-search-friends">
           {/* Form for Search Results */}
           {this.state.favoritesFlag === true ? (
-            <form onSubmit={this.handleSubmit}>
-              <input
-                type="search"
-                placeholder="Add a new favorite"
-                value={this.state.search}
-                name="search"
-                onChange={this.handleChange}
-              />
-            </form>
+            <div>
+              <form onSubmit={this.handleSubmit}>
+                <input
+                  type="search"
+                  placeholder="Add a new favorite"
+                  value={this.state.search}
+                  name="search"
+                  onChange={this.handleChange}
+                />
+              </form>
+              <select
+                className="locationSelect"
+                value={this.state.value}
+                onChange={this.handleSelect}
+              >
+                <option className={`location-default`} value="All">
+                  All
+                </option>
+                {this.props.favorites.map(favorite => {
+                  if (favorite !== undefined) {
+                    return (
+                      <option
+                        className={`location-${favorite.location}`}
+                        value={`${favorite.location}`}
+                      >
+                        {favorite.location}
+                      </option>
+                    );
+                  }
+                })}
+              </select>
+            </div>
           ) : (
             <form onSubmit={this.handleSubmit}>
               <input
@@ -152,7 +181,8 @@ class UserProfile extends React.Component {
                       /> */}
                           </div>
                           <div className="result-name">
-                            <h3>{result.name}</h3>
+                            <h5>{result.name}</h5>
+                            <p>{result.location}</p>
                           </div>
                         </div>
                       </Link>
@@ -207,20 +237,41 @@ class UserProfile extends React.Component {
           </div>
 
           {/* Favorites Tab */}
-          <div id="Favorites" className="tabcontent">
-            {this.props.favorites.map(favorite => {
-              return (
-                // <Link to={`/locations/${location.name}`}>
-                <div className="resultsDisplay">
-                  <div className="location-picture">
-                    {/* <img /> */}
-                    <h3>{favorite.name}</h3>
+          {this.state.value === "All" ? (
+            <div id="Favorites" className="tabcontent">
+              {this.props.favorites.map(favorite => {
+                return (
+                  // <Link to={`/locations/${location.name}`}>
+                  <div className={`resultsDisplay ${favorite.location}`}>
+                    <div className="location-picture">
+                      {/* <img /> */}
+                      <h3>{favorite.name}</h3>
+                      <p>{favorite.location}</p>
+                    </div>
                   </div>
-                </div>
-                // </Link>
-              );
-            })}
-          </div>
+                  // </Link>
+                );
+              })}
+            </div>
+          ) : (
+            <div id="Favorites" className="tabcontent">
+              {this.props.favorites
+                .filter(favorite => favorite.location === this.state.value)
+                .map(favorite => {
+                  return (
+                    // <Link to={`/locations/${location.name}`}>
+                    <div className={`resultsDisplay ${favorite.location}`}>
+                      <div className="location-picture">
+                        {/* <img /> */}
+                        <h3>{favorite.name}</h3>
+                        <p>{favorite.location}</p>
+                      </div>
+                    </div>
+                    // </Link>
+                  );
+                })}
+            </div>
+          )}
 
           {/* Friends Tab */}
           <div id="Friends" className="tabcontent">
