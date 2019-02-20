@@ -6,3 +6,13 @@ Welcome to our Labs 10 project, Taco Run! Here at Taco Run, you can:
   - RSVP for upcoming Taco-Meetups that you look forward to!
 ---
 ## Why build an App Like this?
+- Across the globe, there are millions of tacos eaten per year, but nowhere to keep track of where those yummy, scrumptious, mouth-watering tacos came from! 
+
+  - Here at Taco Run we aim to make the taco-tracking process as simple as possible. Got a taco place you loved? Just add the name and location under your `favorites` tab!
+
+- Taco eating is not an activity that is done alone either. 
+
+  - Yup you guessed it, the Taco Run app handles that too! As a team, we noticed in the age of social media, that there seems to never be a time where we can get to meet new people and that is __no bueno__. 
+  
+  - We as a group wanted to create an app that fills the gap in interaction, allowing users to meet up over a shared interest of tacos!
+---
