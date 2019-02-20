@@ -54,14 +54,11 @@ class UserSettings extends React.Component {
     let id = localStorage.getItem("user_id")
     axios.get(`https://production-taco.herokuapp.com/users/${id}/info`)
     .then(response => {
-      //console.log(response)
       this.setState({
         usersName: response.data.name
       })
     })
   }
-
-  // extra in case you need to reference
 
   handleChange = event => {
     this.setState({[event.target.name]: event.target.value})
@@ -69,22 +66,18 @@ class UserSettings extends React.Component {
 
   handleSelect = (selectedOption) => {
     this.setState({ selectedOption });
-    console.log(`Option selected:`, selectedOption);
   }
 
   handleSelect1 = (selectedOption1) => {
     this.setState({ selectedOption1 });
-    console.log(`Option selected:`, selectedOption1);
   }
 
   handleSelect2 = (selectedOption2) => {
     this.setState({ selectedOption2 });
-    console.log(`Option selected:`, selectedOption2);
   }
 
   handleSelect3 = (selectedOption3) => {
     this.setState({ selectedOption3 });
-    console.log(`Option selected:`, selectedOption3);
   }
 
   switchToBilling = () => {
@@ -131,7 +124,22 @@ class UserSettings extends React.Component {
         name: ''
       })
       return
-    } 
+    }
+
+    let id = localStorage.getItem("user_id")
+    axios.put(`https://production-taco.herokuapp.com/users/${id}`, edited_user)
+    .then(response => {
+      console.log(response)
+      this.setState({
+        usersName: response.data.usersName,
+        selectedOption: '',
+        selectedOption1: '',
+        selectedOption2: '',
+        selectedOption3: '',
+        phone: '',
+        name: ''
+      })
+    })
   }
 
   render() {
