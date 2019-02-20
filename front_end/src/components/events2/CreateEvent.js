@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import { connect } from "react-redux";
 import { createEvent } from "../../store/actions/eventsActions";
 
@@ -18,14 +17,12 @@ class CreateEvent extends React.Component {
 		};
 	} // --> constructor
 
-	componentDidMount(){
-		console.log("Component Did Mount Invoked");
-		console.log(this.props);
+	componentDidMount(){		
 // --> Get the user_id from localStorage
 		this.setState({
 			event: {
-				user_id: parseInt(localStorage.getItem("user_id"), 10),
-				author: this.props.auth.displayName
+				user_id: parseInt(localStorage.getItem("user_id"), 10), // --> parseInt() since the user_id comes up as a string and not a number
+				author: this.props.auth.displayName // --> this comes from firebase-auth
 			}
 		});
 		console.log(this.state.event);
@@ -34,8 +31,7 @@ class CreateEvent extends React.Component {
 	handleChange = event => {
 		event.preventDefault();
 // --> Destructure name and value to reduce code clutter
-		const { name, value } = event.target;
-		console.log(`${[name]}: ${value}`)
+		const { name, value } = event.target;		
 		this.setState({
 			event: {
 				...this.state.event,
@@ -46,8 +42,7 @@ class CreateEvent extends React.Component {
 	 
 	handleSubmit = event => {
 		event.preventDefault();
-// --> Use the createEvent() from actions & pass in the event object as param
-		console.log(this.state.event);				
+// --> Use the createEvent() from actions & pass in the event object as param						
 		this.props.createEvent(this.state.event);		
 		this.props.history.push("/events"); // --> redirect to dashboard
 	};
