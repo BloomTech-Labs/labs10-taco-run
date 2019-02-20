@@ -154,6 +154,28 @@ router.put("/:id", (req, res) => {
     });
 });
 
+//UPDATE
+//update a users preimum
+//put http://localhost:5555/users/:id/prem
+router.put("/:id/prem", (req, res) => {
+  const {id} = req.params
+  const {isPremium} = req.body
+  console.log({id})
+  console.log({isPremium})
+  db('users')
+  .where({id})
+  .update({isPremium})
+  .then(response => {
+    console.log(response)
+    return res.status(200).json(response)
+  })
+  .catch(error => {
+    console.log(error)
+    return res.status(500).json(error)
+  })
+})
+
+
 //DELETE
 //delete a user
 //delete http://localhost:5555/users/:id
