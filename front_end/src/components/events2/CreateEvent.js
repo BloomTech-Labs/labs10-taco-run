@@ -27,9 +27,7 @@ class CreateEvent extends React.Component {
 				user_id: localStorage.getItem("user_id")
 			}
 		});		
-	};
-
-	// extra in case you need to reference
+	};	
 
 	handleChange = event => {
 		event.preventDefault();
@@ -41,7 +39,14 @@ class CreateEvent extends React.Component {
 				[name]: value
 			}
 		});
- 	};
+	 };
+	 
+	handleSubmit = event => {
+		event.preventDefault();
+// --> Use the createEvent() from actions & pass in the event object as param
+		this.props.createEvent(this.state.event);
+		this.props.history.push("/events"); // --> redirect to dashboard
+	}
 
 
 
