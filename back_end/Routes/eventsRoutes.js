@@ -41,8 +41,6 @@ router.post('', (req, res) => {
 		}
 	})
 
-
-
 })
 
 //READ
@@ -84,19 +82,78 @@ router.get('', (req, res) => {
 //     }
 // ]
 
-router.get('/:id', (req, res) => {
-	const { id } = req.params
-	db('events')
-	.join('users_events', 'users_events.user_id', '=', 'users.id')
-	.join('users', 'events.id', '=', 'users_events.event_id')
-	.where('events.id', id)
-	.then(response => {
-		res.status(200).json(response)
-	})
-	.catch(error => {
-		res.status(500).json(error)
-	})
-})
+// router.get("/:id", (req, res) => {
+//   const { id } = req.params;
+//   const { user_id } = req.body;
+//   db("events")
+//     .join("users", "events.id", "=", "events.id")
+//     .where("events.id", id)
+//     .then(response => {
+//       res.status(200).json(response);
+//     })
+//     .catch(error => {
+//       res.status(500).json(error);
+//     });
+// });
+
+router.get("/:id", (req, res) => {
+  const { id } = req.params;
+  db("events")
+    .join("users_events", "users_events.event_id", "=", "events.id")
+    .join("users", "users.id", "=", "users_events.user_id")
+    .where("events.id", id)
+    .then(resp => {
+    	let users_ar = []
+    	for (let i = 0; i < resp.length; i++){
+    		users_ar.push({name: resp[i].name, email: resp[i].email, id: resp[i].user_id})
+    	}
+
+    	let obj = {
+    		users: users_ar,
+    		author: resp[0].author,
+    		invite_only: resp[0].invite_only,
+    		location: resp[0].location,
+    		venue: resp[0].venue,
+    		date: resp[0].date 
+    	}
+
+      res.status(200).json(obj);
+    })
+    .catch(error => {
+      console.log(error);
+      res.status(500).json(error);
+    });
+});
+
+// router.get('/:id', (req, res) => {
+// 	const { id } = req.params
+// 	db("events")
+// 	.join("users_events", "users_events.user_id", "=", "users.id")
+// 	.join("users", "events.id", "=", "users_events.event_id")
+// 	.where("events.id", id)
+// 	.then(response => {
+// 		res.status(200).json(response)
+// 	})
+// 	.catch(error => {
+// 		console.log(error)
+// 		res.status(500).json(error)
+// 	})
+// })
+
+
+// router.get("/:id", (req, res) => {
+//   const { id } = req.params;
+//   db("users")
+//     .join("users_events", "users_events.user_id", "=", "users.id")
+//     .join("events", "events.id", "=", "users_events.event_id")
+//     .where("users.id", id)
+//     .then(response => {
+//       res.status(200).json(response);
+//     })
+//     .catch(error => {
+//       res.status(500).json(error);
+//     });
+// });
 
 //UPDATE
 //update an event
