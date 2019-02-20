@@ -237,21 +237,29 @@ class UserProfile extends React.Component {
           </div>
 
           {/* Favorites Tab */}
-          <div id="Favorites" className="tabcontent">
-            {this.props.favorites.map(favorite => {
-              return (
-                // <Link to={`/locations/${location.name}`}>
-                <div className={`resultsDisplay ${favorite.location}`}>
-                  <div className="location-picture">
-                    {/* <img /> */}
-                    <h3>{favorite.name}</h3>
-                    <p>{favorite.location}</p>
+          {this.state.value === "All" ? (
+            <div id="Favorites" className="tabcontent">
+              {this.props.favorites.map(favorite => {
+                return (
+                  // <Link to={`/locations/${location.name}`}>
+                  <div className={`resultsDisplay ${favorite.location}`}>
+                    <div className="location-picture">
+                      {/* <img /> */}
+                      <h3>{favorite.name}</h3>
+                      <p>{favorite.location}</p>
+                    </div>
                   </div>
-                </div>
-                // </Link>
-              );
-            })}
-          </div>
+                  // </Link>
+                );
+              })}
+            </div>
+          ) : (
+            <div id="Favorites" className="tabcontent">
+              {this.props.favorites.filter(favorite => {
+                return favorite.location === this.state.value;
+              })}
+            </div>
+          )}
 
           {/* Friends Tab */}
           <div id="Friends" className="tabcontent">
