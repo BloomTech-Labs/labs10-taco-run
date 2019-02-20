@@ -1,8 +1,8 @@
 import axios from "axios";
 
-export const EVENTS_CREATE_START = "EVENTS_FETCH_START";
-export const EVENTS_CREATE_COMPLETE = "EVENTS_FETCH_COMPLETE";
-export const EVENTS_CREATE_ERROR = "EVENTS_FETCH_ERROR";
+export const EVENTS_GET_START = "EVENTS_GET_START";
+export const EVENTS_GET_COMPLETE = "EVENTS_GET_COMPLETE";
+export const EVENTS_GET_ERROR = "EVENTS_GET_ERROR";
 
 export const EVENT_DELETE_START = "EVENT_DELETE_START";
 export const EVENT_DELETE_COMPLETE = "EVENT_DELETE_COMPLETE";
@@ -12,11 +12,44 @@ export const EVENT_UPDATE_START = "EVENT_UPDATE_START";
 export const EVENT_UPDATE_COMPLETE = "EVENT_UPDATE_COMPLETE";
 export const EVENT_UPDATE_ERROR = "EVENT_UPDATE_ERROR";
 
+export const EVENTS_CREATE_START = "EVENTS_CREATE_START";
+export const EVENTS_CREATE_COMPLETE = "EVENTS_CREATE_COMPLETE";
+export const EVENTS_CREATE_ERROR = "EVENTS_CREATE_ERROR";
+
+
+export const getEvents = () => dispatch => {
+  dispatch({types:EVENTS_GET_START});
+  axios
+    .get(`https://production-taco.herokuapp.com/event/${event}`)
+    .then( res => {
+      dispatch({type: EVENTS_GET_COMPLETE, payload: res.data
+      })
+    })
+    .catch( err => {
+      dispatch({type: EVENTS_GET_ERROR, payload: err
+      })
+    })
+}
+
+export const getEvent= (id) => dispatch => {
+  dispatch({ type: EVENT_GET_START });
+
+  axios
+    .get(`${BASE_URL}/get/${_id}`)
+    .then( res => {
+      dispatch({type: EVENT_GET_COMPLETE, payload:  res.data
+      })
+    })
+    .catch( err => {
+      dispatch({type: EVENT_GET_ERROR, payload: err})
+    })
+}
+
 export const createEvent = () => {
   return dispatch => {
     dispatch({ type: EVENTS_CREATE_START });
     axios
-      .get(`https://production-taco.herokuapp.com/users`)
+      .post(`https://production-taco.herokuapp.com/users`)
       .then(res => {
         dispatch({ type: EVENTS_CREATE_COMPLETE, payload: res.data });
       })
@@ -50,8 +83,9 @@ export const updateEvent = event => {
       })
       .catch(err => {
         dispatch({
-          type: EVENT_UPDATE_ERROR
+          type: EVENT_UPDATE_ERROR, payload: err
          })
       })
   };
 };
+
