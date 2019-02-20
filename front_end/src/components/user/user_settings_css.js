@@ -9,6 +9,9 @@ export const ProfileForm = styled.form`
 	}
 	display:flex;
 	flex-direction:column;
+	max-width: 520px;
+	margin: 0 auto;
+	padding: 2%;
 	border-radius: 4px;
 	> input {
 		font-size: 1.4rem;
@@ -43,6 +46,8 @@ export const Reset = styled.div`
 	background-color:grey;
 	color:white
 	font-size: 1.4rem;
+	margin-top: 30px;
+	width: 100px;
 	&:hover {
 		color:grey
 		background-color:white;
@@ -67,6 +72,38 @@ export const SwitchTab = styled.div`
 	padding: 1%;
 	font-size: 18px;
 	&:hover {
+		cursor:pointer;
+	}
+`
+
+export const FlexDiv = styled.div`
+	display: flex;
+	justify-content: space-evenly;
+	@media (max-width: 645px) {
+		flex-direction:column;
+		justify-content: center;
+		align-items: center;
+	}
+`
+
+export const CenterDiv = styled.div`
+	display: flex;
+	justify-content: center;
+`
+
+export const Submit = styled.div`
+	border: solid black 1px;
+	max-width: 520px;
+	margin: 0 auto;
+	width: 100px;
+	text-align: center;
+	padding: 1%;
+	border-radius: 4px;
+	background-color: grey;
+	color:white;
+	&:hover {
+		color:grey
+		background-color:white;
 		cursor:pointer;
 	}
 `

@@ -32,43 +32,4 @@ router.post('', (req, res) => {
     })
 })
 
-
-
-
-
-// router.post("", (req, res) => {
-
-//   const {email} = req.body
-
-//   db('users')
-//     .where({email})
-//     .update({isPremium: true})
-//     .then(res => {
-//       console.log(res)
-//       let amount = 1000 // --> $10.00
-//       stripe.customers
-//       .create({
-//         email: req.body.email,
-//         card: req.body.id,
-//         source: "tok_visa",
-//       })
-//       .then(customer =>
-//         stripe.charges.create({ // --> Create a charge with usd
-//         amount,
-//         description: "Premium Membership Charge",
-//         currency: "usd",
-//         customer: customer.id,
-//       })
-//       .then(charge => res.send(charge))
-//       .catch(error => { // the catch for error with stripe
-//         console.log(error)
-//       })
-//     )
-    
-//     .catch(err => { // the catch for error with finding user
-//       console.log(err)
-//     })
-//   })
-// })
-
 module.exports = router;
