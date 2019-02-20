@@ -34,7 +34,7 @@ export const fetchFavorites = id => {
   return dispatch => {
     dispatch({ type: FAVORITES_FETCH_START });
     axios
-      .get(`https://production-taco.herokuapp.com/favorites/${id}`)
+      .get(`http://localhost:5555/favorites/${id}`)
       .then(res => {
         dispatch({ type: FAVORITES_FETCH_COMPLETE, payload: res.data });
       })

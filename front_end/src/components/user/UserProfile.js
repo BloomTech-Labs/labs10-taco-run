@@ -13,6 +13,7 @@ import {
   searchUsers
 } from "../../store/actions/userActions";
 import { Link } from "react-router-dom";
+import { Dropdown } from "semantic-ui-react";
 import "./UserProfile.css";
 
 class UserProfile extends React.Component {
@@ -101,7 +102,9 @@ class UserProfile extends React.Component {
     return (
       <div className="profile">
         <Nav />
-        <Link to='/user-settings'><p>edit profile</p></Link>
+        <Link to="/user-settings">
+          <p>edit profile</p>
+        </Link>
         <div className="profile-details">
           <h1>{this.props.user.name}</h1>
           <h3>Tacos Per Month: 1000</h3>
@@ -115,15 +118,28 @@ class UserProfile extends React.Component {
         <div className="profile-search-friends">
           {/* Form for Search Results */}
           {this.state.favoritesFlag === true ? (
-            <form onSubmit={this.handleSubmit}>
-              <input
-                type="search"
-                placeholder="Add a new favorite"
-                value={this.state.search}
-                name="search"
-                onChange={this.handleChange}
-              />
-            </form>
+            <div>
+              <form onSubmit={this.handleSubmit}>
+                <input
+                  type="search"
+                  placeholder="Add a new favorite"
+                  value={this.state.search}
+                  name="search"
+                  onChange={this.handleChange}
+                />
+              </form>
+              <select>
+                {this.props.favorites.map(favorite => {
+                  if (favorite !== undefined) {
+                    return (
+                      <option className={`location-${favorite.location}`}>
+                        {favorite.location}
+                      </option>
+                    );
+                  }
+                })}
+              </select>
+            </div>
           ) : (
             <form onSubmit={this.handleSubmit}>
               <input
@@ -211,7 +227,7 @@ class UserProfile extends React.Component {
             {this.props.favorites.map(favorite => {
               return (
                 // <Link to={`/locations/${location.name}`}>
-                <div className="resultsDisplay">
+                <div className={`resultsDisplay ${favorite.location}`}>
                   <div className="location-picture">
                     {/* <img /> */}
                     <h3>{favorite.name}</h3>
