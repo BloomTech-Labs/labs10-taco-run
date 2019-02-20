@@ -14,13 +14,14 @@ import Events from "./components/events/EventDashboard/Events";
 import SingleEvent from "./components/events/SingleEvent";
 import UserProfile from "./components/user/UserProfile";
 import Users from "./components/users/Users.js";
-import CreateEvent from './components/events/CreateEvent.js';
+import EventList from './components/events2/EventList';
+import CreateEvent from './components/events2/CreateEvent';
+import EventSingle from './components/events2/EventSingle';
 
 class App extends Component {
   render() {
     return (
       <div>
-
       		{this.props.auth.isEmpty? (
       			<Switch>
               <Route exact path = '/' component={LandingPage} />
@@ -29,13 +30,15 @@ class App extends Component {
       			</Switch>
       		) : 
       		<div>
-      			<Switch>							
-		      		<Route exact path = '/events' component={Events} />
+      			<Switch>
+		      		<Route exact path = '/events' component={EventList} />
+              <Route exact path = '/events_create' component={CreateEvent} />
+              <Route path = '/events/:id' component={EventSingle} />
+
 							<Route exact path = '/user-settings' component = {UserSettings} />
 							<Route exact path = '/get-started' component = {GetStarted} />
-							<Route exact path = '/single-event' component = {SingleEvent} />
 							<Route exact path = '/user-profile' component = {UserProfile} />	
-              <Route exact path = '/create-event' component = {CreateEvent} />
+ 
               <Route exact path = '/users' component = {Users} />			
 		      		<Route component={NoPage}/>
 		      	</Switch>

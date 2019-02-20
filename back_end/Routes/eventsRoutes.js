@@ -9,19 +9,18 @@ const db = require("../config.js")
 //post http://localhost:5555/events
 //-------------------------------------------
 router.post('', (req, res) => {
-	const {name, location, date, user_id } = req.body;
+	const {name, date, location, venue, author, user_id } = req.body;
 
 	/* first we check to see if the event already exists*/
-
 	db('events')
 	.where({name})
 	.then(check => {
 		//if it does not already exist we can create it
 		if (check.length === 0){
-			db.insert({name, location, date }).into('events')
+			db.insert({name, date, location, venue, author, user_id }).into('events')
 			.then(() => {
 				db('events')
-				.where({name, location, date })
+				.where({name, date, location, venue, author, user_id })
 				.then(r1 => { //extra work around to get the id of the event to pass to the many to many join table
 					id = r1[0].id
 					let obj = {user_id, event_id: id}
