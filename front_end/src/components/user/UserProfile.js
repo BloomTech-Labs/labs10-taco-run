@@ -19,13 +19,16 @@ import "./UserProfile.css";
 class UserProfile extends React.Component {
   state = {
     search: "",
-    favoritesFlag: true
+    favoritesFlag: true,
+    value: "All"
   };
 
-  handleChange = e => {
+  handleSelect = e => {
+    e.preventDefault();
     this.setState({
-      [e.target.name]: e.target.value
+      value: e.target.value
     });
+    console.log(e.target.value, this.state.value);
   };
 
   handleSubmit = e => {
@@ -128,11 +131,21 @@ class UserProfile extends React.Component {
                   onChange={this.handleChange}
                 />
               </form>
-              <select>
+              <select
+                className="locationSelect"
+                value={this.state.value}
+                onChange={this.handleSelect}
+              >
+                <option className={`location-default`} value="All">
+                  All
+                </option>
                 {this.props.favorites.map(favorite => {
                   if (favorite !== undefined) {
                     return (
-                      <option className={`location-${favorite.location}`}>
+                      <option
+                        className={`location-${favorite.location}`}
+                        value={`${favorite.location}`}
+                      >
                         {favorite.location}
                       </option>
                     );
