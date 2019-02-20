@@ -5,9 +5,9 @@ import {
   EVENT_DELETE_START,
   EVENT_DELETE_COMPLETE,
   EVENT_DELETE_ERROR,
-  EVENTS_UPDATE_START,
-  EVENTS_UPDATE_COMPLETE,
-  EVENTS_UPDATE_ERROR,
+  EVENT_UPDATE_START,
+  EVENT_UPDATE_COMPLETE,
+  EVENT_UPDATE_ERROR,
   EVENTS_GET_START,
   EVENTS_GET_COMPLETE,
   EVENTS_GET_ERROR,
@@ -45,7 +45,6 @@ const eventsReducer = (state = initialState, action) => {
         fetchingEvent: true,
         fetchedEvent: false
       };
-
     case EVENTS_GET_COMPLETE:
       return {
         ...state,
@@ -54,7 +53,6 @@ const eventsReducer = (state = initialState, action) => {
         fetchedEvents: true,
         error: null,
       };
-
       case EVENT_GET_COMPLETE:
       return {
         ...state,
@@ -63,41 +61,34 @@ const eventsReducer = (state = initialState, action) => {
         fetchedEvent: true,
         error: null,
       };
-
     case EVENTS_GET_ERROR:
       return {
         ...state,
         error: "Error fetching events"
       };
-
       case EVENT_GET_ERROR:
       return {
         ...state,
         error: "Error fetching this event"
       };
-
     case EVENT_DELETE_START:
       return {
         ...state,
         deletingEvent: true
       };
-
-
     case EVENT_DELETE_COMPLETE:
       return {
         ...state,
-        events: state.events.filter( each => each["id"] !== action.payload["id"]),
+        // events: state.events.filter( each => each["id"] !== action.payload["id"]),
         deletingEvent: false,
         deletedEvent: true,
         error: null,
       };
-
     case EVENT_DELETE_ERROR:
       return {
         ...state,
         error: "Error deleting events"
       };
-
       case EVENTS_CREATE_START:
         return {
           ...state,
@@ -108,11 +99,11 @@ const eventsReducer = (state = initialState, action) => {
       case EVENTS_CREATE_COMPLETE:
         return {
           ...state,
-          events: state.events.map( eachEvent => (
-            eachEvent._id === action.payload.eachEvent._id ?
-            action.payload.eachEvent :
-            eachEvent
-          )),
+          // events: state.events.map( eachEvent => (
+          //   eachEvent._id === action.payload.eachEvent._id ?
+          //   action.payload.eachEvent :
+          //   eachEvent
+          // )),
           creatingEvent: false,
           createdEvent: true,
           error: null,
@@ -125,28 +116,28 @@ const eventsReducer = (state = initialState, action) => {
           error: "Error deleting events"
         };
 
-      case EVENTS_UPDATE_START:
+      case EVENT_UPDATE_START:
       return {
         ...state,
         events: action.payload,
         updatingEvents: true,
-        // updatedEvents: false
+        updatedEvents: false
       };
 
-      case EVENTS_UPDATE_COMPLETE:
+      case EVENT_UPDATE_COMPLETE:
       return {
         ...state,
-        events: state.events.map( eachOne => (
-          eachOne.id === action.payload.eachOne.id ?
-          action.payload.eachOne :
-          eachOne
-        )),
+        // events: state.events.map( eachOne => (
+        //   eachOne.id === action.payload.eachOne.id ?
+        //   action.payload.eachOne :
+        //   eachOne
+        // )),
         updatingEvents: false,
         updatedEvents: true,
         error: null,
       };
 
-      case EVENTS_UPDATE_ERROR:
+      case EVENT_UPDATE_ERROR:
         return {
           ...state,
           error: "Error updating Events"

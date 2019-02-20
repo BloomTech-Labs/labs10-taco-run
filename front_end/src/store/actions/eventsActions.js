@@ -20,12 +20,12 @@ export const EVENTS_CREATE_START = "EVENTS_CREATE_START";
 export const EVENTS_CREATE_COMPLETE = "EVENTS_CREATE_COMPLETE";
 export const EVENTS_CREATE_ERROR = "EVENTS_CREATE_ERROR";
 
-BASE_URL='https://production-taco.herokuapp.com';
+const BASE_URL = 'https://production-taco.herokuapp.com';
 
 export const getEvents = () => dispatch => {
   dispatch({types:EVENTS_GET_START});
   axios
-    .get(`https://production-taco.herokuapp.com/event/${event}`)
+    .get(`https://production-taco.herokuapp.com/event`)
     .then( res => {
       dispatch({type: EVENTS_GET_COMPLETE, payload: res.data
       })
@@ -36,7 +36,7 @@ export const getEvents = () => dispatch => {
     })
 }
 
-export const getEvent= (id) => dispatch => {
+export const getEvent = (id) => dispatch => {
   dispatch({ type: EVENT_GET_START });
 
   axios
@@ -80,7 +80,7 @@ export const deleteEvent = event => {
 
 export const updateEvent = event => {
   return dispatch =>  {
-    dispatch => ({type: UPDATE_EVENT_START});
+    dispatch({type: EVENT_UPDATE_START});
     axios
       .put(`https://production-taco.herokuapp.com/event/${event}`)
       .then(res => {
