@@ -168,7 +168,8 @@ class UserProfile extends React.Component {
                       /> */}
                           </div>
                           <div className="result-name">
-                            <h3>{result.name}</h3>
+                            <h5>{result.name}</h5>
+                            <p>{result.location}</p>
                           </div>
                         </div>
                       </Link>
@@ -231,7 +232,7 @@ class UserProfile extends React.Component {
                   <div className="location-picture">
                     {/* <img /> */}
                     <h3>{favorite.name}</h3>
-                    <h6>{favorite.location}</h6>
+                    <p>{favorite.location}</p>
                   </div>
                 </div>
                 // </Link>
