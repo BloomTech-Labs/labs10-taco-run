@@ -32,8 +32,16 @@ class CreateEvent extends React.Component {
 	// extra in case you need to reference
 
 	handleChange = event => {
- 	   this.setState({[event.target.name]: event.target.value})
- 	 }
+		event.preventDefault();
+// --> Destructure name and value to reduce code clutter
+		const { name, value } = event.target;
+		this.setState({
+			event: {
+				...this.state.event,
+				[name]: value
+			}
+		});
+ 	};
 
 
 
