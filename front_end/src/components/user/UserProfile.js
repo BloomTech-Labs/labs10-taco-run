@@ -255,9 +255,21 @@ class UserProfile extends React.Component {
             </div>
           ) : (
             <div id="Favorites" className="tabcontent">
-              {this.props.favorites.filter(favorite => {
-                return favorite.location === this.state.value;
-              })}
+              {this.props.favorites
+                .filter(favorite => favorite.location === this.state.value)
+                .map(favorite => {
+                  return (
+                    // <Link to={`/locations/${location.name}`}>
+                    <div className={`resultsDisplay ${favorite.location}`}>
+                      <div className="location-picture">
+                        {/* <img /> */}
+                        <h3>{favorite.name}</h3>
+                        <p>{favorite.location}</p>
+                      </div>
+                    </div>
+                    // </Link>
+                  );
+                })}
             </div>
           )}
 
