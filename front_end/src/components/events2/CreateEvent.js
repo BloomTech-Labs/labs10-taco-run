@@ -24,15 +24,17 @@ class CreateEvent extends React.Component {
 // --> Get the user_id from localStorage
 		this.setState({
 			event: {
-				user_id: localStorage.getItem("user_id")
+				user_id: parseInt(localStorage.getItem("user_id"), 10)
 			}
-		});		
+		});
+		console.log(this.state.event);
 	};	
 
 	handleChange = event => {
 		event.preventDefault();
 // --> Destructure name and value to reduce code clutter
 		const { name, value } = event.target;
+		console.log(`${[name]}: ${value}`)
 		this.setState({
 			event: {
 				...this.state.event,
@@ -44,7 +46,8 @@ class CreateEvent extends React.Component {
 	handleSubmit = event => {
 		event.preventDefault();
 // --> Use the createEvent() from actions & pass in the event object as param
-		this.props.createEvent(this.state.event);
+		console.log(this.state.event);		
+		this.props.createEvent(this.state.event);		
 		this.props.history.push("/events"); // --> redirect to dashboard
 	};
 
