@@ -50,12 +50,13 @@ export const getEvent = (id) => dispatch => {
     })
 }
 
-export const createEvent = () => {
+export const createEvent = (event) => {
   return dispatch => {
     dispatch({ type: EVENTS_CREATE_START });
     axios
-      .post(`https://production-taco.herokuapp.com/events`)
-      .then(res => {
+      .post(`https://production-taco.herokuapp.com/events`, event)
+      .then(res => {       
+        alert("event successfully made!");
         dispatch({ type: EVENTS_CREATE_COMPLETE, payload: res.data });
       })
       .catch(err => {
