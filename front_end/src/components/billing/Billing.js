@@ -1,8 +1,3 @@
-/*
-  - This is the stripe feature
-  - $10/yr :D
-  - This will be loaded into the UserSettings component
-*/
 import React from 'react';
 import StripeCheckout from "react-stripe-checkout";
 import axios from "axios";
@@ -12,15 +7,40 @@ class Billing extends React.Component {
     super();
     this.state = {
       usersEmail: '',
-      isPrem: ''
+      isPrem: '',
+      error: '',
+      loading: true
     };
   }
 
-  onToken = token => {
-    axios.post()
-      .then(response => alert(response.data.outcome.seller_message))
-      .catch(err => console.log(err));
-  };
+  onToken = (token) => {
+    console.log(token);
+    fetch('https://production-taco.herokuapp.com/payments', {
+      method: 'POST',
+      body: JSON.stringify(token),
+    }).then(response => {
+
+      /*
+        if we are successful we update the users profile to be a preimum account
+        which requires a put clal to users/prem
+      */
+
+      response.json().then(data => {
+        alert(`Thank you for your purchase!`);
+        let id = localStorage.getItem("user_id")
+        let upgrade = {isPremium: true}
+        axios.put(`https://production-taco.herokuapp.com/users/${id}/prem`, upgrade)
+        .then(res => {
+          this.setState({ //then we set state to isPrem to change the value of the turn in the browser
+            isPrem: true
+          })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      });
+    });
+  }
 
   componentDidMount(){
     let id = localStorage.getItem("user_id")
@@ -29,35 +49,47 @@ class Billing extends React.Component {
       console.log(response)
       this.setState({
         usersEmail: response.data.email,
-        isPrem: response.data.isPremium
+        isPrem: response.data.isPremium,
+        loading: false
       })
     })
   }
+
+  /* 
+    made a nested turn, wheres whats going on
+    turn 1: loading as default then shows info
+    turn 2: shows either primium account or option to pay for it
+  */
 
   render() {
     console.log(this.state)
     return (
       <div>
-
-      {this.state.isPrem ? (
-          <p>all paid for the year enjoy</p>
-      ) : 
-
-        <div className = "stripe-checkout-wrapper">
-          <h1>Upgrade Account here</h1>
-          <p>
-            for only 10 dollars we can have your account upgraded
-            to invite over 10 people to a taco event
-          </p>
-          <StripeCheckout
-            email={this.state.usersEmail}
-          />      
+        {this.state.loading ? (
+          <p>Loading . . . </p>
+        ) : 
+        <div>
+        {this.state.isPrem ? (
+            <p>all paid for the year enjoy</p>
+        ) : 
+          <div className = "stripe-checkout-wrapper">
+            <h1>Upgrade Account here</h1>
+            <p>
+              for only 10 dollars we can have your account upgraded
+              to invite over 10 people to a taco event
+            </p>
+            <StripeCheckout
+              email={this.state.usersEmail}
+              stripeKey="pk_test_1vnAsV5hSHEMk2DhNgXO4eum"
+              token={this.onToken}
+            />      
+          </div>
+        }
         </div>
       }
       </div>
-
     );
-  }; // --> render() brace
-}; // --> class brace
+  }; 
+};
 
 export default Billing;
