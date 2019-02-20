@@ -16,11 +16,19 @@ exports.up = function(knex, Promise) {
 
       //location is the city
     tbl
-        .string('venue', 255)
-        .notNullable()
+      .string('venue', 255)
+      .notNullable()
 
     tbl
-      .string('hostedBy', 128)
+      .string('author', 128)
+      .notNullable()
+
+    tbl
+      .boolean('invite_only')
+      .defaultTo(false)
+
+    tbl
+      .integer('user_id')
       .notNullable()
 
   })
