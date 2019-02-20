@@ -34,7 +34,7 @@ export const fetchFavorites = id => {
   return dispatch => {
     dispatch({ type: FAVORITES_FETCH_START });
     axios
-      .get(`http://localhost:5555/favorites/${id}`)
+      .get(`https://production-taco.herokuapp.com/favorites/${id}`)
       .then(res => {
         dispatch({ type: FAVORITES_FETCH_COMPLETE, payload: res.data });
       })
@@ -62,7 +62,7 @@ export const searchUsers = term => {
   return dispatch => {
     dispatch({ type: USERS_SEARCH_START });
     axios
-      .get(`http://localhost:5555/users/search/${term}`)
+      .get(`https://production-taco.herokuapp.com/users/search/${term}`)
       .then(res => {
         dispatch({ type: USERS_SEARCH_COMPLETE, payload: res.data });
       })
