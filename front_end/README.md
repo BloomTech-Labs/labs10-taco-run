@@ -1,9 +1,6 @@
 # Labs10-Taco-Run
-Welcome to our Labs 10 project, Taco Run! Here at Taco Run, you can:
-  - Set up Taco-Meetups that friends, and future-friends can sign up for!
-  - Keep track of your `favorite` taco places!
-  - Keep track of and friends that you meet during your taco meetups!
-  - RSVP for upcoming Taco-Meetups that you look forward to!
+
+### Welcome to our Labs 10 project: Taco Run, an app made to eat tacos, and make friends along the way
 ---
 ## Why build an App Like this?
 - Across the globe, there are millions of tacos eaten per year, but nowhere to keep track of where those yummy, scrumptious, mouth-watering tacos came from! 
@@ -18,15 +15,29 @@ Welcome to our Labs 10 project, Taco Run! Here at Taco Run, you can:
 ---
 ## Technologies and Frameworks Used
 
-Components List:
-  - Get_Started
-  - 404 Page
-  - Login / Sign Up Page
-  - Billing Page
-  - Events / Events Dashboard Page
-  - Landing Page
-  - Navigation
-  - User Settings / User Profile Page 
+- react: 16.8.1,
+  - react-alert: 5.1.0,
+  - react-alert-template-basic: 1.0.0,
+  - react-dom: 16.8.1,
+  - react-phone-number-input: 2.3.5,
+  - react-redux: 6.0.0,
+  - react-redux-firebase: 2.2.6,
+  - react-router-dom: 4.3.1,
+  - react-scripts: 2.1.3,
+  - react-stripe-checkout: 2.6.3,
+  - react-select: 2.4.1,
+  - react-transition-group: 2.5.3,
+
+- axios: 0.18.0,
+- email-reminder: 0.1.4,
+- firebase: 5.8.2,
+- prop-types: 15.7.2,
+- reactjs-popup: 1.3.2,
+- redux: 4.0.1,
+  - redux-thunk: 2.3.0,
+- semantic-ui-css: 2.4.1,
+- semantic-ui-react: 0.85.0,
+- styled-components: 4.1.3
 ---
 
 **Get Started Page** built with:
@@ -59,6 +70,7 @@ Components List:
   - Axios
   - Semantic-ui-react 
   - React-router-dom
+  - Google Places API
 ---
 
 **Landing Page** built with:
@@ -78,5 +90,34 @@ Components List:
   - Axios
   - Styled Components
 
-> --END of Technologies and Frameworks Section--
+```       
+        --END of Technologies and Frameworks Section--
+```
+---
+## Features
+
+There are a number of features that come with Taco Run!
+
+**Create a taco-meetup**:
+  - Once made: this integrates with the Google Places API so you can see the exact location on a map!
+  - Create a discussion in the comment section of an event
+
+**Sign Up for Upcoming Events**:
+  - Using our seamless events dashboard, you are able to check out the upcoming events and sign up, or pass on it.
+
+**Add Friends**:
+  - This might not be Instagram or Facebook, but friends matter!
+  - Met some cool people at the latest taco run? Search them up and add them into your friends list, the only thing better than eating tacos, is eating tacos with friends
+
+**Keep Track of Your Go-To Spots**:
+  - The average person can have around 60-thousand to 80-thousand thoughts a day, and there's no way you'll remember that one taco spot that really got your mouth watering, so keep track of them in our app!
+  - Just like adding a friend, you can add a taco place that had your taste buds jumping for joy so you never forget where the place was
+
+**Premium Service**:
+  - Planning on gathering a big crowd for the next taco meetup? Upgrade your account to take your taco meetup, and turn it into a taco convention
+  - With a premium account you can host `HUGE` taco events
+  ```
+  "No Taco Lover Left Behind!"
+    - Team Taco Run
+  ```
 ---
