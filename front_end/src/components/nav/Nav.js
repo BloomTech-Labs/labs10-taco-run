@@ -46,7 +46,6 @@ class Nav extends React.Component {
 					<p onClick={this.started}>Home</p>
 					<p onClick={this.events}>Events</p>
 					<p onClick={this.profile}>Profile</p>
-					<p onClick={this.users}>Users</p>
 				</RightNav>
 			</MainNav>
 		)
