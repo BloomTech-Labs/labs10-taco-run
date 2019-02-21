@@ -3,32 +3,27 @@ import axios from 'axios';
 import Nav from '../nav/Nav.js';
 import { Card, FlexDiv, ViewEvent, DispayComments } from './eventlist_css.js'
 import { Link } from "react-router-dom";
+import { getEvents } from "../../store/actions/eventsActions";
+import { connect } from "react-redux";
 
 class EventList extends React.Component {
 	constructor(props){
 		super(props);
-		this.state = {
-			events: []
-		};
+		this.state = {};
 	}
 
 	componentDidMount(){
-		axios.get('https://production-taco.herokuapp.com/events')
-		.then(response => {
-			console.log(response)
-			this.setState({
-				events: response.data
-			})
-		})
+		this.props.getEvents()
 	}
 	
 	render() {
+		console.log(this.props.events)
 		return (
 			<div>
 				<Nav/>
 				<div>
 					<div>
-						{this.state.events.map(event => {
+						{this.props.events.map(event => {
 							return (
 								<FlexDiv key={event.id}>
 									<Card id={event.id}>
@@ -53,4 +48,10 @@ class EventList extends React.Component {
 	}
 }
 
-export default EventList;
+const mapStateToProps = state => {
+  return {
+    events: state.eventsReducer.events,
+  };
+};
+
+export default connect(mapStateToProps, {getEvents})(EventList);
