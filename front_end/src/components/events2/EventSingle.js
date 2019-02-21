@@ -3,8 +3,8 @@ import axios from "axios";
 import { connect } from "react-redux";
 import { getEvent } from "../../store/actions/eventsActions";
 import { getComments, makeComment, deleteComment } from "../../store/actions/commentsActions";
-import { Comment, FormComment, CommentSubmit } from './eventsingle_css.js'
-// import { isThisQuarter } from "date-fns";
+import { Comment, FormComment, CommentSubmit, DeleteBtn } from './eventsingle_css.js'
+import { If, Then, ElseIf, Else } from 'react-if-elseif-else-render';
 
 import { Container } from './eventsingle_css.js'
 import Nav from '../nav/Nav.js'
@@ -40,9 +40,13 @@ class EventSingle extends React.Component {
 
   commentDelete = (event) => {
     event.preventDefault()
-
-    //deleteComment
+    let ids = {comment_id: parseInt(event.target.id), event_id: parseInt(this.props.match.params.id)}
+    let obj = {comment_id: 11, event_id: 1}
+    this.props.deleteComment(obj)
   }
+
+    
+
 
 
   handleChange = event => {
@@ -50,6 +54,7 @@ class EventSingle extends React.Component {
   }
 
   render() {
+    console.log(this.props)
     return (
       <div>
         <Nav/>
@@ -81,11 +86,18 @@ class EventSingle extends React.Component {
               {this.props.comments.map(comment => {
                 if (comment !== undefined) {
                   return (
-                    <Comment>
-                      <h4> - {comment.posted_by}</h4>
-                      <h6>{comment.date}</h6>
-                      <h5>{comment.content}</h5>
-                    </Comment>
+                    <div>
+                      <If condition={this.props.user.name === comment.posted_by}>
+                        <Then>
+                          <DeleteBtn onClick={this.commentDelete} id={comment.id}>X</DeleteBtn>
+                        </Then>
+                      </If>
+                      <Comment key={comment.id}>
+                        <h4> - {comment.posted_by}</h4>
+                        <h6>{comment.date}</h6>
+                        <h5>{comment.content}</h5>
+                      </Comment>
+                    </div>
                   );
                 }
               })}
@@ -119,5 +131,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { getEvent, getComments, fetchUser, makeComment }
+  { getEvent, getComments, fetchUser, makeComment, deleteComment }
 )(EventSingle);

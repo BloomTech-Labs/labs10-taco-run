@@ -46,7 +46,7 @@ export const makeComment = comment => {
   }
 }
 
-export const deleteComment = (ids) => {
+export const deleteComment = ids => {
   return dispatch => {
     dispatch({type: DELETE_COMMENT_START })
     axios

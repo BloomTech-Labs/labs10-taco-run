@@ -35,6 +35,10 @@ export const CommentSubmit = styled.button`
 	}
 `
 
+export const DeleteBtn = styled.button`
+
+`
+
 
 
 
