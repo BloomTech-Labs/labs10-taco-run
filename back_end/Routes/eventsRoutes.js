@@ -98,7 +98,15 @@ router.get("/:id/comments", (req, res) => {
 	.join("comments", "events.id", "=", "comments.event_id")
 	.where("events.id", id)
 	.then(resp => {
-		return res.status(200).json(resp)
+		let ar = []
+
+		for (let i = 0; i < resp.length; i++){
+			ar.push({content: resp[i].content, date: resp[i].date, id: resp[i].id, posted_by: resp[i].posted_by})
+		}
+
+		let obj = {comments_info: ar}
+		return res.status(200).json(obj)
+
 	})
 	.catch(err => {
 		console.log(err)

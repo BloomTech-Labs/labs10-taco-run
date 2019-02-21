@@ -8,10 +8,10 @@ const db = require("../config.js")
 //create a new comment
 //-------------------------------------------
 router.post('', (req, res) => {
-	const {content, date, author, event_id } = req.body;
+	const {content, date, posted_by, event_id } = req.body;
 
 	//add comment to database
-	db.insert({content, date, author, event_id }).into('comments')
+	db.insert({content, date, posted_by, event_id }).into('comments')
 		.then(res1 => {
 			
 			//see the current comment count for event
