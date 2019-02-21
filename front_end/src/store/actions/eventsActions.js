@@ -23,7 +23,7 @@ export const EVENTS_CREATE_ERROR = "EVENTS_CREATE_ERROR";
 const BASE_URL = "https://production-taco.herokuapp.com";
 
 export const getEvents = () => dispatch => {
-  dispatch({ types: EVENTS_GET_START });
+  dispatch({ type: EVENTS_GET_START });
   axios
     .get(`https://production-taco.herokuapp.com/event`)
     .then(res => {
@@ -40,7 +40,6 @@ export const getEvent = id => dispatch => {
   axios
     .get(`${BASE_URL}/events/${id}`)
     .then(res => {
-      console.log(res);
       dispatch({ type: EVENT_GET_COMPLETE, payload: res.data });
     })
     .catch(err => {
