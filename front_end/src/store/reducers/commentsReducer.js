@@ -1,13 +1,17 @@
 import {
   COMMENTS_GET_START,
   COMMENTS_GET_COMPLETE,
-  COMMENTS_GET_ERROR
+  COMMENTS_GET_ERROR,
+  MAKE_COMMENT_START,
+  MAKE_COMMENT_COMPLETE,
+  MAKE_COMMENT_ERROR
 } from "../actions/commentsActions";
 
 const initialState = {
   comments: [],
   fetchingComments: false,
   fetchedComments: false,
+  makingComment: false,
   error: null
 };
 
@@ -34,6 +38,23 @@ const eventsReducer = (state = initialState, action) => {
         error: "Error fetching events"
       };
 
+    case MAKE_COMMENT_START:
+      return {
+        ...state,
+        makingComment: true,
+        error: null
+      }
+    case MAKE_COMMENT_COMPLETE:
+      return {
+        ...state,
+        makingComment: false,
+        comments: [...state.comments, action.payload]
+      }
+    case MAKE_COMMENT_ERROR:
+      return {
+        ...state,
+        error: "failed making comment"
+      }
     default:
       return state;
   }

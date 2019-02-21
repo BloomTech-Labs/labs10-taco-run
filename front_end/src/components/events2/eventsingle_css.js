@@ -21,3 +21,21 @@ export const FormComment = styled.form`
 		height: 80px;
 	}
 `
+
+export const CommentSubmit = styled.button`
+	border: solid black 1px;
+	padding: .5%;
+	margin-top: 10px;
+	border-radius: 4px;
+	background-color:grey;
+	color:white;
+	&:hover {
+		background-color:white;
+		color:grey;
+	}
+`
+
+
+
+
+

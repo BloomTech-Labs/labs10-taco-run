@@ -2,8 +2,8 @@ import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 import { getEvent } from "../../store/actions/eventsActions";
-import { getComments } from "../../store/actions/commentsActions";
-import { Comment, FormComment } from './eventsingle_css.js'
+import { getComments, makeComment } from "../../store/actions/commentsActions";
+import { Comment, FormComment, CommentSubmit } from './eventsingle_css.js'
 // import { isThisQuarter } from "date-fns";
 
 import { Container } from './eventsingle_css.js'
@@ -22,11 +22,9 @@ class EventSingle extends React.Component {
   }
 
   createComment = (event) => {
+    event.preventDefault()
 
     let today = new Date().toDateString();
-
-
-    event.preventDefault()
     let comment = {
       content: this.state.content,
       date: today,
@@ -34,7 +32,10 @@ class EventSingle extends React.Component {
       event_id: parseInt(this.props.match.params.id)
     }
     // const {content, date, posted_by, event_id } = req.body;
-    console.log(comment)
+    this.props.makeComment(comment)
+    this.setState({
+      content: '',
+    })
   }
 
 
@@ -93,6 +94,7 @@ class EventSingle extends React.Component {
               value={this.state.content}
             />
           </FormComment>
+          <CommentSubmit onClick={this.createComment}>Submit</CommentSubmit>
         </Container>
       </div>
     );
@@ -111,5 +113,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { getEvent, getComments, fetchUser }
+  { getEvent, getComments, fetchUser, makeComment }
 )(EventSingle);
