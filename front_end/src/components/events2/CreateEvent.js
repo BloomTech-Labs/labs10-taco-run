@@ -2,6 +2,16 @@ import React from "react";
 import { connect } from "react-redux";
 import { createEvent } from "../../store/actions/eventsActions";
 
+import Nav from "../nav/Nav.js";
+import { 
+	CreateEventWrapper, 
+	FormElement, 
+	LabelElement, 
+	InputElement,
+	FormHeader,
+	SubmitButton
+} from "./create_event_css.js";
+
 class CreateEvent extends React.Component {
 	constructor(props) {
 		super(props);
@@ -50,58 +60,67 @@ class CreateEvent extends React.Component {
 
 
 	render() {
-		return (
-			<div className = "create-event-wrapper">
-				<form onSubmit = {this.handleSubmit}>
+		return (	
+			<div className = "create-event-full-wrapper">
+				<div className = "navigation-wrapper">
+						<Nav />
+				</div>
+				<CreateEventWrapper>				
+					<FormElement onSubmit = {this.handleSubmit}>
+						<FormHeader>Create An Event</FormHeader>
 
-					<label for = "event-name">Event Name</label>
-					<input 
-						name = "name"
-						onChange = {this.handleChange}
-						value = {this.state.event.name}
-						type = "text"	
-						id = "event-name"					
-					/>
+						<LabelElement for = "event-name">Name</LabelElement>
+						<InputElement 
+							name = "name"
+							onChange = {this.handleChange}
+							value = {this.state.event.name}
+							type = "text"	
+							id = "event-name"	
+							placeholder = "Event Name *"				
+						/>
 
-					<label for = "event-date">Event Date</label>
-					<input 
-						name = "date"
-						onChange = {this.handleChange}
-						value = {this.state.event.date}
-						type = "date"	
-						id = "event-date"					
-					/>
+						<LabelElement for = "event-date">Event Date</LabelElement>
+						<InputElement 
+							name = "date"
+							onChange = {this.handleChange}
+							value = {this.state.event.date}
+							type = "date"	
+							id = "event-date"											
+						/>
 
-					<label for = "event-location">Event Location</label>
-					<input 
-						name = "location"
-						onChange = {this.handleChange}
-						value = {this.state.event.location}
-						type = "text"	
-						id = "event-location"					
-					/>
+						<LabelElement for = "event-location">Location</LabelElement>
+						<InputElement 
+							name = "location"
+							onChange = {this.handleChange}
+							value = {this.state.event.location}
+							type = "text"	
+							id = "event-location"	
+							placeholder = "Event Location *"				
+						/>
 
-					<label for = "event-venue">Venue / Building</label>
-					<input 
-						name = "venue"
-						onChange = {this.handleChange}
-						value = {this.state.event.venue}
-						type = "text"	
-						id = "event-venue"					
-					/>
+						<LabelElement for = "event-venue">Venue / Building</LabelElement>
+						<InputElement 
+							name = "venue"
+							onChange = {this.handleChange}
+							value = {this.state.event.venue}
+							type = "text"	
+							id = "event-venue"		
+							placeholder = "Event Venue *"			
+						/>
 
-					<label for = "event-author">Event Author</label>
-					<input 
-						name = "author"
-						onChange = {this.handleChange}
-						value = {this.state.event.author}
-						type = "text"	
-						id = "event-author"					
-					/>
+						<LabelElement for = "event-author">Event Author</LabelElement>
+						<InputElement 
+							name = "author"
+							onChange = {this.handleChange}
+							value = {this.state.event.author}
+							type = "text"	
+							id = "event-author"					
+						/>
 
-					<button type = "submit">Submit</button>
+						<SubmitButton type = "submit">Submit</SubmitButton>
 
-				</form>
+					</FormElement>
+				</CreateEventWrapper>
 			</div>
 		)
 	} // --> render() brace
