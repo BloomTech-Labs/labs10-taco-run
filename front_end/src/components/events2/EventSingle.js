@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 import { getEvent } from "../../store/actions/eventsActions";
-import { getComments, makeComment } from "../../store/actions/commentsActions";
+import { getComments, makeComment, deleteComment } from "../../store/actions/commentsActions";
 import { Comment, FormComment, CommentSubmit } from './eventsingle_css.js'
 // import { isThisQuarter } from "date-fns";
 
@@ -36,6 +36,12 @@ class EventSingle extends React.Component {
     this.setState({
       content: '',
     })
+  }
+
+  commentDelete = (event) => {
+    event.preventDefault()
+
+    //deleteComment
   }
 
 

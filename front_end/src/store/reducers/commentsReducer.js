@@ -4,7 +4,10 @@ import {
   COMMENTS_GET_ERROR,
   MAKE_COMMENT_START,
   MAKE_COMMENT_COMPLETE,
-  MAKE_COMMENT_ERROR
+  MAKE_COMMENT_ERROR,
+  DELETE_COMMENT_START,
+  DELETE_COMMENT_COMPLETE,
+  DELETE_COMMENT_ERROR
 } from "../actions/commentsActions";
 
 const initialState = {
@@ -12,6 +15,7 @@ const initialState = {
   fetchingComments: false,
   fetchedComments: false,
   makingComment: false,
+  deletingComment: false,
   error: null
 };
 
@@ -54,6 +58,25 @@ const eventsReducer = (state = initialState, action) => {
       return {
         ...state,
         error: "failed making comment"
+      }
+    case DELETE_COMMENT_START:
+      return {
+        ...state,
+        deletingComment: true,
+        error: null
+      }
+    case DELETE_COMMENT_COMPLETE:
+      return {
+        ...state,
+        deletingComment: false,
+        error: null,
+        comments: state.comments.filter(c => c !== action.payload)
+      }
+    case DELETE_COMMENT_ERROR:
+      return {
+        ...state,
+        deletingComment: false,
+        error: "error deleting comment"
       }
     default:
       return state;
