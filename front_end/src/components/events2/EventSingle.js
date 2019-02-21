@@ -2,9 +2,9 @@ import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 import { getEvent } from "../../store/actions/eventsActions";
-import { getComments, makeComment } from "../../store/actions/commentsActions";
-import { Comment, FormComment, CommentSubmit } from './eventsingle_css.js'
-// import { isThisQuarter } from "date-fns";
+import { getComments, makeComment, deleteComment } from "../../store/actions/commentsActions";
+import { Comment, FormComment, CommentSubmit, DeleteBtn, FlexDiv } from './eventsingle_css.js'
+import { If, Then, ElseIf, Else } from 'react-if-elseif-else-render';
 
 import { Container } from './eventsingle_css.js'
 import Nav from '../nav/Nav.js'
@@ -38,12 +38,20 @@ class EventSingle extends React.Component {
     })
   }
 
+  commentDelete = (event) => {
+    event.preventDefault()
+    let ids = {comment_id: parseInt(event.target.id), event_id: parseInt(this.props.match.params.id)}
+    let obj = { data: ids }
+    let cid = obj.data.comment_id
+    this.props.deleteComment(obj, cid)
+  }
 
   handleChange = event => {
     this.setState({[event.target.name]: event.target.value})
   }
 
   render() {
+    console.log(this.props)
     return (
       <div>
         <Nav/>
@@ -75,11 +83,18 @@ class EventSingle extends React.Component {
               {this.props.comments.map(comment => {
                 if (comment !== undefined) {
                   return (
-                    <Comment>
-                      <h4> - {comment.posted_by}</h4>
-                      <h6>{comment.date}</h6>
-                      <h5>{comment.content}</h5>
-                    </Comment>
+                    <FlexDiv>
+                      <If condition={this.props.user.name === comment.posted_by}>
+                        <Then>
+                          <DeleteBtn onClick={this.commentDelete} id={comment.id}>X</DeleteBtn>
+                        </Then>
+                      </If>
+                      <Comment key={comment.id}>
+                        <h4> - {comment.posted_by}</h4>
+                        <h6>{comment.date}</h6>
+                        <h5>{comment.content}</h5>
+                      </Comment>
+                    </FlexDiv>
                   );
                 }
               })}
@@ -113,5 +128,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { getEvent, getComments, fetchUser, makeComment }
+  { getEvent, getComments, fetchUser, makeComment, deleteComment }
 )(EventSingle);
