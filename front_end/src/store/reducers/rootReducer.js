@@ -3,6 +3,7 @@ import authReducer from "./authReducer";
 import userReducer from "./userReducer";
 import eventsReducer from "./eventsReducer";
 import commentsReducer from "./commentsReducer";
+import favoritesReducer from "./favoritesReducer";
 
 import { firebaseReducer } from "react-redux-firebase";
 
@@ -11,7 +12,8 @@ const rootReducer = combineReducers({
   firebase: firebaseReducer,
   userReducer,
   eventsReducer,
-  commentsReducer
+  commentsReducer,
+  favoritesReducer
 });
 
 export default rootReducer;
