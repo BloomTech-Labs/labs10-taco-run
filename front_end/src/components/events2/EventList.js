@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import Nav from '../nav/Nav.js';
-import { Card, FlexDiv, ViewEvent, DispayComments } from './eventlist_css.js'
+import { Card, FlexDiv, ViewEvent, DispayComments, CreateLink, ContainLink } from './eventlist_css.js'
 import { Link } from "react-router-dom";
 import { getEvents } from "../../store/actions/eventsActions";
 import { connect } from "react-redux";
@@ -17,11 +17,13 @@ class EventList extends React.Component {
 	}
 	
 	render() {
-		console.log(this.props.events)
 		return (
 			<div>
 				<Nav/>
 				<div>
+					<ContainLink>
+						<Link to="events_create"><CreateLink>Create Event</CreateLink></Link>
+					</ContainLink>
 					<div>
 						{this.props.events.map(event => {
 							return (
