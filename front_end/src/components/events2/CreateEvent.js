@@ -61,13 +61,14 @@ class CreateEvent extends React.Component {
 				<CreateEventWrapper>				
 					<FormElement onSubmit = {this.handleSubmit}>
 
-						<LabelElement for = "event-name">Event Name</LabelElement>
+						<LabelElement for = "event-name">Name</LabelElement>
 						<InputElement 
 							name = "name"
 							onChange = {this.handleChange}
 							value = {this.state.event.name}
 							type = "text"	
-							id = "event-name"					
+							id = "event-name"	
+							placeholder = "Event Name *"				
 						/>
 
 						<LabelElement for = "event-date">Event Date</LabelElement>
@@ -79,13 +80,14 @@ class CreateEvent extends React.Component {
 							id = "event-date"					
 						/>
 
-						<LabelElement for = "event-location">Event Location</LabelElement>
+						<LabelElement for = "event-location">Location</LabelElement>
 						<InputElement 
 							name = "location"
 							onChange = {this.handleChange}
 							value = {this.state.event.location}
 							type = "text"	
-							id = "event-location"					
+							id = "event-location"	
+							placeholder = "Event Location *"				
 						/>
 
 						<LabelElement for = "event-venue">Venue / Building</LabelElement>
@@ -94,7 +96,8 @@ class CreateEvent extends React.Component {
 							onChange = {this.handleChange}
 							value = {this.state.event.venue}
 							type = "text"	
-							id = "event-venue"					
+							id = "event-venue"		
+							placeholder = "Event Venue *"			
 						/>
 
 						<LabelElement for = "event-author">Event Author</LabelElement>

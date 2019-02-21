@@ -19,7 +19,7 @@ export const FormElement = styled.form`
   background-color: lightblue;
   padding: 2rem 5.6rem;
   border-radius: 10px;
-  width: 50%;
+  width: 50%;  
 `
 
 export const LabelElement = styled.label`
@@ -33,5 +33,5 @@ export const LabelElement = styled.label`
 export const InputElement = styled.input`
   width: 100%;
   border-radius: 6px;
-  padding: 5px 0;
+  padding: 5px 0;  
 `
