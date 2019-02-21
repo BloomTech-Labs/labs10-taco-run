@@ -7,7 +7,7 @@ exports.up = function(knex, Promise) {
       .notNullable()
 
     tbl
-      .string('author', 128)
+      .string('posted_by', 128)
       .notNullable()
 
     tbl

@@ -31,6 +31,14 @@ exports.up = function(knex, Promise) {
       .integer('user_id')
       .notNullable()
 
+    tbl
+      .integer('total_comments')
+      .defaultTo(0)
+
+    tbl
+      .integer('total_users')
+      .defaultTo(1)
+
   })
 };
 
