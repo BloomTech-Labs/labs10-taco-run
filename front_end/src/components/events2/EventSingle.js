@@ -2,17 +2,30 @@ import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 import { getEvent } from "../../store/actions/eventsActions";
-import { getComments, makeComment, deleteComment } from "../../store/actions/commentsActions";
-import { Comment, FormComment, CommentSubmit, DeleteBtn, FlexDiv } from './eventsingle_css.js'
-import { If, Then, ElseIf, Else } from 'react-if-elseif-else-render';
+import {
+  getComments,
+  makeComment,
+  deleteComment,
+  updateComment
+} from "../../store/actions/commentsActions";
+import {
+  Comment,
+  FormComment,
+  CommentSubmit,
+  DeleteBtn,
+  FlexDiv
+} from "./eventsingle_css.js";
+import { If, Then, ElseIf, Else } from "react-if-elseif-else-render";
 
-import { Container } from './eventsingle_css.js'
-import Nav from '../nav/Nav.js'
+import { Container } from "./eventsingle_css.js";
+import Nav from "../nav/Nav.js";
 import { fetchUser } from "../../store/actions/userActions";
+import Popup from "reactjs-popup";
 
 class EventSingle extends React.Component {
   state = {
-    content: '',
+    content: "",
+    editComment: ""
   };
 
   componentDidMount() {
@@ -21,8 +34,8 @@ class EventSingle extends React.Component {
     this.props.fetchUser(localStorage.getItem("user_id"));
   }
 
-  createComment = (event) => {
-    event.preventDefault()
+  createComment = event => {
+    event.preventDefault();
 
     let today = new Date().toDateString();
     let comment = {
@@ -30,39 +43,65 @@ class EventSingle extends React.Component {
       date: today,
       posted_by: this.props.user.name,
       event_id: parseInt(this.props.match.params.id)
-    }
+    };
     // const {content, date, posted_by, event_id } = req.body;
-    this.props.makeComment(comment)
+    this.props.makeComment(comment);
     this.setState({
-      content: '',
-    })
-  }
+      content: ""
+    });
+  };
 
-  commentDelete = (event) => {
-    event.preventDefault()
-    let ids = {comment_id: parseInt(event.target.id), event_id: parseInt(this.props.match.params.id)}
-    let obj = { data: ids }
-    let cid = obj.data.comment_id
-    this.props.deleteComment(obj, cid)
-  }
+  commentUpdate = event => {
+    event.preventDefault();
+    let comment = {
+      id: parseInt(event.target.id),
+      event_id: parseInt(this.props.match.params.id),
+      posted_by: this.props.user.name,
+      content: this.state.editComment
+    };
+    // const {content, date, posted_by, event_id } = req.body;
+    this.props.updateComment(comment);
+    this.setState({
+      editComment: ""
+    });
+  };
+
+  commentDelete = event => {
+    event.preventDefault();
+    let ids = {
+      comment_id: parseInt(event.target.id),
+      event_id: parseInt(this.props.match.params.id)
+    };
+    let obj = { data: ids };
+    let cid = obj.data.comment_id;
+    this.props.deleteComment(obj, cid);
+  };
 
   handleChange = event => {
-    this.setState({[event.target.name]: event.target.value})
-  }
+    this.setState({ [event.target.name]: event.target.value });
+  };
+
+  handleEdit = event => {
+    this.setState({ editComment: event.target.value });
+  };
 
   render() {
-    console.log(this.props)
+    console.log(this.props);
     return (
       <div>
-        <Nav/>
+        <Nav />
         <Container>
           <div className="event-single">
             <div className="event-details">
               <h1 className="event-detail-title">{this.props.event.venue}</h1>
-              <h2 className="event-detail-date">Date: {this.props.event.date}</h2>
+              <h2 className="event-detail-date">
+                Date: {this.props.event.date}
+              </h2>
               <div className="event-detail-location">
                 <img className="location-image" />
-                <h3 className="location-details">{this.props.event.location}</h3>
+                <h3 className="location-details">
+                  {this.props.event.location}
+                </h3>
                 <div className="location-google" />
               </div>
             </div>
@@ -84,9 +123,36 @@ class EventSingle extends React.Component {
                 if (comment !== undefined) {
                   return (
                     <FlexDiv>
-                      <If condition={this.props.user.name === comment.posted_by}>
+                      <If
+                        condition={this.props.user.name === comment.posted_by}
+                      >
                         <Then>
-                          <DeleteBtn onClick={this.commentDelete} id={comment.id}>X</DeleteBtn>
+                          <DeleteBtn
+                            onClick={this.commentDelete}
+                            id={comment.id}
+                          >
+                            X
+                          </DeleteBtn>
+                          <Popup
+                            trigger={<button>Edit Comment</button>}
+                            position="right center"
+                          >
+                            <FormComment onSubmit={this.commentUpdate}>
+                              <textarea
+                                type="text"
+                                placeholder={"Add a comment or upload image"}
+                                onChange={this.handleEdit}
+                                name="content"
+                                value={this.state.editComment}
+                              />
+                            </FormComment>
+                            <CommentSubmit
+                              onClick={this.commentUpdate}
+                              id={comment.id}
+                            >
+                              Edit
+                            </CommentSubmit>
+                          </Popup>
                         </Then>
                       </If>
                       <Comment key={comment.id}>
@@ -103,7 +169,7 @@ class EventSingle extends React.Component {
           <FormComment onSubmit={this.createComment}>
             <textarea
               type="text"
-              placeholder='Add a comment or upload image'
+              placeholder="Add a comment or upload image"
               onChange={this.handleChange}
               name="content"
               value={this.state.content}
@@ -128,5 +194,12 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { getEvent, getComments, fetchUser, makeComment, deleteComment }
+  {
+    getEvent,
+    getComments,
+    fetchUser,
+    makeComment,
+    deleteComment,
+    updateComment
+  }
 )(EventSingle);
