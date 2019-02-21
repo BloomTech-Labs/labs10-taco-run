@@ -71,7 +71,8 @@ const eventsReducer = (state = initialState, action) => {
     case UPDATE_COMMENT_COMPLETE:
       return {
         ...state,
-        updatingComment: false
+        updatingComment: false,
+        comments: action.payload
       };
     case UPDATE_COMMENT_ERROR:
       return {

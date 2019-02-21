@@ -22,12 +22,14 @@ export const getComments = id => {
     axios
       .get(`https://production-taco.herokuapp.com/events/${id}/comments`)
       .then(res => {
+        console.log(res.data);
         dispatch({
           type: COMMENTS_GET_COMPLETE,
           payload: res.data.comments_info
         });
       })
       .catch(err => {
+        console.log("getComments", err);
         dispatch({ type: COMMENTS_GET_ERROR, payload: err });
       });
   };
@@ -46,47 +48,54 @@ export const makeComment = comment => {
         });
       })
       .catch(err => {
-        console.log(err);
         dispatch({ type: MAKE_COMMENT_ERROR, payload: err });
       });
   };
 };
 
-export const updateComment = (ids, cid) => {
+export const updateComment = changes => {
   return dispatch => {
     dispatch({ type: UPDATE_COMMENT_START });
+    axios
+      .put(`https://production-taco.herokuapp.com/comments`, changes)
+      .then(res => {
+        console.log(res.config);
+        axios
+          .get(
+            `https://production-taco.herokuapp.com/events/${
+              changes.event_id
+            }/comments`
+          )
+          .then(res => {
+            dispatch({
+              type: UPDATE_COMMENT_COMPLETE,
+              payload: res.data.comments_info
+            });
+          });
+      })
+      .catch(err => {
+        console.log(err);
+        dispatch({ type: UPDATE_COMMENT_ERROR, payload: err });
+      });
+  };
+};
+
+export const deleteComment = (ids, cid) => {
+  return dispatch => {
+    dispatch({ type: DELETE_COMMENT_START });
     axios
       .delete(`https://production-taco.herokuapp.com/comments`, ids)
       .then(res => {
         console.log(res);
         dispatch({
-          type: UPDATE_COMMENT_COMPLETE,
+          type: DELETE_COMMENT_COMPLETE,
           payload: res.data,
           id: cid
         });
       })
       .catch(err => {
         console.log(err);
-        dispatch({ type: UPDATE_COMMENT_ERROR, payload: err });
-      });
-  };
-};
-
-export const deleteComment = changes => {
-  return dispatch => {
-    dispatch({ type: UPDATE_COMMENT_START });
-    axios
-      .put(`http://localhost:5555/comments`, { changes })
-      .then(res => {
-        console.log(res);
-        dispatch({
-          type: UPDATE_COMMENT_COMPLETE,
-          payload: res.data
-        });
-      })
-      .catch(err => {
-        console.log(err);
-        dispatch({ type: UPDATE_COMMENT_ERROR, payload: err });
+        dispatch({ type: DELETE_COMMENT_ERROR, payload: err });
       });
   };
 };
