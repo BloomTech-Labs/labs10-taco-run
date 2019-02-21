@@ -70,7 +70,7 @@ const eventsReducer = (state = initialState, action) => {
         ...state,
         deletingComment: false,
         error: null,
-        comments: state.comments.filter(c => c !== action.payload)
+        comments: state.comments.filter(c => c.id !== action.id)
       }
     case DELETE_COMMENT_ERROR:
       return {

@@ -46,7 +46,7 @@ export const makeComment = comment => {
   }
 }
 
-export const deleteComment = ids => {
+export const deleteComment = (ids, cid) => {
   return dispatch => {
     dispatch({type: DELETE_COMMENT_START })
     axios
@@ -55,7 +55,8 @@ export const deleteComment = ids => {
         console.log(res)
         dispatch({
           type: DELETE_COMMENT_COMPLETE,
-          payload: res.data
+          payload: res.data,
+          id: cid,
         })
       })
       .catch(err => {

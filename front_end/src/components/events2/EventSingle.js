@@ -3,7 +3,7 @@ import axios from "axios";
 import { connect } from "react-redux";
 import { getEvent } from "../../store/actions/eventsActions";
 import { getComments, makeComment, deleteComment } from "../../store/actions/commentsActions";
-import { Comment, FormComment, CommentSubmit, DeleteBtn } from './eventsingle_css.js'
+import { Comment, FormComment, CommentSubmit, DeleteBtn, FlexDiv } from './eventsingle_css.js'
 import { If, Then, ElseIf, Else } from 'react-if-elseif-else-render';
 
 import { Container } from './eventsingle_css.js'
@@ -41,13 +41,10 @@ class EventSingle extends React.Component {
   commentDelete = (event) => {
     event.preventDefault()
     let ids = {comment_id: parseInt(event.target.id), event_id: parseInt(this.props.match.params.id)}
-    let obj = {comment_id: 11, event_id: 1}
-    this.props.deleteComment(obj)
+    let obj = { data: ids }
+    let cid = obj.data.comment_id
+    this.props.deleteComment(obj, cid)
   }
-
-    
-
-
 
   handleChange = event => {
     this.setState({[event.target.name]: event.target.value})
@@ -86,7 +83,7 @@ class EventSingle extends React.Component {
               {this.props.comments.map(comment => {
                 if (comment !== undefined) {
                   return (
-                    <div>
+                    <FlexDiv>
                       <If condition={this.props.user.name === comment.posted_by}>
                         <Then>
                           <DeleteBtn onClick={this.commentDelete} id={comment.id}>X</DeleteBtn>
@@ -97,7 +94,7 @@ class EventSingle extends React.Component {
                         <h6>{comment.date}</h6>
                         <h5>{comment.content}</h5>
                       </Comment>
-                    </div>
+                    </FlexDiv>
                   );
                 }
               })}

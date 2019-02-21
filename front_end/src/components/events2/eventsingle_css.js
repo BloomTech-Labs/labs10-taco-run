@@ -12,6 +12,7 @@ export const Comment = styled.div`
 	border: solid black 1px;
 	padding: 1%;
 	margin: 10px 0;
+	width: 100%;
 `
 
 export const FormComment = styled.form`
@@ -36,7 +37,21 @@ export const CommentSubmit = styled.button`
 `
 
 export const DeleteBtn = styled.button`
+	border: solid black 1px;
+	width: 20px;
+	height: 100%;
+	margin-top: 10px;
+	background-color: grey;
+	color: white
+	&:hover {
+		background-color: white;
+		color: grey;
+	}
+	margin-right: 1%;
+`
 
+export const FlexDiv = styled.div`
+	display:flex;
 `
 
 
