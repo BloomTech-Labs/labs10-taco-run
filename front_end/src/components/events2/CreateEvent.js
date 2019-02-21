@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { createEvent } from "../../store/actions/eventsActions";
 
 import Nav from "../nav/Nav.js";
-import { CreateEventWrapper, FormElement } from "./create_event_css.js";
+import { CreateEventWrapper, FormElement, LabelElement, InputElement } from "./create_event_css.js";
 
 class CreateEvent extends React.Component {
 	constructor(props) {
@@ -61,8 +61,8 @@ class CreateEvent extends React.Component {
 				<CreateEventWrapper>				
 					<FormElement onSubmit = {this.handleSubmit}>
 
-						<label for = "event-name">Event Name</label>
-						<input 
+						<LabelElement for = "event-name">Event Name</LabelElement>
+						<InputElement 
 							name = "name"
 							onChange = {this.handleChange}
 							value = {this.state.event.name}
@@ -70,8 +70,8 @@ class CreateEvent extends React.Component {
 							id = "event-name"					
 						/>
 
-						<label for = "event-date">Event Date</label>
-						<input 
+						<LabelElement for = "event-date">Event Date</LabelElement>
+						<InputElement 
 							name = "date"
 							onChange = {this.handleChange}
 							value = {this.state.event.date}
@@ -79,8 +79,8 @@ class CreateEvent extends React.Component {
 							id = "event-date"					
 						/>
 
-						<label for = "event-location">Event Location</label>
-						<input 
+						<LabelElement for = "event-location">Event Location</LabelElement>
+						<InputElement 
 							name = "location"
 							onChange = {this.handleChange}
 							value = {this.state.event.location}
@@ -88,8 +88,8 @@ class CreateEvent extends React.Component {
 							id = "event-location"					
 						/>
 
-						<label for = "event-venue">Venue / Building</label>
-						<input 
+						<LabelElement for = "event-venue">Venue / Building</LabelElement>
+						<InputElement 
 							name = "venue"
 							onChange = {this.handleChange}
 							value = {this.state.event.venue}
@@ -97,8 +97,8 @@ class CreateEvent extends React.Component {
 							id = "event-venue"					
 						/>
 
-						<label for = "event-author">Event Author</label>
-						<input 
+						<LabelElement for = "event-author">Event Author</LabelElement>
+						<InputElement 
 							name = "author"
 							onChange = {this.handleChange}
 							value = {this.state.event.author}
