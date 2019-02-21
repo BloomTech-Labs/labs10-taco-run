@@ -22,6 +22,10 @@ export const FormElement = styled.form`
   width: 50%;  
 `
 
+export const FormHeader = styled.h1`
+  font-family: 'Roboto', sans-serif;
+`
+
 export const LabelElement = styled.label`
   font-family: 'Roboto', sans-serif;
   font-size: 1.1rem;
@@ -33,5 +37,23 @@ export const LabelElement = styled.label`
 export const InputElement = styled.input`
   width: 100%;
   border-radius: 6px;
-  padding: 5px 0;  
+  padding: 5px;  
+  font-family: 'Roboto Condensed', sans-serif;  
+`
+
+export const SubmitButton = styled.button`
+  width: 75%;
+  background-color: lightpink;  
+  margin-top: 30px;
+  padding: 10px 50px;
+  font-size: 1rem;
+  border-radius: 10px;
+
+  &:hover {
+    background-color: lightgreen;
+    color: black;
+    font-size: 1.2rem;
+    transition: 0.2s;
+    border-bottom: 5px solid black;    
+  }
 `

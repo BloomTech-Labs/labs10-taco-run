@@ -3,7 +3,14 @@ import { connect } from "react-redux";
 import { createEvent } from "../../store/actions/eventsActions";
 
 import Nav from "../nav/Nav.js";
-import { CreateEventWrapper, FormElement, LabelElement, InputElement } from "./create_event_css.js";
+import { 
+	CreateEventWrapper, 
+	FormElement, 
+	LabelElement, 
+	InputElement,
+	FormHeader,
+	SubmitButton
+} from "./create_event_css.js";
 
 class CreateEvent extends React.Component {
 	constructor(props) {
@@ -60,6 +67,7 @@ class CreateEvent extends React.Component {
 				</div>
 				<CreateEventWrapper>				
 					<FormElement onSubmit = {this.handleSubmit}>
+						<FormHeader>Create An Event</FormHeader>
 
 						<LabelElement for = "event-name">Name</LabelElement>
 						<InputElement 
@@ -77,7 +85,7 @@ class CreateEvent extends React.Component {
 							onChange = {this.handleChange}
 							value = {this.state.event.date}
 							type = "date"	
-							id = "event-date"					
+							id = "event-date"											
 						/>
 
 						<LabelElement for = "event-location">Location</LabelElement>
@@ -109,7 +117,7 @@ class CreateEvent extends React.Component {
 							id = "event-author"					
 						/>
 
-						<button type = "submit">Submit</button>
+						<SubmitButton type = "submit">Submit</SubmitButton>
 
 					</FormElement>
 				</CreateEventWrapper>
