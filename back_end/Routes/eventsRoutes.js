@@ -58,44 +58,8 @@ router.get('', (req, res) => {
 })
 
 //READ
-//get all the users for an event
+//get all the users for an event + event info
 //get http://localhost:5555/events/:id
-//example response
-// [
-//     {
-//         "id": 1,
-//         "name": "marshall lanners",
-//         "location": "1440 4th street washington dc",
-//         "date": "2/20/2019",
-//         "user_id": 1,
-//         "event_id": 2,
-//         "email": "lanners.marshall@gmail.com"
-//     },
-//     {
-//         "id": 2,
-//         "name": "eric lanners",
-//         "location": "1440 4th street washington dc",
-//         "date": "2/20/2019",
-//         "user_id": 2,
-//         "event_id": 2,
-//         "email": "lanners.eric@gmail.com"
-//     }
-// ]
-
-// router.get("/:id", (req, res) => {
-//   const { id } = req.params;
-//   const { user_id } = req.body;
-//   db("events")
-//     .join("users", "events.id", "=", "events.id")
-//     .where("events.id", id)
-//     .then(response => {
-//       res.status(200).json(response);
-//     })
-//     .catch(error => {
-//       res.status(500).json(error);
-//     });
-// });
-
 router.get("/:id", (req, res) => {
   const { id } = req.params;
   db("events")
@@ -125,35 +89,22 @@ router.get("/:id", (req, res) => {
     });
 });
 
-// router.get('/:id', (req, res) => {
-// 	const { id } = req.params
-// 	db("events")
-// 	.join("users_events", "users_events.user_id", "=", "users.id")
-// 	.join("users", "events.id", "=", "users_events.event_id")
-// 	.where("events.id", id)
-// 	.then(response => {
-// 		res.status(200).json(response)
-// 	})
-// 	.catch(error => {
-// 		console.log(error)
-// 		res.status(500).json(error)
-// 	})
-// })
-
-
-// router.get("/:id", (req, res) => {
-//   const { id } = req.params;
-//   db("users")
-//     .join("users_events", "users_events.user_id", "=", "users.id")
-//     .join("events", "events.id", "=", "users_events.event_id")
-//     .where("users.id", id)
-//     .then(response => {
-//       res.status(200).json(response);
-//     })
-//     .catch(error => {
-//       res.status(500).json(error);
-//     });
-// });
+//READ
+//get all comments for an event
+//get http://localhost:5555/events/:id/comments
+router.get("/:id/comments", (req, res) => {
+	const { id } = req.params
+	db('events')
+	.join("comments", "events.id", "=", "comments.event_id")
+	.where("events.id", id)
+	.then(resp => {
+		return res.status(200).json(resp)
+	})
+	.catch(err => {
+		console.log(err)
+		return res.status(500).json(err)
+	})
+});
 
 //UPDATE
 //update an event
