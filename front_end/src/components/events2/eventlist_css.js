@@ -32,3 +32,22 @@ export const DispayComments = styled.div`
 	margin-top: 8px;
 	text-align: center;
 `
+
+export const CreateLink = styled.div`
+	color: white;
+	background-color: grey;
+	border: solid black 1px;
+	border-radius: 4px;
+	width: 100px;
+	text-align: center;
+	&:hover {
+		background-color: white;
+		color:grey
+		cursor: pointer;
+	}
+`
+
+export const ContainLink = styled.div`
+	max-width: 800px;
+	margin: 0 auto;
+`
