@@ -12,10 +12,11 @@ import {
   fetchFriends,
   searchUsers
 } from "../../store/actions/userActions";
+import { searchFavorites } from "../../store/actions/favoritesActions";
 import { Link } from "react-router-dom";
 import { Dropdown } from "semantic-ui-react";
 import "./UserProfile.css";
-import { Container, EditBtn, FlexEnd } from './userprofile_css.js'
+import { Container, EditBtn, FlexEnd } from "./userprofile_css.js";
 
 class UserProfile extends React.Component {
   state = {
@@ -24,21 +25,35 @@ class UserProfile extends React.Component {
     value: "All"
   };
 
+  handleChange = e => {
+    this.setState({
+      search: [e.target.value]
+    });
+  };
+
   handleSelect = e => {
     e.preventDefault();
     this.setState({
       value: e.target.value
     });
-    console.log(e.target.value, this.state.value);
   };
 
-  handleSubmit = e => {
-    console.log(this.state.search);
+  handleSubmitFavorites = e => {
     e.preventDefault();
+    this.props.searchFavorites(this.state.search);
     this.setState({
       search: ""
     });
+    let box = document.getElementById("results");
+    box.style.display = "inline-block";
+  };
+
+  handleSubmitUsers = e => {
+    e.preventDefault();
     this.props.searchUsers(this.state.search);
+    this.setState({
+      search: ""
+    });
     let box = document.getElementById("results");
     box.style.display = "inline-block";
   };
@@ -126,7 +141,7 @@ class UserProfile extends React.Component {
             {/* Form for Search Results */}
             {this.state.favoritesFlag === true ? (
               <div>
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={this.handleSubmitFavorites}>
                   <input
                     type="search"
                     placeholder="Add a new favorite"
@@ -158,7 +173,7 @@ class UserProfile extends React.Component {
                 </select>
               </div>
             ) : (
-              <form onSubmit={this.handleSubmit}>
+              <form onSubmit={this.handleSubmitUsers}>
                 <input
                   type="search"
                   placeholder="Find a new friend"
@@ -173,7 +188,7 @@ class UserProfile extends React.Component {
               {this.state.favoritesFlag === true ? (
                 // Results for Favorites
                 <div id="results" ref={node => (this.node = node)}>
-                  {this.props.favorites.map(result => {
+                  {this.props.locations.map(result => {
                     if (result !== undefined) {
                       return (
                         <Link to={`/${result.id}`}>
@@ -293,7 +308,7 @@ class UserProfile extends React.Component {
               })}
             </div>
           </div>
-          </Container>
+        </Container>
       </div>
     );
   } // --> render() brace
@@ -305,7 +320,8 @@ const mapStateToProps = state => {
     user: state.userReducer.user,
     favorites: state.userReducer.favorites,
     friends: state.userReducer.friends,
-    users: state.userReducer.users
+    users: state.userReducer.users,
+    locations: state.favoritesReducer.locations
   };
 };
 
@@ -315,6 +331,7 @@ export default connect(
     fetchUser,
     fetchFavorites,
     fetchFriends,
-    searchUsers
+    searchUsers,
+    searchFavorites
   }
 )(UserProfile);

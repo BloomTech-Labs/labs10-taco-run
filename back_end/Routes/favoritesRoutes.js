@@ -39,8 +39,8 @@ router.post("", (req, res) => {
 });
 
 // READ
-// Get users based off search term using fuse.js for fuzzy search
-// get http://localhost:5555/users/search
+// Get favorites based off search term using fuse.js for fuzzy search
+// get http://localhost:5555/events/search/:term
 router.get("/search/:term", (req, res) => {
   const term = req.params.term;
   console.log(term);
@@ -51,10 +51,10 @@ router.get("/search/:term", (req, res) => {
     distance: 100,
     maxPatternLength: 32,
     minMatchCharLength: 1,
-    keys: ["name"]
+    keys: ["name", "location"]
   };
 
-  db("users")
+  db("favorites")
     .then(response => {
       var fuse = new Fuse(response, options);
       var result = fuse.search(term);
