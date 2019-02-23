@@ -49,6 +49,7 @@ export const facebookAuth = () => {
 		let provider = new firebase.auth.FacebookAuthProvider();
 		firebase.auth().signInWithPopup(provider)
 		.then(response => {
+			console.log(response)
 			let username = response.additionalUserInfo.profile.name
 			let email = response.additionalUserInfo.profile.email
 			makeAxios(username, email)
@@ -57,6 +58,7 @@ export const facebookAuth = () => {
 			dispatch({type: "FACEBOOK_SUCCESS"})
 		})
 		.catch(error => {
+			console.log(error)
 			dispatch({type: 'FACEBOOK_ERROR', payload: error.message})
 		})
 	}
