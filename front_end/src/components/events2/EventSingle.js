@@ -40,6 +40,7 @@ class EventSingle extends React.Component {
     raiting: '',
     url: '',
     img_url: '',
+    attending: [],
     loaded: false
   };
 
@@ -49,6 +50,7 @@ class EventSingle extends React.Component {
     this.props.fetchUser(localStorage.getItem("user_id"));
     axios.get(`https://production-taco.herokuapp.com/events/${this.props.match.params.id}`)
     .then(res => {
+      console.log(res)
       this.setState({
         venue: res.data.venue,
         date: res.data.date,
@@ -60,6 +62,7 @@ class EventSingle extends React.Component {
         img_url: res.data.img_url,
         lat: parseFloat(res.data.lat),
         lon: parseFloat(res.data.lon),
+        attending: res.data.users,
         loaded: true
       })
     })
@@ -117,7 +120,7 @@ class EventSingle extends React.Component {
   };
 
   render() {
-    console.log(this.state)
+    console.log(this.props)
     return (
       <div>
       <Nav />
@@ -128,7 +131,7 @@ class EventSingle extends React.Component {
           <MapDiv>
             <GoogleMapReact
               bootstrapURLKeys={{ key: "AIzaSyDM6TcKZH9rWDPAqXx4Yln7_l08ACF5QdA" }}
-              defaultZoom={11}
+              defaultZoom={16}
               defaultCenter={{lat: this.state.lat, lng: this.state.lon}}
             >
 
@@ -142,7 +145,7 @@ class EventSingle extends React.Component {
           </MapDiv>
 
 
-          ) : null}
+          ) : <div><p>Loading . . . </p></div>}
 
         <Container>
           <div>
@@ -158,7 +161,7 @@ class EventSingle extends React.Component {
           <div>
             <div className="event-invited">
               <h2 className="event-invited-title">Attending</h2>
-              {this.props.attendees.map(attendee => {
+              {this.state.attending.map(attendee => {
                 if (attendee !== undefined) {
                   return (
                     <div>
