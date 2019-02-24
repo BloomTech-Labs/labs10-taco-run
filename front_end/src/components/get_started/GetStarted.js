@@ -2,6 +2,8 @@ import React from 'react';
 import Nav from '../nav/Nav.js'
 import running from './running.png'
 import { MainDiv, TopHr, BottomHr } from './started_css.js'
+import { Link } from "react-router-dom";
+import { CreateLink, ContainLink } from '../events2/eventlist_css.js'
 
 class GetStarted extends React.Component {
   constructor(){
@@ -29,6 +31,9 @@ class GetStarted extends React.Component {
               Feel to view all the users to see what is going on. Check the up coming calendar to see what events popular.
               Create your own event too. Don't forget to share on social media! Lets eat!
             </p>
+            <ContainLink>
+              <Link to="events_create"><CreateLink>Create Event</CreateLink></Link>
+            </ContainLink>
           </div>
           <div>
             <img src={running}/>

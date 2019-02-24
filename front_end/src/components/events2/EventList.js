@@ -24,9 +24,6 @@ class EventList extends React.Component {
 			<div>
 				<Nav/>
 				<div>
-					<ContainLink>
-						<Link to="events_create"><CreateLink>Create Event</CreateLink></Link>
-					</ContainLink>
 					<div>
 						{this.props.events.map(event => {
 							return (

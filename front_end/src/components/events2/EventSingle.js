@@ -25,6 +25,7 @@ import "./create_event.css"
 import GoogleMapReact from 'google-map-react';
 
 import { MapDiv } from "./create_event_css.js";
+import { withAlert } from 'react-alert'
 
 const TacoLocation = ({ text }) => <div>{text}</div>;
 
@@ -119,36 +120,52 @@ class EventSingle extends React.Component {
     this.setState({ editComment: event.target.value });
   };
 
+  addFav = event => {
+    event.preventDefault();
+    let obj = {name: this.state.venue, location: this.state.location, user_id: parseInt(localStorage.getItem("user_id"))}
+
+    axios.post('https://production-taco.herokuapp.com/favorites', obj)
+    .then(res => {
+      console.log(res)
+      if (res.data.msg){
+        this.props.alert.show(res.data.msg)
+      } else {
+        this.props.alert.show(`${this.state.venue} added to favorites`)
+      }
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
+
   render() {
     console.log(this.props)
+    console.log(this.state)
     return (
       <div>
       <Nav />
 
         {this.state.loaded ? (
-
-
           <MapDiv>
             <GoogleMapReact
               bootstrapURLKeys={{ key: "AIzaSyDM6TcKZH9rWDPAqXx4Yln7_l08ACF5QdA" }}
               defaultZoom={16}
               defaultCenter={{lat: this.state.lat, lng: this.state.lon}}
             >
-
             <TacoLocation
               text={this.state.venue}
               lat={this.state.lat}
               lng={this.state.lon}
             />
-         
             </GoogleMapReact>
           </MapDiv>
 
 
-          ) : <div><p>Loading . . . </p></div>}
+          ) : null}
 
         <Container>
           <div>
+            <button onClick={this.addFav}>Add location to favorites</button>
             <p><img className="yelp_img" src={this.state.img_url}/></p>
             <p>Venue: {this.state.venue}</p>
             <p>Date: {this.state.date}</p>
@@ -246,17 +263,11 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  {
-    getEvent,
-    getComments,
-    fetchUser,
-    makeComment,
-    deleteComment,
-    updateComment
-  }
-)(EventSingle);
+export default connect(mapStateToProps,{getEvent,getComments,fetchUser,makeComment,deleteComment,updateComment})(withAlert()(EventSingle));
 
 
-// defaultCenter={{lat: parseFloat(this.state.lat_av), lng: parseFloat(this.state.lon_av)}}
+
+// export default connect(mapStateToProps, mapDispatchToProps)(withAlert()(Auth))
+
+
+
