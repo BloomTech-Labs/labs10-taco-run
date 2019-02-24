@@ -105,7 +105,7 @@ const eventsReducer = (state = initialState, action) => {
         creatingEvent: false,
         createdEvent: true,
         error: null,
-        events: [...state.events, action.payload]
+        events: action.payload
       };
     case EVENTS_CREATE_ERROR:
       return {

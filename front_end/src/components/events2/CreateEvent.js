@@ -116,7 +116,9 @@ class CreateEvent extends React.Component {
 			raiting: obj.raiting,
 			price: obj.price,
 			url: obj.url,
-			venue: obj.name
+			venue: obj.name,
+			total_comments: 0,
+			total_users: 1
 		}
 
 		this.props.createEvent(event_obj);
