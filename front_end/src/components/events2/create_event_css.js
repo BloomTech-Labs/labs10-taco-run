@@ -72,3 +72,11 @@ export const FlexForm = styled.form`
   display: flex;
   flex-direction: column;
 `
+
+export const MapDiv = styled.div`
+  border: solid black 1px;
+  height: 400px;
+  max-width: 800px;
+  margin: 0 auto;
+  margin-top: 40px;
+`

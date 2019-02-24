@@ -6,8 +6,8 @@ import axios from 'axios'
 import { withAlert } from 'react-alert'
 import './create_event.css'
 import Popup from 'reactjs-popup'
-
 import Nav from "../nav/Nav.js";
+
 import { 
 	CreateEventWrapper, 
 	FormElement, 
@@ -17,8 +17,12 @@ import {
 	SubmitButton,
 	YelpDiv,
 	CenterP,
-	FlexForm
+	FlexForm,
+	MapDiv
 } from "./create_event_css.js";
+
+
+const TacoLocation = ({ text }) => <div>{text}</div>;
 
 class CreateEvent extends React.Component {
 	constructor(props){
@@ -31,7 +35,12 @@ class CreateEvent extends React.Component {
 			author: '',
 			user_id: '',
 			city_location: '',
-			tacos_places: []
+			tacos_places: [],
+			destinations: [],
+			zoom: 11,
+			lat_av: 0,
+			lon_av: 0,
+			show_map: false
 		};
 	}
 
@@ -54,9 +63,32 @@ class CreateEvent extends React.Component {
     })
     .then(res => {
       console.log(res)
+
+      let destinations = []
+      let obj
+      let biz = res.data.businesses
+      let lat_ar = []
+      let lon_ar = []
+
+      for (let i = 0; i < biz.length; i++){
+      	obj = {lat: biz[i].coordinates.latitude, lon: biz[i].coordinates.longitude, name: biz[i].name}
+      	lat_ar.push(biz[i].coordinates.latitude)
+      	lon_ar.push(biz[i].coordinates.longitude)
+      	destinations.push(obj)
+      }
+
+			const average = arr => arr.reduce( ( p, c ) => p + c, 0 ) / arr.length;
+			    
+			const av_lat = average(lat_ar)
+			const av_lon = average(lon_ar)
+
       this.setState({
       	city_location: '',
-      	tacos_places: res.data.businesses
+      	tacos_places: res.data.businesses,
+      	destinations: destinations,
+	      lat_av: av_lat,
+				lon_av: av_lon,
+				show_map: true
       })
     })
     .catch(error => {
@@ -83,6 +115,37 @@ class CreateEvent extends React.Component {
 				<div className = "navigation-wrapper">
 						<Nav />
 				</div>
+
+				{this.state.show_map ? (
+						<MapDiv>
+							<GoogleMapReact
+			          bootstrapURLKeys={{ key: "AIzaSyDM6TcKZH9rWDPAqXx4Yln7_l08ACF5QdA" }}
+			          defaultZoom={this.state.zoom}
+			          defaultCenter={{lat: this.state.lat_av, lng: this.state.lon_av}}
+			        >
+
+				    		{this.state.destinations.map(d => {
+				    			return (
+				      			<TacoLocation
+				              lat={d.lat}
+				              lng={d.lon}
+				              text={d.name}
+				            />
+				  				)
+				    		})}
+
+			        </GoogleMapReact>
+			      </MapDiv>
+					) : 
+					null
+				}
+
+
+
+
+
+
+
 				<CreateEventWrapper>
 						<FormElement onSubmit={this.searchMap}>
 							<InputElement
@@ -158,31 +221,3 @@ const mapStateToProps = state => {
 }
 
 export default connect(mapStateToProps, { createEvent })(withAlert()(CreateEvent));
-
-
-
-
-
-						// {this.state.city_lookup ? (
-						// 		<FormElement onSubmit = {this.handleSubmit}>
-						// 			<FormHeader>Create An Event</FormHeader>
-						// 			<LabelElement for ="event-name">Name</LabelElement>
-						// 			<InputElement 
-						// 				name = "name"
-						// 				onChange = {this.handleChange}
-						// 				value = {this.state.name}
-						// 				type = "text"	
-						// 				placeholder = "Event Name "				
-						// 			/>
-						// 			<LabelElement for = "event-date">Event Date</LabelElement>
-						// 			<InputElement 
-						// 				name = "date"
-						// 				onChange = {this.handleChange}
-						// 				value = {this.state.date}
-						// 				type = "date"										
-						// 			/>
-						// 			<SubmitButton type="submit">Submit</SubmitButton>
-						// 		</FormElement>
-						// 	) : 
-						// 	null
-						// }
