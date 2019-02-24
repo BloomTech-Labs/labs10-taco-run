@@ -52,9 +52,9 @@ export const createEvent = (event) => {
     dispatch({ type: EVENTS_CREATE_START });
     axios
       .post(`https://production-taco.herokuapp.com/events`, event)
-      .then(res => {       
-        alert("event successfully made!");
-        dispatch({ type: EVENTS_CREATE_COMPLETE, payload: res.data });
+      .then(res => {
+        let obj = JSON.parse(res.config.data);
+        dispatch({ type: EVENTS_CREATE_COMPLETE, payload: obj });
       })
       .catch(err => {
         dispatch({ type: EVENTS_CREATE_ERROR, payload: err });

@@ -103,18 +103,14 @@ class CreateEvent extends React.Component {
 
 	handleSubmit = (obj) => {	
 		// console.log(event.target)
-
-
-
-
 		let event_obj = {
 			user_id: parseInt(localStorage.getItem("user_id"), 10), 
 			author: this.props.auth.displayName,
 			name: this.state.name,
 			date: this.state.date,
 			location: obj.location,
-			lat: obj.lat,
-			lon: obj.lon,
+			lat: parseInt(obj.lat),
+			lon: parseInt(obj.lon),
 			img_url: obj.img_url,
 			raiting: obj.raiting,
 			price: obj.price,
@@ -122,63 +118,7 @@ class CreateEvent extends React.Component {
 			venue: obj.name
 		}
 
-		console.log(event_obj)
-
-   //  tbl
-   //    .string('date')
-   //    .notNullable()
-
-   //  tbl
-   //    .string('location', 128)
-   //    .notNullable()
-
-   //  tbl
-   //    .integer('lat')
-   //    .notNullable()
-
-   //  tbl
-   //    .integer('lon')
-   //    .notNullable()
-
-   //  tbl
-   //    .string('img_url')
-
-   //  tbl
-   //    .string('raiting')
-
-   //  tbl
-   //    .string('price')
-
-   //  tbl.string('url')
-
-
-   //  tbl
-   //    .string('venue', 255)
-   //    .notNullable()
-
-   //  tbl
-   //    .string('author', 128)
-   //    .notNullable()
-
-   //  tbl
-   //    .boolean('invite_only')
-   //    .defaultTo(false)
-
-   //  tbl
-   //    .integer('user_id')
-   //    .notNullable()
-
-   //  tbl
-   //    .integer('total_comments')
-   //    .defaultTo(0)
-
-   //  tbl
-   //    .integer('total_users')
-   //    .defaultTo(1)
-
-
-		return	
-		this.props.createEvent(this.state.event);		
+		this.props.createEvent(event_obj);
 		this.props.history.push("/events");
 	};
 
