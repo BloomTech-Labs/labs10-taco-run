@@ -90,6 +90,7 @@ class CreateEvent extends React.Component {
 				lon_av: av_lon,
 				show_map: true
       })
+
     })
     .catch(error => {
     	this.props.alert.show("invalid city")
@@ -100,9 +101,82 @@ class CreateEvent extends React.Component {
     })
 	}
 
-	handleSubmit = event => {
-		event.preventDefault();			
-		console.log(event.target)
+	handleSubmit = (obj) => {	
+		// console.log(event.target)
+
+
+
+
+		let event_obj = {
+			user_id: parseInt(localStorage.getItem("user_id"), 10), 
+			author: this.props.auth.displayName,
+			name: this.state.name,
+			date: this.state.date,
+			location: obj.location,
+			lat: obj.lat,
+			lon: obj.lon,
+			img_url: obj.img_url,
+			raiting: obj.raiting,
+			price: obj.price,
+			url: obj.url,
+			venue: obj.name
+		}
+
+		console.log(event_obj)
+
+   //  tbl
+   //    .string('date')
+   //    .notNullable()
+
+   //  tbl
+   //    .string('location', 128)
+   //    .notNullable()
+
+   //  tbl
+   //    .integer('lat')
+   //    .notNullable()
+
+   //  tbl
+   //    .integer('lon')
+   //    .notNullable()
+
+   //  tbl
+   //    .string('img_url')
+
+   //  tbl
+   //    .string('raiting')
+
+   //  tbl
+   //    .string('price')
+
+   //  tbl.string('url')
+
+
+   //  tbl
+   //    .string('venue', 255)
+   //    .notNullable()
+
+   //  tbl
+   //    .string('author', 128)
+   //    .notNullable()
+
+   //  tbl
+   //    .boolean('invite_only')
+   //    .defaultTo(false)
+
+   //  tbl
+   //    .integer('user_id')
+   //    .notNullable()
+
+   //  tbl
+   //    .integer('total_comments')
+   //    .defaultTo(0)
+
+   //  tbl
+   //    .integer('total_users')
+   //    .defaultTo(1)
+
+
 		return	
 		this.props.createEvent(this.state.event);		
 		this.props.history.push("/events");
@@ -110,6 +184,7 @@ class CreateEvent extends React.Component {
 
 	render() {
 		console.log(this.state)
+		console.log(this.props)
 		return (	
 			<div className = "create-event-full-wrapper">
 				<div className = "navigation-wrapper">
@@ -181,17 +256,18 @@ class CreateEvent extends React.Component {
 												  		placeholder="event date"
 												  		onChange={this.handleChange}
 												  	/>
-												  	<button 
-												  		lat={t.coordinates.latitude} 
-												  		lon={t.coordinates.longitude} 
-												  		name={t.Name}
-												  		img_url={t.image_url}
-												  		location={`${t.location.display_address[0]} ${t.location.display_address[1]}`}
-												  		raiting={t.rating}
-												  		price={t.price}
-												  		url={t.url}
-												  		onClick={this.handleSubmit}>Create Event
-												  	</button>
+												  	<p 
+												  		onClick={() => {this.handleSubmit({
+													  		lat: t.coordinates.latitude,
+													  		lon: t.coordinates.longitude, 
+													  		name: t.name,
+													  		img_url: t.image_url,
+													  		location: `${t.location.display_address[0]} ${t.location.display_address[1]}`,
+													  		raiting: t.rating,
+													  		price: t.price,
+													  		url: t.url
+												  		})}}>Create Event
+												  	</p>
 												  </FlexForm>
 									  		}}									  
 											</Popup>
@@ -214,3 +290,17 @@ const mapStateToProps = state => {
 }
 
 export default connect(mapStateToProps, { createEvent })(withAlert()(CreateEvent));
+
+
+														// {
+															
+												  // 		lat={t.coordinates.latitude} 
+												  // 		lon={t.coordinates.longitude} 
+												  // 		name={t.Name}
+												  // 		img_url={t.image_url}
+												  // 		location={`${t.location.display_address[0]} ${t.location.display_address[1]}`}
+												  // 		raiting={t.rating}
+												  // 		price={t.price}
+												  // 		url={t.url}
+
+												  // 	}
