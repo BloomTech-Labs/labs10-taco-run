@@ -22,17 +22,47 @@ import Nav from "../nav/Nav.js";
 import { fetchUser } from "../../store/actions/userActions";
 import Popup from "reactjs-popup";
 import "./create_event.css"
+import GoogleMapReact from 'google-map-react';
+
+import { MapDiv } from "./create_event_css.js";
+
+const TacoLocation = ({ text }) => <div>{text}</div>;
 
 class EventSingle extends React.Component {
   state = {
     content: "",
-    editComment: ""
+    editComment: "",
+    venue: '',
+    date: '',
+    location: '',
+    posted_by: '',
+    price: '',
+    raiting: '',
+    url: '',
+    img_url: '',
+    loaded: false
   };
 
   componentDidMount() {
-    this.props.getEvent(this.props.match.params.id);
+
     this.props.getComments(this.props.match.params.id);
     this.props.fetchUser(localStorage.getItem("user_id"));
+    axios.get(`https://production-taco.herokuapp.com/events/${this.props.match.params.id}`)
+    .then(res => {
+      this.setState({
+        venue: res.data.venue,
+        date: res.data.date,
+        location: res.data.location,
+        posted_by: res.data.author,
+        price: res.data.price,
+        raiting: res.data.raiting,
+        url: res.data.url,
+        img_url: res.data.img_url,
+        lat: parseFloat(res.data.lat),
+        lon: parseFloat(res.data.lon),
+        loaded: true
+      })
+    })
   }
 
   createComment = event => {
@@ -87,20 +117,43 @@ class EventSingle extends React.Component {
   };
 
   render() {
-    console.log(this.props);
+    console.log(this.state)
     return (
       <div>
-        <Nav />
+      <Nav />
+
+        {this.state.loaded ? (
+
+
+          <MapDiv>
+            <GoogleMapReact
+              bootstrapURLKeys={{ key: "AIzaSyDM6TcKZH9rWDPAqXx4Yln7_l08ACF5QdA" }}
+              defaultZoom={11}
+              defaultCenter={{lat: this.state.lat, lng: this.state.lon}}
+            >
+
+            <TacoLocation
+              text={this.state.venue}
+              lat={this.state.lat}
+              lng={this.state.lon}
+            />
+         
+            </GoogleMapReact>
+          </MapDiv>
+
+
+          ) : null}
+
         <Container>
           <div>
-            <p><img className="yelp_img" src={this.props.event.img_url}/></p>
-            <p>Venue: {this.props.event.venue}</p>
-            <p>Date: {this.props.event.date}</p>
-            <p>Location {this.props.event.location}</p>
-            <p>posted_by: {this.props.event.author}</p>
-            <p>price: {this.props.event.price}</p>
-            <p>raiting: {this.props.event.raiting}</p>
-            <p><a href={this.props.event.url}>Yelp Link</a></p>
+            <p><img className="yelp_img" src={this.state.img_url}/></p>
+            <p>Venue: {this.state.venue}</p>
+            <p>Date: {this.state.date}</p>
+            <p>Location {this.state.location}</p>
+            <p>posted_by: {this.state.posted_by}</p>
+            <p>price: {this.state.price}</p>
+            <p>raiting: {this.state.raiting}</p>
+            <p><a href={this.state.url}>Yelp Link</a></p>
           </div>
           <div>
             <div className="event-invited">
@@ -201,3 +254,6 @@ export default connect(
     updateComment
   }
 )(EventSingle);
+
+
+// defaultCenter={{lat: parseFloat(this.state.lat_av), lng: parseFloat(this.state.lon_av)}}
