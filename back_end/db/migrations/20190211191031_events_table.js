@@ -14,7 +14,26 @@ exports.up = function(knex, Promise) {
       .string('location', 128)
       .notNullable()
 
-      //location is the city
+    tbl
+      .integer('lat')
+      .notNullable()
+
+    tbl
+      .integer('lon')
+      .notNullable()
+
+    tbl
+      .string('img_url')
+
+    tbl
+      .string('raiting')
+
+    tbl
+      .string('price')
+
+    tbl.string('url')
+
+
     tbl
       .string('venue', 255)
       .notNullable()
