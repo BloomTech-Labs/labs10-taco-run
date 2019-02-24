@@ -7,6 +7,7 @@ import { withAlert } from 'react-alert'
 import './create_event.css'
 import Popup from 'reactjs-popup'
 import Nav from "../nav/Nav.js";
+import Big from 'big.js'
 
 import { 
 	CreateEventWrapper, 
@@ -102,15 +103,15 @@ class CreateEvent extends React.Component {
 	}
 
 	handleSubmit = (obj) => {	
-		// console.log(event.target)
+
 		let event_obj = {
 			user_id: parseInt(localStorage.getItem("user_id"), 10), 
 			author: this.props.auth.displayName,
 			name: this.state.name,
 			date: this.state.date,
 			location: obj.location,
-			lat: parseInt(obj.lat),
-			lon: parseInt(obj.lon),
+			lat: obj.lat,
+			lon: obj.lon,
 			img_url: obj.img_url,
 			raiting: obj.raiting,
 			price: obj.price,

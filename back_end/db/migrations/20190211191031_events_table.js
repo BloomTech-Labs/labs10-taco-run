@@ -15,12 +15,10 @@ exports.up = function(knex, Promise) {
       .notNullable()
 
     tbl
-      .integer('lat')
-      .notNullable()
+      .decimal('lat', 14, 10)
 
     tbl
-      .integer('lon')
-      .notNullable()
+      .decimal('lon', 14, 10)
 
     tbl
       .string('img_url')

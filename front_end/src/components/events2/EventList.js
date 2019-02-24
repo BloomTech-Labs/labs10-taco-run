@@ -5,6 +5,7 @@ import { Card, FlexDiv, ViewEvent, DispayComments, CreateLink, ContainLink } fro
 import { Link } from "react-router-dom";
 import { getEvents } from "../../store/actions/eventsActions";
 import { connect } from "react-redux";
+import './create_event.css'
 
 class EventList extends React.Component {
 	constructor(props){
@@ -17,7 +18,9 @@ class EventList extends React.Component {
 	}
 	
 	render() {
+		console.log(this.props.events)
 		return (
+
 			<div>
 				<Nav/>
 				<div>
@@ -29,12 +32,16 @@ class EventList extends React.Component {
 							return (
 								<FlexDiv key={event.id}>
 									<Card id={event.id}>
+										<p><img className="yelp_img" src={event.img_url}/></p>
 										<p>Event Name: {event.name}</p>
 										<p>posted by: {event.author}</p>
 										<p>date: {event.date}</p>
 										<p>location: {event.location}</p>
 										<p>venue: {event.venue}</p>
+										<p>raiting: {event.raiting}</p>
+										<p>price: {event.price}</p>
 										<p>total attemding: {event.total_users}</p>
+										<p><a href={event.url}>Yelp Link</a></p>
 									</Card>
 									<DispayComments >
 										<p>comments<br/> {event.total_comments}</p>
