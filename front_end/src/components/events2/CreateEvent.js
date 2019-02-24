@@ -71,7 +71,7 @@ class CreateEvent extends React.Component {
       let lon_ar = []
 
       for (let i = 0; i < biz.length; i++){
-      	obj = {lat: biz[i].coordinates.latitude, lon: biz[i].coordinates.longitude, name: biz[i].name}
+      	obj = {lat: biz[i].coordinates.latitude, lon: biz[i].coordinates.longitude, number: i + 1}
       	lat_ar.push(biz[i].coordinates.latitude)
       	lon_ar.push(biz[i].coordinates.longitude)
       	destinations.push(obj)
@@ -123,28 +123,20 @@ class CreateEvent extends React.Component {
 			          defaultZoom={this.state.zoom}
 			          defaultCenter={{lat: this.state.lat_av, lng: this.state.lon_av}}
 			        >
-
 				    		{this.state.destinations.map(d => {
 				    			return (
 				      			<TacoLocation
 				              lat={d.lat}
 				              lng={d.lon}
-				              text={d.name}
+				              text={d.number}
 				            />
 				  				)
 				    		})}
-
 			        </GoogleMapReact>
 			      </MapDiv>
 					) : 
 					null
 				}
-
-
-
-
-
-
 
 				<CreateEventWrapper>
 						<FormElement onSubmit={this.searchMap}>
@@ -159,9 +151,10 @@ class CreateEvent extends React.Component {
 						</FormElement>
 
 						<div>
-							{this.state.tacos_places.map(t => {
+							{this.state.tacos_places.map((t, idx) => {
 								return (
 										<YelpDiv key={t.id}>
+											<p>{idx + 1}</p>
 											<p>Name: {t.name}</p>
 											<p><img className="yelp_img" src={t.image_url}/></p>
 											<p>Location: {`${t.location.display_address[0]} ${t.location.display_address[1]}`}</p>
