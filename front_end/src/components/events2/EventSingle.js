@@ -21,6 +21,7 @@ import { Container } from "./eventsingle_css.js";
 import Nav from "../nav/Nav.js";
 import { fetchUser } from "../../store/actions/userActions";
 import Popup from "reactjs-popup";
+import "./create_event.css"
 
 class EventSingle extends React.Component {
   state = {
@@ -91,20 +92,17 @@ class EventSingle extends React.Component {
       <div>
         <Nav />
         <Container>
-          <div className="event-single">
-            <div className="event-details">
-              <h1 className="event-detail-title">{this.props.event.venue}</h1>
-              <h2 className="event-detail-date">
-                Date: {this.props.event.date}
-              </h2>
-              <div className="event-detail-location">
-                <img className="location-image" />
-                <h3 className="location-details">
-                  {this.props.event.location}
-                </h3>
-                <div className="location-google" />
-              </div>
-            </div>
+          <div>
+            <p><img className="yelp_img" src={this.props.event.img_url}/></p>
+            <p>Venue: {this.props.event.venue}</p>
+            <p>Date: {this.props.event.date}</p>
+            <p>Location {this.props.event.location}</p>
+            <p>posted_by: {this.props.event.author}</p>
+            <p>price: {this.props.event.price}</p>
+            <p>raiting: {this.props.event.raiting}</p>
+            <p><a href={this.props.event.url}>Yelp Link</a></p>
+          </div>
+          <div>
             <div className="event-invited">
               <h2 className="event-invited-title">Attending</h2>
               {this.props.attendees.map(attendee => {

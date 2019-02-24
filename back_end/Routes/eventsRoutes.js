@@ -78,9 +78,15 @@ router.get("/:id", (req, res) => {
     		invite_only: resp[0].invite_only,
     		location: resp[0].location,
     		venue: resp[0].venue,
-    		date: resp[0].date 
+    		date: resp[0].date,
+    		img_url: resp[0].img_url,
+    		raiting: resp[0].raiting,
+    		price: resp[0].price,
+    		lat: resp[0].lat,
+    		lon: resp[0].lon,
+    		url: resp[0].url,
+    		email: resp[0].email
     	}
-
       res.status(200).json(obj);
     })
     .catch(error => {
