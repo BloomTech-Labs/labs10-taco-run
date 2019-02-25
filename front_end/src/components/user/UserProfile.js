@@ -110,8 +110,7 @@ class UserProfile extends React.Component {
     let favorite_id = new_obj.data.favorite_id;
     console.log("favoriteDelete invoked");
     console.log(ids.favorite_id);    
-    this.props.deleteFavorite(favorite_id);
-    window.location.reload();
+    this.props.deleteFavorite(favorite_id);    
   }
 
   componentDidMount() {
