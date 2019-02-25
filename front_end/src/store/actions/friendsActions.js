@@ -57,11 +57,18 @@ export const deleteFriend = friend => {
     axios
       .post(`https://production-taco.herokuapp.com/users_friends`)
       .then(res => {
-        let obj = JSON.parse(res.config.data);
-        dispatch({
-          type: FRIEND_DELETE_COMPLETE,
-          payload: obj
-        });
+        axios
+          .get(
+            `https://production-taco.herokuapp.com/users_friends/${localStorage.getItem(
+              "user_id"
+            )}`
+          )
+          .then(res => {
+            dispatch({
+              type: FRIEND_ADD_COMPLETE,
+              payload: res.data
+            });
+          });
       })
       .catch(err => {
         dispatch({ type: FRIEND_DELETE_ERROR, payload: err });
