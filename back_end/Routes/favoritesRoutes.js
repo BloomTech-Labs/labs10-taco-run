@@ -67,7 +67,7 @@ router.get("/search/:term", (req, res) => {
 
 //READ
 //get all favorites from a user
-//get http://localhost:5555/favorites/:id
+//get http://localhost:5555/favorites/:id --> note this id will be the user's id ( gives you all the favorites )
 //-------------------------------------------
 router.get("/:id", (req, res) => {
   const { id } = req.params;
@@ -85,12 +85,17 @@ router.get("/:id", (req, res) => {
 
 //DELETE
 //delete a forvorite from a user
-//delete http://localhost:5555/favorites/:id
+//delete http://localhost:5555/favorites/:id --> currently this deletes the event based on the PK of the favorites table
+/*
+  - Delete from `favorites` where user_id = user_id
+  - Then delete `favorites` where id = id
+*/
 //-------------------------------------------
 router.delete("/:id", (req, res) => {
   const { id } = req.params;
+  const { user_id } = req.body;
   db("favorites")
-    .where({ id })
+    .where({ id, user_id }) 
     .del()
     .then(response => {
       return res.status(200).json(response);
