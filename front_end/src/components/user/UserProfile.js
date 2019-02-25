@@ -12,7 +12,6 @@ import {
   fetchFriends,
   searchUsers,  
 } from "../../store/actions/userActions";
-import { searchFavorites } from "../../store/actions/favoritesActions";
 import { addFriend } from "../../store/actions/friendsActions";
 import { searchFavorites, deleteFavorite } from "../../store/actions/favoritesActions";
 import { Link } from "react-router-dom";
@@ -368,7 +367,7 @@ export default connect(
     fetchFriends,
     searchUsers,
     searchFavorites,
-    addFriend
+    addFriend,
     deleteFavorite
   }
 )(UserProfile);
