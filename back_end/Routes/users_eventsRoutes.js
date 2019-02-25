@@ -7,7 +7,13 @@ const db = require('../config.js')
 //post http://localhost:5555/users_events
 //-------------------------------------------
 
-
+// example response:
+/*
+{
+	"user_id": 3,
+	"event_id": 4
+}
+*/
 router.post('', (req, res) => {
 
 	//would have to pass this is fron the front end
@@ -121,7 +127,7 @@ router.delete('/:id', (req, res) => {
 		return res.status(200).json(response)
 	})
 	.catch(error => {
-		// return res.status(200).json(error)
+		return res.status(500).json(error)
 	})
 })
 
