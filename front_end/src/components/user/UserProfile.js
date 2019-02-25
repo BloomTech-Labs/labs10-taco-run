@@ -12,11 +12,14 @@ import {
   fetchFriends,
   searchUsers,  
 } from "../../store/actions/userActions";
+import { searchFavorites } from "../../store/actions/favoritesActions";
+import { addFriend } from "../../store/actions/friendsActions";
 import { searchFavorites, deleteFavorite } from "../../store/actions/favoritesActions";
 import { Link } from "react-router-dom";
 import { Dropdown } from "semantic-ui-react";
 import "./UserProfile.css";
 import { Container, EditBtn, FlexEnd } from "./userprofile_css.js";
+import { DeleteBtn } from "../events2/eventsingle_css.js";
 
 class UserProfile extends React.Component {
   state = {
@@ -68,6 +71,17 @@ class UserProfile extends React.Component {
     if (e.target != box && box.style.display == "inline-block") {
       box.style.display = "none";
     }
+  };
+
+  friendAdd = event => {
+    event.preventDefault();
+    let ids = {
+      user_id: parseInt(localStorage.getItem("user_id")),
+      friends_id: parseInt(event.target.id)
+    };
+    let obj = { data: ids };
+    let cid = obj.data.user_id;
+    this.props.addFriend(obj, cid);
   };
 
   openTab = (evt, tabName) => {
@@ -235,6 +249,9 @@ class UserProfile extends React.Component {
                             src={}
                           /> */}
                             </div>
+                            <button onClick={this.friendAdd} id={result.id}>
+                              Add
+                            </button>
                             <div className="result-name">
                               <h3>{result.name}</h3>
                             </div>
@@ -351,6 +368,7 @@ export default connect(
     fetchFriends,
     searchUsers,
     searchFavorites,
+    addFriend
     deleteFavorite
   }
 )(UserProfile);

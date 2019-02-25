@@ -1,51 +1,51 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const db = require('../config.js')
+const db = require("../config.js");
 
 //Create
 //create a new friend
 //post http://localhost:5555/users_friends
 //-------------------------------------------
-router.post('', (req, res) => {
-	const {user_id, friends_id } = req.body
-	db('users_friends')
-	.where({user_id, friends_id })
-	.then(response => {
-		if (response.length > 0) {
-			return res.status(200).json({msg: 'you are already friends with user'})
-		} else {
+router.post("", (req, res) => {
+  const { user_id, friends_id } = req.body.data;
+  db("users_friends")
+    .where({ user_id, friends_id })
+    .then(response => {
+      if (response.length > 0) {
+        return res
+          .status(200)
+          .json({ msg: "you are already friends with user" });
+      } else {
+        //first we made the person our friend
 
-			//first we made the person our friend
-
-			db.insert({user_id, friends_id }).into('users_friends')
-			.then(() => {
-
-				/*then we set the other person as friends with us
+        db.insert({ user_id, friends_id })
+          .into("users_friends")
+          .then(() => {
+            /*then we set the other person as friends with us
 				table will look like
 
 				id 1 | user_id 1 | friend_id 2
 				id 2 | user_id 2 | friend_id 1
 				*/
 
-				let friend = {user_id: friends_id, friends_id: user_id}
-				db.insert(friend).into('users_friends')
-				.then(response => {
-					return res.status(201).json(response)
-				})
-				
-			}) //catch for adding friendship to users
-			.catch(error => {
-				console.log(error)
-				return res.status(500).json(error)
-			})
-		}
-	}) //catch for looking up friendship on users
-	.catch(error => {
-		console.log(error)
-		return res.status(500).json(error)
-	})
-})
-
+            let friend = { user_id: friends_id, friends_id: user_id };
+            db.insert(friend)
+              .into("users_friends")
+              .then(response => {
+                return res.status(201).json(response);
+              });
+          }) //catch for adding friendship to users
+          .catch(error => {
+            console.log(error);
+            return res.status(500).json(error);
+          });
+      }
+    }) //catch for looking up friendship on users
+    .catch(error => {
+      console.log(error);
+      return res.status(500).json(error);
+    });
+});
 
 //READ
 //get all friends from a user
@@ -97,38 +97,35 @@ router.get("/:id", (req, res) => {
 */
 //delete http://localhost:5555/users_friends/
 //-------------------------------------------
-router.delete('', (req, res) => {
-	const {user_id, friends_id} = req.body
-	db('users_friends')
-	.where({user_id, friends_id})
-	.del()
-	//delete one person as a friend
-	.then(() => {
-		//that person deletes me as a friend
-		let friend = {user_id: friends_id, friends_id: user_id}
-		db('users_friends')
-		.where(friend)
-		.del()
-		.then(response => {
-
-			/* will delete 2 rows like this as example
+router.delete("", (req, res) => {
+  const { user_id, friends_id } = req.body;
+  db("users_friends")
+    .where({ user_id, friends_id })
+    .del()
+    //delete one person as a friend
+    .then(() => {
+      //that person deletes me as a friend
+      let friend = { user_id: friends_id, friends_id: user_id };
+      db("users_friends")
+        .where(friend)
+        .del()
+        .then(response => {
+          /* will delete 2 rows like this as example
 				id 1 | user_id 1 | friend_id 2 <-- deleted
 				id 2 | user_id 2 | friend_id 1 <-- deleted
 			*/
-			
-			return res.status(200).json(response)
-		})//catch for failed delete on friend
-		.catch(error => {
-			console.log(error)
-			return res.status(500).json(error)
-		})
-	})//catch on failed delete of users friend
-	.catch(error => {
-		console.log(error)
-		return res.status(500).json(error)
-	})
-})
+
+          return res.status(200).json(response);
+        }) //catch for failed delete on friend
+        .catch(error => {
+          console.log(error);
+          return res.status(500).json(error);
+        });
+    }) //catch on failed delete of users friend
+    .catch(error => {
+      console.log(error);
+      return res.status(500).json(error);
+    });
+});
 
 module.exports = router;
-
-
