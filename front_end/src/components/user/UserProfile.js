@@ -107,10 +107,10 @@ class UserProfile extends React.Component {
       favorite_id: parseInt(event.target.id), // --> this comes from the button element      
     };
     let new_obj = { data: ids };
-    let favorite_id = new_obj.data.favorite_id;
+    let favorite_id = new_obj.data.favorite_id; // --> grab favorite_id
     console.log("favoriteDelete invoked");
-    console.log(ids.favorite_id);    
-    this.props.deleteFavorite(favorite_id);    
+    console.log(ids.favorite_id); // --> grabs specific id of the favorite inside favorites table
+    this.props.deleteFavorite(favorite_id); // --> this was newly made, takes only the favorite_id and will return 1 || 0  
   }
 
   componentDidMount() {
