@@ -35,17 +35,19 @@ export const getComments = id => {
   };
 };
 
-export const makeComment = comment => {
+export const makeComment = (comment, event_id) => {
   return dispatch => {
     dispatch({ type: MAKE_COMMENT_START });
     axios
       .post(`https://production-taco.herokuapp.com/comments`, comment)
-      .then(res => {
-        let obj = JSON.parse(res.config.data);
-        dispatch({
-          type: MAKE_COMMENT_COMPLETE,
-          payload: obj
-        });
+      .then(() => {
+        axios.get(`https://production-taco.herokuapp.com/events/${event_id}/comments`)
+        .then(res => {
+          dispatch({
+            type: MAKE_COMMENT_COMPLETE,
+            payload: res.data.comments_info
+          });
+        })
       })
       .catch(err => {
         dispatch({ type: MAKE_COMMENT_ERROR, payload: err });

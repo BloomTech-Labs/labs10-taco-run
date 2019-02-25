@@ -27,6 +27,9 @@ import GoogleMapReact from 'google-map-react';
 import { MapDiv } from "./create_event_css.js";
 import { withAlert } from 'react-alert'
 
+
+// console.log()
+
 const TacoLocation = ({ text }) => <div>{text}</div>;
 
 class EventSingle extends React.Component {
@@ -51,7 +54,7 @@ class EventSingle extends React.Component {
     this.props.fetchUser(localStorage.getItem("user_id"));
     axios.get(`https://production-taco.herokuapp.com/events/${this.props.match.params.id}`)
     .then(res => {
-      console.log(res)
+      // console.log(res)
       this.setState({
         venue: res.data.venue,
         date: res.data.date,
@@ -77,10 +80,12 @@ class EventSingle extends React.Component {
       content: this.state.content,
       date: today,
       posted_by: this.props.user.name,
-      event_id: parseInt(this.props.match.params.id)
+      event_id: parseInt(this.props.match.params.id),
+      posters_email: this.props.user.email
     };
+
     // const {content, date, posted_by, event_id } = req.body;
-    this.props.makeComment(comment);
+    this.props.makeComment(comment, this.props.match.params.id);
     this.setState({
       content: ""
     });
@@ -92,8 +97,9 @@ class EventSingle extends React.Component {
       id: parseInt(event.target.id),
       event_id: parseInt(this.props.match.params.id),
       posted_by: this.props.user.name,
-      content: this.state.editComment
+      content: this.state.editComment,
     };
+    
     // const {content, date, posted_by, event_id } = req.body;
     this.props.updateComment(comment);
     this.setState({
@@ -126,7 +132,7 @@ class EventSingle extends React.Component {
 
     axios.post('https://production-taco.herokuapp.com/favorites', obj)
     .then(res => {
-      console.log(res)
+      // console.log(res)
       if (res.data.msg){
         this.props.alert.show(res.data.msg)
       } else {
@@ -134,13 +140,13 @@ class EventSingle extends React.Component {
       }
     })
     .catch(error => {
-      console.log(error)
+      // console.log(error)
     })
   }
 
   render() {
-    console.log(this.props)
-    console.log(this.state)
+    // console.log(this.props)
+    // console.log(this.state)
     return (
       <div>
       <Nav />
@@ -194,9 +200,9 @@ class EventSingle extends React.Component {
                 if (comment !== undefined) {
                   return (
                     <FlexDiv>
-                      <If
-                        condition={this.props.user.name === comment.posted_by}
-                      >
+                    <If
+                      condition={this.props.user.email === comment.posters_email}
+                    >
                         <Then>
                           <DeleteBtn
                             onClick={this.commentDelete}

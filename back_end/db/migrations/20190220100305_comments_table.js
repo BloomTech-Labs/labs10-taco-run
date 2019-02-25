@@ -11,6 +11,10 @@ exports.up = function(knex, Promise) {
       .notNullable()
 
     tbl
+      .string('posters_email', 128)
+      .notNullable()
+
+    tbl
       .string('date', 128)
       .notNullable()
 
@@ -21,6 +25,7 @@ exports.up = function(knex, Promise) {
       .references('id')
       .inTable('events')
       .onDelete('CASCADE')
+
 
   })
 };

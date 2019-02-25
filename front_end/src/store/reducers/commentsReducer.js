@@ -56,7 +56,7 @@ const eventsReducer = (state = initialState, action) => {
       return {
         ...state,
         makingComment: false,
-        comments: [...state.comments, action.payload]
+        comments: action.payload
       };
     case MAKE_COMMENT_ERROR:
       return {
