@@ -53,6 +53,7 @@ const friendsReducer = (state = initialState, action) => {
     case FRIEND_ADD_COMPLETE:
       return {
         ...state,
+        friends: action.payload,
         addingFriend: false,
         addedFriend: true,
         error: null
