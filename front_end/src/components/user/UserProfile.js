@@ -101,6 +101,18 @@ class UserProfile extends React.Component {
     }
   };
 
+  favoriteDelete = event => {
+    event.preventDefault();    
+    let ids = {
+      favorite_id: parseInt(event.target.id), // --> this comes from the button element
+      event_id: parseInt(this.props.match.params.id)
+    };
+    let new_obj = { data: ids };
+    let favorite_id = new_obj.data.favorite_id;
+    console.log("favoriteDelete invoked");
+    console.log(ids.favorite_id);    
+  }
+
   componentDidMount() {
     // fetchUser
     this.props.fetchUser(localStorage.getItem("user_id"));
@@ -266,6 +278,12 @@ class UserProfile extends React.Component {
                         {/* <img /> */}
                         <h3>{favorite.name}</h3>
                         <p>{favorite.location}</p>
+                        <button 
+                          onClick = {this.favoriteDelete}
+                          id = {favorite.id}
+                        >
+                        X
+                        </button>
                       </div>
                     </div>
                     // </Link>
@@ -278,7 +296,7 @@ class UserProfile extends React.Component {
                   .filter(favorite => favorite.location === this.state.value)
                   .map(favorite => {
                     return (
-                      // <Link to={`/locations/${location.name}`}>
+                      // <Link to={`/locations/${favorite.name}`}>
                       <div className={`resultsDisplay ${favorite.location}`}>
                         <div className="location-picture">
                           {/* <img /> */}
