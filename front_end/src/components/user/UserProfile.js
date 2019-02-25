@@ -10,9 +10,9 @@ import {
   fetchUser,
   fetchFavorites,
   fetchFriends,
-  searchUsers
+  searchUsers,  
 } from "../../store/actions/userActions";
-import { searchFavorites } from "../../store/actions/favoritesActions";
+import { searchFavorites, deleteFavorite } from "../../store/actions/favoritesActions";
 import { Link } from "react-router-dom";
 import { Dropdown } from "semantic-ui-react";
 import "./UserProfile.css";
@@ -100,6 +100,18 @@ class UserProfile extends React.Component {
       });
     }
   };
+
+  favoriteDelete = event => {
+    event.preventDefault();    
+    let ids = {
+      favorite_id: parseInt(event.target.id), // --> this comes from the button element      
+    };
+    let new_obj = { data: ids };
+    let favorite_id = new_obj.data.favorite_id; // --> grab favorite_id
+    console.log("favoriteDelete invoked");
+    console.log(ids.favorite_id); // --> grabs specific id of the favorite inside favorites table
+    this.props.deleteFavorite(favorite_id); // --> this was newly made, takes only the favorite_id and will return 1 || 0  
+  }
 
   componentDidMount() {
     // fetchUser
@@ -266,6 +278,12 @@ class UserProfile extends React.Component {
                         {/* <img /> */}
                         <h3>{favorite.name}</h3>
                         <p>{favorite.location}</p>
+                        <button 
+                          onClick = {this.favoriteDelete}
+                          id = {favorite.id}
+                        >
+                        X
+                        </button>
                       </div>
                     </div>
                     // </Link>
@@ -278,7 +296,7 @@ class UserProfile extends React.Component {
                   .filter(favorite => favorite.location === this.state.value)
                   .map(favorite => {
                     return (
-                      // <Link to={`/locations/${location.name}`}>
+                      // <Link to={`/locations/${favorite.name}`}>
                       <div className={`resultsDisplay ${favorite.location}`}>
                         <div className="location-picture">
                           {/* <img /> */}
@@ -332,6 +350,7 @@ export default connect(
     fetchFavorites,
     fetchFriends,
     searchUsers,
-    searchFavorites
+    searchFavorites,
+    deleteFavorite
   }
 )(UserProfile);
