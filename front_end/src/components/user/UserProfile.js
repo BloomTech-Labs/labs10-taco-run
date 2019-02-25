@@ -10,9 +10,9 @@ import {
   fetchUser,
   fetchFavorites,
   fetchFriends,
-  searchUsers
+  searchUsers,  
 } from "../../store/actions/userActions";
-import { searchFavorites } from "../../store/actions/favoritesActions";
+import { searchFavorites, deleteFavorite } from "../../store/actions/favoritesActions";
 import { Link } from "react-router-dom";
 import { Dropdown } from "semantic-ui-react";
 import "./UserProfile.css";
@@ -104,13 +104,14 @@ class UserProfile extends React.Component {
   favoriteDelete = event => {
     event.preventDefault();    
     let ids = {
-      favorite_id: parseInt(event.target.id), // --> this comes from the button element
-      event_id: parseInt(this.props.match.params.id)
+      favorite_id: parseInt(event.target.id), // --> this comes from the button element      
     };
     let new_obj = { data: ids };
     let favorite_id = new_obj.data.favorite_id;
     console.log("favoriteDelete invoked");
     console.log(ids.favorite_id);    
+    this.props.deleteFavorite(favorite_id);
+    window.location.reload();
   }
 
   componentDidMount() {
@@ -350,6 +351,7 @@ export default connect(
     fetchFavorites,
     fetchFriends,
     searchUsers,
-    searchFavorites
+    searchFavorites,
+    deleteFavorite
   }
 )(UserProfile);
