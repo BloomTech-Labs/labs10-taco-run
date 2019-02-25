@@ -4,8 +4,10 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
+    "big.js": "^5.2.2",
     "email-reminder": "^0.1.4",
     "firebase": "^5.8.2",
+    "google-map-react": "^1.1.2",
     "prop-types": "^15.7.2",
     "react": "^16.8.1",
     "react-alert": "^5.1.0",

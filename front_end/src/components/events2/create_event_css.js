@@ -2,24 +2,30 @@ import styled from 'styled-components';
 
 export const CreateEventWrapper = styled.div`
   display: flex;
-  width: 100%;
   margin: 0 auto;
+  max-width: 800px;
+  margin-top: 60px;
+  flex-direction:column;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-  background-color: #F3F7F8;
-  height: 42.53rem;
+`
+
+export const YelpDiv = styled.div`
+  border: solid black 1px;
+  padding: 2%;
+  margin-bottom: 15px;
+  background-color: #f0f0f0;
 `
 
 export const FormElement = styled.form`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   background-color: lightblue;
   padding: 2rem 5.6rem;
   border-radius: 10px;
-  width: 50%;  
+  width: 50%; 
+  margin-bottom: 20px; 
 `
 
 export const FormHeader = styled.h1`
@@ -56,4 +62,21 @@ export const SubmitButton = styled.button`
     transition: 0.2s;
     border-bottom: 5px solid black;    
   }
+`
+
+export const CenterP = styled.p`
+  text-align: center;
+`
+
+export const FlexForm = styled.form`
+  display: flex;
+  flex-direction: column;
+`
+
+export const MapDiv = styled.div`
+  border: solid black 1px;
+  height: 400px;
+  max-width: 800px;
+  margin: 0 auto;
+  margin-top: 40px;
 `

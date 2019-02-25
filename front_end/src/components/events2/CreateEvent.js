@@ -1,130 +1,229 @@
 import React from "react";
 import { connect } from "react-redux";
 import { createEvent } from "../../store/actions/eventsActions";
-
+import GoogleMapReact from 'google-map-react';
+import axios from 'axios'
+import { withAlert } from 'react-alert'
+import './create_event.css'
+import Popup from 'reactjs-popup'
 import Nav from "../nav/Nav.js";
+import Big from 'big.js'
+
 import { 
 	CreateEventWrapper, 
 	FormElement, 
 	LabelElement, 
 	InputElement,
 	FormHeader,
-	SubmitButton
+	SubmitButton,
+	YelpDiv,
+	CenterP,
+	FlexForm,
+	MapDiv
 } from "./create_event_css.js";
 
+
+const TacoLocation = ({ text }) => <div>{text}</div>;
+
 class CreateEvent extends React.Component {
-	constructor(props) {
+	constructor(props){
 		super(props);
 		this.state = {
-			event: {
-				name: '',
-				date: '',	
-				location: '',
-				venue: '',
-				author: '',
-				user_id: ''
-			} // --> event object				
+			name: '',
+			date: '',	
+			location: '',
+			venue: '',
+			author: '',
+			user_id: '',
+			city_location: '',
+			tacos_places: [],
+			destinations: [],
+			zoom: 11,
+			lat_av: 0,
+			lon_av: 0,
+			show_map: false
 		};
-	} // --> constructor
+	}
 
-	componentDidMount(){		
-// --> Get the user_id from localStorage
-		this.setState({
-			event: {
-				user_id: parseInt(localStorage.getItem("user_id"), 10), // --> parseInt() since the user_id comes up as a string and not a number
-				author: this.props.auth.displayName // --> this comes from firebase-auth
-			}
-		});
-		console.log(this.state.event);
-	};	
+	componentDidMount(){}	
 
 	handleChange = event => {
+ 	   this.setState({[event.target.name]: event.target.value})
+ 	 }
+
+	searchMap = event => {
 		event.preventDefault();
-// --> Destructure name and value to reduce code clutter
-		const { name, value } = event.target;		
-		this.setState({
-			event: {
-				...this.state.event,
-				[name]: value
-			}
-		});
-	 };
-	 
-	handleSubmit = event => {
-		event.preventDefault();
-// --> Use the createEvent() from actions & pass in the event object as param						
-		this.props.createEvent(this.state.event);		
-		this.props.history.push("/events"); // --> redirect to dashboard
+
+		let city = this.state.city_location
+		console.log(city)
+		let key = 'eCOPaZqiSLjMpzeQ959HILnzlPZnycqXnrXSynQOss8s-AmvlqkZBSples27Q_KQTqpDm0NuP4HbfRoytRzE_YPg1y2_1NlZrhMaQ46TpXNuZ3zydPTrutbb9XVvXHYx'
+    axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://api.yelp.com/v3/businesses/search?term=taco&location=${city}&categories=mexican`, {
+      headers: {
+        Authorization: `Bearer ${key}`
+      },
+    })
+    .then(res => {
+      console.log(res)
+
+      let destinations = []
+      let obj
+      let biz = res.data.businesses
+      let lat_ar = []
+      let lon_ar = []
+
+      for (let i = 0; i < biz.length; i++){
+      	obj = {lat: biz[i].coordinates.latitude, lon: biz[i].coordinates.longitude, number: i + 1}
+      	lat_ar.push(biz[i].coordinates.latitude)
+      	lon_ar.push(biz[i].coordinates.longitude)
+      	destinations.push(obj)
+      }
+
+			const average = arr => arr.reduce( ( p, c ) => p + c, 0 ) / arr.length;
+			    
+			const av_lat = average(lat_ar)
+			const av_lon = average(lon_ar)
+
+      this.setState({
+      	city_location: '',
+      	tacos_places: res.data.businesses,
+      	destinations: destinations,
+	      lat_av: av_lat,
+				lon_av: av_lon,
+				show_map: true
+      })
+
+    })
+    .catch(error => {
+    	this.props.alert.show("invalid city")
+      console.log(error)
+      this.setState({
+      	city_location: '',
+      })
+    })
+	}
+
+	handleSubmit = (obj) => {	
+
+		let event_obj = {
+			user_id: parseInt(localStorage.getItem("user_id"), 10), 
+			author: this.props.auth.displayName,
+			name: this.state.name,
+			date: this.state.date,
+			location: obj.location,
+			lat: obj.lat,
+			lon: obj.lon,
+			img_url: obj.img_url,
+			raiting: obj.raiting,
+			price: obj.price,
+			url: obj.url,
+			venue: obj.name,
+			total_comments: 0,
+			total_users: 1
+		}
+
+		this.props.createEvent(event_obj);
+		this.props.history.push("/events");
 	};
 
-
-
 	render() {
+		console.log(this.state)
+		console.log(this.props)
 		return (	
 			<div className = "create-event-full-wrapper">
 				<div className = "navigation-wrapper">
 						<Nav />
 				</div>
-				<CreateEventWrapper>				
-					<FormElement onSubmit = {this.handleSubmit}>
-						<FormHeader>Create An Event</FormHeader>
 
-						<LabelElement for = "event-name">Name</LabelElement>
-						<InputElement 
-							name = "name"
-							onChange = {this.handleChange}
-							value = {this.state.event.name}
-							type = "text"	
-							id = "event-name"	
-							placeholder = "Event Name *"				
-						/>
+				{this.state.show_map ? (
+						<MapDiv>
+							<GoogleMapReact
+			          bootstrapURLKeys={{ key: "AIzaSyDM6TcKZH9rWDPAqXx4Yln7_l08ACF5QdA" }}
+			          defaultZoom={this.state.zoom}
+			          defaultCenter={{lat: this.state.lat_av, lng: this.state.lon_av}}
+			        >
+				    		{this.state.destinations.map(d => {
+				    			return (
+				      			<TacoLocation
+				              lat={d.lat}
+				              lng={d.lon}
+				              text={d.number}
+				            />
+				  				)
+				    		})}
+			        </GoogleMapReact>
+			      </MapDiv>
+					) : 
+					null
+				}
 
-						<LabelElement for = "event-date">Event Date</LabelElement>
-						<InputElement 
-							name = "date"
-							onChange = {this.handleChange}
-							value = {this.state.event.date}
-							type = "date"	
-							id = "event-date"											
-						/>
+				<CreateEventWrapper>
+						<FormElement onSubmit={this.searchMap}>
+							<InputElement
+								name="city_location"
+								onChange={this.handleChange}
+								value={this.state.city_location}
+								type="text"
+								placeholder="look up taco places by city"
+							/>
+							<SubmitButton onClick={this.searchMap}>Submit</SubmitButton>
+						</FormElement>
 
-						<LabelElement for = "event-location">Location</LabelElement>
-						<InputElement 
-							name = "location"
-							onChange = {this.handleChange}
-							value = {this.state.event.location}
-							type = "text"	
-							id = "event-location"	
-							placeholder = "Event Location *"				
-						/>
+						<div>
+							{this.state.tacos_places.map((t, idx) => {
+								return (
+										<YelpDiv key={t.id}>
+											<p>{idx + 1}</p>
+											<p>Name: {t.name}</p>
+											<p><img className="yelp_img" src={t.image_url}/></p>
+											<p>Location: {`${t.location.display_address[0]} ${t.location.display_address[1]}`}</p>
+											<p>Rating: {t.rating}</p>
+											<p>Price: {t.price}</p>
+											<p><a href={t.url}>View on Yelp</a></p>
 
-						<LabelElement for = "event-venue">Venue / Building</LabelElement>
-						<InputElement 
-							name = "venue"
-							onChange = {this.handleChange}
-							value = {this.state.event.venue}
-							type = "text"	
-							id = "event-venue"		
-							placeholder = "Event Venue *"			
-						/>
+											<Popup trigger={<div><CenterP>CREATE EVENT</CenterP></div>} modal>
+									  		{close => {
+										  		return <FlexForm>
+										  			<div>
+										  				<div></div>
+											  			<p onClick={close}>X</p>
+										  			</div>
+												  	<input
+												  		type="text"
+												  		name="name"
+												  		placeholder="event name"
+												  		onChange={this.handleChange}
+												  	/>
+												  	<input
+												  		type="date"
+												  		name="date"
+												  		placeholder="event date"
+												  		onChange={this.handleChange}
+												  	/>
+												  	<p 
+												  		onClick={() => {this.handleSubmit({
+													  		lat: t.coordinates.latitude,
+													  		lon: t.coordinates.longitude, 
+													  		name: t.name,
+													  		img_url: t.image_url,
+													  		location: `${t.location.display_address[0]} ${t.location.display_address[1]}`,
+													  		raiting: t.rating,
+													  		price: t.price,
+													  		url: t.url
+												  		})}}>Create Event
+												  	</p>
+												  </FlexForm>
+									  		}}									  
+											</Popup>
 
-						<LabelElement for = "event-author">Event Author</LabelElement>
-						<InputElement 
-							name = "author"
-							onChange = {this.handleChange}
-							value = {this.state.event.author}
-							type = "text"	
-							id = "event-author"					
-						/>
-
-						<SubmitButton type = "submit">Submit</SubmitButton>
-
-					</FormElement>
+										</YelpDiv>
+									)
+							})}
+						</div>
 				</CreateEventWrapper>
 			</div>
 		)
-	} // --> render() brace
-} // --> class brace
+	}
+}
 
 const mapStateToProps = state => {
 	return {
@@ -133,4 +232,18 @@ const mapStateToProps = state => {
 	}
 }
 
-export default connect(mapStateToProps, { createEvent })(CreateEvent);
+export default connect(mapStateToProps, { createEvent })(withAlert()(CreateEvent));
+
+
+														// {
+															
+												  // 		lat={t.coordinates.latitude} 
+												  // 		lon={t.coordinates.longitude} 
+												  // 		name={t.Name}
+												  // 		img_url={t.image_url}
+												  // 		location={`${t.location.display_address[0]} ${t.location.display_address[1]}`}
+												  // 		raiting={t.rating}
+												  // 		price={t.price}
+												  // 		url={t.url}
+
+												  // 	}

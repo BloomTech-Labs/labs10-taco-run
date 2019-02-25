@@ -9,7 +9,7 @@ const db = require("../config.js")
 //post http://localhost:5555/events
 //-------------------------------------------
 router.post('', (req, res) => {
-	const {name, date, location, venue, author, user_id } = req.body;
+	const {name, date, location, venue, author, user_id, lat, lon, img_url, raiting, price, url } = req.body;
 
 	/* first we check to see if the event already exists*/
 	db('events')
@@ -17,7 +17,7 @@ router.post('', (req, res) => {
 	.then(check => {
 		//if it does not already exist we can create it
 		if (check.length === 0){
-			db.insert({name, date, location, venue, author, user_id }).into('events')
+			db.insert({name, date, location, venue, author, user_id, lat, lon, img_url, raiting, price, url }).into('events')
 			.then(() => {
 				db('events')
 				.where({name, date, location, venue, author, user_id })
@@ -78,9 +78,15 @@ router.get("/:id", (req, res) => {
     		invite_only: resp[0].invite_only,
     		location: resp[0].location,
     		venue: resp[0].venue,
-    		date: resp[0].date 
+    		date: resp[0].date,
+    		img_url: resp[0].img_url,
+    		raiting: resp[0].raiting,
+    		price: resp[0].price,
+    		lat: resp[0].lat,
+    		lon: resp[0].lon,
+    		url: resp[0].url,
+    		email: resp[0].email
     	}
-
       res.status(200).json(obj);
     })
     .catch(error => {

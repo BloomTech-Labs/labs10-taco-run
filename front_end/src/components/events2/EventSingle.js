@@ -21,17 +21,52 @@ import { Container } from "./eventsingle_css.js";
 import Nav from "../nav/Nav.js";
 import { fetchUser } from "../../store/actions/userActions";
 import Popup from "reactjs-popup";
+import "./create_event.css"
+import GoogleMapReact from 'google-map-react';
+
+import { MapDiv } from "./create_event_css.js";
+import { withAlert } from 'react-alert'
+
+const TacoLocation = ({ text }) => <div>{text}</div>;
 
 class EventSingle extends React.Component {
   state = {
     content: "",
-    editComment: ""
+    editComment: "",
+    venue: '',
+    date: '',
+    location: '',
+    posted_by: '',
+    price: '',
+    raiting: '',
+    url: '',
+    img_url: '',
+    attending: [],
+    loaded: false
   };
 
   componentDidMount() {
-    this.props.getEvent(this.props.match.params.id);
+
     this.props.getComments(this.props.match.params.id);
     this.props.fetchUser(localStorage.getItem("user_id"));
+    axios.get(`https://production-taco.herokuapp.com/events/${this.props.match.params.id}`)
+    .then(res => {
+      console.log(res)
+      this.setState({
+        venue: res.data.venue,
+        date: res.data.date,
+        location: res.data.location,
+        posted_by: res.data.author,
+        price: res.data.price,
+        raiting: res.data.raiting,
+        url: res.data.url,
+        img_url: res.data.img_url,
+        lat: parseFloat(res.data.lat),
+        lon: parseFloat(res.data.lon),
+        attending: res.data.users,
+        loaded: true
+      })
+    })
   }
 
   createComment = event => {
@@ -85,29 +120,65 @@ class EventSingle extends React.Component {
     this.setState({ editComment: event.target.value });
   };
 
+  addFav = event => {
+    event.preventDefault();
+    let obj = {name: this.state.venue, location: this.state.location, user_id: parseInt(localStorage.getItem("user_id"))}
+
+    axios.post('https://production-taco.herokuapp.com/favorites', obj)
+    .then(res => {
+      console.log(res)
+      if (res.data.msg){
+        this.props.alert.show(res.data.msg)
+      } else {
+        this.props.alert.show(`${this.state.venue} added to favorites`)
+      }
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
+
   render() {
-    console.log(this.props);
+    console.log(this.props)
+    console.log(this.state)
     return (
       <div>
-        <Nav />
+      <Nav />
+
+        {this.state.loaded ? (
+          <MapDiv>
+            <GoogleMapReact
+              bootstrapURLKeys={{ key: "AIzaSyDM6TcKZH9rWDPAqXx4Yln7_l08ACF5QdA" }}
+              defaultZoom={16}
+              defaultCenter={{lat: this.state.lat, lng: this.state.lon}}
+            >
+            <TacoLocation
+              text={this.state.venue}
+              lat={this.state.lat}
+              lng={this.state.lon}
+            />
+            </GoogleMapReact>
+          </MapDiv>
+
+
+          ) : null}
+
         <Container>
-          <div className="event-single">
-            <div className="event-details">
-              <h1 className="event-detail-title">{this.props.event.venue}</h1>
-              <h2 className="event-detail-date">
-                Date: {this.props.event.date}
-              </h2>
-              <div className="event-detail-location">
-                <img className="location-image" />
-                <h3 className="location-details">
-                  {this.props.event.location}
-                </h3>
-                <div className="location-google" />
-              </div>
-            </div>
+          <div>
+            <button onClick={this.addFav}>Add location to favorites</button>
+            <p><img className="yelp_img" src={this.state.img_url}/></p>
+            <p>Venue: {this.state.venue}</p>
+            <p>Date: {this.state.date}</p>
+            <p>Location {this.state.location}</p>
+            <p>posted_by: {this.state.posted_by}</p>
+            <p>price: {this.state.price}</p>
+            <p>raiting: {this.state.raiting}</p>
+            <p><a href={this.state.url}>Yelp Link</a></p>
+          </div>
+          <div>
             <div className="event-invited">
               <h2 className="event-invited-title">Attending</h2>
-              {this.props.attendees.map(attendee => {
+              {this.state.attending.map(attendee => {
                 if (attendee !== undefined) {
                   return (
                     <div>
@@ -192,14 +263,11 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  {
-    getEvent,
-    getComments,
-    fetchUser,
-    makeComment,
-    deleteComment,
-    updateComment
-  }
-)(EventSingle);
+export default connect(mapStateToProps,{getEvent,getComments,fetchUser,makeComment,deleteComment,updateComment})(withAlert()(EventSingle));
+
+
+
+// export default connect(mapStateToProps, mapDispatchToProps)(withAlert()(Auth))
+
+
+

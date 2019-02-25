@@ -102,14 +102,10 @@ const eventsReducer = (state = initialState, action) => {
     case EVENTS_CREATE_COMPLETE:
       return {
         ...state,
-        // events: state.events.map( eachEvent => (
-        //   eachEvent._id === action.payload.eachEvent._id ?
-        //   action.payload.eachEvent :
-        //   eachEvent
-        // )),
         creatingEvent: false,
         createdEvent: true,
-        error: null
+        error: null,
+        events: action.payload
       };
     case EVENTS_CREATE_ERROR:
       return {
