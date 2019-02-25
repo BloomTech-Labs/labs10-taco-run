@@ -64,13 +64,13 @@ export const createEvent = (event) => {
   };
 };
 
-export const deleteEvent = event => {
+export const deleteEvent = (id) => {
   return dispatch => {
     dispatch({ type: EVENT_DELETE_START });
     axios
-      .del(`https://production-taco.herokuapp.com/event/${event}`)
-      .then(res => {
-        dispatch({ type: EVENT_DELETE_COMPLETE, payload: res.data });
+      .delete(`https://production-taco.herokuapp.com/events/${id}`)
+      .then(() => {
+        dispatch({ type: EVENT_DELETE_COMPLETE, payload: parseInt(id) });
       })
       .catch(err => {
         dispatch({ type: EVENT_DELETE_ERROR, payload: err });

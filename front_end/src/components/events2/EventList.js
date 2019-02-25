@@ -3,7 +3,7 @@ import axios from 'axios';
 import Nav from '../nav/Nav.js';
 import { Card, FlexDiv, ViewEvent, DispayComments, CreateLink, ContainLink } from './eventlist_css.js'
 import { Link } from "react-router-dom";
-import { getEvents } from "../../store/actions/eventsActions";
+import { getEvents, deleteEvent } from "../../store/actions/eventsActions";
 import { connect } from "react-redux";
 import './create_event.css'
 
@@ -17,8 +17,12 @@ class EventList extends React.Component {
 		this.props.getEvents()
 	}
 	
+	delete = (event) => {
+		this.props.deleteEvent(event.target.id)
+	}
+
 	render() {
-		console.log(this.props.events)
+		console.log(this.props)
 		return (
 
 			<div>
@@ -29,6 +33,11 @@ class EventList extends React.Component {
 							return (
 								<FlexDiv key={event.id}>
 									<Card id={event.id}>
+
+										{this.props.auth.email === event.posters_email ? (
+											<div id={event.id} onClick={this.delete}>X</div>
+										) : null}
+
 										<p><img className="yelp_img" src={event.img_url}/></p>
 										<p>Event Name: {event.name}</p>
 										<p>posted by: {event.author}</p>
@@ -56,8 +65,9 @@ class EventList extends React.Component {
 
 const mapStateToProps = state => {
   return {
+  	auth: state.firebase.auth,
     events: state.eventsReducer.events,
   };
 };
 
-export default connect(mapStateToProps, {getEvents})(EventList);
+export default connect(mapStateToProps, {getEvents, deleteEvent})(EventList);

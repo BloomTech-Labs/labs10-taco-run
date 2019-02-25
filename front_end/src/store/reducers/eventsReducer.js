@@ -82,7 +82,7 @@ const eventsReducer = (state = initialState, action) => {
     case EVENT_DELETE_COMPLETE:
       return {
         ...state,
-        // events: state.events.filter( each => each["id"] !== action.payload["id"]),
+        events: state.events.filter(e => e.id !== action.payload),
         deletingEvent: false,
         deletedEvent: true,
         error: null
