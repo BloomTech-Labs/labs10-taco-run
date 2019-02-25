@@ -1,10 +1,7 @@
 import {
   USER_FETCH_START,
   USER_FETCH_COMPLETE,
-  USER_FETCH_ERROR,
-  FAVORITES_FETCH_START,
-  FAVORITES_FETCH_COMPLETE,
-  FAVORITES_FETCH_ERROR,
+  USER_FETCH_ERROR,  
   FRIENDS_FETCH_START,
   FRIENDS_FETCH_COMPLETE,
   FRIENDS_FETCH_ERROR,
@@ -51,27 +48,7 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         error: "Error fetching user"
-      };
-
-    case FAVORITES_FETCH_START:
-      return {
-        ...state,
-        fetchingFavorites: true
-      };
-
-    case FAVORITES_FETCH_COMPLETE:
-      return {
-        ...state,
-        favorites: action.payload,
-        fetchingFavorites: false,
-        fetchedFavorites: true
-      };
-
-    case FAVORITES_FETCH_ERROR:
-      return {
-        ...state,
-        error: "Error fetching favorites"
-      };
+      };    
 
     case USERS_SEARCH_START:
       return {
