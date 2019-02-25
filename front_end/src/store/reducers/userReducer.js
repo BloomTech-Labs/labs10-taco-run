@@ -73,26 +73,6 @@ const userReducer = (state = initialState, action) => {
         error: "Error fetching favorites"
       };
 
-    case FRIENDS_FETCH_START:
-      return {
-        ...state,
-        fetchingFriends: true
-      };
-
-    case FRIENDS_FETCH_COMPLETE:
-      return {
-        ...state,
-        friends: action.payload,
-        fetchingFriends: false,
-        fetchedFriends: true
-      };
-
-    case FRIENDS_FETCH_ERROR:
-      return {
-        ...state,
-        error: "Error fetching friends"
-      };
-
     case USERS_SEARCH_START:
       return {
         ...state,

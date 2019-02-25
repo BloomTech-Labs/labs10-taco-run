@@ -98,7 +98,7 @@ router.get("/:id", (req, res) => {
 //delete http://localhost:5555/users_friends/
 //-------------------------------------------
 router.delete("", (req, res) => {
-  const { user_id, friends_id } = req.body;
+  const { user_id, friends_id } = req.body.data;
   db("users_friends")
     .where({ user_id, friends_id })
     .del()

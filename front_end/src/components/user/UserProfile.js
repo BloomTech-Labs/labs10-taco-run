@@ -9,11 +9,17 @@ import Nav from "../nav/Nav.js";
 import {
   fetchUser,
   fetchFavorites,
-  fetchFriends,
-  searchUsers,  
+  searchUsers
 } from "../../store/actions/userActions";
-import { addFriend } from "../../store/actions/friendsActions";
-import { searchFavorites, deleteFavorite } from "../../store/actions/favoritesActions";
+import {
+  fetchFriends,
+  addFriend,
+  deleteFriend
+} from "../../store/actions/friendsActions";
+import {
+  searchFavorites,
+  deleteFavorite
+} from "../../store/actions/favoritesActions";
 import { Link } from "react-router-dom";
 import { Dropdown } from "semantic-ui-react";
 import "./UserProfile.css";
@@ -72,17 +78,6 @@ class UserProfile extends React.Component {
     }
   };
 
-  friendAdd = event => {
-    event.preventDefault();
-    let ids = {
-      user_id: parseInt(localStorage.getItem("user_id")),
-      friends_id: parseInt(event.target.id)
-    };
-    let obj = { data: ids };
-    let cid = obj.data.user_id;
-    this.props.addFriend(obj, cid);
-  };
-
   openTab = (evt, tabName) => {
     var i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabcontent");
@@ -114,17 +109,39 @@ class UserProfile extends React.Component {
     }
   };
 
-  favoriteDelete = event => {
-    event.preventDefault();    
+  friendAdd = event => {
+    event.preventDefault();
     let ids = {
-      favorite_id: parseInt(event.target.id), // --> this comes from the button element      
+      user_id: parseInt(localStorage.getItem("user_id")),
+      friends_id: parseInt(event.target.id)
+    };
+    let obj = { data: ids };
+    let cid = obj.data.user_id;
+    this.props.addFriend(obj, cid);
+  };
+
+  friendDelete = event => {
+    event.preventDefault();
+    let ids = {
+      user_id: parseInt(localStorage.getItem("user_id")),
+      friends_id: parseInt(event.target.id)
+    };
+    let obj = { data: ids };
+    let cid = obj.data.user_id;
+    this.props.deleteFriend(obj, cid);
+  };
+
+  favoriteDelete = event => {
+    event.preventDefault();
+    let ids = {
+      favorite_id: parseInt(event.target.id) // --> this comes from the button element
     };
     let new_obj = { data: ids };
     let favorite_id = new_obj.data.favorite_id; // --> grab favorite_id
     console.log("favoriteDelete invoked");
     console.log(ids.favorite_id); // --> grabs specific id of the favorite inside favorites table
-    this.props.deleteFavorite(favorite_id); // --> this was newly made, takes only the favorite_id and will return 1 || 0  
-  }
+    this.props.deleteFavorite(favorite_id); // --> this was newly made, takes only the favorite_id and will return 1 || 0
+  };
 
   componentDidMount() {
     // fetchUser
@@ -294,11 +311,8 @@ class UserProfile extends React.Component {
                         {/* <img /> */}
                         <h3>{favorite.name}</h3>
                         <p>{favorite.location}</p>
-                        <button 
-                          onClick = {this.favoriteDelete}
-                          id = {favorite.id}
-                        >
-                        X
+                        <button onClick={this.favoriteDelete} id={favorite.id}>
+                          X
                         </button>
                       </div>
                     </div>
@@ -334,6 +348,9 @@ class UserProfile extends React.Component {
                   <div className="resultsDisplay">
                     <div className="location-picture">
                       {/* <img /> */}
+                      <button onClick={this.friendDelete} id={friend.id}>
+                        X
+                      </button>
                       <h3>{friend.name}</h3>
                     </div>
                   </div>
@@ -353,7 +370,7 @@ const mapStateToProps = state => {
   return {
     user: state.userReducer.user,
     favorites: state.userReducer.favorites,
-    friends: state.userReducer.friends,
+    friends: state.friendsReducer.friends,
     users: state.userReducer.users,
     locations: state.favoritesReducer.locations
   };
@@ -368,6 +385,7 @@ export default connect(
     searchUsers,
     searchFavorites,
     addFriend,
+    deleteFriend,
     deleteFavorite
   }
 )(UserProfile);
