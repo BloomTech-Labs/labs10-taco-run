@@ -3,6 +3,8 @@ import styled from 'styled-components'
 export const MainNav = styled.nav`
 	display: flex;
 	justify-content: space-between;
+	max-width: 800px;
+	margin: 0 auto;
 	> div {
 		display: flex;
 		justify-content: center;
