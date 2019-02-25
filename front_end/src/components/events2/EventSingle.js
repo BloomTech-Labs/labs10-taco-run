@@ -15,7 +15,6 @@ import {
   DeleteBtn,
   FlexDiv
 } from "./eventsingle_css.js";
-import { If, Then, ElseIf, Else } from "react-if-elseif-else-render";
 
 import { Container } from "./eventsingle_css.js";
 import Nav from "../nav/Nav.js";
@@ -145,8 +144,8 @@ class EventSingle extends React.Component {
   }
 
   render() {
-    // console.log(this.props)
-    // console.log(this.state)
+    //console.log(this.props)
+    // console.log(this.state.user.email)
     return (
       <div>
       <Nav />
@@ -200,10 +199,9 @@ class EventSingle extends React.Component {
                 if (comment !== undefined) {
                   return (
                     <FlexDiv>
-                    <If
-                      condition={this.props.user.email === comment.posters_email}
-                    >
-                        <Then>
+
+                      {this.props.user.email === comment.posters_email ? (
+                        <FlexDiv>
                           <DeleteBtn
                             onClick={this.commentDelete}
                             id={comment.id}
@@ -230,8 +228,9 @@ class EventSingle extends React.Component {
                               Edit
                             </CommentSubmit>
                           </Popup>
-                        </Then>
-                      </If>
+                        </FlexDiv>
+                      ) : null }
+
                       <Comment key={comment.id}>
                         <h4> - {comment.posted_by}</h4>
                         <h6>{comment.date}</h6>
