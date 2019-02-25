@@ -1,8 +1,8 @@
 import {
-  FRIENDS_ADD_START,
-  FRIENDS_ADD_COMPLETE,
-  FRIENDS_ADD_ERROR
-} from "../actions/favoritesActions";
+  FRIEND_ADD_START,
+  FRIEND_ADD_COMPLETE,
+  FRIEND_ADD_ERROR
+} from "../actions/friendsActions";
 
 const initialState = {
   addingFriend: false,
@@ -12,13 +12,13 @@ const initialState = {
 
 const friendsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case FRIENDS_ADD_START:
+    case FRIEND_ADD_START:
       return {
         ...state,
         addingFriend: true,
         searchedFavorites: false
       };
-    case FRIENDS_ADD_COMPLETE:
+    case FRIEND_ADD_COMPLETE:
       return {
         ...state,
         locations: action.payload,
@@ -27,7 +27,7 @@ const friendsReducer = (state = initialState, action) => {
         error: null
       };
 
-    case FRIENDS_ADD_ERROR:
+    case FRIEND_ADD_ERROR:
       return {
         ...state,
         error: "Error adding friend"

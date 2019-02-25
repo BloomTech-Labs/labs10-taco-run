@@ -13,6 +13,7 @@ import {
   searchUsers
 } from "../../store/actions/userActions";
 import { searchFavorites } from "../../store/actions/favoritesActions";
+import { addFriend } from "../../store/actions/friendsActions";
 import { Link } from "react-router-dom";
 import { Dropdown } from "semantic-ui-react";
 import "./UserProfile.css";
@@ -236,7 +237,7 @@ class UserProfile extends React.Component {
                           /> */}
                             </div>
                             <button onClick={this.friendAdd} id={result.id}>
-                              X
+                              Add
                             </button>
                             <div className="result-name">
                               <h3>{result.name}</h3>
@@ -347,6 +348,7 @@ export default connect(
     fetchFavorites,
     fetchFriends,
     searchUsers,
-    searchFavorites
+    searchFavorites,
+    addFriend
   }
 )(UserProfile);
