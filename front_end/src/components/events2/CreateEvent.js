@@ -118,7 +118,8 @@ class CreateEvent extends React.Component {
 			url: obj.url,
 			venue: obj.name,
 			total_comments: 0,
-			total_users: 1
+			total_users: 1,
+			posters_email: this.props.auth.email
 		}
 
 		this.props.createEvent(event_obj);
