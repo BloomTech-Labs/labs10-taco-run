@@ -8,7 +8,7 @@ export const addFriend = friend => {
   return dispatch => {
     dispatch({ type: FRIEND_ADD_START });
     axios
-      .post(`https://production-taco.herokuapp.com/user_friends`, friend)
+      .post(`http://localhost:5555/users_friends`, friend)
       .then(res => {
         let obj = JSON.parse(res.config.data);
         dispatch({
