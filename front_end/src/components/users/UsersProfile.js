@@ -27,7 +27,8 @@ class UsersProfile extends React.Component {
   state = {
     search: "",
     favoritesFlag: true,
-    value: "All"
+    value: "All",
+    friendFlag: null
   };
 
   handleChange = e => {
@@ -70,7 +71,7 @@ class UsersProfile extends React.Component {
     }
 
     let box = document.getElementById("results");
-    if (e.target != box && box.style.display == "inline-block") {
+    if (e.target !== box && box.style.display === "inline-block") {
       box.style.display = "none";
     }
   };
@@ -91,14 +92,14 @@ class UsersProfile extends React.Component {
     // function to set flag to change certain details on page
     if (
       evt.currentTarget.id === "friends" &&
-      this.state.favoritesFlag == true
+      this.state.favoritesFlag === true
     ) {
       this.setState({
         favoritesFlag: false
       });
     } else if (
       evt.currentTarget.id === "favorites" &&
-      this.state.favoritesFlag == false
+      this.state.favoritesFlag === false
     ) {
       this.setState({
         favoritesFlag: true
@@ -110,7 +111,7 @@ class UsersProfile extends React.Component {
     event.preventDefault();
     let ids = {
       user_id: parseInt(localStorage.getItem("user_id")),
-      friends_id: parseInt(event.target.id)
+      friends_id: parseInt(this.props.match.params.id)
     };
     let obj = { data: ids };
     let cid = obj.data.user_id;
@@ -118,7 +119,7 @@ class UsersProfile extends React.Component {
   };
 
   componentDidMount() {
-    // fetchUser
+    // fetchOtherUser
     this.props.fetchOtherUser(this.props.match.params.id);
     // fetchFavorites
     this.props.fetchFavorites(this.props.match.params.id);
@@ -127,11 +128,18 @@ class UsersProfile extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <div className="profile">
         <Nav />
         <Container>
+          <FlexEnd>
+            {console.log(this.props.friendFlag)}
+            {this.props.friendFlag ? (
+              <EditBtn>User Already Added</EditBtn>
+            ) : (
+              <EditBtn onClick={this.friendAdd}>Add as friend</EditBtn>
+            )}
+          </FlexEnd>
           <div className="profile-details">
             <h1>{this.props.user.name}</h1>
             <h3>Shell preference: {this.props.user.hard_or_soft}</h3>
@@ -231,15 +239,15 @@ class UsersProfile extends React.Component {
             <div id="Friends" className="tabcontent">
               {this.props.friends.map(friend => {
                 return (
-                  // <Link to={`/friends/${friend.id}`}>
-                  <div className="resultsDisplay">
-                    <div className="location-picture">
-                      {/* <img /> */}
+                  <Link to={`/users/${friend.id}`}>
+                    <div className="resultsDisplay">
+                      <div className="location-picture">
+                        {/* <img /> */}
 
-                      <h3>{friend.name}</h3>
+                        <h3>{friend.name}</h3>
+                      </div>
                     </div>
-                  </div>
-                  // </Link>
+                  </Link>
                 );
               })}
             </div>
@@ -256,6 +264,7 @@ const mapStateToProps = state => {
     user: state.userReducer.user,
     favorites: state.favoritesReducer.favorites,
     friends: state.friendsReducer.friends,
+    friendFlag: state.friendsReducer.friendFlag,
     users: state.userReducer.users,
     locations: state.favoritesReducer.locations
   };

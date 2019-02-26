@@ -18,7 +18,23 @@ export const fetchFriends = id => {
     axios
       .get(`https://production-taco.herokuapp.com/users_friends/${id}`)
       .then(res => {
-        dispatch({ type: FRIENDS_FETCH_COMPLETE, payload: res.data });
+        for (let i = 0; i < res.data.length; i++) {
+          if (
+            res.data[i].friends_id === parseInt(localStorage.getItem("user_id"))
+          ) {
+            dispatch({
+              type: FRIENDS_FETCH_COMPLETE,
+              payload: res.data,
+              friendFlag: true
+            });
+          } else {
+            dispatch({
+              type: FRIENDS_FETCH_COMPLETE,
+              payload: res.data,
+              friendFlag: false
+            });
+          }
+        }
       })
       .catch(err => {
         dispatch({ type: FRIENDS_FETCH_ERROR });
@@ -55,12 +71,14 @@ export const deleteFriend = (ids, f_id) => {
   return dispatch => {
     dispatch({ type: FRIEND_DELETE_START });
     axios
-      .delete(`https://production-taco.herokuapp.com/users_friends`, {data: ids})
+      .delete(`https://production-taco.herokuapp.com/users_friends`, {
+        data: ids
+      })
       .then(() => {
-        dispatch({type: FRIEND_DELETE_COMPLETE, payload: f_id})
+        dispatch({ type: FRIEND_DELETE_COMPLETE, payload: f_id });
       })
       .catch(error => {
-        dispatch({type: FRIEND_DELETE_ERROR, payload: error.data})
-      })
+        dispatch({ type: FRIEND_DELETE_ERROR, payload: error.data });
+      });
   };
 };
