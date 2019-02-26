@@ -1,111 +1,122 @@
-import React from 'react';
-import Nav from '../nav/Nav.js'
-import Select from 'react-select';
-import './settings.css'
-import {ProfileForm, ContainForm, Reset, Switch, SwitchTab, FlexDiv, CenterDiv, Submit} from './user_settings_css.js'
-import axios from 'axios';
-import { withAlert } from 'react-alert'
-import PhoneInput from 'react-phone-number-input'
-import { isValidPhoneNumber } from 'react-phone-number-input'
-import Billing from '../billing/Billing.js'
+import React from "react";
+import Nav from "../nav/Nav.js";
+import Select from "react-select";
+import "./settings.css";
+import {
+  ProfileForm,
+  ContainForm,
+  Reset,
+  Switch,
+  SwitchTab,
+  FlexDiv,
+  CenterDiv,
+  Submit
+} from "./user_settings_css.js";
+import axios from "axios";
+import { withAlert } from "react-alert";
+import PhoneInput from "react-phone-number-input";
+import { isValidPhoneNumber } from "react-phone-number-input";
+import Billing from "../billing/Billing.js";
 
 const options = [
-  { value: 'phone', label: 'phone' },
-  { value: 'email', label: 'email' },
+  { value: "phone", label: "phone" },
+  { value: "email", label: "email" }
 ];
 
 const options1 = [
-  {value: 'soft', label: 'soft'},
-  {value: 'hard', label: 'hard'}
-]
+  { value: "Soft", label: "Soft" },
+  { value: "Hard", label: "Hard" }
+];
 
 const options2 = [
-  {value: 'mild', 'label': 'mild'},
-  {value: 'medium', 'label': 'medium'},
-  {value: 'spicy', 'label': 'spicy'},
-  {value: 'HOT!', 'label': 'Hot!'}
-]
+  { value: "Mild", label: "Mild" },
+  { value: "Medium", label: "Medium" },
+  { value: "Spicy", label: "Spicy" },
+  { value: "HOT!", label: "HOT!" }
+];
 
 const options3 = [
-  {value: 'street', 'label': 'street'},
-  {value: 'gourmet', 'label': 'gourmet'}
-]
+  { value: "Street", label: "Street" },
+  { value: "Gourmet", label: "Gourmet" }
+];
 
 class UserSettings extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
-      name: '',
-      phone: '',
+      name: "",
+      phone: "",
       bymail: true,
       byphone: false,
-      selectedOption: '',
-      selectedOption1: '',
-      selectedOption2: '',
-      selectedOption3: '',
+      selectedOption: "",
+      selectedOption1: "",
+      selectedOption2: "",
+      selectedOption3: "",
       profile: true,
-      selected: ['', 'active'],
-      usersName: '',
-      value: ''
+      selected: ["", "active"],
+      usersName: "",
+      value: ""
     };
   }
 
-  componentDidMount(){
-    let id = localStorage.getItem("user_id")
-    axios.get(`https://production-taco.herokuapp.com/users/${id}/info`)
-    .then(response => {
-      this.setState({
-        usersName: response.data.name
-      })
-    })
+  componentDidMount() {
+    let id = localStorage.getItem("user_id");
+    axios
+      .get(`https://production-taco.herokuapp.com/users/${id}/info`)
+      .then(response => {
+        console.log(response);
+        this.setState({
+          name: response.data.name
+        });
+      });
   }
 
   handleChange = event => {
-    this.setState({[event.target.name]: event.target.value})
-  }
+    this.setState({ [event.target.name]: event.target.value });
+  };
 
-  handleSelect = (selectedOption) => {
+  handleSelect = selectedOption => {
     this.setState({ selectedOption });
-  }
+  };
 
-  handleSelect1 = (selectedOption1) => {
+  handleSelect1 = selectedOption1 => {
     this.setState({ selectedOption1 });
-  }
+  };
 
-  handleSelect2 = (selectedOption2) => {
+  handleSelect2 = selectedOption2 => {
     this.setState({ selectedOption2 });
-  }
+  };
 
-  handleSelect3 = (selectedOption3) => {
+  handleSelect3 = selectedOption3 => {
     this.setState({ selectedOption3 });
-  }
+  };
 
   switchToBilling = () => {
     this.setState({
       profile: false,
-      selected: ['active', '']
-    })
-  }
+      selected: ["active", ""]
+    });
+  };
 
   switchToProfile = () => {
     this.setState({
       profile: true,
-      selected: ['', 'active']
-    })
-  }
+      selected: ["", "active"]
+    });
+  };
 
-  submitEdit = (event) => {
-    event.preventDefault()
-    let ar = []
+  submitEdit = event => {
+    event.preventDefault();
+    let ar = [];
 
-    for (let i = 0; i < this.state.selectedOption.length; i++){
-      ar.push(this.state.selectedOption[i].value)
+    for (let i = 0; i < this.state.selectedOption.length; i++) {
+      ar.push(this.state.selectedOption[i].value);
     }
 
-    if (this.state.name === ''){
+    if (this.state.name === "") {
       this.setState({
         name: this.state.usersName
-      })
+      });
     }
 
     let edited_user = {
@@ -115,45 +126,55 @@ class UserSettings extends React.Component {
       hard_or_soft: this.state.selectedOption1.value,
       heat_pref: this.state.selectedOption2.value,
       street_gourmet: this.state.selectedOption3.value
-    }
+    };
 
-    let id = localStorage.getItem("user_id")
-    axios.put(`https://production-taco.herokuapp.com/users/${id}`, edited_user)
-    .then(response => {
-      console.log(response)
-      this.setState({
-        usersName: response.data.usersName,
-        selectedOption: '',
-        selectedOption1: '',
-        selectedOption2: '',
-        selectedOption3: '',
-        phone: '',
-        name: ''
-      })
-    })
-  }
+    let id = localStorage.getItem("user_id");
+    axios
+      .put(`https://production-taco.herokuapp.com/users/${id}`, edited_user)
+      .then(response => {
+        console.log(response);
+        this.setState({
+          usersName: response.data.usersName,
+          selectedOption: "",
+          selectedOption1: "",
+          selectedOption2: "",
+          selectedOption3: "",
+          phone: "",
+          name: ""
+        });
+      });
+  };
 
   render() {
     return (
       <div>
-        <Nav/>
+        <Nav />
         <ContainForm>
           <h1>{this.state.usersName}</h1>
           <Switch>
             <div>
-              <SwitchTab onClick={this.switchToBilling} className={this.state.selected[0]}>Billing</SwitchTab>
-              <SwitchTab onClick={this.switchToProfile} className={this.state.selected[1]}>Profile</SwitchTab>
+              <SwitchTab
+                onClick={this.switchToBilling}
+                className={this.state.selected[0]}
+              >
+                Billing
+              </SwitchTab>
+              <SwitchTab
+                onClick={this.switchToProfile}
+                className={this.state.selected[1]}
+              >
+                Profile
+              </SwitchTab>
             </div>
           </Switch>
-          {this.state.profile ? 
-          (
+          {this.state.profile ? (
             <div>
               <ProfileForm onSubmit={this.submitEdit}>
                 <Reset>Reset Pass</Reset>
                 <h2>Edit Profile</h2>
                 <input
                   type="text"
-                  placeholder='Edit Name'
+                  placeholder="Edit Name"
                   onChange={this.handleChange}
                   name="name"
                   value={this.state.name}
@@ -161,12 +182,12 @@ class UserSettings extends React.Component {
                 <PhoneInput
                   country="US"
                   placeholder="Enter phone number"
-                  value={ this.state.phone }
-                  onChange={ phone => this.setState({ phone }) }
-                  className="phone-input" 
+                  value={this.state.phone}
+                  onChange={phone => this.setState({ phone })}
+                  className="phone-input"
                 />
               </ProfileForm>
-              <h2 className="prefs">Preferances</h2>
+              <h2 className="prefs">Preferences</h2>
               <FlexDiv>
                 <div>
                   <h3>Reminder Method</h3>
@@ -209,16 +230,14 @@ class UserSettings extends React.Component {
                   />
                 </div>
               </FlexDiv>
-            <Submit onClick={this.submitEdit}>SUBMIT</Submit>
-          </div>
-          ) 
-            : 
-            <Billing/>
-          }
-
+              <Submit onClick={this.submitEdit}>SUBMIT</Submit>
+            </div>
+          ) : (
+            <Billing />
+          )}
         </ContainForm>
       </div>
-    )
+    );
   }
 }
 
