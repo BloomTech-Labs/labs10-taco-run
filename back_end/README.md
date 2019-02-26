@@ -58,6 +58,34 @@ http://localhost:5555/users_events
 ```
 
 
+## Technologies and Frameworks Used
+###
+- Dependencies
+    - body-parser [View Dependency]()
+    - cors [View Dependency]()
+    - dotenv [View Dependency]()
+    - express [View Dependency]()
+    - faker [View Dependency]()     
+    - fuse.js [View Dependency]()
+    - helmet [View Dependency]()
+    - heroku [View Dependency]()
+    - jsonwebtoken [View Dependency]()
+    - knex [View Dependency]()
+    - Morgan [View Dependency]()
+    - multer [View Dependency]()
+    - path [View Dependency]()
+    - pg [View Dependency]()
+    - sqlite3 [View Dependency]()
+    - stripe [View Dependency]()
+    - url [View Dependency]()
+
+- Development Dependencies
+    - cross-env [View Dependency]()
+    - jest [View Dependency]()
+    - nodemon [View Dependency]()
+    - supertest [View Dependency]()
+
+
 ## Back-End Dependencies ```(Production)```
 ### ExpressJS
 
