@@ -18,9 +18,9 @@
 ---
 | Method | Endpoint      | Description                                                                   | body                  |
 | ------ | ------------- | ----------------------------------------------------------------------------- | --------------------- |
-| POST   | /api/register | Creates a `user` using the information sent inside the `body` of the request. | { "username": "user", "password": "pass", "role": 0 } |
+<!-- | POST   | /api/register | Creates a `user` using the information sent inside the `body` of the request. | { "username": "user", "password": "pass", "role": 0 } |
 | POST   | /api/login | Use the credentials sent inside the `body` to authenticate the user. On successful login, create a new JWT with the user id as the subject and send it back to the client.| { "username": "user","password": "pass" } |
-| GET    | /api/users | If the user is logged in, respond with an array of all the users contained in the database. If the user is not logged in repond with the err code. | --- |
+| GET    | /api/users | If the user is logged in, respond with an array of all the users contained in the database. If the user is not logged in repond with the err code. | --- | -->
 | GET    | /users | If the user is logged in, respond with an array of all the user objects contained in the database. If the user is not logged in repond with the err code. | [Description Details](#GET/users) |
 | POST    | /users | Creates a `user` using the information sent inside the `body` of the request. Name and email fields are manditory. Id is automatically incremented. | [Description Details](#POST/users) |
 | GET    | /users/search | If the user is logged in, respond with an array of all the users contained in the database. If the user is not logged in repond with the err code. Get users based off search term using fuse.js for fuzzy search. | --- |
