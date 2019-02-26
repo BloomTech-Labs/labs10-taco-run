@@ -27,6 +27,7 @@
 | GET    | users/:id | If the user is logged in, respond with an array of all the events contained in the database for a user. If the user is not logged in repond with the err code. | [Description Details](#GET/users/:id) |
 | GET    | /users/:id/info | If the user is logged in, respond with an object of all the users info contained in the database. If the user is not logged in repond with the err code. | [Description Details](#GET/users/:id/info) |
 | PUT    | /users/:id | If the user is logged in, responds with an object with the users entry that has been updated. If the user is not logged-in or does not contain the entry respond with the err code. | [Description Details](#UPDATE/users/:id) |
+| DELETE | /users/:id | If the user is logged in, finds and deletes user. It also deletes user relationship where he is a friend in users_friends table. If the user is not logged-in or does not contain the entry respond with the err code. | [Description Details](#DELETE/users/:id) |
 ---
 
 
@@ -196,9 +197,10 @@ example response
     "street_gourmet": "unassigned"
 }
 ```
-#UPDATE/users/:id
+<!-- #UPDATE/users/:id -->
 UPDATE <a name='UPDATE/users/:id'></a>
 /users 
+Values that can be modified: name, phone, reminder, hard_or_soft, heat_pref, street_gourmet.
 example: /users/1
 exampleInput:
 ```
@@ -220,7 +222,7 @@ Status 200, OK;
 On Success Returns: 4 
 
 the Id of the object created in the DB.
-Which loks like:
+Which looks like:
 ```
 { id: 4,
   name: 'pebble4by4',
@@ -230,10 +232,56 @@ Which loks like:
   reminder: null,
   hard_or_soft: 'soft',
   heat_pref: 'unassigned',
-  street_gourmet: 'unassigned' }
+  street_gourmet: 'unassigned' 
+}
 
 
 ```
+
+<!-- #UPDATE/users/:id/prem -->
+UPDATE <a name='UPDATE/users/:id/prem'></a>
+/users 
+Values that can be modified: isPremium.
+example: /users/1/prem
+exampleInput:
+```
+none 
+
+```
+example response:
+_Response_
+Status 200, OK;
+On Success Returns: 1 
+
+Which looks like:
+```
+{ id: '4' }
+{ isPremium: 1 }
+```
+Id 4 is the id of he user modified, and isPremeium goes from 0 to 1
+this works with the stripe implimentation.
+
+
+<!-- #DELETE/users/:id -->
+DELETE <a name='DELETE/users/:id'></a>
+example: /users/4 
+Values that can be modified: isPremium.
+example: /users/4
+exampleInput:
+```
+none 
+
+```
+example response:
+_Response_
+Status 200, OK;
+On Success Returns: 1 
+
+Which looks like:
+```
+simply deleted the data
+```
+Id 4 is the id of he user deleted.
 
 
 ## Technologies and Frameworks Used
