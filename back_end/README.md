@@ -1,3 +1,20 @@
+---
+
+### START SERVER
+
+-   run `yarn start`
+
+### START DEVELOPMENT SERVER
+
+- run `yarn develop`
+
+### START PRODUCTION SERVER
+
+- run `yarn server`
+
+---
+
+
 Endpoints local=http://localhost:5555/
 Endpoints Production=http:///
 
