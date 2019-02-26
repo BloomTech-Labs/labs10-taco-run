@@ -66,7 +66,8 @@ class UserSettings extends React.Component {
       .then(response => {
         console.log(response);
         this.setState({
-          name: response.data.name
+          name: response.data.name,
+          phone: response.data.phone
         });
       });
   }
