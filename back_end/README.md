@@ -11,6 +11,9 @@ Bcrypt is an adaptive hash function which adjusts the cost of hashing, which mea
 
 Used to configure API security. This was used to allow for secure communication between the front-end and back-end servers. | [View Dependency](https://github.com/expressjs/cors)
 
+### Morgan
+
+An HTTP request logging middleware used for production to easily identify bugs in routes. | [View Dependency](https://github.com/expressjs/morgan)
 
 
 ## Back-End Dependencies ```(Development)```
