@@ -21,9 +21,12 @@
 | POST   | /api/register | Creates a `user` using the information sent inside the `body` of the request. | { "username": "user", "password": "pass", "role": 0 } |
 | POST   | /api/login | Use the credentials sent inside the `body` to authenticate the user. On successful login, create a new JWT with the user id as the subject and send it back to the client.| { "username": "user","password": "pass" } |
 | GET    | /api/users | If the user is logged in, respond with an array of all the users contained in the database. If the user is not logged in repond with the err code. | --- |
-| GET    | /users | If the user is logged in, respond with an array of all the user objects contained in the database. If the user is not logged in repond with the err code. | --- |
-| POST    | /users | Creates a `user` using the information sent inside the `body` of the request. Name and email fields are manditory. Id is automatically incremented. | --- |
-
+| GET    | /users | If the user is logged in, respond with an array of all the user objects contained in the database. If the user is not logged in repond with the err code. | [Description Details](#GET/users) |
+| POST    | /users | Creates a `user` using the information sent inside the `body` of the request. Name and email fields are manditory. Id is automatically incremented. | [Description Details](#POST/users) |
+| GET    | /users/search | If the user is logged in, respond with an array of all the users contained in the database. If the user is not logged in repond with the err code. Get users based off search term using fuse.js for fuzzy search. | --- |
+| GET    | users/:id | If the user is logged in, respond with an array of all the events contained in the database for a user. If the user is not logged in repond with the err code. | [Description Details](#GET/users/:id) |
+| GET    | /users/:id/info | If the user is logged in, respond with an object of all the users info contained in the database. If the user is not logged in repond with the err code. | [Description Details](#GET/users/:id/info) |
+| PUT    | /users/:id | If the user is logged in, responds with an object with the users entry that has been updated. If the user is not logged-in or does not contain the entry respond with the err code. | [Description Details](#UPDATE/users/:id) |
 ---
 
 
@@ -148,6 +151,90 @@ Which loks like:
     heat_pref: 'unassigned',
     street_gourmet: 'unassigned' } ]
 ```
+
+GET <a name='GET/users/:id'></a>
+/users 
+example: /users/:id
+example response
+```
+ [
+     {
+         "id": 1,
+         "name": "taco tuesday run 2",
+         "email": "lanners.marshall@gmail.com",
+         "user_id": 1,
+         "event_id": 1,
+         "location": "770 mercer street seattle wa",
+         "date": "2/14/2019"
+     },
+     {
+         "id": 2,
+         "name": "wensday taco run",
+         "email": "lanners.marshall@gmail.com",
+         "user_id": 1,
+         "event_id": 2,
+         "location": "1440 4th street washington dc",
+         "date": "2/20/2019"
+     }
+ ]
+```
+
+GET <a name='GET/users/:id/info'></a>
+/users 
+example: /users/1/info
+example response
+```
+{
+    "id": 1,
+    "name": "pebble",
+    "email": "pebble@rocks.com",
+    "isPremium": 0,
+    "phone": null,
+    "reminder": null,
+    "hard_or_soft": "unassigned",
+    "heat_pref": "unassigned",
+    "street_gourmet": "unassigned"
+}
+```
+#UPDATE/users/:id
+UPDATE <a name='UPDATE/users/:id'></a>
+/users 
+example: /users/1
+exampleInput:
+```
+{
+        "id": 4,
+        "name": "pebble4by4",
+        "email": "pebble444444@rocks.com",
+        "isPremium": 1,
+        "phone": null,
+        "reminder": null,
+        "hard_or_soft": "soft",
+        "heat_pref": "unassigned",
+        "street_gourmet": "unassigned"
+}
+```
+example response:
+_Response_
+Status 200, OK;
+On Success Returns: 4 
+
+the Id of the object created in the DB.
+Which loks like:
+```
+{ id: 4,
+  name: 'pebble4by4',
+  email: 'pebble444444@rocks.com',
+  isPremium: 1,
+  phone: null,
+  reminder: null,
+  hard_or_soft: 'soft',
+  heat_pref: 'unassigned',
+  street_gourmet: 'unassigned' }
+
+
+```
+
 
 ## Technologies and Frameworks Used
 ###
