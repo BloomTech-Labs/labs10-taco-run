@@ -69,3 +69,30 @@ Automatically restarts the server on save making production more efficient. | [V
 
 ### Sqlite3
 
+```
+ "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "faker": "^4.1.0",
+    "fuse.js": "^3.4.2",
+    "helmet": "^3.15.0",
+    "heroku": "^7.19.4",
+    "jsonwebtoken": "^8.4.0",
+    "knex": "^0.16.3",
+    "morgan": "^1.9.1",
+    "multer": "^1.4.1",
+    "path": "^0.12.7",
+    "pg": "^7.8.0",
+    "sqlite3": "^4.0.6",
+    "stripe": "^6.25.1",
+    "url": "^0.11.0"
+
+    "devDependencies": {
+    "cross-env": "^5.2.0",
+    "jest": "^24.0.0",
+    "nodemon": "^1.18.9",
+    "supertest": "^3.4.2"
+  }
+  ```
