@@ -124,13 +124,6 @@ class UsersProfile extends React.Component {
     this.props.fetchFavorites(this.props.match.params.id);
     // fetchFriends
     this.props.fetchFriends(this.props.match.params.id);
-    // mousedown
-    document.addEventListener("mousedown", this.handleClick, false);
-  }
-
-  componentWillUnmount() {
-    // mousedown
-    document.removeEventListener("mousedown", this.handleClick, false);
   }
 
   render() {
@@ -176,60 +169,6 @@ class UsersProfile extends React.Component {
             ) : (
               <div />
             )}
-
-            <div className="results-container">
-              {this.state.favoritesFlag === true ? (
-                // Results for Favorites
-                <div id="results" ref={node => (this.node = node)}>
-                  {this.props.locations.map(result => {
-                    if (result !== undefined) {
-                      return (
-                        <Link to={`/${result.id}`}>
-                          <div className="result-display">
-                            <div className="result-image">
-                              {/* <img
-                          alt="User"
-                          src={}
-                        /> */}
-                            </div>
-                            <div className="result-name">
-                              <h5>{result.name}</h5>
-                              <p>{result.location}</p>
-                            </div>
-                          </div>
-                        </Link>
-                      );
-                    }
-                  })}
-                </div>
-              ) : (
-                // Results for Users
-                <div id="results" ref={node => (this.node = node)}>
-                  {this.props.users.map(result => {
-                    if (result !== undefined) {
-                      return (
-                        <Link to={`/${result.id}`}>
-                          <div className="result-display">
-                            <div className="result-image">
-                              {/* <img
-                            alt="User"
-                            src={}
-                          /> */}
-                            </div>
-                            <button onClick={this.friendAdd} id={result.id}>
-                              Add
-                            </button>
-                            <div className="result-name">
-                              <h3>{result.name}</h3>
-                            </div>
-                          </div>
-                        </Link>
-                      );
-                    }
-                  })}
-                </div>
-              )}
-            </div>
           </div>
 
           <div className="profile-personal-container">
