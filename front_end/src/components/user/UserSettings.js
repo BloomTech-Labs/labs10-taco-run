@@ -117,15 +117,6 @@ class UserSettings extends React.Component {
       street_gourmet: this.state.selectedOption3.value
     }
 
-    if (isValidPhoneNumber(this.state.phone) === false && this.state.phone.length > 0){
-      this.props.alert.show('not valid phone number')
-      this.setState({
-        phone: '',
-        name: ''
-      })
-      return
-    }
-
     let id = localStorage.getItem("user_id")
     axios.put(`https://production-taco.herokuapp.com/users/${id}`, edited_user)
     .then(response => {

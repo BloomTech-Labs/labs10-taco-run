@@ -131,9 +131,7 @@ class UserProfile extends React.Component {
       user_id: parseInt(localStorage.getItem("user_id")),
       friends_id: parseInt(event.target.id)
     };
-    let obj = { data: ids };
-    let cid = obj.data.user_id;
-    this.props.deleteFriend(obj, cid);
+    this.props.deleteFriend(ids, parseInt(event.target.id));
   };
 
   favoriteDelete = event => {
@@ -158,7 +156,7 @@ class UserProfile extends React.Component {
   }
 
   render() {
-    console.log(this.props.user)
+    console.log(this.props)
     return (
       <div className="profile">
         <Nav />

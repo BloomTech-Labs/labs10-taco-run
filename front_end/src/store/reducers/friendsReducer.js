@@ -74,7 +74,7 @@ const friendsReducer = (state = initialState, action) => {
     case FRIEND_DELETE_COMPLETE:
       return {
         ...state,
-        friends: action.payload,
+        friends: state.friends.filter(f => f.id !== action.payload ),
         deletingFriend: false,
         deletedFriend: true,
         error: null
