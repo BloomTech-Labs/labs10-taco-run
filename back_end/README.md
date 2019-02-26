@@ -13,6 +13,18 @@
 - run `yarn server`
 
 ---
+---
+#### Endpoints
+---
+| Method | Endpoint      | Description                                                                   | body                  |
+| ------ | ------------- | ----------------------------------------------------------------------------- | --------------------- |
+| POST   | /api/register | Creates a `user` using the information sent inside the `body` of the request. | { "username": "user", "password": "pass", "role": 0 } |
+| POST   | /api/login | Use the credentials sent inside the `body` to authenticate the user. On successful login, create a new JWT with the user id as the subject and send it back to the client.| { "username": "user","password": "pass" } |
+| GET    | /api/users | If the user is logged in, respond with an array of all the users contained in the database. If the user is not logged in repond with the err code. | --- |
+| GET    | /users | If the user is logged in, respond with an array of all the user objects contained in the database. If the user is not logged in repond with the err code. | --- |
+| POST    | /users | Creates a `user` using the information sent inside the `body` of the request. Name and email fields are manditory. Id is automatically incremented. | --- |
+
+---
 
 
 Endpoints local=http://localhost:5555/
@@ -56,7 +68,86 @@ http://localhost:5555/users_events
     }
 ]
 ```
+---
+GET <a name='GET/users'></a>
+/users 
+example:
+```
+[
+    {
+        "id": 1,
+        "name": "pebble",
+        "email": "pebble@rocks.com",
+        "isPremium": 0,
+        "phone": null,
+        "reminder": null,
+        "hard_or_soft": "unassigned",
+        "heat_pref": "unassigned",
+        "street_gourmet": "unassigned"
+    },
+    {
+        "id": 2,
+        "name": "pebble2",
+        "email": "pebble2@rocks.com",
+        "isPremium": 0,
+        "phone": null,
+        "reminder": null,
+        "hard_or_soft": "unassigned",
+        "heat_pref": "unassigned",
+        "street_gourmet": "unassigned"
+    },
+    {
+        "id": 3,
+        "name": "pebble3",
+        "email": "pebble3@rocks.com",
+        "isPremium": 0,
+        "phone": null,
+        "reminder": null,
+        "hard_or_soft": "unassigned",
+        "heat_pref": "unassigned",
+        "street_gourmet": "unassigned"
+    },
+    {
+        "id": 4,
+        "name": "pebble4",
+        "email": "pebble4@rocks.com",
+        "isPremium": 0,
+        "phone": null,
+        "reminder": null,
+        "hard_or_soft": "unassigned",
+        "heat_pref": "unassigned",
+        "street_gourmet": "unassigned"
+    }
+]
+```
+---
+POST <a name='POST/users'></a>
+/users 
+_example_ :
+```
+{
+    "name": "pebble44fbfd",
+    "email": "pebbrwgfgle4@rocks.com"
+}
 
+```
+_Response_
+On Success Returns: 5 
+
+the Id of the object created in the DB.
+Which loks like:
+```
+
+[ { id: 5,
+    name: 'pebble44fbfd',
+    email: 'pebbrwgfgle4@rocks.com',
+    isPremium: 0,
+    phone: null,
+    reminder: null,
+    hard_or_soft: 'unassigned',
+    heat_pref: 'unassigned',
+    street_gourmet: 'unassigned' } ]
+```
 
 ## Technologies and Frameworks Used
 ###
