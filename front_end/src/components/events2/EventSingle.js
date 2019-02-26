@@ -26,9 +26,6 @@ import GoogleMapReact from 'google-map-react';
 import { MapDiv } from "./create_event_css.js";
 import { withAlert } from 'react-alert'
 
-
-// console.log()
-
 const TacoLocation = ({ text }) => <div>{text}</div>;
 
 class EventSingle extends React.Component {
@@ -48,9 +45,12 @@ class EventSingle extends React.Component {
   };
 
   componentDidMount() {
-
     this.props.getComments(this.props.match.params.id);
     this.props.fetchUser(localStorage.getItem("user_id"));
+    this.info()
+  }
+
+  info = () => {
     axios.get(`https://production-taco.herokuapp.com/events/${this.props.match.params.id}`)
     .then(res => {
       // console.log(res)
@@ -68,6 +68,26 @@ class EventSingle extends React.Component {
         attending: res.data.users,
         loaded: true
       })
+    })
+  }
+
+  attendEvent = event => {
+    event.preventDefault();
+    console.log('connected')
+    let obj = { user_id: parseInt(localStorage.getItem("user_id")), event_id: parseInt(this.props.match.params.id)}
+    console.log(obj)
+    axios.post('https://production-taco.herokuapp.com/users_events', obj)
+    .then(res => {
+      console.log(res)
+      this.info()
+      if (res.data.msg){
+        this.props.alert.show(res.data.msg)
+      } else {
+        this.props.alert.show('You are now attending event')
+      }
+    })
+    .catch(error => {
+      console.log(error)
     })
   }
 
@@ -139,13 +159,11 @@ class EventSingle extends React.Component {
       }
     })
     .catch(error => {
-      // console.log(error)
+      //console.log(error)
     })
   }
 
   render() {
-    //console.log(this.props)
-    // console.log(this.state.user.email)
     return (
       <div>
       <Nav />
@@ -164,12 +182,11 @@ class EventSingle extends React.Component {
             />
             </GoogleMapReact>
           </MapDiv>
-
-
           ) : null}
 
         <Container>
           <div>
+            <button onClick={this.attendEvent}>Click here to Attend</button><br/>
             <button onClick={this.addFav}>Add location to favorites</button>
             <p><img className="yelp_img" src={this.state.img_url}/></p>
             <p>Venue: {this.state.venue}</p>
@@ -269,10 +286,3 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps,{getEvent,getComments,fetchUser,makeComment,deleteComment,updateComment})(withAlert()(EventSingle));
-
-
-
-// export default connect(mapStateToProps, mapDispatchToProps)(withAlert()(Auth))
-
-
-

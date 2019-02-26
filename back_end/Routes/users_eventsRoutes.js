@@ -23,7 +23,27 @@ router.post('', (req, res) => {
 			//user adds event since he is not yet going to event
 			db.insert({user_id, event_id}).into('users_events')
 			.then(response => {
-				return res.status(200).json(response)
+				
+				/*
+					find the current number of people attending the event
+					and add 1 to it, because now one more person is going
+				*/
+				
+				db('events')
+					.where({id: event_id})
+					.first()
+					.then(res2 => {
+						let attending = res2.total_users
+						attending = attending + 1
+
+						//update the new amount
+						db('events')
+							.where({id: event_id})
+							.update({total_users: attending })
+							.then(res3 => {
+								return res.status(200).json(res3)
+							})
+					})
 			})
 			//catch error for adding event
 			.catch(error => {

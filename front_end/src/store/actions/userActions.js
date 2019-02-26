@@ -36,3 +36,10 @@ export const searchUsers = term => {
       });
   };
 };
+
+export const updateUser = edited_user => {
+  return dispatch => {
+    axios
+      .put()
+  }
+}
