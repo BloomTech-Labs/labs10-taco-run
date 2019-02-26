@@ -4,6 +4,10 @@ export const USER_FETCH_START = "USER_FETCH_START";
 export const USER_FETCH_COMPLETE = "USER_FETCH_COMPLETE";
 export const USER_FETCH_ERROR = "USER_FETCH_ERROR";
 
+export const OTHER_USER_FETCH_START = "OTHER_USER_FETCH_START";
+export const OTHER_USER_FETCH_COMPLETE = "OTHER_USER_FETCH_COMPLETE";
+export const OTHER_USER_FETCH_ERROR = "OTHER_USER_FETCH_ERROR";
+
 export const USERS_SEARCH_START = "USERS_SEARCH_START";
 export const USERS_SEARCH_COMPLETE = "USERS_SEARCH_COMPLETE";
 export const USERS_SEARCH_ERROR = "USERS_SEARCH_ERROR";
@@ -22,6 +26,19 @@ export const fetchUser = id => {
   };
 };
 
+export const fetchOtherUser = id => {
+  return dispatch => {
+    dispatch({ type: OTHER_USER_FETCH_START });
+    axios
+      .get(`https://production-taco.herokuapp.com/users/${id}/info`)
+      .then(res => {
+        dispatch({ type: OTHER_USER_FETCH_COMPLETE, payload: res.data });
+      })
+      .catch(err => {
+        dispatch({ type: OTHER_USER_FETCH_ERROR });
+      });
+  };
+};
 
 export const searchUsers = term => {
   return dispatch => {

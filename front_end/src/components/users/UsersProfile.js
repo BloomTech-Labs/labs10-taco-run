@@ -8,31 +8,27 @@ import { connect } from "react-redux";
 import Nav from "../nav/Nav.js";
 
 // --> import userActions
-import { fetchUser, searchUsers } from "../../store/actions/userActions";
+import { fetchOtherUser, searchUsers } from "../../store/actions/userActions";
 // --> import friendsActions
-import {
-  fetchFriends,
-  addFriend,
-  deleteFriend
-} from "../../store/actions/friendsActions";
+import { fetchFriends, addFriend } from "../../store/actions/friendsActions";
 // --> import favoritesActions
 import {
   fetchFavorites,
-  searchFavorites,
-  deleteFavorite
+  searchFavorites
 } from "../../store/actions/favoritesActions";
 
 import { Link } from "react-router-dom";
 import { Dropdown } from "semantic-ui-react";
-import "./UserProfile.css";
-import { Container, EditBtn, FlexEnd } from "./userprofile_css.js";
+import "../user/UserProfile.css";
+import { Container, EditBtn, FlexEnd } from "../user/userprofile_css.js";
 import { DeleteBtn } from "../events2/eventsingle_css.js";
 
-class UserProfile extends React.Component {
+class UsersProfile extends React.Component {
   state = {
     search: "",
     favoritesFlag: true,
-    value: "All"
+    value: "All",
+    friendFlag: null
   };
 
   handleChange = e => {
@@ -75,7 +71,7 @@ class UserProfile extends React.Component {
     }
 
     let box = document.getElementById("results");
-    if (e.target != box && box.style.display == "inline-block") {
+    if (e.target !== box && box.style.display === "inline-block") {
       box.style.display = "none";
     }
   };
@@ -96,14 +92,14 @@ class UserProfile extends React.Component {
     // function to set flag to change certain details on page
     if (
       evt.currentTarget.id === "friends" &&
-      this.state.favoritesFlag == true
+      this.state.favoritesFlag === true
     ) {
       this.setState({
         favoritesFlag: false
       });
     } else if (
       evt.currentTarget.id === "favorites" &&
-      this.state.favoritesFlag == false
+      this.state.favoritesFlag === false
     ) {
       this.setState({
         favoritesFlag: true
@@ -115,41 +111,20 @@ class UserProfile extends React.Component {
     event.preventDefault();
     let ids = {
       user_id: parseInt(localStorage.getItem("user_id")),
-      friends_id: parseInt(event.target.id)
+      friends_id: parseInt(this.props.match.params.id)
     };
     let obj = { data: ids };
     let cid = obj.data.user_id;
     this.props.addFriend(obj, cid);
   };
 
-  friendDelete = event => {
-    event.preventDefault();
-    let ids = {
-      user_id: parseInt(localStorage.getItem("user_id")),
-      friends_id: parseInt(event.target.id)
-    };
-    this.props.deleteFriend(ids, parseInt(event.target.id));
-  };
-
-  favoriteDelete = event => {
-    event.preventDefault();
-    this.props.deleteFavorite(event.target.id);
-  };
-
   componentDidMount() {
-    // fetchUser
-    this.props.fetchUser(localStorage.getItem("user_id"));
+    // fetchOtherUser
+    this.props.fetchOtherUser(this.props.match.params.id);
     // fetchFavorites
-    this.props.fetchFavorites(localStorage.getItem("user_id"));
+    this.props.fetchFavorites(this.props.match.params.id);
     // fetchFriends
-    this.props.fetchFriends(localStorage.getItem("user_id"));
-    // mousedown
-    document.addEventListener("mousedown", this.handleClick, false);
-  }
-
-  componentWillUnmount() {
-    // mousedown
-    document.removeEventListener("mousedown", this.handleClick, false);
+    this.props.fetchFriends(this.props.match.params.id);
   }
 
   render() {
@@ -157,11 +132,14 @@ class UserProfile extends React.Component {
       <div className="profile">
         <Nav />
         <Container>
-          <Link to="/user-settings">
-            <FlexEnd>
-              <EditBtn>edit profile</EditBtn>
-            </FlexEnd>
-          </Link>
+          <FlexEnd>
+            {console.log(this.props.friendFlag)}
+            {this.props.friendFlag ? (
+              <EditBtn>User Already Added</EditBtn>
+            ) : (
+              <EditBtn onClick={this.friendAdd}>Add as friend</EditBtn>
+            )}
+          </FlexEnd>
           <div className="profile-details">
             <h1>{this.props.user.name}</h1>
             <h3>Shell preference: {this.props.user.hard_or_soft}</h3>
@@ -174,15 +152,6 @@ class UserProfile extends React.Component {
             {/* Form for Search Results */}
             {this.state.favoritesFlag === true ? (
               <div>
-                <form onSubmit={this.handleSubmitFavorites}>
-                  <input
-                    type="search"
-                    placeholder="Add a new favorite"
-                    value={this.state.search}
-                    name="search"
-                    onChange={this.handleChange}
-                  />
-                </form>
                 <select
                   className="locationSelect"
                   value={this.state.value}
@@ -206,70 +175,8 @@ class UserProfile extends React.Component {
                 </select>
               </div>
             ) : (
-              <form onSubmit={this.handleSubmitUsers}>
-                <input
-                  type="search"
-                  placeholder="Find a new friend"
-                  value={this.state.search}
-                  name="search"
-                  onChange={this.handleChange}
-                />
-              </form>
+              <div />
             )}
-
-            <div className="results-container">
-              {this.state.favoritesFlag === true ? (
-                // Results for Favorites
-                <div id="results" ref={node => (this.node = node)}>
-                  {this.props.locations.map(result => {
-                    if (result !== undefined) {
-                      return (
-                        <Link to={`/${result.id}`}>
-                          <div className="result-display">
-                            <div className="result-image">
-                              {/* <img
-                          alt="User"
-                          src={}
-                        /> */}
-                            </div>
-                            <div className="result-name">
-                              <h5>{result.name}</h5>
-                              <p>{result.location}</p>
-                            </div>
-                          </div>
-                        </Link>
-                      );
-                    }
-                  })}
-                </div>
-              ) : (
-                // Results for Users
-                <div id="results" ref={node => (this.node = node)}>
-                  {this.props.users.map(result => {
-                    if (result !== undefined) {
-                      return (
-                        <Link to={`user/${result.id}`}>
-                          <div className="result-display">
-                            <div className="result-image">
-                              {/* <img
-                            alt="User"
-                            src={}
-                          /> */}
-                            </div>
-                            <button onClick={this.friendAdd} id={result.id}>
-                              Add
-                            </button>
-                            <div className="result-name">
-                              <h3>{result.name}</h3>
-                            </div>
-                          </div>
-                        </Link>
-                      );
-                    }
-                  })}
-                </div>
-              )}
-            </div>
           </div>
 
           <div className="profile-personal-container">
@@ -302,9 +209,6 @@ class UserProfile extends React.Component {
                         {/* <img /> */}
                         <h3>{favorite.name}</h3>
                         <p>{favorite.location}</p>
-                        <button onClick={this.favoriteDelete} id={favorite.id}>
-                          X
-                        </button>
                       </div>
                     </div>
                     // </Link>
@@ -335,17 +239,29 @@ class UserProfile extends React.Component {
             <div id="Friends" className="tabcontent">
               {this.props.friends.map(friend => {
                 return (
-                  <Link to={`/user/${friend.id}`}>
-                    <div className="resultsDisplay">
-                      <div className="location-picture">
-                        {/* <img /> */}
-                        <button onClick={this.friendDelete} id={friend.id}>
-                          X
-                        </button>
-                        <h3>{friend.name}</h3>
-                      </div>
-                    </div>
-                  </Link>
+                  <div>
+                    {friend.id === parseInt(localStorage.getItem("user_id")) ? (
+                      <Link to={`/user-profile`}>
+                        <div className="resultsDisplay">
+                          <div className="location-picture">
+                            {/* <img /> */}
+
+                            <h3>{friend.name}</h3>
+                          </div>
+                        </div>
+                      </Link>
+                    ) : (
+                      <Link to={`/user/${friend.id}`}>
+                        <div className="resultsDisplay">
+                          <div className="location-picture">
+                            {/* <img /> */}
+
+                            <h3>{friend.name}</h3>
+                          </div>
+                        </div>
+                      </Link>
+                    )}
+                  </div>
                 );
               })}
             </div>
@@ -362,6 +278,7 @@ const mapStateToProps = state => {
     user: state.userReducer.user,
     favorites: state.favoritesReducer.favorites,
     friends: state.friendsReducer.friends,
+    friendFlag: state.friendsReducer.friendFlag,
     users: state.userReducer.users,
     locations: state.favoritesReducer.locations
   };
@@ -370,13 +287,11 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   {
-    fetchUser,
+    fetchOtherUser,
     fetchFavorites,
     fetchFriends,
     searchUsers,
     searchFavorites,
-    addFriend,
-    deleteFriend,
-    deleteFavorite
+    addFriend
   }
-)(UserProfile);
+)(UsersProfile);
