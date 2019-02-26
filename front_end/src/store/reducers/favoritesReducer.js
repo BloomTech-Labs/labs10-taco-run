@@ -6,10 +6,17 @@ import {
   FAVORITES_DELETE_START,
   FAVORITES_DELETE_COMPLETE,
   FAVORITES_DELETE_ERROR,
+
+  FAVORITES_FETCH_START,
+  FAVORITES_FETCH_COMPLETE,
+  FAVORITES_FETCH_ERROR,
 } from "../actions/favoritesActions";
 
 const initialState = {
   locations: [],
+  favorites: [],
+  fetchingFavorites: false,
+  fetchedFavorites: false,
   searchingFavorites: false,
   searchedFavorites: false,
   deletingFavorite: false,
@@ -19,6 +26,27 @@ const initialState = {
 
 const favoritesReducer = (state = initialState, action) => {
   switch (action.type) {
+
+    case FAVORITES_FETCH_START:
+      return {
+        ...state,
+        fetchingFavorites: true
+      };
+
+    case FAVORITES_FETCH_COMPLETE:
+      return {
+        ...state,
+        favorites: action.payload,
+        fetchingFavorites: false,
+        fetchedFavorites: true
+      };
+
+    case FAVORITES_FETCH_ERROR:
+      return {
+        ...state,
+        error: "Error fetching favorites"
+      };
+
     case FAVORITES_SEARCH_START:
       return {
         ...state,

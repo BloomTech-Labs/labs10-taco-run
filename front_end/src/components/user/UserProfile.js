@@ -6,20 +6,25 @@
 import React from "react";
 import { connect } from "react-redux";
 import Nav from "../nav/Nav.js";
+
+// --> import userActions
 import {
-  fetchUser,
-  fetchFavorites,
+  fetchUser,  
   searchUsers
 } from "../../store/actions/userActions";
+// --> import friendsActions
 import {
   fetchFriends,
   addFriend,
   deleteFriend
 } from "../../store/actions/friendsActions";
+// --> import favoritesActions
 import {
+  fetchFavorites,
   searchFavorites,
-  deleteFavorite
+  deleteFavorite,
 } from "../../store/actions/favoritesActions";
+
 import { Link } from "react-router-dom";
 import { Dropdown } from "semantic-ui-react";
 import "./UserProfile.css";
@@ -369,7 +374,7 @@ class UserProfile extends React.Component {
 const mapStateToProps = state => {
   return {
     user: state.userReducer.user,
-    favorites: state.userReducer.favorites,
+    favorites: state.favoritesReducer.favorites,
     friends: state.friendsReducer.friends,
     users: state.userReducer.users,
     locations: state.favoritesReducer.locations
