@@ -124,16 +124,13 @@ const eventsReducer = (state = initialState, action) => {
       };
 
     case EVENT_UPDATE_COMPLETE:
+      console.log(action.payload)
       return {
         ...state,
-        // events: state.events.map( eachOne => (
-        //   eachOne.id === action.payload.eachOne.id ?
-        //   action.payload.eachOne :
-        //   eachOne
-        // )),
         updatingEvents: false,
         updatedEvents: true,
-        error: null
+        error: null,
+        events: action.payload,
       };
 
     case EVENT_UPDATE_ERROR:
