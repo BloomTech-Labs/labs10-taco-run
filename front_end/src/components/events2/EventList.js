@@ -111,9 +111,6 @@ class EventList extends React.Component {
 					</div>
 
 						) : <div>Loading ...</div>}
-
-
-
 						
 					</div>
 				</div>

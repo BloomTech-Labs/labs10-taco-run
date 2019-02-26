@@ -42,13 +42,13 @@ export const searchFavorites = term => {
   };
 };
 
-export const deleteFavorite = favorite => dispatch => {
+export const deleteFavorite = id => dispatch => {
   dispatch({ type: FAVORITES_DELETE_START });
   axios
-    .delete(`https://production-taco.herokuapp.com/favorites/${favorite}`)
+    .delete(`https://production-taco.herokuapp.com/favorites/${id}`,)
     .then(res => {
       console.log(res.data);
-      dispatch({ type: FAVORITES_DELETE_COMPLETE, payload: res.data });
+      dispatch({ type: FAVORITES_DELETE_COMPLETE, payload: res.data, id: parseInt(id) });
     })
     .catch(err => dispatch({ type: FAVORITES_DELETE_ERROR, payload: err }));
 }

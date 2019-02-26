@@ -51,27 +51,16 @@ export const addFriend = friend => {
   };
 };
 
-export const deleteFriend = friend => {
+export const deleteFriend = (ids, f_id) => {
   return dispatch => {
     dispatch({ type: FRIEND_DELETE_START });
     axios
-      .post(`https://production-taco.herokuapp.com/users_friends`)
-      .then(res => {
-        axios
-          .get(
-            `https://production-taco.herokuapp.com/users_friends/${localStorage.getItem(
-              "user_id"
-            )}`
-          )
-          .then(res => {
-            dispatch({
-              type: FRIEND_ADD_COMPLETE,
-              payload: res.data
-            });
-          });
+      .delete(`https://production-taco.herokuapp.com/users_friends`, {data: ids})
+      .then(() => {
+        dispatch({type: FRIEND_DELETE_COMPLETE, payload: f_id})
       })
-      .catch(err => {
-        dispatch({ type: FRIEND_DELETE_ERROR, payload: err });
-      });
+      .catch(error => {
+        dispatch({type: FRIEND_DELETE_ERROR, payload: error.data})
+      })
   };
 };

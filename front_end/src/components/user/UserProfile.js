@@ -131,21 +131,12 @@ class UserProfile extends React.Component {
       user_id: parseInt(localStorage.getItem("user_id")),
       friends_id: parseInt(event.target.id)
     };
-    let obj = { data: ids };
-    let cid = obj.data.user_id;
-    this.props.deleteFriend(obj, cid);
+    this.props.deleteFriend(ids, parseInt(event.target.id));
   };
 
   favoriteDelete = event => {
     event.preventDefault();
-    let ids = {
-      favorite_id: parseInt(event.target.id) // --> this comes from the button element
-    };
-    let new_obj = { data: ids };
-    let favorite_id = new_obj.data.favorite_id; // --> grab favorite_id
-    console.log("favoriteDelete invoked");
-    console.log(ids.favorite_id); // --> grabs specific id of the favorite inside favorites table
-    this.props.deleteFavorite(favorite_id); // --> this was newly made, takes only the favorite_id and will return 1 || 0
+    this.props.deleteFavorite(event.target.id); 
   };
 
   componentDidMount() {
@@ -165,6 +156,7 @@ class UserProfile extends React.Component {
   }
 
   render() {
+    console.log(this.props)
     return (
       <div className="profile">
         <Nav />
@@ -176,11 +168,10 @@ class UserProfile extends React.Component {
           </Link>
           <div className="profile-details">
             <h1>{this.props.user.name}</h1>
-            <h3>Tacos Per Month: 1000</h3>
-            <h3>Hard or Soft: Soft tacos are real tacos</h3>
-            <h3>Corn or Flour: Flour is for burritos</h3>
-            <h3>Heat Preferences: CALIENTE</h3>
-            <h3>Street or Gourmet: Street</h3>
+            <h3>Shell pref: {this.props.user.hard_or_soft}</h3>
+            <h3>Street or Gourmet: {this.props.street_gourmet}</h3>
+            <h3>Phone: {this.props.phone}</h3>
+            <h3>reminder: {this.props.reminder}</h3>
           </div>
 
           {/* Search Bar */}
