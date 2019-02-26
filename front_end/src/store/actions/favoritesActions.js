@@ -21,6 +21,7 @@ export const fetchFavorites = id => {
         dispatch({ type: FAVORITES_FETCH_COMPLETE, payload: res.data });
       })
       .catch(err => {
+        console.log(err);
         dispatch({ type: FAVORITES_FETCH_ERROR });
       });
   };

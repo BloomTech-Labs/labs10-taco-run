@@ -92,10 +92,9 @@ router.get("/:id", (req, res) => {
 */
 //-------------------------------------------
 router.delete("/:id", (req, res) => {
-  const { id } = req.params;
-  const { user_id } = req.body;
+  const { id } = req.params;  
   db("favorites")
-    .where({ id, user_id }) 
+    .where({ id }) 
     .del()
     .then(response => {
       return res.status(200).json(response);
