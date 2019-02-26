@@ -33,7 +33,6 @@ class App extends Component {
               <Route exact path="/events" component={EventList} />
               <Route exact path="/events_create" component={CreateEvent} />
               <Route path="/events/:id" component={EventSingle} />
-
               <Route exact path="/user-settings" component={UserSettings} />
               <Route exact path="/get-started" component={GetStarted} />
               <Route exact path="/user-profile" component={UserProfile} />

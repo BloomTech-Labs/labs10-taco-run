@@ -92,7 +92,7 @@ router.get("/:id", (req, res) => {
 */
 //-------------------------------------------
 router.delete("/:id", (req, res) => {
-  const { id } = req.params;  
+  const { id } = req.params;
   db("favorites")
     .where({ id }) 
     .del()

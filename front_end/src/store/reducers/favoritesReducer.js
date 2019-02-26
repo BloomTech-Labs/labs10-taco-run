@@ -71,15 +71,15 @@ const favoritesReducer = (state = initialState, action) => {
     case FAVORITES_DELETE_START:
       return {
         ...state,
-        deletingFavorite: true
+        deletingFavorite: true,
       }
     case FAVORITES_DELETE_COMPLETE:
       return {
         ...state,
         deletingFavorite: false,
-        deletedFavorite: true
+        deletedFavorite: true,
+        favorites: state.favorites.filter(f => f.id !== action.id)
       }
-
     case FAVORITES_DELETE_ERROR:
       return {
         ...state,
