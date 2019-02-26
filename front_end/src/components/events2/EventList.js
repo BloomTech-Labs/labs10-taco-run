@@ -51,9 +51,13 @@ class EventList extends React.Component {
 
 			<div>
 				<Nav/>
+
 				<div>
 					<div>
-						{this.props.events.map(event => {
+
+						{this.props.events ? (
+							<div>
+							{this.props.events.map(event => {
 							return (
 								<FlexDiv key={event.id}>
 									<Card id={event.id}>
@@ -104,6 +108,13 @@ class EventList extends React.Component {
 								</FlexDiv>
 							)
 						})}
+					</div>
+
+						) : <div>Loading ...</div>}
+
+
+
+						
 					</div>
 				</div>
 			</div>
