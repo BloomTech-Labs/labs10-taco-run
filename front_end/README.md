@@ -137,3 +137,8 @@ A middleware that allows you to write action creators that return a function ins
 ### Axios
 
 A lightweight, promise-based HTTP client with an intuitive API that makes interfacing with a REST API simple. | [View Dependency](https://www.npmjs.com/package/react-axios)
+
+### Stripe
+
+A powerful, simple, and seamless payment commerce solution (Required by employer). | [View API](https://stripe.com/docs/)
+
