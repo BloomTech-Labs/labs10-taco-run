@@ -151,15 +151,6 @@ class UsersProfile extends React.Component {
             {/* Form for Search Results */}
             {this.state.favoritesFlag === true ? (
               <div>
-                <form onSubmit={this.handleSubmitFavorites}>
-                  <input
-                    type="search"
-                    placeholder="Add a new favorite"
-                    value={this.state.search}
-                    name="search"
-                    onChange={this.handleChange}
-                  />
-                </form>
                 <select
                   className="locationSelect"
                   value={this.state.value}
@@ -183,15 +174,7 @@ class UsersProfile extends React.Component {
                 </select>
               </div>
             ) : (
-              <form onSubmit={this.handleSubmitUsers}>
-                <input
-                  type="search"
-                  placeholder="Find a new friend"
-                  value={this.state.search}
-                  name="search"
-                  onChange={this.handleChange}
-                />
-              </form>
+              <div />
             )}
 
             <div className="results-container">
