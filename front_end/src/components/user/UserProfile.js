@@ -8,10 +8,7 @@ import { connect } from "react-redux";
 import Nav from "../nav/Nav.js";
 
 // --> import userActions
-import {
-  fetchUser,  
-  searchUsers
-} from "../../store/actions/userActions";
+import { fetchUser, searchUsers } from "../../store/actions/userActions";
 // --> import friendsActions
 import {
   fetchFriends,
@@ -22,7 +19,7 @@ import {
 import {
   fetchFavorites,
   searchFavorites,
-  deleteFavorite,
+  deleteFavorite
 } from "../../store/actions/favoritesActions";
 
 import { Link } from "react-router-dom";
@@ -136,7 +133,7 @@ class UserProfile extends React.Component {
 
   favoriteDelete = event => {
     event.preventDefault();
-    this.props.deleteFavorite(event.target.id); 
+    this.props.deleteFavorite(event.target.id);
   };
 
   componentDidMount() {
@@ -167,10 +164,9 @@ class UserProfile extends React.Component {
           </Link>
           <div className="profile-details">
             <h1>{this.props.user.name}</h1>
-            <h3>Shell pref: {this.props.user.hard_or_soft}</h3>
-            <h3>Street or Gourmet: {this.props.street_gourmet}</h3>
-            <h3>Phone: {this.props.phone}</h3>
-            <h3>reminder: {this.props.reminder}</h3>
+            <h3>Shell preference: {this.props.user.hard_or_soft}</h3>
+            <h3>Street or Gourmet: {this.props.user.street_gourmet}</h3>
+            <h3>Spiciness: {this.props.user.heat_pref}</h3>
           </div>
 
           {/* Search Bar */}
