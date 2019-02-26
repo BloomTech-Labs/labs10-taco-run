@@ -235,16 +235,3 @@ const mapStateToProps = state => {
 
 export default connect(mapStateToProps, { createEvent })(withAlert()(CreateEvent));
 
-
-														// {
-															
-												  // 		lat={t.coordinates.latitude} 
-												  // 		lon={t.coordinates.longitude} 
-												  // 		name={t.Name}
-												  // 		img_url={t.image_url}
-												  // 		location={`${t.location.display_address[0]} ${t.location.display_address[1]}`}
-												  // 		raiting={t.rating}
-												  // 		price={t.price}
-												  // 		url={t.url}
-
-												  // 	}

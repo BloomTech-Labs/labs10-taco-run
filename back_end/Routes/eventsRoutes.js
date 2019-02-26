@@ -122,14 +122,13 @@ router.get("/:id/comments", (req, res) => {
 
 //UPDATE
 //update an event
-//put http://localhost:5555/events/:id
+//put http://localhost:5555/events
 //-------------------------------------------
-router.put('/:id', (req, res) => {
-	const { id } = req.params
-	const {name, location, date } = req.body;
+router.put('', (req, res) => {
+	const {name, date, id } = req.body;
 	db('events')
 	.where({id})
-	.update({name,location,date})
+	.update({name, date})
 	.then(response => {
 		return res.status(200).json(response)
 	})

@@ -6,14 +6,6 @@ const db = require('../config.js')
 //user signs up to go to an event
 //post http://localhost:5555/users_events
 //-------------------------------------------
-
-// example response:
-/*
-{
-	"user_id": 3,
-	"event_id": 4
-}
-*/
 router.post('', (req, res) => {
 
 	//would have to pass this is fron the front end
@@ -51,10 +43,6 @@ router.post('', (req, res) => {
 //this will allow us to get all the data from each event the user is going to and possibly display it on the front end.
 //-------------------------------------------
 
-// example response:
-// [ { id: 1, user_id: 1, event_id: 1 },
-// 	{ id: 3, user_id: 1, event_id: 2 } ]
-
 router.get('/:id', (req, res) => {
 	const { id } = req.params;
 
@@ -70,55 +58,12 @@ router.get('/:id', (req, res) => {
 	});
 })
 
-//----------------------------------
-/*
-
-// example response:
-
-// response Data: [ { id: 1,
-//     user_id: 1,
-//     event_id: 1,
-//     name: 'HUGE TACOS',
-//     date: '123123',
-//     location: 'Yes',
-//     venue: 'target',
-//     author: 'tacoman',
-//     invite_only: 0 },
-//   { id: 2,
-//     user_id: 1,
-//     event_id: 2,
-//     name: 'HUGE TACOS222222222',
-//     date: '123123',
-//     location: 'Yes',
-//     venue: 'target',
-//     author: 'tacoman',
-//     invite_only: 0 } ]
-
-// 	*/
-
-// router.get('/:id', (req, res) => {
-// 	const { id } = req.params;
-
-// 	db('users_events')
-// 	.join("events", "events.id", "=", "users_events.event_id")
-// 	.where("users_events.user_id", id)
-// 	.then(response => {
-// 		console.log("response Data:",response);
-// 		return res.status(200).json(response);
-// 	})
-// 	.catch(error => {
-// 		console.log("Error Data:",error);
-// 		return res.status(500).json(error);
-// 	});
-// })
-
-
 //DELETE
 //delete user no longer going to event
 //delete http://localhost:5555/users_events
 //-------------------------------------------
-router.delete('/:id', (req, res) => {
-	const {user_id, event_id} = req.body
+router.delete('', (req, res) => {
+	const {user_id, event_id} = req.body.data
 	db('users_events')
 	.where({user_id, event_id})
 	.del()
