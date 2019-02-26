@@ -122,13 +122,7 @@ class UserProfile extends React.Component {
 
   friendDelete = event => {
     event.preventDefault();
-    let ids = {
-      user_id: parseInt(localStorage.getItem("user_id")),
-      friends_id: parseInt(event.target.id)
-    };
-    let obj = { data: ids };
-    let cid = obj.data.user_id;
-    this.props.deleteFriend(obj, cid);
+    this.props.deleteFriend(localStorage.getItem("user_id"), event.target.id);
   };
 
   favoriteDelete = event => {

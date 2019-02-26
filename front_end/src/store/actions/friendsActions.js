@@ -51,11 +51,13 @@ export const addFriend = friend => {
   };
 };
 
-export const deleteFriend = friend => {
+export const deleteFriend = (user_id, friends_id) => {
   return dispatch => {
     dispatch({ type: FRIEND_DELETE_START });
     axios
-      .post(`https://production-taco.herokuapp.com/users_friends`)
+      .delete(
+        `https://production-taco.herokuapp.com/users_friends/user/${user_id}/friend/${friends_id}`
+      )
       .then(res => {
         axios
           .get(
@@ -65,12 +67,13 @@ export const deleteFriend = friend => {
           )
           .then(res => {
             dispatch({
-              type: FRIEND_ADD_COMPLETE,
+              type: FRIEND_DELETE_COMPLETE,
               payload: res.data
             });
           });
       })
       .catch(err => {
+        console.log(err);
         dispatch({ type: FRIEND_DELETE_ERROR, payload: err });
       });
   };
