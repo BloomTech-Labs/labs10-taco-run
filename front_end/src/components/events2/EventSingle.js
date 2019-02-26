@@ -71,6 +71,26 @@ class EventSingle extends React.Component {
     })
   }
 
+  leaveEvent = event => {
+    event.preventDefault();
+    console.log('connected')
+    let user_id = parseInt(localStorage.getItem("user_id"))
+    let obj =  {data: { user_id: parseInt(localStorage.getItem("user_id")), event_id: parseInt(this.props.match.params.id)}}
+    console.log(obj)
+    axios.delete('https://production-taco.herokuapp.com/users_events', obj)
+    .then(res => {
+      if (res.data.msg){
+        this.props.alert.show(res.data.msg)
+      } else {
+        this.props.alert.show('You are no long attending event')
+      }
+      this.info()
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
+
   attendEvent = event => {
     event.preventDefault();
     console.log('connected')
@@ -186,6 +206,7 @@ class EventSingle extends React.Component {
 
         <Container>
           <div>
+            <button onClick={this.leaveEvent}>Click here to leave event</button><br/>
             <button onClick={this.attendEvent}>Click here to Attend</button><br/>
             <button onClick={this.addFav}>Add location to favorites</button>
             <p><img className="yelp_img" src={this.state.img_url}/></p>

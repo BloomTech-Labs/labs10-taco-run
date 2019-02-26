@@ -83,16 +83,44 @@ router.get('/:id', (req, res) => {
 //delete http://localhost:5555/users_events
 //-------------------------------------------
 router.delete('', (req, res) => {
-	const {user_id, event_id} = req.body.data
+	const {user_id, event_id} = req.body
+
+
+
 	db('users_events')
 	.where({user_id, event_id})
-	.del()
-	.then(response => {
-		console.log(response)
-		return res.status(200).json(response)
-	})
-	.catch(error => {
-		return res.status(500).json(error)
+	.then(res0 => {
+
+		// am I attending the event?
+		if (res0.length === 0) {
+			return res.status(200).json({msg: "you are not currently attending event"})
+		} else {
+
+			//if attending then delete from attending
+
+			db('users_events')
+			.where({user_id, event_id})
+			.del()
+			.then(() => {
+
+				// now I look up the event and decrement the number of people attending by 1
+
+				db('events')
+				.where({id: event_id})
+				.first()
+				.then(res1 => {
+
+					let attending = res1.total_users
+					attending = attending - 1
+					db('events')
+					.where({id: event_id})
+					.update({total_users: attending})
+					.then(res2 => {
+						return res.status(200).json(res2)
+					})
+				})
+			})
+		}
 	})
 })
 
