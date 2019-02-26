@@ -1,10 +1,10 @@
 import {
   USER_FETCH_START,
   USER_FETCH_COMPLETE,
-  USER_FETCH_ERROR,  
-  FRIENDS_FETCH_START,
-  FRIENDS_FETCH_COMPLETE,
-  FRIENDS_FETCH_ERROR,
+  USER_FETCH_ERROR,
+  OTHER_USER_FETCH_START,
+  OTHER_USER_FETCH_COMPLETE,
+  OTHER_USER_FETCH_ERROR,
   USERS_SEARCH_START,
   USERS_SEARCH_COMPLETE,
   USERS_SEARCH_ERROR
@@ -15,13 +15,9 @@ const initialState = {
   fetchingUser: false,
   fetchedUser: false,
 
-  favorites: [],
-  fetchingFavorites: false,
-  fetchedFavorites: false,
-
-  friends: [],
-  fetchingFriends: false,
-  fetchedFriends: false,
+  otherUser: {},
+  fetchingOtherUser: false,
+  fetchedOtherUser: false,
 
   users: [],
   searchingUsers: false,
@@ -48,7 +44,27 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         error: "Error fetching user"
-      };    
+      };
+
+    case OTHER_USER_FETCH_START:
+      return {
+        ...state,
+        fetchingUser: true
+      };
+
+    case OTHER_USER_FETCH_COMPLETE:
+      return {
+        ...state,
+        user: action.payload,
+        fetchingUser: false,
+        fetchedUser: true
+      };
+
+    case OTHER_USER_FETCH_ERROR:
+      return {
+        ...state,
+        error: "Error fetching other user"
+      };
 
     case USERS_SEARCH_START:
       return {
