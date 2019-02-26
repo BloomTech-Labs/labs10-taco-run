@@ -1,3 +1,31 @@
+Endpoints local=http://localhost:5555/
+Endpoints Production=http:///
+
+Crud for Users Events
+```
+[
+    {
+        "id": 1,
+        "user_id": 1,
+        "event_id": 1
+    },
+    {
+        "id": 3,
+        "user_id": 1,
+        "event_id": 2
+    }
+]
+```
+```
+[
+    {
+        "id": 2,
+        "user_id": 2,
+        "event_id": 1
+    }
+]
+```
+
 ## Back-End Dependencies ```(Production)```
 ### ExpressJS
 
@@ -40,3 +68,4 @@ Automatically restarts the server on save making production more efficient. | [V
 
 
 ### Sqlite3
+
