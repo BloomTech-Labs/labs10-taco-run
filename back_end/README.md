@@ -2,6 +2,8 @@ Endpoints local=http://localhost:5555/
 Endpoints Production=http:///
 
 Crud for Users Events
+get
+http://localhost:5555/users_events/1
 ```
 [
     {
@@ -16,15 +18,28 @@ Crud for Users Events
     }
 ]
 ```
+post:
+http://localhost:5555/users_events
 ```
 [
     {
-        "id": 2,
         "user_id": 2,
         "event_id": 1
     }
 ]
 ```
+
+delete:
+http://localhost:5555/users_events
+```
+[
+    {
+        "user_id": 2,
+        "event_id": 1
+    }
+]
+```
+
 
 ## Back-End Dependencies ```(Production)```
 ### ExpressJS
