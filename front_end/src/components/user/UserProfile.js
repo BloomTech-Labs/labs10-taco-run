@@ -249,7 +249,7 @@ class UserProfile extends React.Component {
                   {this.props.users.map(result => {
                     if (result !== undefined) {
                       return (
-                        <Link to={`/${result.id}`}>
+                        <Link to={`user/${result.id}`}>
                           <div className="result-display">
                             <div className="result-image">
                               {/* <img
@@ -336,17 +336,17 @@ class UserProfile extends React.Component {
             <div id="Friends" className="tabcontent">
               {this.props.friends.map(friend => {
                 return (
-                  // <Link to={`/friends/${friend.id}`}>
-                  <div className="resultsDisplay">
-                    <div className="location-picture">
-                      {/* <img /> */}
-                      <button onClick={this.friendDelete} id={friend.id}>
-                        X
-                      </button>
-                      <h3>{friend.name}</h3>
+                  <Link to={`/user/${friend.id}`}>
+                    <div className="resultsDisplay">
+                      <div className="location-picture">
+                        {/* <img /> */}
+                        <button onClick={this.friendDelete} id={friend.id}>
+                          X
+                        </button>
+                        <h3>{friend.name}</h3>
+                      </div>
                     </div>
-                  </div>
-                  // </Link>
+                  </Link>
                 );
               })}
             </div>
