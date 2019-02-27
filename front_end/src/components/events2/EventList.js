@@ -66,57 +66,66 @@ class EventList extends React.Component {
 
 						{this.props.events ? (
 							<div>
+							<GridList cellHeight = {180} className = "grid-list" style = {{ marginLeft: 10, marginRight: 10, paddingLeft: 90  }}> {/* This gets rid of the small horizontal scrollbar */}
+							<GridListTile cols = {2} style = {{ height: "auto", textAlign: "center" }}> {/* This is so the "events list" text doesn't have an absurd height and to center the text */}
+								<ListSubheader component = "div">Lets Sign Up For An Event!</ListSubheader>
+							</GridListTile>	
 							{this.props.events.map(event => {
 							return (
-								<FlexDiv key={event.id}>
-									<Card id={event.id}>
+								// <FlexDiv key={event.id}>
+								// 	<Card id={event.id}>
+									<GridListTile key = {event.id} >
+										<img className = "yelp-img" src = {event.img_url} />																												
+										<GridListTileBar
+											style = {{ height: "auto" }}
+											title = {event.name}
+											subtitle = {
+												<div className = "shadow-box">
+													<span>by: {event.author}</span>
+													<p style = {{ color: "white" }}  className = "comments-number">comments: {event.total_comments}</p>													
+													{this.props.auth.email === event.posters_email ? (
+														<div>
+															<DeleteIcon id = {event.id} style = {{ color: "white" }} onClick = {this.delete}/>
+															<div id={event.id} onClick={this.showForm}>EDIT</div>
+															{this.state.showEdit ? (
+																<form>
+																	<input
+																		type="text"
+																		placeholder='New Event Name'
+																		onChange={this.handleChange}
+																		name="editName"
+																		value={this.state.editName}
+																	/>
+																	<input
+																		type="date"
+																		placeholder='New Event Date'
+																		onChange={this.handleChange}
+																		name="editDate"
+																		value={this.state.editDate}
+																	/>
+																	<button id={event.id} onClick={this.update}>Submit</button>
+																</form>
+															) : 
+																null
+															}
+														</div>
+													) : null}
+												</div>
+											}
+											actionIcon = {																							
+												<IconButton>												
+													<Link to={`/events/${event.id}`}>
+														<InfoIcon style = {{ color: "white" }} />
+													</Link>												
+												</IconButton>											
+											}											
+										/>																																									
+									</GridListTile>
 
-										{this.props.auth.email === event.posters_email ? (
-											<div>
-												<div id={event.id} onClick={this.delete}>X</div>
-												<div id={event.id} onClick={this.showForm}>EDIT EVENT</div>
-												{this.state.showEdit ? (
-													<form>
-														<input
-															type="text"
-															placeholder='New Event Name'
-															onChange={this.handleChange}
-															name="editName"
-															value={this.state.editName}
-														/>
-														<input
-															type="date"
-															placeholder='New Event Date'
-															onChange={this.handleChange}
-															name="editDate"
-															value={this.state.editDate}
-														/>
-														<button id={event.id} onClick={this.update}>Submit</button>
-													</form>
-												) : 
-													null
-												}
-											</div>
-										) : null}
-
-										<p><img className="yelp_img" src={event.img_url}/></p>
-										<p>Event Name: {event.name}</p>
-										<p>posted by: {event.author}</p>
-										<p>date: {event.date}</p>
-										<p>location: {event.location}</p>
-										<p>venue: {event.venue}</p>
-										<p>raiting: {event.raiting}</p>
-										<p>price: {event.price}</p>
-										<p>total attemding: {event.total_users}</p>
-										<p><a href={event.url}>Yelp Link</a></p>
-									</Card>
-									<DispayComments >
-										<p>comments<br/> {event.total_comments}</p>
-									</DispayComments>
-									<div><Link to={`/events/${event.id}`}><ViewEvent>View Event</ViewEvent></Link></div>
-								</FlexDiv>
+										
 							)
 						})}
+						</GridList>
 					</div>
 
 						) : <div>Loading ...</div>}
