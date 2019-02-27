@@ -43,7 +43,8 @@ class EventSingle extends React.Component {
     img_url: '',
     attending: [],
     loaded: false,
-    picture: ""
+    picture: '',
+    pic_url: ''
   };
 
   fileSelect = (event) => {
@@ -53,8 +54,7 @@ class EventSingle extends React.Component {
     })
   }
 
-  postImage = (event) => {
-    event.preventDefault()
+  postImage = (comment) => {
 
     let present = firebase.functions().app_.options_.upload_present
     
@@ -72,12 +72,21 @@ class EventSingle extends React.Component {
       data: formData
     })
     .then(res => {
-      console.log(res.data.secure_url)
+      this.setState({
+        pic_url: res.data.secure_url
+      })
+      console.log(res)
+    })
+    .then(() => {
+      comment.pic_url = this.state.pic_url
+      this.props.makeComment(comment, this.props.match.params.id);
+      this.setState({
+        content: ""
+      });
     })
     .catch(error => {
       console.log(error)
     })
-
   }
 
 
@@ -157,10 +166,16 @@ class EventSingle extends React.Component {
       date: today,
       posted_by: this.props.user.name,
       event_id: parseInt(this.props.match.params.id),
-      posters_email: this.props.user.email
+      posters_email: this.props.user.email,
     };
 
+    if (this.state.picture){
+      this.postImage(comment)
+      return
+    }
+
     this.props.makeComment(comment, this.props.match.params.id);
+
     this.setState({
       content: ""
     });
@@ -219,6 +234,7 @@ class EventSingle extends React.Component {
   }
 
   render() {
+    console.log(this.props)
     return (
       <div>
       <Nav />
@@ -240,7 +256,7 @@ class EventSingle extends React.Component {
           ) : null}
 
         <Container>
-        
+
           <div>
             <button onClick={this.leaveEvent}>Click here to leave event</button><br/>
             <button onClick={this.attendEvent}>Click here to Attend</button><br/>
@@ -309,6 +325,7 @@ class EventSingle extends React.Component {
                         <h4> - {comment.posted_by}</h4>
                         <h6>{comment.date}</h6>
                         <h5>{comment.content}</h5>
+                        <img src={comment.pic_url} />
                       </Comment>
                     </FlexDiv>
                   );
@@ -325,7 +342,6 @@ class EventSingle extends React.Component {
               value={this.state.content}
             /><br />
             <input type="file" onChange={this.fileSelect}></input>
-            <button onClick={this.postImage}>add image</button>
           </FormComment>
 
           <CommentSubmit onClick={this.createComment}>Submit</CommentSubmit>
