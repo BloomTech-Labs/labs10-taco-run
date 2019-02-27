@@ -35,6 +35,7 @@ class DrawerBar extends React.Component {
   };
 
   /*========================= Drawer for Material UI helpers =========================*/
+
   handleDrawerOpen = () => {
     this.setState({ isOpen: true });
   }
@@ -46,6 +47,7 @@ class DrawerBar extends React.Component {
   /*========================= Drawer for Material UI helpers END =========================*/
 
   /*============================= Navigation Button Helpers =============================*/
+
   events = () => {
 		this.props.history.push("/events")
 	}
@@ -67,6 +69,7 @@ class DrawerBar extends React.Component {
 		firebase.auth().signOut();
 		this.props.history.push("/")
   }
+
   /*============================= Navigation Button Helpers END =============================*/
 
   render() {
@@ -75,5 +78,70 @@ class DrawerBar extends React.Component {
     );
   };
 };
+
+/* This is the boilerplate styling from the Material-UI reference I used */
+const drawerWidth = 240;
+
+const styles = theme => ({
+  root: {
+    display: 'flex',
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  appBarShift: {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  menuButton: {
+    marginLeft: 12,
+    marginRight: 36,
+  },
+  hide: {
+    display: 'none',
+  },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+    whiteSpace: 'nowrap',
+  },
+  drawerOpen: {
+    width: drawerWidth,
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  drawerClose: {
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    overflowX: 'hidden',
+    width: theme.spacing.unit * 7 + 1,
+    [theme.breakpoints.up('sm')]: {
+      width: theme.spacing.unit * 9 + 1,
+    },
+  },
+  toolbar: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: '0 8px',
+    ...theme.mixins.toolbar,
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing.unit * 3,
+  },
+});
 
 export default DrawerBar;
