@@ -10,8 +10,6 @@ import { Switch } from "react-router-dom";
 import LandingPage from "./components/landing/LandingPage";
 import UserSettings from "./components/user/UserSettings";
 import GetStarted from "./components/get_started/GetStarted";
-// import Events from "./components/events/EventDashboard/Events";
-// import SingleEvent from "./components/events/SingleEvent";
 import UserProfile from "./components/user/UserProfile";
 import UsersProfile from "./components/users/UsersProfile";
 import EventList from "./components/events2/EventList";
@@ -25,7 +23,6 @@ class App extends Component {
         {this.props.auth.isEmpty ? (
           <Switch>
             <Route exact path="/" component={LandingPage} />
-            <Route exact path="/auth" component={Auth} />
             <Route component={NotAuth} />
           </Switch>
         ) : (
