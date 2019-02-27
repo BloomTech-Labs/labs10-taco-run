@@ -74,7 +74,106 @@ class DrawerBar extends React.Component {
 
   render() {
     return (
-      <h1>Drawer Component</h1>
+      <div className = {classes.root}>
+        <CssBaseline /> {/* Seems to only change background color to a lightgrey-ish */}
+        <AppBar
+          position = "fixed"
+          className= {classNames(classes.appBar, {
+            [classes.appBarShift]: this.state.isOpen,
+          })}
+        > {/* Navigation bar */}
+
+          <Toolbar disableGutters = {!this.state.isOpen}>
+            <IconButton
+              color = "inherit"
+              aria-label="Open drawer"
+              onClick = {this.handleDrawerOpen}
+              className= {classNames(classes.menuButton, {
+                [classes.hide]: this.state.isOpen,
+              })}
+            >
+              <MenuIcon /> {/* This is the sandwich icon */}
+            </IconButton>
+
+            <Typography variant = "h6" color = "inherit" noWrap>
+              Let's Get Tacos
+            </Typography>
+          </Toolbar> {/* Holds the sandwich bar icon and text from Typography */}
+        </AppBar> {/* End of navigation bar */}
+        
+        {/* Drawer: the little slider thing ! NOTE: A lot of this is boiler-plate */}
+        <Drawer
+          variant="permanent"
+          className= {classNames(classes.drawer, {
+            [classes.drawerOpen]: this.state.isOpen,
+            [classes.drawerClose]: !this.state.isOpen,
+          })}
+          classes= {{
+            paper: classNames({
+              [classes.drawerOpen]: this.state.isOpen,
+              [classes.drawerClose]: !this.state.isOpen,
+            }),
+          }}
+          open = {this.state.isOpen}
+        >
+          <div className = {classes.toolbar}>
+            <IconButton onClick = {this.handleDrawerClose}>
+              {/* This is to check if the button should render as a ">" or a "<" */}
+              {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />} 
+            </IconButton>
+          </div>
+
+          <Divider /> {/* This is the ----- that shows up */}
+          <List> {/* This is the beginning of the side-bar navigation: We map through the possible options and then.... */}
+            {['Events Dashboard', 'Profile', 'Users', 'Sign Out'].map((text, index) => (  
+              <div className = "side-menu-wrap" key = {text}> 
+              {/* Here for each index (each button / item): we want to render a different icon */}
+              {/* <SvgIcon><path></SvgIcon> --> This is to be able to access a huge amount of different icons from `materialdesignicons.com` */}
+                {
+                  index === 0 ? (
+                    <ListItem button key = {text} onClick = {this.events}>
+                      <ListItemIcon><HomeIcon /></ListItemIcon>
+                      <ListItemText primary = {text} />
+                    </ListItem>                                      
+                  ) : 
+                  index === 1 ? (
+                    <ListItem button key = {text} onClick = {this.profile}>
+                      <ListItemIcon>
+                        <SvgIcon>
+                          <path fill="#000000" d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" />
+                        </SvgIcon>                        
+                      </ListItemIcon>
+                      <ListItemText primary = {text} />
+                    </ListItem>                                      
+                  ) :
+                  index === 2 ? (
+                    <ListItem button key = {text} onClick = {this.users}>
+                      <ListItemIcon>
+                        <SvgIcon>
+                          <path fill="#000000" d="M7.5,15C8.63,15 9.82,15.26 11.09,15.77C12.35,16.29 13,16.95 13,17.77V20H2V17.77C2,16.95 2.65,16.29 3.91,15.77C5.18,15.26 6.38,15 7.5,15M13,13H22V15H13V13M13,9H22V11H13V9M13,5H22V7H13V5M7.5,8A2.5,2.5 0 0,1 10,10.5A2.5,2.5 0 0,1 7.5,13A2.5,2.5 0 0,1 5,10.5A2.5,2.5 0 0,1 7.5,8Z" />
+                        </SvgIcon>
+                      </ListItemIcon>
+                      <ListItemText primary = {text} />
+                    </ListItem>                                      
+                  ) :
+                  index === 3 ? (
+                    <ListItem button key = {text} onClick = {this.logOut}>
+                      <ListItemIcon>
+                        <SvgIcon>
+                          <path fill="#000000" d="M16,17V14H9V10H16V7L21,12L16,17M14,2A2,2 0 0,1 16,4V6H14V4H5V20H14V18H16V20A2,2 0 0,1 14,22H5A2,2 0 0,1 3,20V4A2,2 0 0,1 5,2H14Z" />
+                        </SvgIcon>
+                      </ListItemIcon>
+                      <ListItemText primary = {text} />
+                    </ListItem>                                      
+                  ) :
+                  null
+                }
+              </div>                            
+            ))}
+          </List>
+          <Divider />          
+        </Drawer>
+      </div>                  
     );
   };
 };
