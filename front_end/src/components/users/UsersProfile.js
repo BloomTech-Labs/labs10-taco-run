@@ -336,14 +336,30 @@ class UsersProfile extends React.Component {
                   {/* Friends Tab */}
                   {this.props.friends.map(friend => {
                     return (
-                      <Link to={`/user/${friend.id}`}>
-                        <div className="resultsDisplay">
-                          <div className="location-picture">
-                            {/* <img /> */}
-                            <h3>{friend.name}</h3>
-                          </div>
-                        </div>
-                      </Link>
+                      <div>
+                        {friend.id ===
+                        parseInt(localStorage.getItem("user_id")) ? (
+                          <Link to={`/user-profile`}>
+                            <div className="resultsDisplay">
+                              <div className="location-picture">
+                                {/* <img /> */}
+
+                                <h3>{friend.name}</h3>
+                              </div>
+                            </div>
+                          </Link>
+                        ) : (
+                          <Link to={`/user/${friend.id}`}>
+                            <div className="resultsDisplay">
+                              <div className="location-picture">
+                                {/* <img /> */}
+
+                                <h3>{friend.name}</h3>
+                              </div>
+                            </div>
+                          </Link>
+                        )}
+                      </div>
                     );
                   })}
                 </TabContainer>
