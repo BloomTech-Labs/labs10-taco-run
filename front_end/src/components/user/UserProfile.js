@@ -105,7 +105,6 @@ class UserProfile extends React.Component {
     // For tabs
     tabValue: 0,
     // For select
-    age: "",
     name: "hai",
     labelWidth: 0
   };
