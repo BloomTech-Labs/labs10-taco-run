@@ -55,6 +55,7 @@ class EventSingle extends React.Component {
 
   postImage = (event) => {
     event.preventDefault()
+
     let present = firebase.functions().app_.options_.upload_present
     
     const formData = new FormData();
@@ -71,7 +72,7 @@ class EventSingle extends React.Component {
       data: formData
     })
     .then(res => {
-      console.log(res)
+      console.log(res.data.secure_url)
     })
     .catch(error => {
       console.log(error)
@@ -225,7 +226,7 @@ class EventSingle extends React.Component {
         {this.state.loaded ? (
           <MapDiv>
             <GoogleMapReact
-              bootstrapURLKeys={{ key: firebase.functions().app_.options_.googleKey }}
+              bootstrapURLKeys={{ key: firebase.functions().app_.options_.googlekey }}
               defaultZoom={16}
               defaultCenter={{lat: this.state.lat, lng: this.state.lon}}
             >
@@ -239,6 +240,7 @@ class EventSingle extends React.Component {
           ) : null}
 
         <Container>
+        
           <div>
             <button onClick={this.leaveEvent}>Click here to leave event</button><br/>
             <button onClick={this.attendEvent}>Click here to Attend</button><br/>

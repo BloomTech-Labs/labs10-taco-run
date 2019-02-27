@@ -8,8 +8,8 @@ const config = {
   storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
   messagingSenderId: process.env.REACT_APP_MESSAGEING_SENDER_ID,
   upload_present: process.env.REACT_APP_UPLOAD_PRESENT,
-  yelpKey: process.env.REACT_APP_YELP_KEY,
-  googleKey: process.env.REACT_APP_GOOGLE_KEY
+  yelpkey: process.env.REACT_APP_YELP_KEY,
+  googlekey: process.env.REACT_APP_GOOGLE_KEY
 };
   
 firebase.initializeApp(config);

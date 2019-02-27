@@ -54,7 +54,7 @@ class CreateEvent extends React.Component {
 
 	searchMap = event => {
 		event.preventDefault();
-		let key = firebase.functions().app_.options_.yelpKey
+		let key = firebase.functions().app_.options_.yelpkey
 
 		let city = this.state.city_location
     axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://api.yelp.com/v3/businesses/search?term=taco&location=${city}&categories=mexican`, {
@@ -138,7 +138,7 @@ class CreateEvent extends React.Component {
 				{this.state.show_map ? (
 						<MapDiv>
 							<GoogleMapReact
-			          bootstrapURLKeys={{ key: firebase.functions().app_.options_.googleKey }}
+			          bootstrapURLKeys={{ key: firebase.functions().app_.options_.googlekey }}
 			          defaultZoom={this.state.zoom}
 			          defaultCenter={{lat: this.state.lat_av, lng: this.state.lon_av}}
 			        >

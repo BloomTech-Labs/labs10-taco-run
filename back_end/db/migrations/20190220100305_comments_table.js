@@ -19,6 +19,9 @@ exports.up = function(knex, Promise) {
       .notNullable()
 
     tbl
+      .string('pic_url')
+
+    tbl
       .integer('event_id')
       .unsigned()
       .notNullable()
