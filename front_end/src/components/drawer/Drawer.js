@@ -45,6 +45,30 @@ class DrawerBar extends React.Component {
 
   /*========================= Drawer for Material UI helpers END =========================*/
 
+  /*============================= Navigation Button Helpers =============================*/
+  events = () => {
+		this.props.history.push("/events")
+	}
+
+	profile = () => {
+		this.props.history.push("/user-profile")
+	}
+
+	users = () => {
+		this.props.history.push("/users")
+	}
+
+	started = () => {
+		this.props.history.push("/get-started")
+	}
+
+	logOut = (event) => {
+		event.preventDefault()
+		firebase.auth().signOut();
+		this.props.history.push("/")
+  }
+  /*============================= Navigation Button Helpers END =============================*/
+
   render() {
     return (
       <h1>Drawer Component</h1>
