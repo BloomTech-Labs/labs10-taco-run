@@ -20,7 +20,8 @@
 | [<img src="https://github.com/favicon.ico" width="15"> Github](https://github.com/lanners-marshall)  |  [<img src="https://github.com/favicon.ico" width="15"> Github](https://github.com/bennyo27) | [<img src="https://github.com/favicon.ico" width="15"> Github](https://github.com/jlaluces123)  | [<img src="https://github.com/favicon.ico" width="15"> Github](https://github.com/Mdmetelus) |
 | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> LinkedIn](https://www.linkedin.com/in//) | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> LinkedIn](https://www.linkedin.com/in/benny-oseguera-1625b5165/) | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> LinkedIn](https://www.linkedin.com/in//) | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> LinkedIn](https://www.linkedin.com/in//) |
 ---
-Click [here](https://www./) to visit the app, 
+Click [here](https://taco-run-c453f.firebaseapp.com/) to visit the app, 
+https://taco-run-c453f.firebaseapp.com/
 ---
 ## Technologies and Frameworks Used
 

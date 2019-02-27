@@ -37,6 +37,8 @@
 | POST    | /events | Creates a new `event` location using the information sent inside the `body` of the request(name, date, location, venue, author, user_id, lat, lon, img_url, raiting, price, url, posters_email).  Id is automatically incremented. It first we check to see if the event already exists. After the event is created we sign up the user as someone going to the event | [Details](#POST/events) |
 | GET    | /events | If the user is logged in, respond with an array of all the events objects contained in the database.  | [Details](#GET/events) |
 | GET    | /events/:id |If the user is logged in, respond with an array of all the events contained in the database for a user. If the user is not logged in repond with the err code. | [Details](#GET/events/:id) |
+| GET    | events/:id/comments |If the user is logged in, respond with an array of all the comments contained in the database for an event. If the user is not logged in repond with the err code. | [Details](#GET/events/:id/comments) |
+| UPDATE    | /events | Edits an existing `event` location using the information sent inside the `body` of the request(name, date, location, venue, author, user_id, lat, lon, img_url, raiting, price, url, posters_email). It first we check to see if the event already exists. After the event is created we sign up the user as someone going to the event | [Details](#POST/events) |
 ---
 
 
