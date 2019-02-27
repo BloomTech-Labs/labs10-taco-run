@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "d2885c4bfe2096de8b14",
+    "revision": "94834d3cc9e709b01abf",
     "url": "/static/css/main.02db088f.chunk.css"
   },
   {
-    "revision": "d2885c4bfe2096de8b14",
-    "url": "/static/js/main.d2885c4b.chunk.js"
+    "revision": "94834d3cc9e709b01abf",
+    "url": "/static/js/main.94834d3c.chunk.js"
   },
   {
     "revision": "9aa7ae9ca64f81b2819f",
@@ -64,12 +64,12 @@ self.__precacheManifest = [
     "url": "/static/media/Material-Design-Iconic-Font.b351bd62.ttf"
   },
   {
-    "revision": "a4e11dda40531debd374e4c8b1dcc7f4",
-    "url": "/static/media/Poppins-Medium.a4e11dda.ttf"
-  },
-  {
     "revision": "731a28a413d642522667a2de8681ff35",
     "url": "/static/media/Poppins-Regular.731a28a4.ttf"
+  },
+  {
+    "revision": "a4e11dda40531debd374e4c8b1dcc7f4",
+    "url": "/static/media/Poppins-Medium.a4e11dda.ttf"
   },
   {
     "revision": "7940efc40d8e3b477e16cc41b0287139",
@@ -92,7 +92,7 @@ self.__precacheManifest = [
     "url": "/static/media/video-bg.2d946e7b.jpg"
   },
   {
-    "revision": "3decd4338a536548359f559b73e39b72",
+    "revision": "6886718bf6aeabd5a92b85da5b693211",
     "url": "/index.html"
   }
 ];
