@@ -53,7 +53,7 @@ const friendsReducer = (state = initialState, action) => {
       return {
         ...state,
         addingFriend: true,
-        searchedFavorites: false
+        addedFriend: false
       };
     case FRIEND_ADD_COMPLETE:
       return {
