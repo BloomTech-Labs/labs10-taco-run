@@ -66,7 +66,7 @@ class EventList extends React.Component {
 
 						{this.props.events ? (
 							<div>
-							<GridList cellHeight = {180} className = "grid-list" style = {{ marginLeft: 10, marginRight: 10, paddingLeft: 90  }}> {/* This gets rid of the small horizontal scrollbar */}
+							<GridList cellHeight = {180} className = "grid-list" style = {{ marginLeft: 10, marginRight: 10, paddingLeft: 55  }}> {/* This gets rid of the small horizontal scrollbar */}
 							<GridListTile cols = {2} style = {{ height: "auto", textAlign: "center" }}> {/* This is so the "events list" text doesn't have an absurd height and to center the text */}
 								<ListSubheader component = "div">Lets Sign Up For An Event!</ListSubheader>
 							</GridListTile>	
