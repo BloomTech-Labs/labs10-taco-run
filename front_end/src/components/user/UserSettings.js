@@ -17,6 +17,7 @@ import { withAlert } from "react-alert";
 import PhoneInput from "react-phone-number-input";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import Billing from "../billing/Billing.js";
+import DrawerBar from "../drawer/Drawer";
 
 const options = [
   { value: "phone", label: "phone" },
@@ -149,7 +150,7 @@ class UserSettings extends React.Component {
   render() {
     return (
       <div>
-        <Nav />
+        <DrawerBar />
         <ContainForm>
           <h1>{this.state.usersName}</h1>
           <Switch>

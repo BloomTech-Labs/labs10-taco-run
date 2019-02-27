@@ -13,31 +13,40 @@
   
   - We as a group wanted to create an app that fills the gap in interaction, allowing users to meet up over a shared interest of tacos!
 ---
+## Team
+[**Marshall Lanners**](https://github.com/lanners-marshall)  |   [**Benny Oseguera**](https://github.com/bennyo27)   |    [**Jonathan Laluces**](https://github.com/jlaluces123)    |   [**Max David Metelus**](https://github.com/Mdmetelus)  |
+|:----------------:|:----------------:|:---------------:|:---------------:|
+[<img src="https://avatars1.githubusercontent.com/u/30517478?s=80" width="80">](https://github.com/lanners-marshall) | [<img src="https://avatars0.githubusercontent.com/u/39509363?s=80" width="80">](https://github.com/bennyo27)  | [<img src="https://avatars3.githubusercontent.com/u/40575859?s=80" width="80">](https://github.com/jlaluces123) | [<img src="https://avatars2.githubusercontent.com/u/24859083?s=80" width="80">](https://github.com/Mdmetelus) |
+| [<img src="https://github.com/favicon.ico" width="15"> Github](https://github.com/lanners-marshall)  |  [<img src="https://github.com/favicon.ico" width="15"> Github](https://github.com/bennyo27) | [<img src="https://github.com/favicon.ico" width="15"> Github](https://github.com/jlaluces123)  | [<img src="https://github.com/favicon.ico" width="15"> Github](https://github.com/Mdmetelus) |
+| [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> LinkedIn](https://www.linkedin.com/in//) | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> LinkedIn](https://www.linkedin.com/in//) | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> LinkedIn](https://www.linkedin.com/in//) | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> LinkedIn](https://www.linkedin.com/in//) |
+---
+Click [here](https://www./) to visit the app, 
+---
 ## Technologies and Frameworks Used
 
-- react: 16.8.1,
-  - react-alert: 5.1.0,
-  - react-alert-template-basic: 1.0.0,
-  - react-dom: 16.8.1,
-  - react-phone-number-input: 2.3.5,
-  - react-redux: 6.0.0,
-  - react-redux-firebase: 2.2.6,
-  - react-router-dom: 4.3.1,
-  - react-scripts: 2.1.3,
-  - react-stripe-checkout: 2.6.3,
-  - react-select: 2.4.1,
-  - react-transition-group: 2.5.3,
+- react: 16.8.1, [View Dependency](#react)
+  - react-alert: 5.1.0, [View Dependency]()
+  - react-alert-template-basic: 1.0.0, [View Dependency]()
+  - react-dom: 16.8.1, [View Dependency]()
+  - react-phone-number-input: 2.3.5, [View Dependency]()
+  - react-redux: 6.0.0, [View Dependency]()
+  - react-redux-firebase: 2.2.6, [View Dependency]()
+  - react-router-dom: 4.3.1, [View Dependency]()
+  - react-scripts: 2.1.3, [View Dependency]()
+  - react-stripe-checkout: 2.6.3, [View Dependency]()
+  - react-select: 2.4.1, [View Dependency]()
+  - react-transition-group: 2.5.3, [View Dependency]()
 
-- axios: 0.18.0,
-- email-reminder: 0.1.4,
-- firebase: 5.8.2,
-- prop-types: 15.7.2,
-- reactjs-popup: 1.3.2,
-- redux: 4.0.1,
-  - redux-thunk: 2.3.0,
-- semantic-ui-css: 2.4.1,
+- axios: 0.18.0, [View Dependency]()
+- email-reminder: 0.1.4, [View Dependency]()
+- firebase: 5.8.2, [View Dependency]()
+- prop-types: 15.7.2, [View Dependency]()
+- reactjs-popup: 1.3.2, [View Dependency](h)
+- redux: 4.0.1, [View Dependency]()
+  - redux-thunk: 2.3.0, [View Dependency]()
+- semantic-ui-css: 2.4.1, 
 - semantic-ui-react: 0.85.0,
-- styled-components: 4.1.3
+- styled-components: 4.1.3 [View Dependency]()
 ---
 
 **Get Started Page** built with:
@@ -141,4 +150,8 @@ A lightweight, promise-based HTTP client with an intuitive API that makes interf
 ### Stripe
 
 A powerful, simple, and seamless payment commerce solution (Required by employer). | [View API](https://stripe.com/docs/)
+
+#### React-Alert
+
+| [View Dependency](https://github.com/schiehll/react-alert)[View Dependency](https://www.npmjs.com/package/react-alert)
 

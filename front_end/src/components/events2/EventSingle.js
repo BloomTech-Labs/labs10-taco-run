@@ -25,7 +25,8 @@ import "./create_event.css"
 import GoogleMapReact from 'google-map-react';
 
 import { MapDiv } from "./create_event_css.js";
-import { withAlert } from 'react-alert'
+import { withAlert } from 'react-alert';
+import DrawerBar from "../drawer/Drawer";
 
 const TacoLocation = ({ text }) => <div>{text}</div>;
 
@@ -237,7 +238,7 @@ class EventSingle extends React.Component {
     console.log(this.props)
     return (
       <div>
-      <Nav />
+      <DrawerBar />
 
         {this.state.loaded ? (
           <MapDiv>

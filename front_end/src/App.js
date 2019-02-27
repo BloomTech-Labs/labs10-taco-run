@@ -13,6 +13,7 @@ import GetStarted from "./components/get_started/GetStarted";
 // import Events from "./components/events/EventDashboard/Events";
 // import SingleEvent from "./components/events/SingleEvent";
 import UserProfile from "./components/user/UserProfile";
+import UsersProfile from "./components/users/UsersProfile";
 import EventList from "./components/events2/EventList";
 import CreateEvent from "./components/events2/CreateEvent";
 import EventSingle from "./components/events2/EventSingle";
@@ -36,7 +37,7 @@ class App extends Component {
               <Route exact path="/user-settings" component={UserSettings} />
               <Route exact path="/get-started" component={GetStarted} />
               <Route exact path="/user-profile" component={UserProfile} />
-              <Route component={NoPage} />
+              <Route exact path="/user/:id" component={UsersProfile} />
             </Switch>
           </div>
         )}

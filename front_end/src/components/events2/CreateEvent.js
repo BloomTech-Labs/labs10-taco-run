@@ -9,6 +9,9 @@ import Popup from 'reactjs-popup'
 import Nav from "../nav/Nav.js";
 import Big from 'big.js';
 import firebase from 'firebase';
+import Big from 'big.js'
+import DrawerBar from "../drawer/Drawer";
+
 
 import { 
 	CreateEventWrapper, 
@@ -132,7 +135,7 @@ class CreateEvent extends React.Component {
 		return (	
 			<div className = "create-event-full-wrapper">
 				<div className = "navigation-wrapper">
-						<Nav />
+						<DrawerBar />
 				</div>
 
 				{this.state.show_map ? (
