@@ -37,6 +37,16 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 
+// Select imports
+import Input from "@material-ui/core/Input";
+import OutlinedInput from "@material-ui/core/OutlinedInput";
+import FilledInput from "@material-ui/core/FilledInput";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+
 function TabContainer(props) {
   return (
     <Typography component="div" style={{ padding: 8 * 3 }}>
@@ -52,7 +62,16 @@ TabContainer.propTypes = {
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.paper
+    backgroundColor: theme.palette.background.paper,
+    display: "flex",
+    flexWrap: "wrap"
+  },
+  formControl: {
+    margin: theme.spacing.unit,
+    minWidth: 120
+  },
+  selectEmpty: {
+    marginTop: theme.spacing.unit * 2
   }
 });
 
@@ -63,7 +82,11 @@ class UserProfile extends React.Component {
     search: "",
     value: "All",
     // For tabs
-    tabValue: 0
+    tabValue: 0,
+    // For select
+    age: "",
+    name: "hai",
+    labelWidth: 0
   };
 
   // For tabs
@@ -192,27 +215,51 @@ class UserProfile extends React.Component {
                     onChange={this.handleChange}
                   />
                 </form>
-                <select
-                  className="locationSelect"
-                  value={this.state.value}
-                  onChange={this.handleSelect}
-                >
-                  <option className={`location-default`} value="All">
-                    All
-                  </option>
-                  {this.props.favorites.map(favorite => {
-                    if (favorite !== undefined) {
-                      return (
-                        <option
-                          className={`location-${favorite.location}`}
-                          value={`${favorite.location}`}
-                        >
-                          {favorite.location}
-                        </option>
-                      );
-                    }
-                  })}
-                </select>
+                <form className={classes.root} autoComplete="off">
+                  <FormControl
+                    variant="outlined"
+                    className={classes.formControl}
+                  >
+                    <InputLabel
+                      ref={ref => {
+                        this.InputLabelRef = ref;
+                      }}
+                      htmlFor="outlined-age-simple"
+                    >
+                      Location
+                    </InputLabel>
+                    <Select
+                      value={this.state.value}
+                      onChange={this.handleSelect}
+                      input={
+                        <OutlinedInput
+                          labelWidth={this.state.labelWidth}
+                          name="age"
+                          id="outlined-age-simple"
+                        />
+                      }
+                    >
+                      <MenuItem value="All">
+                        <em>All</em>
+                      </MenuItem>
+                      {this.props.favorites.map(favorite => {
+                        if (favorite !== undefined) {
+                          return (
+                            <MenuItem
+                              className={`location-${favorite.location}`}
+                              value={`${favorite.location}`}
+                            >
+                              {favorite.location}
+                            </MenuItem>
+                          );
+                        }
+                      })}
+                      {/* <MenuItem value={10}>Ten</MenuItem>
+                      <MenuItem value={20}>Twenty</MenuItem>
+                      <MenuItem value={30}>Thirty</MenuItem> */}
+                    </Select>
+                  </FormControl>
+                </form>
               </div>
             ) : (
               <form onSubmit={this.handleSubmitUsers}>
@@ -333,6 +380,12 @@ class UserProfile extends React.Component {
                                 {/* <img /> */}
                                 <h3>{favorite.name}</h3>
                                 <p>{favorite.location}</p>
+                                <button
+                                  onClick={this.favoriteDelete}
+                                  id={favorite.id}
+                                >
+                                  X
+                                </button>
                               </div>
                             </div>
                             // </Link>
