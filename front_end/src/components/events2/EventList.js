@@ -30,7 +30,15 @@ class EventList extends React.Component {
 	componentDidMount(){
 		this.props.getEvents()
 		console.log(window.innerWidth);
-		window.addEventListener('resize', this.checkWindowWidth);
+		window.addEventListener('resize', this.checkWindowWidth); 
+		/* 
+			- This is to check if the window is getting resized or not (kind of like a media query) 
+			and then invoking my checkWindowWidth function to adjust the this.state.windowWidth value
+
+			- The this.state.windowWidth value is getting rendered as either "50%" or "100%" in my inline styling for the 
+			`<GridListTile />` where I adjust width
+		*/
+		
 	}
 	
 	delete = (event) => {
@@ -57,7 +65,7 @@ class EventList extends React.Component {
  	  this.setState({[event.target.name]: event.target.value})
 	 }
 	 
-	 checkWindowWidth = event => {
+	checkWindowWidth = event => { // --> window.innerWidth is the size of the width of the whole browser || so with that I can setState to adjust the windwoWidth value from state
 		event.preventDefault();
 		if (window.innerWidth > 1000) {
 			this.setState({ windowWidth: "50%" });		
@@ -66,7 +74,7 @@ class EventList extends React.Component {
 			this.setState({ windowWidth: "100%" });
 			console.log(this.state.windowWidth);
 		}
-	 }
+	}
 
 	render() {
 		console.log(this.props)
@@ -88,7 +96,7 @@ class EventList extends React.Component {
 							return (
 								// <FlexDiv key={event.id}>
 								// 	<Card id={event.id}>
-									<GridListTile key = {event.id} style = {{ width: this.state.windowWidth }} >
+									<GridListTile key = {event.id} style = {{ width: this.state.windowWidth }} > {/* Dynamically render 50% width or 100% width to adjust! */}
 										<img className = "yelp-img" src = {event.img_url} style = {{ width: "100%" }} />																												
 										<GridListTileBar
 											style = {{ height: "auto" }}
