@@ -30,7 +30,10 @@
 | PUT    | /users/:id/prem | If the user is logged in, responds with an object with the users entry that has been updated. If the user is not logged-in or does not contain the entry respond with the err code. | [Description Details](#UPDATE/users/:id/prem) |
 | DELETE | /users/:id | If the user is logged in, finds and deletes user. It also deletes user relationship where he is a friend in users_friends table. If the user is not logged-in or does not contain the entry respond with the err code. | [Details](#DELETE/users/:id) |
 | POST    | /payments | This is where the billing API endpoint will go (Stripe Feature). Creates a `stripe.customers` using the information sent inside the `body` of the request(email, id). It then creates a charge with the amount description, currency and customenr id.  | [Details](#POST/payments) |
-| POST    | /favorites | Creates a `user` using the information sent inside the `body` of the request. Name and email fields are manditory. Id is automatically incremented. | [Details](#POST/favorites) |
+| POST    | /favorites | Creates a new `favorite` location using the information sent inside the `body` of the request(name, location, user_id).  Id is automatically incremented. | [Details](#POST/favorites) |
+| GET    | /favorites/:id |If the user is logged in, respond with an array of all the favorites contained in the database for a user. If the user is not logged in repond with the err code. | [Details](#GET/favorites/:id) |
+| GET    | /favorites/search/:term |If the user is logged in, Gets favorites based off search term using fuse.js for fuzzy search. If the user is not logged in repond with the err code. | [Details](#GET/favorites/search/:term) |
+| DELETE | /favorites/:id | If the user is logged in, finds and deletes the favorite(Currently this deletes the event based on the PK of the favorites table).  If the user is not logged-in or does not contain the entry respond with the err code. | [Details](#DELETE/favorites/:id) |
 ---
 
 
@@ -286,6 +289,47 @@ simply deleted the data
 ```
 Id 4 is the id of he user deleted.
 
+8. POST <a name='POST/payments'></a>
+
+9. POST <a name='POST/favorites'></a>
+
+10. GET <a name='GET/favorites/:id'></a>
+example: /favorites/1
+exampleInput:
+```
+none 
+
+```
+example response:
+_Response_
+Status 200, OK;
+On Success Returns: 
+
+Which looks like:
+```
+[
+    {
+        "id": 1,
+        "name": "test",
+        "email": "pebble@rocks.com",
+        "isPremium": 0,
+        "phone": null,
+        "reminder": null,
+        "hard_or_soft": "unassigned",
+        "heat_pref": "unassigned",
+        "street_gourmet": "unassigned",
+        "location": "test",
+        "user_id": 1
+    }
+]
+```
+Id 1 is the id of he user deleted.
+if no value for the favorite, returns and ampty array.
+
+11. GET <a name='GET/favorites/search/:term'></a>
+
+
+11. DELETE <a name='DELETE/favorites/:id'></a>
 
 ## Technologies and Frameworks Used
 ###
