@@ -15,19 +15,30 @@
 ---
 ---
 #### Endpoints
----
+
 | Method | Endpoint      | Description                                                                   | body                  |
 | ------ | ------------- | ----------------------------------------------------------------------------- | --------------------- |
 <!-- | POST   | /api/register | Creates a `user` using the information sent inside the `body` of the request. | { "username": "user", "password": "pass", "role": 0 } |
 | POST   | /api/login | Use the credentials sent inside the `body` to authenticate the user. On successful login, create a new JWT with the user id as the subject and send it back to the client.| { "username": "user","password": "pass" } |
 | GET    | /api/users | If the user is logged in, respond with an array of all the users contained in the database. If the user is not logged in repond with the err code. | --- | -->
-| GET    | /users | If the user is logged in, respond with an array of all the user objects contained in the database. If the user is not logged in repond with the err code. | [Description Details](#GET/users) |
-| POST    | /users | Creates a `user` using the information sent inside the `body` of the request. Name and email fields are manditory. Id is automatically incremented. | [Description Details](#POST/users) |
+| GET    | /users | If the user is logged in, respond with an array of all the user objects contained in the database. If the user is not logged in repond with the err code. | [Details](#GET/users) |
+| POST    | /users | Creates a `user` using the information sent inside the `body` of the request. Name and email fields are manditory. Id is automatically incremented. | [Details](#POST/users) |
 | GET    | /users/search | If the user is logged in, respond with an array of all the users contained in the database. If the user is not logged in repond with the err code. Get users based off search term using fuse.js for fuzzy search. | --- |
-| GET    | users/:id | If the user is logged in, respond with an array of all the events contained in the database for a user. If the user is not logged in repond with the err code. | [Description Details](#GET/users/:id) |
-| GET    | /users/:id/info | If the user is logged in, respond with an object of all the users info contained in the database. If the user is not logged in repond with the err code. | [Description Details](#GET/users/:id/info) |
-| PUT    | /users/:id | If the user is logged in, responds with an object with the users entry that has been updated. If the user is not logged-in or does not contain the entry respond with the err code. | [Description Details](#UPDATE/users/:id) |
-| DELETE | /users/:id | If the user is logged in, finds and deletes user. It also deletes user relationship where he is a friend in users_friends table. If the user is not logged-in or does not contain the entry respond with the err code. | [Description Details](#DELETE/users/:id) |
+| GET    | users/:id | If the user is logged in, respond with an array of all the events contained in the database for a user. If the user is not logged in repond with the err code. | [Details](#GET/users/:id) |
+| GET    | /users/:id/info | If the user is logged in, respond with an object of all the users info contained in the database. If the user is not logged in repond with the err code. | [Details](#GET/users/:id/info) |
+| PUT    | /users/:id | If the user is logged in, responds with an object with the users entry that has been updated. If the user is not logged-in or does not contain the entry respond with the err code. | [Details](#UPDATE/users/:id) |
+| PUT    | /users/:id/prem | If the user is logged in, responds with an object with the users entry that has been updated. If the user is not logged-in or does not contain the entry respond with the err code. | [Description Details](#UPDATE/users/:id/prem) |
+| DELETE | /users/:id | If the user is logged in, finds and deletes user. It also deletes user relationship where he is a friend in users_friends table. If the user is not logged-in or does not contain the entry respond with the err code. | [Details](#DELETE/users/:id) |
+| POST    | /payments | This is where the billing API endpoint will go (Stripe Feature). Creates a `stripe.customers` using the information sent inside the `body` of the request(email, id). It then creates a charge with the amount description, currency and customenr id.  | [Details](#POST/payments) |
+| POST    | /favorites | Creates a new `favorite` location using the information sent inside the `body` of the request(name, location, user_id).  Id is automatically incremented. | [Details](#POST/favorites) |
+| GET    | /favorites/:id |If the user is logged in, respond with an array of all the favorites contained in the database for a user. If the user is not logged in repond with the err code. | [Details](#GET/favorites/:id) |
+| GET    | /favorites/search/:term |If the user is logged in, Gets favorites based off search term using fuse.js for fuzzy search. If the user is not logged in repond with the err code. | [Details](#GET/favorites/search/:term) |
+| DELETE | /favorites/:id | If the user is logged in, finds and deletes the favorite(Currently this deletes the event based on the PK of the favorites table).  If the user is not logged-in or does not contain the entry respond with the err code. | [Details](#DELETE/favorites/:id) |
+| POST    | /events | Creates a new `event` location using the information sent inside the `body` of the request(name, date, location, venue, author, user_id, lat, lon, img_url, raiting, price, url, posters_email).  Id is automatically incremented. It first we check to see if the event already exists. After the event is created we sign up the user as someone going to the event | [Details](#POST/events) |
+| GET    | /events | If the user is logged in, respond with an array of all the events objects contained in the database.  | [Details](#GET/events) |
+| GET    | /events/:id |If the user is logged in, respond with an array of all the events contained in the database for a user. If the user is not logged in repond with the err code. | [Details](#GET/events/:id) |
+| GET    | events/:id/comments |If the user is logged in, respond with an array of all the comments contained in the database for an event. If the user is not logged in repond with the err code. | [Details](#GET/events/:id/comments) |
+| UPDATE    | /events | Edits an existing `event` location using the information sent inside the `body` of the request(name, date, location, venue, author, user_id, lat, lon, img_url, raiting, price, url, posters_email). It first we check to see if the event already exists. After the event is created we sign up the user as someone going to the event | [Details](#POST/events) |
 ---
 
 
@@ -73,7 +84,7 @@ http://localhost:5555/users_events
 ]
 ```
 ---
-GET <a name='GET/users'></a>
+1. GET <a name='GET/users'></a>
 /users 
 example:
 ```
@@ -125,7 +136,7 @@ example:
 ]
 ```
 ---
-POST <a name='POST/users'></a>
+2. POST <a name='POST/users'></a>
 /users 
 _example_ :
 ```
@@ -153,7 +164,7 @@ Which loks like:
     street_gourmet: 'unassigned' } ]
 ```
 
-GET <a name='GET/users/:id'></a>
+3. GET <a name='GET/users/:id'></a>
 /users 
 example: /users/:id
 example response
@@ -180,7 +191,7 @@ example response
  ]
 ```
 
-GET <a name='GET/users/:id/info'></a>
+4. GET <a name='GET/users/:id/info'></a>
 /users 
 example: /users/1/info
 example response
@@ -198,7 +209,7 @@ example response
 }
 ```
 <!-- #UPDATE/users/:id -->
-UPDATE <a name='UPDATE/users/:id'></a>
+5. UPDATE <a name='UPDATE/users/:id'></a>
 /users 
 Values that can be modified: name, phone, reminder, hard_or_soft, heat_pref, street_gourmet.
 example: /users/1
@@ -239,7 +250,7 @@ Which looks like:
 ```
 
 <!-- #UPDATE/users/:id/prem -->
-UPDATE <a name='UPDATE/users/:id/prem'></a>
+6. UPDATE <a name='UPDATE/users/:id/prem'></a>
 /users 
 Values that can be modified: isPremium.
 example: /users/1/prem
@@ -263,7 +274,7 @@ this works with the stripe implimentation.
 
 
 <!-- #DELETE/users/:id -->
-DELETE <a name='DELETE/users/:id'></a>
+7. DELETE <a name='DELETE/users/:id'></a>
 example: /users/4 
 Values that can be modified: isPremium.
 example: /users/4
@@ -283,6 +294,47 @@ simply deleted the data
 ```
 Id 4 is the id of he user deleted.
 
+8. POST <a name='POST/payments'></a>
+
+9. POST <a name='POST/favorites'></a>
+
+10. GET <a name='GET/favorites/:id'></a>
+example: /favorites/1
+exampleInput:
+```
+none 
+
+```
+example response:
+_Response_
+Status 200, OK;
+On Success Returns: 
+
+Which looks like:
+```
+[
+    {
+        "id": 1,
+        "name": "test",
+        "email": "pebble@rocks.com",
+        "isPremium": 0,
+        "phone": null,
+        "reminder": null,
+        "hard_or_soft": "unassigned",
+        "heat_pref": "unassigned",
+        "street_gourmet": "unassigned",
+        "location": "test",
+        "user_id": 1
+    }
+]
+```
+Id 1 is the id of he user deleted.
+if no value for the favorite, returns and ampty array.
+
+11. GET <a name='GET/favorites/search/:term'></a>
+
+
+11. DELETE <a name='DELETE/favorites/:id'></a>
 
 ## Technologies and Frameworks Used
 ###
