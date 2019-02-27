@@ -28,3 +28,17 @@ import SvgIcon from '@material-ui/core/SvgIcon';
 
 // --> Boilerplate import from Material-UI reference
 import classNames from 'classnames';
+
+class DrawerBar extends React.Component {
+  state = {
+    isOpen: false,
+  };
+
+  render() {
+    return (
+      <h1>Drawer Component</h1>
+    );
+  };
+};
+
+export default DrawerBar;
