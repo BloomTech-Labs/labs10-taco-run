@@ -22,12 +22,15 @@ class EventList extends React.Component {
 		this.state = {
 			showEdit: false,
 			editName: '',
-			editDate: ''
+			editDate: '',
+			windowWidth: ''
 		};
 	}
 
 	componentDidMount(){
 		this.props.getEvents()
+		console.log(window.innerWidth);
+		window.addEventListener('resize', this.checkWindowWidth);
 	}
 	
 	delete = (event) => {
@@ -52,7 +55,18 @@ class EventList extends React.Component {
 
 	handleChange = event => {
  	  this.setState({[event.target.name]: event.target.value})
- 	}
+	 }
+	 
+	 checkWindowWidth = event => {
+		event.preventDefault();
+		if (window.innerWidth > 1000) {
+			this.setState({ windowWidth: "50%" });		
+			console.log(this.state.windowWidth);
+		} else {
+			this.setState({ windowWidth: "100%" });
+			console.log(this.state.windowWidth);
+		}
+	 }
 
 	render() {
 		console.log(this.props)
@@ -74,8 +88,8 @@ class EventList extends React.Component {
 							return (
 								// <FlexDiv key={event.id}>
 								// 	<Card id={event.id}>
-									<GridListTile key = {event.id} >
-										<img className = "yelp-img" src = {event.img_url} />																												
+									<GridListTile key = {event.id} style = {{ width: this.state.windowWidth }} >
+										<img className = "yelp-img" src = {event.img_url} style = {{ width: "100%" }} />																												
 										<GridListTileBar
 											style = {{ height: "auto" }}
 											title = {event.name}
