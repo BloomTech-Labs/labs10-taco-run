@@ -29,11 +29,46 @@ import "./UserProfile.css";
 import { Container, EditBtn, FlexEnd } from "./userprofile_css.js";
 import { DeleteBtn } from "../events2/eventsingle_css.js";
 
+//-------------Material UI------------------
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import Typography from "@material-ui/core/Typography";
+
+function TabContainer(props) {
+  return (
+    <Typography component="div" style={{ padding: 8 * 3 }}>
+      {props.children}
+    </Typography>
+  );
+}
+
+TabContainer.propTypes = {
+  children: PropTypes.node.isRequired
+};
+
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.paper
+  }
+});
+
+//------------------------------------------
+
 class UserProfile extends React.Component {
   state = {
     search: "",
-    favoritesFlag: true,
-    value: "All"
+    value: "All",
+    // For tabs
+    tabValue: 0
+  };
+
+  // For tabs
+  handleChangeTabs = (event, tabValue) => {
+    this.setState({ tabValue });
   };
 
   handleChange = e => {
@@ -81,37 +116,6 @@ class UserProfile extends React.Component {
     }
   };
 
-  openTab = (evt, tabName) => {
-    var i, tabcontent, tablinks;
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-      tabcontent[i].style.display = "none";
-    }
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-      tablinks[i].className = tablinks[i].className.replace("active", "");
-    }
-    document.getElementById(tabName).style.display = "block";
-    // evt.currentTarget.className += "active";
-
-    // function to set flag to change certain details on page
-    if (
-      evt.currentTarget.id === "friends" &&
-      this.state.favoritesFlag == true
-    ) {
-      this.setState({
-        favoritesFlag: false
-      });
-    } else if (
-      evt.currentTarget.id === "favorites" &&
-      this.state.favoritesFlag == false
-    ) {
-      this.setState({
-        favoritesFlag: true
-      });
-    }
-  };
-
   friendAdd = event => {
     event.preventDefault();
     let ids = {
@@ -154,6 +158,10 @@ class UserProfile extends React.Component {
   }
 
   render() {
+    // For tabs
+    const { classes } = this.props;
+    const { tabValue } = this.state;
+
     return (
       <div className="profile">
         <DrawerBar />
@@ -173,7 +181,7 @@ class UserProfile extends React.Component {
           {/* Search Bar */}
           <div className="profile-search-friends">
             {/* Form for Search Results */}
-            {this.state.favoritesFlag === true ? (
+            {this.state.tabValue === 0 ? (
               <div>
                 <form onSubmit={this.handleSubmitFavorites}>
                   <input
@@ -219,7 +227,7 @@ class UserProfile extends React.Component {
             )}
 
             <div className="results-container">
-              {this.state.favoritesFlag === true ? (
+              {this.state.tabValue === 0 ? (
                 // Results for Favorites
                 <div id="results" ref={node => (this.node = node)}>
                   {this.props.locations.map(result => {
@@ -275,80 +283,85 @@ class UserProfile extends React.Component {
 
           <div className="profile-personal-container">
             {/* Tabs */}
-            <div className="tab">
-              <button
-                id="favorites"
-                className="tablinks"
-                onClick={event => this.openTab(event, "Favorites")}
-              >
-                Favorites
-              </button>
-              <button
-                id="friends"
-                className="tablinks"
-                onClick={event => this.openTab(event, "Friends")}
-              >
-                Friends
-              </button>
-            </div>
-
-            {/* Favorites Tab */}
-            {this.state.value === "All" ? (
-              <div id="Favorites" className="tabcontent">
-                {this.props.favorites.map(favorite => {
-                  return (
-                    // <Link to={`/locations/${location.name}`}>
-                    <div className={`resultsDisplay ${favorite.location}`}>
-                      <div className="location-picture">
-                        {/* <img /> */}
-                        <h3>{favorite.name}</h3>
-                        <p>{favorite.location}</p>
-                        <button onClick={this.favoriteDelete} id={favorite.id}>
-                          X
-                        </button>
-                      </div>
+            <div className={classes.root}>
+              <AppBar position="static">
+                <Tabs value={tabValue} onChange={this.handleChangeTabs}>
+                  <Tab label="Favorite" />
+                  <Tab label="Friends" />
+                </Tabs>
+              </AppBar>
+              {tabValue === 0 && (
+                <TabContainer>
+                  {/* Favorites Tab */}
+                  {this.state.value === "All" ? (
+                    <div id="Favorites" className="tabcontent">
+                      {this.props.favorites.map(favorite => {
+                        return (
+                          // <Link to={`/locations/${location.name}`}>
+                          <div
+                            className={`resultsDisplay ${favorite.location}`}
+                          >
+                            <div className="location-picture">
+                              {/* <img /> */}
+                              <h3>{favorite.name}</h3>
+                              <p>{favorite.location}</p>
+                              <button
+                                onClick={this.favoriteDelete}
+                                id={favorite.id}
+                              >
+                                X
+                              </button>
+                            </div>
+                          </div>
+                          // </Link>
+                        );
+                      })}
                     </div>
-                    // </Link>
-                  );
-                })}
-              </div>
-            ) : (
-              <div id="Favorites" className="tabcontent">
-                {this.props.favorites
-                  .filter(favorite => favorite.location === this.state.value)
-                  .map(favorite => {
+                  ) : (
+                    <div id="Favorites" className="tabcontent">
+                      {this.props.favorites
+                        .filter(
+                          favorite => favorite.location === this.state.value
+                        )
+                        .map(favorite => {
+                          return (
+                            // <Link to={`/locations/${favorite.name}`}>
+                            <div
+                              className={`resultsDisplay ${favorite.location}`}
+                            >
+                              <div className="location-picture">
+                                {/* <img /> */}
+                                <h3>{favorite.name}</h3>
+                                <p>{favorite.location}</p>
+                              </div>
+                            </div>
+                            // </Link>
+                          );
+                        })}
+                    </div>
+                  )}
+                </TabContainer>
+              )}
+              {tabValue === 1 && (
+                <TabContainer>
+                  {/* Friends Tab */}
+                  {this.props.friends.map(friend => {
                     return (
-                      // <Link to={`/locations/${favorite.name}`}>
-                      <div className={`resultsDisplay ${favorite.location}`}>
-                        <div className="location-picture">
-                          {/* <img /> */}
-                          <h3>{favorite.name}</h3>
-                          <p>{favorite.location}</p>
+                      <Link to={`/user/${friend.id}`}>
+                        <div className="resultsDisplay">
+                          <div className="location-picture">
+                            {/* <img /> */}
+                            <button onClick={this.friendDelete} id={friend.id}>
+                              X
+                            </button>
+                            <h3>{friend.name}</h3>
+                          </div>
                         </div>
-                      </div>
-                      // </Link>
+                      </Link>
                     );
                   })}
-              </div>
-            )}
-
-            {/* Friends Tab */}
-            <div id="Friends" className="tabcontent">
-              {this.props.friends.map(friend => {
-                return (
-                  <Link to={`/user/${friend.id}`}>
-                    <div className="resultsDisplay">
-                      <div className="location-picture">
-                        {/* <img /> */}
-                        <button onClick={this.friendDelete} id={friend.id}>
-                          X
-                        </button>
-                        <h3>{friend.name}</h3>
-                      </div>
-                    </div>
-                  </Link>
-                );
-              })}
+                </TabContainer>
+              )}
             </div>
           </div>
         </Container>
@@ -380,4 +393,4 @@ export default connect(
     deleteFriend,
     deleteFavorite
   }
-)(UserProfile);
+)(withStyles(styles, { withTheme: true })(UserProfile));
