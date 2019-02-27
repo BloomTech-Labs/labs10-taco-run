@@ -6,6 +6,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import Nav from "../nav/Nav.js";
+import DrawerBar from "../drawer/Drawer";
 
 // --> import userActions
 import { fetchUser, searchUsers } from "../../store/actions/userActions";
@@ -155,7 +156,7 @@ class UserProfile extends React.Component {
   render() {
     return (
       <div className="profile">
-        <Nav />
+        <DrawerBar />
         <Container>
           <Link to="/user-settings">
             <FlexEnd>

@@ -3,7 +3,8 @@ import Nav from '../nav/Nav.js'
 import running from './running.png'
 import { MainDiv, TopHr, BottomHr } from './started_css.js'
 import { Link } from "react-router-dom";
-import { CreateLink, ContainLink } from '../events2/eventlist_css.js'
+import { CreateLink, ContainLink } from '../events2/eventlist_css.js';
+import DrawerBar from "../drawer/Drawer";
 
 class GetStarted extends React.Component {
   constructor(){
@@ -18,7 +19,7 @@ class GetStarted extends React.Component {
   render() {
     return (
       <div>
-        <Nav/>
+        <DrawerBar />
         <TopHr />
         <MainDiv>
           <div>
