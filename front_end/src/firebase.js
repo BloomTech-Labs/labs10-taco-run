@@ -1,18 +1,19 @@
 import firebase from 'firebase';
-import 'firebase/firestore';
 
 const config = {
-    apiKey: "AIzaSyCwMbSKhR9BW3xXic9KP37plKiHUWb-wuY",
-    authDomain: "mock-up-d0d2d.firebaseapp.com",
-    databaseURL: "https://mock-up-d0d2d.firebaseio.com",
-    projectId: "mock-up-d0d2d",
-    storageBucket: "mock-up-d0d2d.appspot.com",
-    messagingSenderId: "7261255904"
-  };
-  firebase.initializeApp(config);
-
-  export const auth = firebase.auth();
-
-  export const storage = firebase.storage();
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  databaseURL: process.env.REACT_APP_DATABASE_URL,
+  projectId: process.env.REACT_APP_PROJECTID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGEING_SENDER_ID,
+  upload_present: process.env.REACT_APP_UPLOAD_PRESENT,
+  yelpKey: process.env.REACT_APP_YELP_KEY,
+  googleKey: process.env.REACT_APP_GOOGLE_KEY
+};
   
-  export default firebase;
+firebase.initializeApp(config);
+
+export const auth = firebase.auth();
+
+export default firebase;

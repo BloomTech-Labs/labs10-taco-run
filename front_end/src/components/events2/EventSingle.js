@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import firebase from 'firebase';
 import { connect } from "react-redux";
 import { getEvent } from "../../store/actions/eventsActions";
 import {
@@ -41,8 +42,43 @@ class EventSingle extends React.Component {
     url: '',
     img_url: '',
     attending: [],
-    loaded: false
+    loaded: false,
+    picture: ""
   };
+
+  fileSelect = (event) => {
+    // console.log(event.target.files[0]);
+    this.setState({
+      picture: event.target.files[0]
+    })
+  }
+
+  postImage = (event) => {
+    event.preventDefault()
+    let present = firebase.functions().app_.options_.upload_present
+    
+    const formData = new FormData();
+
+    formData.append('file', this.state.picture)
+    formData.append('upload_preset', present)
+
+    axios({
+      url: "https://api.cloudinary.com/v1_1/hhxek2qo9/upload",
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      data: formData
+    })
+    .then(res => {
+      console.log(res)
+    })
+    .catch(error => {
+      console.log(error)
+    })
+
+  }
+
 
   componentDidMount() {
     this.props.getComments(this.props.match.params.id);
@@ -123,7 +159,6 @@ class EventSingle extends React.Component {
       posters_email: this.props.user.email
     };
 
-    // const {content, date, posted_by, event_id } = req.body;
     this.props.makeComment(comment, this.props.match.params.id);
     this.setState({
       content: ""
@@ -139,7 +174,6 @@ class EventSingle extends React.Component {
       content: this.state.editComment,
     };
     
-    // const {content, date, posted_by, event_id } = req.body;
     this.props.updateComment(comment);
     this.setState({
       editComment: ""
@@ -191,7 +225,7 @@ class EventSingle extends React.Component {
         {this.state.loaded ? (
           <MapDiv>
             <GoogleMapReact
-              bootstrapURLKeys={{ key: "AIzaSyDM6TcKZH9rWDPAqXx4Yln7_l08ACF5QdA" }}
+              bootstrapURLKeys={{ key: firebase.functions().app_.options_.googleKey }}
               defaultZoom={16}
               defaultCenter={{lat: this.state.lat, lng: this.state.lon}}
             >
@@ -287,8 +321,11 @@ class EventSingle extends React.Component {
               onChange={this.handleChange}
               name="content"
               value={this.state.content}
-            />
+            /><br />
+            <input type="file" onChange={this.fileSelect}></input>
+            <button onClick={this.postImage}>add image</button>
           </FormComment>
+
           <CommentSubmit onClick={this.createComment}>Submit</CommentSubmit>
         </Container>
       </div>
