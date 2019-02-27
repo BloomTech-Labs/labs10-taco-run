@@ -73,6 +73,7 @@ class DrawerBar extends React.Component {
   /*============================= Navigation Button Helpers END =============================*/
 
   render() {
+    const { classes, theme } = this.props; // --> this is to access the style function found below
     return (
       <div className = {classes.root}>
         <CssBaseline /> {/* Seems to only change background color to a lightgrey-ish */}
@@ -125,7 +126,7 @@ class DrawerBar extends React.Component {
 
           <Divider /> {/* This is the ----- that shows up */}
           <List> {/* This is the beginning of the side-bar navigation: We map through the possible options and then.... */}
-            {['Events Dashboard', 'Profile', 'Users', 'Sign Out'].map((text, index) => (  
+            {['Events Dashboard', 'Profile', 'Users', 'Get Started', 'Sign Out'].map((text, index) => (  
               <div className = "side-menu-wrap" key = {text}> 
               {/* Here for each index (each button / item): we want to render a different icon */}
               {/* <SvgIcon><path></SvgIcon> --> This is to be able to access a huge amount of different icons from `materialdesignicons.com` */}
@@ -157,6 +158,17 @@ class DrawerBar extends React.Component {
                     </ListItem>                                      
                   ) :
                   index === 3 ? (
+                    <ListItem button key = {text} onClick = {this.started}>
+                      <ListItemIcon>
+                        <SvgIcon>
+                          <path fill="#000000" d="M7.5,15C8.63,15 9.82,15.26 11.09,15.77C12.35,16.29 13,16.95 13,17.77V20H2V17.77C2,16.95 2.65,16.29 3.91,15.77C5.18,15.26 6.38,15 7.5,15M13,13H22V15H13V13M13,9H22V11H13V9M13,5H22V7H13V5M7.5,8A2.5,2.5 0 0,1 10,10.5A2.5,2.5 0 0,1 7.5,13A2.5,2.5 0 0,1 5,10.5A2.5,2.5 0 0,1 7.5,8Z" />
+                        </SvgIcon>
+                      </ListItemIcon>
+                      <ListItemText primary = {text} />
+                    </ListItem>                                                         
+                  ) :
+                  index === 4 ? (                    
+
                     <ListItem button key = {text} onClick = {this.logOut}>
                       <ListItemIcon>
                         <SvgIcon>
@@ -164,7 +176,7 @@ class DrawerBar extends React.Component {
                         </SvgIcon>
                       </ListItemIcon>
                       <ListItemText primary = {text} />
-                    </ListItem>                                      
+                    </ListItem>  
                   ) :
                   null
                 }

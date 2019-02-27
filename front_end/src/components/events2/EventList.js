@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { getEvents, deleteEvent, updateEvent } from "../../store/actions/eventsActions";
 import { connect } from "react-redux";
 import './create_event.css'
+import DrawerBar from "../drawer/Drawer";
 
 class EventList extends React.Component {
 	constructor(props){
@@ -50,7 +51,7 @@ class EventList extends React.Component {
 		return (
 
 			<div>
-				<Nav/>
+				<DrawerBar />
 
 				<div>
 					<div>
