@@ -144,4 +144,12 @@ const styles = theme => ({
   },
 });
 
-export default DrawerBar;
+const mapStateToProps = state => {
+  return { auth: state.firebase.auth }
+}
+
+/* 
+  - Since Material-UI uses `withStyles()`, and redux uses `withRouter()`:
+    we had to combine them like this!
+*/
+export default withRouter(connect(mapStateToProps, null)(withStyles(styles, { withTheme: true })(DrawerBar)));
