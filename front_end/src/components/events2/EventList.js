@@ -8,6 +8,14 @@ import { connect } from "react-redux";
 import './create_event.css'
 import DrawerBar from "../drawer/Drawer";
 
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+import GridListTileBar from '@material-ui/core/GridListTileBar';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
+import InfoIcon from '@material-ui/icons/Info';
+
 class EventList extends React.Component {
 	constructor(props){
 		super(props);
