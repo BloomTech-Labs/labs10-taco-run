@@ -15,19 +15,22 @@
 ---
 ---
 #### Endpoints
----
+
 | Method | Endpoint      | Description                                                                   | body                  |
 | ------ | ------------- | ----------------------------------------------------------------------------- | --------------------- |
 <!-- | POST   | /api/register | Creates a `user` using the information sent inside the `body` of the request. | { "username": "user", "password": "pass", "role": 0 } |
 | POST   | /api/login | Use the credentials sent inside the `body` to authenticate the user. On successful login, create a new JWT with the user id as the subject and send it back to the client.| { "username": "user","password": "pass" } |
 | GET    | /api/users | If the user is logged in, respond with an array of all the users contained in the database. If the user is not logged in repond with the err code. | --- | -->
-| GET    | /users | If the user is logged in, respond with an array of all the user objects contained in the database. If the user is not logged in repond with the err code. | [Description Details](#GET/users) |
-| POST    | /users | Creates a `user` using the information sent inside the `body` of the request. Name and email fields are manditory. Id is automatically incremented. | [Description Details](#POST/users) |
+| GET    | /users | If the user is logged in, respond with an array of all the user objects contained in the database. If the user is not logged in repond with the err code. | [Details](#GET/users) |
+| POST    | /users | Creates a `user` using the information sent inside the `body` of the request. Name and email fields are manditory. Id is automatically incremented. | [Details](#POST/users) |
 | GET    | /users/search | If the user is logged in, respond with an array of all the users contained in the database. If the user is not logged in repond with the err code. Get users based off search term using fuse.js for fuzzy search. | --- |
-| GET    | users/:id | If the user is logged in, respond with an array of all the events contained in the database for a user. If the user is not logged in repond with the err code. | [Description Details](#GET/users/:id) |
-| GET    | /users/:id/info | If the user is logged in, respond with an object of all the users info contained in the database. If the user is not logged in repond with the err code. | [Description Details](#GET/users/:id/info) |
-| PUT    | /users/:id | If the user is logged in, responds with an object with the users entry that has been updated. If the user is not logged-in or does not contain the entry respond with the err code. | [Description Details](#UPDATE/users/:id) |
-| DELETE | /users/:id | If the user is logged in, finds and deletes user. It also deletes user relationship where he is a friend in users_friends table. If the user is not logged-in or does not contain the entry respond with the err code. | [Description Details](#DELETE/users/:id) |
+| GET    | users/:id | If the user is logged in, respond with an array of all the events contained in the database for a user. If the user is not logged in repond with the err code. | [Details](#GET/users/:id) |
+| GET    | /users/:id/info | If the user is logged in, respond with an object of all the users info contained in the database. If the user is not logged in repond with the err code. | [Details](#GET/users/:id/info) |
+| PUT    | /users/:id | If the user is logged in, responds with an object with the users entry that has been updated. If the user is not logged-in or does not contain the entry respond with the err code. | [Details](#UPDATE/users/:id) |
+| PUT    | /users/:id/prem | If the user is logged in, responds with an object with the users entry that has been updated. If the user is not logged-in or does not contain the entry respond with the err code. | [Description Details](#UPDATE/users/:id/prem) |
+| DELETE | /users/:id | If the user is logged in, finds and deletes user. It also deletes user relationship where he is a friend in users_friends table. If the user is not logged-in or does not contain the entry respond with the err code. | [Details](#DELETE/users/:id) |
+| POST    | /payments | This is where the billing API endpoint will go (Stripe Feature). Creates a `stripe.customers` using the information sent inside the `body` of the request(email, id). It then creates a charge with the amount description, currency and customenr id.  | [Details](#POST/payments) |
+| POST    | /favorites | Creates a `user` using the information sent inside the `body` of the request. Name and email fields are manditory. Id is automatically incremented. | [Details](#POST/favorites) |
 ---
 
 
@@ -73,7 +76,7 @@ http://localhost:5555/users_events
 ]
 ```
 ---
-GET <a name='GET/users'></a>
+1. GET <a name='GET/users'></a>
 /users 
 example:
 ```
@@ -125,7 +128,7 @@ example:
 ]
 ```
 ---
-POST <a name='POST/users'></a>
+2. POST <a name='POST/users'></a>
 /users 
 _example_ :
 ```
@@ -153,7 +156,7 @@ Which loks like:
     street_gourmet: 'unassigned' } ]
 ```
 
-GET <a name='GET/users/:id'></a>
+3. GET <a name='GET/users/:id'></a>
 /users 
 example: /users/:id
 example response
@@ -180,7 +183,7 @@ example response
  ]
 ```
 
-GET <a name='GET/users/:id/info'></a>
+4. GET <a name='GET/users/:id/info'></a>
 /users 
 example: /users/1/info
 example response
@@ -198,7 +201,7 @@ example response
 }
 ```
 <!-- #UPDATE/users/:id -->
-UPDATE <a name='UPDATE/users/:id'></a>
+5. UPDATE <a name='UPDATE/users/:id'></a>
 /users 
 Values that can be modified: name, phone, reminder, hard_or_soft, heat_pref, street_gourmet.
 example: /users/1
@@ -239,7 +242,7 @@ Which looks like:
 ```
 
 <!-- #UPDATE/users/:id/prem -->
-UPDATE <a name='UPDATE/users/:id/prem'></a>
+6. UPDATE <a name='UPDATE/users/:id/prem'></a>
 /users 
 Values that can be modified: isPremium.
 example: /users/1/prem
@@ -263,7 +266,7 @@ this works with the stripe implimentation.
 
 
 <!-- #DELETE/users/:id -->
-DELETE <a name='DELETE/users/:id'></a>
+7. DELETE <a name='DELETE/users/:id'></a>
 example: /users/4 
 Values that can be modified: isPremium.
 example: /users/4
