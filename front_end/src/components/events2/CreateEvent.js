@@ -9,6 +9,7 @@ import Popup from "reactjs-popup";
 import Nav from "../nav/Nav.js";
 import firebase from "firebase";
 import Big from "big.js";
+
 import DrawerBar from "../drawer/Drawer";
 
 import {
