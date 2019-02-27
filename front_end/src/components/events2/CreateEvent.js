@@ -7,8 +7,11 @@ import { withAlert } from 'react-alert'
 import './create_event.css'
 import Popup from 'reactjs-popup'
 import Nav from "../nav/Nav.js";
+import Big from 'big.js';
+import firebase from 'firebase';
 import Big from 'big.js'
 import DrawerBar from "../drawer/Drawer";
+
 
 import { 
 	CreateEventWrapper, 
@@ -54,10 +57,9 @@ class CreateEvent extends React.Component {
 
 	searchMap = event => {
 		event.preventDefault();
+		let key = firebase.functions().app_.options_.yelpkey
 
 		let city = this.state.city_location
-		console.log(city)
-		let key = 'eCOPaZqiSLjMpzeQ959HILnzlPZnycqXnrXSynQOss8s-AmvlqkZBSples27Q_KQTqpDm0NuP4HbfRoytRzE_YPg1y2_1NlZrhMaQ46TpXNuZ3zydPTrutbb9XVvXHYx'
     axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://api.yelp.com/v3/businesses/search?term=taco&location=${city}&categories=mexican`, {
       headers: {
         Authorization: `Bearer ${key}`
@@ -139,7 +141,7 @@ class CreateEvent extends React.Component {
 				{this.state.show_map ? (
 						<MapDiv>
 							<GoogleMapReact
-			          bootstrapURLKeys={{ key: "AIzaSyDM6TcKZH9rWDPAqXx4Yln7_l08ACF5QdA" }}
+			          bootstrapURLKeys={{ key: firebase.functions().app_.options_.googlekey }}
 			          defaultZoom={this.state.zoom}
 			          defaultCenter={{lat: this.state.lat_av, lng: this.state.lon_av}}
 			        >
