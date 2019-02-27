@@ -1,82 +1,164 @@
-import './css/main.css'
 import './custom.css'
 
 import React from 'react';
 import Navigation from '../navigation/Navigation.js';
-import places from './img/places.png'
+import yelp from './img/yelp.jpg'
 import events from './img/event.png'
-import medias from './img/SocialMedia.png'
-import run from './img/running.png'
+import tacos from './img/tacos.jpg'
+import tacos2 from './img/tacos2.jpeg'
+import facebook from './img/facebook.png'
+import google from './img/google.png'
+import twitter from './img/twitter.png'
+
 import { Link } from 'react-router-dom'
 
-class LandingPage extends React.Component {
-  state = {
-    example: ''
-  }
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 
-  render() {
-    return (
+import ErrorAlert from '../alerts/ErrorAlert.js';
+import { withAlert } from 'react-alert'
+
+import {connect} from 'react-redux';
+import {signIn, signUp, facebookAuth, twitterAuth, googleAuth, githubAuth, passReset} from '../../store/actions/authActions.js';
+
+const styles = {
+  card: {
+    maxWidth: 345,
+  },
+  media: {
+    height: 140,
+  },
+  media2: {
+    height: 350,
+  },
+};
+
+const LandingPage = (props) => {
+  const { classes } = props;
+  return (
       <div>
-
-        <section class="customb relative">
-          <div class="container">
-            <div class="row fullscreen d-flex align-items-center justify-content-start">
-              <div class="banner-content col-lg-8 col-md-12" >
-                <h1 id="colorf">
-                  Lets Get Tacos          
-                </h1>
-                <Link to="/auth"><div class="primary-btn header-btn text-uppercase">Register</div></Link>
-              </div>                        
+        <section>
+          <div>
+            <div className="flexCenter">
+              <Card className={`width`}>
+                <CardActionArea>
+                  <CardMedia
+                    className={`${classes.media2} imgs`}
+                    image={tacos2}
+                    title="Lets Get Tacos"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      Lets Get Tacos
+                    </Typography>
+                    <Typography component="p">
+                      We are A scheduling app for people to meet up and eat tacos.
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
             </div>
-          </div>
-        </section>
+            
+            <h4 className="centerT">Login With</h4>
+            <div className="flexCenter bottom">
+              <img src={facebook} className="image" onClick={() => { props.facebookAuth(); props.history.push('get-started') } }/>
+              <img src={google} className="image" onClick={() => { props.googleAuth(); props.history.push('get-started') } }/>
+              <img src={twitter} className="image" onClick={() => { props.twitterAuth(); props.history.push('get-started') } }/>
+            </div>          
 
-        <section class="top-dish-area spacing" id="dish">
-          <div class="container">
-            <div class="row d-flex justify-content-center">
-              <div class="menu-content pb-60 col-lg-8">
-                <div class="title text-center">
-                  <img src={run} />
-                  <h1 class="mb-10">Welcome</h1>
-                  <p>We are A scheduling app for people to meet up and eat tacos.</p>
-                </div>
-              </div>
-            </div>            
-            <div class="row">
-              <div class="single-dish col-lg-4 alignI">
-                <div class="thumb">
-                  <img src={places} className="imgs"/>
-                </div>
-                <h4 class="text-uppercase pt-20 pb-20">Google Places API</h4>
-                <p>
-                  Our App integrades with google Places API to help you find places to eat Tacos in your area.
-                </p>
-              </div>
-              <div class="single-dish col-lg-4 alignI">
-                <div class="thumb">
-                  <img src={events} className="imgs"/>
-                </div>
-                <h4 class="text-uppercase pt-20 pb-20">Make Events</h4>
-                <p>
-                  Once you found a place you like make an event for others to go and eat tacos, invite friends, and add favorite places that you ate at.
-                </p>
-              </div>
-              <div class="single-dish col-lg-4 alignI">
-                <div class="thumb">
-                  <img src={medias} className="imgs"/>
-                </div>
-                <h4 class="text-uppercase pt-20 pb-20">Link Events to Social Media</h4>
-                <p>
-                  Our app interacts with Facebook, Twitter, and Google so that you can share events with your other social media accounts.
-                </p>
-              </div>                        
+            <div className="flexContain">
+              <Card className={`${classes.card} media_spacing`}>
+                <CardActionArea>
+                  <CardMedia
+                    className={`${classes.media} imgs`}
+                    image={yelp}
+                    title="Yelp and Google Maps API"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      Yelp and Google Maps Api
+                    </Typography>
+                    <Typography component="p">
+                      Our App integrades with Yelp and the Google Maps API to 
+                      help you find the best places to eat tacos in your local city.
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+              
+              <Card className={`${classes.card} media_spacing`}>
+                <CardActionArea>
+                  <CardMedia
+                    className={`${classes.media} imgs`}
+                    image={events}
+                    title="Make an Event"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      Schedule an Event
+                    </Typography>
+                    <Typography component="p">
+                      Once you found a place you like make an event 
+                      for others to go and eat tacos, 
+                      invite friends, and add favorite places that you ate at.
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+
+              <Card className={`${classes.card} media_spacing`}>
+                <CardActionArea>
+                  <CardMedia
+                    className={`${classes.media} imgs`}
+                    image={tacos}
+                    title="Enjoy your Tacos"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      Enjoy your tacos
+                    </Typography>
+                    <Typography component="p">
+                      Once you have your event made, 
+                      invite your friends, meetup 
+                      and enjoy some tasty tacos!
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
             </div>
           </div>  
         </section>
       </div>
     );
-  } 
+}
 
-} 
+LandingPage.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
-export default LandingPage;
+const mapStateToProps = (state) => {
+  return {
+    auth: state.firebase.auth,
+    error: state.auth.authError
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    twitterAuth: () => dispatch(twitterAuth()),
+    facebookAuth: () => dispatch(facebookAuth()),
+    googleAuth: () => dispatch(googleAuth()),
+  }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(LandingPage));
