@@ -47,6 +47,9 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 
+// Search field imports
+import TextField from "@material-ui/core/TextField";
+
 function TabContainer(props) {
   return (
     <Typography component="div" style={{ padding: 8 * 3 }}>
@@ -66,12 +69,29 @@ const styles = theme => ({
     display: "flex",
     flexWrap: "wrap"
   },
+  // For select
   formControl: {
     margin: theme.spacing.unit,
-    minWidth: 120
+    minWidth: 100
   },
   selectEmpty: {
-    marginTop: theme.spacing.unit * 2
+    marginTop: theme.spacing.unit * 0
+  },
+  // For search field
+  container: {
+    display: "flex",
+    flexWrap: "wrap"
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 200
+  },
+  dense: {
+    marginTop: 19
+  },
+  menu: {
+    width: 200
   }
 });
 
@@ -206,68 +226,37 @@ class UserProfile extends React.Component {
             {/* Form for Search Results */}
             {this.state.tabValue === 0 ? (
               <div>
-                <form onSubmit={this.handleSubmitFavorites}>
-                  <input
+                <form
+                  className={classes.container}
+                  noValidate
+                  autoComplete="off"
+                  onSubmit={this.handleSubmitFavorites}
+                >
+                  <TextField
+                    id="standard-search"
+                    label="Search field"
                     type="search"
-                    placeholder="Add a new favorite"
+                    className={classes.textField}
+                    margin="normal"
                     value={this.state.search}
-                    name="search"
                     onChange={this.handleChange}
                   />
                 </form>
-                <form className={classes.root} autoComplete="off">
-                  <FormControl
-                    variant="outlined"
-                    className={classes.formControl}
-                  >
-                    <InputLabel
-                      ref={ref => {
-                        this.InputLabelRef = ref;
-                      }}
-                      htmlFor="outlined-age-simple"
-                    >
-                      Location
-                    </InputLabel>
-                    <Select
-                      value={this.state.value}
-                      onChange={this.handleSelect}
-                      input={
-                        <OutlinedInput
-                          labelWidth={this.state.labelWidth}
-                          name="age"
-                          id="outlined-age-simple"
-                        />
-                      }
-                    >
-                      <MenuItem value="All">
-                        <em>All</em>
-                      </MenuItem>
-                      {this.props.favorites.map(favorite => {
-                        if (favorite !== undefined) {
-                          return (
-                            <MenuItem
-                              className={`location-${favorite.location}`}
-                              value={`${favorite.location}`}
-                            >
-                              {favorite.location}
-                            </MenuItem>
-                          );
-                        }
-                      })}
-                      {/* <MenuItem value={10}>Ten</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem> */}
-                    </Select>
-                  </FormControl>
-                </form>
               </div>
             ) : (
-              <form onSubmit={this.handleSubmitUsers}>
-                <input
+              <form
+                className={classes.container}
+                noValidate
+                autoComplete="off"
+                onSubmit={this.handleSubmitUsers}
+              >
+                <TextField
+                  id="standard-search"
+                  label="Search field"
                   type="search"
-                  placeholder="Find a new friend"
+                  className={classes.textField}
+                  margin="normal"
                   value={this.state.search}
-                  name="search"
                   onChange={this.handleChange}
                 />
               </form>
@@ -327,6 +316,48 @@ class UserProfile extends React.Component {
               )}
             </div>
           </div>
+
+          {this.state.tabValue === 0 && (
+            <form className={classes.root} autoComplete="off">
+              <FormControl variant="outlined" className={classes.formControl}>
+                <InputLabel
+                  ref={ref => {
+                    this.InputLabelRef = ref;
+                  }}
+                  htmlFor="outlined-age-simple"
+                >
+                  Location
+                </InputLabel>
+                <Select
+                  value={this.state.value}
+                  onChange={this.handleSelect}
+                  input={
+                    <OutlinedInput
+                      labelWidth={this.state.labelWidth}
+                      name="age"
+                      id="outlined-age-simple"
+                    />
+                  }
+                >
+                  <MenuItem value="All">
+                    <em>All</em>
+                  </MenuItem>
+                  {this.props.favorites.map(favorite => {
+                    if (favorite !== undefined) {
+                      return (
+                        <MenuItem
+                          className={`location-${favorite.location}`}
+                          value={`${favorite.location}`}
+                        >
+                          {favorite.location}
+                        </MenuItem>
+                      );
+                    }
+                  })}
+                </Select>
+              </FormControl>
+            </form>
+          )}
 
           <div className="profile-personal-container">
             {/* Tabs */}
