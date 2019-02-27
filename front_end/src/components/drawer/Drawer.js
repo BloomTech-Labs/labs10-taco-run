@@ -34,6 +34,17 @@ class DrawerBar extends React.Component {
     isOpen: false,
   };
 
+  /*========================= Drawer for Material UI helpers =========================*/
+  handleDrawerOpen = () => {
+    this.setState({ isOpen: true });
+  }
+
+  handleDrawerClose = () => {
+    this.setState({ isOpen: false });
+  }
+
+  /*========================= Drawer for Material UI helpers END =========================*/
+
   render() {
     return (
       <h1>Drawer Component</h1>
