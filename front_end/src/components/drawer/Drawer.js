@@ -196,6 +196,7 @@ const drawerWidth = 240;
 const styles = theme => ({
   root: {
     display: 'flex',
+    paddingBottom: 100,    
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
