@@ -38,6 +38,7 @@ import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 
 // Select imports
+import ReactDOM from "react-dom";
 import Input from "@material-ui/core/Input";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
 import FilledInput from "@material-ui/core/FilledInput";
@@ -159,6 +160,17 @@ class UserProfile extends React.Component {
     }
   };
 
+  favoriteAdd = event => {
+    event.preventDefault();
+    let ids = {
+      user_id: parseInt(localStorage.getItem("user_id")),
+      friends_id: parseInt(event.target.id)
+    };
+    let obj = { data: ids };
+    let cid = obj.data.user_id;
+    this.props.addFavorite(obj, cid);
+  };
+
   friendAdd = event => {
     event.preventDefault();
     let ids = {
@@ -193,6 +205,10 @@ class UserProfile extends React.Component {
     this.props.fetchFriends(localStorage.getItem("user_id"));
     // mousedown
     document.addEventListener("mousedown", this.handleClick, false);
+    // Select material ui
+    this.setState({
+      labelWidth: ReactDOM.findDOMNode(this.InputLabelRef).offsetWidth
+    });
   }
 
   componentWillUnmount() {
@@ -271,6 +287,9 @@ class UserProfile extends React.Component {
                       return (
                         <Link to={`/${result.id}`}>
                           <div className="result-display">
+                            <button onClick={this.favoriteAdd} id={result.id}>
+                              Add
+                            </button>
                             <div className="result-image">
                               {/* <img
                           alt="User"
