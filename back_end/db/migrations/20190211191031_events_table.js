@@ -12,7 +12,7 @@ exports.up = function(knex, Promise) {
 
     tbl
       .string('location', 128)
-      .notNullable()
+      // .notNullable()
 
     tbl
       .decimal('lat', 14, 10)
@@ -34,15 +34,15 @@ exports.up = function(knex, Promise) {
 
     tbl
       .string('venue', 255)
-      .notNullable()
+      // .notNullable()
 
     tbl
       .string('author', 128)
-      .notNullable()
+      // .notNullable()
 
     tbl
       .string('posters_email')
-      .notNullable()
+      // .notNullable()
 
 
     tbl
