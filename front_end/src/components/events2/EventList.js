@@ -76,7 +76,7 @@ class EventList extends React.Component {
   };
 
   componentDidMount() {
-    this.props.getEvents();
+    this.props.getEvents(localStorage.getItem("user_id"));
     console.log(window.innerWidth);
     window.addEventListener("resize", this.checkWindowWidth);
     /* 
@@ -132,6 +132,7 @@ class EventList extends React.Component {
     // For tabs
     const { classes } = this.props;
     const { tabValue } = this.state;
+    console.log(this.props)
 
     return (
       <div>
@@ -171,7 +172,7 @@ class EventList extends React.Component {
                           Lets Sign Up For An Event!
                         </ListSubheader>
                       </GridListTile>
-                      {this.props.events.map(event => {
+                      {this.props.events.upcoming.map(event => {
                         return (
                           // <FlexDiv key={event.id}>
                           // 	<Card id={event.id}>
@@ -277,7 +278,7 @@ class EventList extends React.Component {
                           Lets Sign Up For An Event!
                         </ListSubheader>
                       </GridListTile>
-                      {this.props.events.map(event => {
+                      {this.props.events.pending.map(event => {
                         return (
                           // <FlexDiv key={event.id}>
                           // 	<Card id={event.id}>
@@ -383,7 +384,7 @@ class EventList extends React.Component {
                           Lets Sign Up For An Event!
                         </ListSubheader>
                       </GridListTile>
-                      {this.props.events.map(event => {
+                      {this.props.events.past.map(event => {
                         return (
                           // <FlexDiv key={event.id}>
                           // 	<Card id={event.id}>

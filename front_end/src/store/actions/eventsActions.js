@@ -22,10 +22,10 @@ export const EVENTS_CREATE_ERROR = "EVENTS_CREATE_ERROR";
 
 const BASE_URL = "https://production-taco.herokuapp.com";
 
-export const getEvents = () => dispatch => {
+export const getEvents = (id) => dispatch => {
   dispatch({ type: EVENTS_GET_START });
   axios
-    .get(`https://production-taco.herokuapp.com/events`)
+    .get(`https://production-taco.herokuapp.com/users_events/${id}`)
     .then(res => {
       dispatch({ type: EVENTS_GET_COMPLETE, payload: res.data });
     })
