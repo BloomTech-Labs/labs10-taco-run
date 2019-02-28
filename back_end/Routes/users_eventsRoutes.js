@@ -67,10 +67,46 @@ router.get('/:id', (req, res) => {
 	const { id } = req.params;
 
 	db('users_events')
+	.join('events', 'events.id', '=', 'users_events.event_id')
 	.where("users_events.user_id", id)
 	.then(response => {
-		console.log("response Data:",response);
-		return res.status(200).json(response);
+
+		let current = new Date().toLocaleString();
+		let today = new Date(current)
+
+		let past = []
+		let upcoming = []
+		let pending = []
+
+
+		for (let i = 0; i < response.length; i++ ) {
+
+			//invited events not currently going to yet
+			if (response[i].isPending === true){
+
+				//only invited upcoming events
+				event_date = new Date(response[i].date)
+
+				if (event_date > today){
+				  pending.push(response[i])
+				}
+
+				//all events I'm going to or have gone to
+			} else {
+
+				event_date = new Date(response[i].date)
+				if (event_date > today){
+				  upcoming.push(response[i])
+				} else {
+				  past.push(response[i])
+				}
+
+			}
+		}
+
+		let events = {upcoming: upcoming, past: past, pending: pending }
+		return res.status(200).json(events)
+
 	})
 	.catch(error => {
 		console.log("Error Data:",error);
