@@ -10,6 +10,12 @@ import Nav from "../nav/Nav.js";
 import Big from 'big.js';
 import firebase from 'firebase';
 import DrawerBar from "../drawer/Drawer";
+import 'date-fns';
+import PropTypes from 'prop-types';
+import Grid from '@material-ui/core/Grid';
+import { withStyles } from '@material-ui/core/styles';
+import DateFnsUtils from '@date-io/date-fns';
+import { MuiPickersUtilsProvider, TimePicker, DatePicker } from 'material-ui-pickers';
 
 import {
   CreateEventWrapper,
@@ -23,6 +29,12 @@ import {
   FlexForm,
   MapDiv
 } from "./create_event_css.js";
+
+const styles = {
+  grid: {
+    width: '60%',
+  },
+};
 
 const TacoLocation = ({ text }) => <div>{text}</div>;
 
@@ -42,11 +54,15 @@ class CreateEvent extends React.Component {
       zoom: 11,
       lat_av: 0,
       lon_av: 0,
-      show_map: false
+      show_map: false,
     };
   }
 
   componentDidMount() {}
+
+  handleDateChange = date => {
+    this.setState({ date: date });
+  };
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
@@ -135,6 +151,8 @@ class CreateEvent extends React.Component {
   render() {
     console.log(this.state);
     console.log(this.props);
+    const { classes } = this.props;
+    const { selectedDate } = this.state;
     return (
       <div className="create-event-full-wrapper">
         <div className="navigation-wrapper">
@@ -211,12 +229,31 @@ class CreateEvent extends React.Component {
                             placeholder="event name"
                             onChange={this.handleChange}
                           />
-                          <input
-                            type="datetime-local"
-                            name="date"
-                            placeholder="event date"
-                            onChange={this.handleChange}
-                          />
+
+
+
+
+                          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                            <Grid container className={classes.grid} justify="space-around">
+                              <DatePicker
+                                margin="normal"
+                                label="Date picker"
+                                value={selectedDate}
+                                onChange={this.handleDateChange}
+                              />
+                              <TimePicker
+                                margin="normal"
+                                label="Time picker"
+                                value={selectedDate}
+                                onChange={this.handleDateChange}
+                              />
+                            </Grid>
+                          </MuiPickersUtilsProvider>
+
+
+
+
+
                           <p
                             onClick={() => {
                               this.handleSubmit({
@@ -256,7 +293,7 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  { createEvent }
-)(withAlert()(CreateEvent));
+
+export default connect(mapStateToProps,{ createEvent })(withStyles(styles)(CreateEvent));
+
+// export default withStyles(styles)(MaterialUIPickers);
