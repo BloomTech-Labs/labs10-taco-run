@@ -76,7 +76,7 @@ class EventList extends React.Component {
   };
 
   componentDidMount() {
-    this.props.getEvents();
+    this.props.getEvents(parseInt(localStorage.getItem("user_id")));
     console.log(window.innerWidth);
     window.addEventListener("resize", this.checkWindowWidth);
     /* 
@@ -171,86 +171,87 @@ class EventList extends React.Component {
                           Lets Sign Up For An Event!
                         </ListSubheader>
                       </GridListTile>
-                      {this.props.events.map(event => {
-                        return (
-                          // <FlexDiv key={event.id}>
-                          // 	<Card id={event.id}>
-                          <GridListTile
-                            key={event.id}
-                            style={{ width: this.state.windowWidth }}
-                          >
-                            {" "}
-                            {/* Dynamically render 50% width or 100% width to adjust! */}
-                            <img
-                              className="yelp-img"
-                              src={event.img_url}
-                              style={{ width: "100%" }}
-                            />
-                            <GridListTileBar
-                              style={{ height: "auto" }}
-                              title={event.name}
-                              subtitle={
-                                <div className="shadow-box">
-                                  <span>by: {event.author}</span>
-                                  <p
-                                    style={{ color: "white" }}
-                                    className="comments-number"
-                                  >
-                                    comments: {event.total_comments}
-                                  </p>
-                                  {this.props.auth.email ===
-                                  event.posters_email ? (
-                                    <div>
-                                      <DeleteIcon
-                                        id={event.id}
-                                        style={{ color: "white" }}
-                                        onClick={this.delete}
-                                      />
-                                      <div
-                                        id={event.id}
-                                        onClick={this.showForm}
-                                      >
-                                        EDIT
+                      {this.props.events.upcoming &&
+                        this.props.events.upcoming.map(event => {
+                          return (
+                            // <FlexDiv key={event.id}>
+                            // 	<Card id={event.id}>
+                            <GridListTile
+                              key={event.id}
+                              style={{ width: this.state.windowWidth }}
+                            >
+                              {" "}
+                              {/* Dynamically render 50% width or 100% width to adjust! */}
+                              <img
+                                className="yelp-img"
+                                src={event.img_url}
+                                style={{ width: "100%" }}
+                              />
+                              <GridListTileBar
+                                style={{ height: "auto" }}
+                                title={event.name}
+                                subtitle={
+                                  <div className="shadow-box">
+                                    <span>by: {event.author}</span>
+                                    <p
+                                      style={{ color: "white" }}
+                                      className="comments-number"
+                                    >
+                                      comments: {event.total_comments}
+                                    </p>
+                                    {this.props.auth.email ===
+                                    event.posters_email ? (
+                                      <div>
+                                        <DeleteIcon
+                                          id={event.id}
+                                          style={{ color: "white" }}
+                                          onClick={this.delete}
+                                        />
+                                        <div
+                                          id={event.id}
+                                          onClick={this.showForm}
+                                        >
+                                          EDIT
+                                        </div>
+                                        {this.state.showEdit ? (
+                                          <form>
+                                            <input
+                                              type="text"
+                                              placeholder="New Event Name"
+                                              onChange={this.handleChange}
+                                              name="editName"
+                                              value={this.state.editName}
+                                            />
+                                            <input
+                                              type="date"
+                                              placeholder="New Event Date"
+                                              onChange={this.handleChange}
+                                              name="editDate"
+                                              value={this.state.editDate}
+                                            />
+                                            <button
+                                              id={event.id}
+                                              onClick={this.update}
+                                            >
+                                              Submit
+                                            </button>
+                                          </form>
+                                        ) : null}
                                       </div>
-                                      {this.state.showEdit ? (
-                                        <form>
-                                          <input
-                                            type="text"
-                                            placeholder="New Event Name"
-                                            onChange={this.handleChange}
-                                            name="editName"
-                                            value={this.state.editName}
-                                          />
-                                          <input
-                                            type="date"
-                                            placeholder="New Event Date"
-                                            onChange={this.handleChange}
-                                            name="editDate"
-                                            value={this.state.editDate}
-                                          />
-                                          <button
-                                            id={event.id}
-                                            onClick={this.update}
-                                          >
-                                            Submit
-                                          </button>
-                                        </form>
-                                      ) : null}
-                                    </div>
-                                  ) : null}
-                                </div>
-                              }
-                              actionIcon={
-                                <IconButton>
-                                  <Link to={`/events/${event.id}`}>
-                                    <InfoIcon style={{ color: "white" }} />
-                                  </Link>
-                                </IconButton>
-                              }
-                            />
-                          </GridListTile>
-                        );
-                      })}
+                                    ) : null}
+                                  </div>
+                                }
+                                actionIcon={
+                                  <IconButton>
+                                    <Link to={`/events/${event.id}`}>
+                                      <InfoIcon style={{ color: "white" }} />
+                                    </Link>
+                                  </IconButton>
+                                }
+                              />
+                            </GridListTile>
+                          );
+                        })}
                     </GridList>
                   </TabContainer>
                 )}
@@ -277,86 +278,87 @@ class EventList extends React.Component {
                           Lets Sign Up For An Event!
                         </ListSubheader>
                       </GridListTile>
-                      {this.props.events.map(event => {
-                        return (
-                          // <FlexDiv key={event.id}>
-                          // 	<Card id={event.id}>
-                          <GridListTile
-                            key={event.id}
-                            style={{ width: this.state.windowWidth }}
-                          >
-                            {" "}
-                            {/* Dynamically render 50% width or 100% width to adjust! */}
-                            <img
-                              className="yelp-img"
-                              src={event.img_url}
-                              style={{ width: "100%" }}
-                            />
-                            <GridListTileBar
-                              style={{ height: "auto" }}
-                              title={event.name}
-                              subtitle={
-                                <div className="shadow-box">
-                                  <span>by: {event.author}</span>
-                                  <p
-                                    style={{ color: "white" }}
-                                    className="comments-number"
-                                  >
-                                    comments: {event.total_comments}
-                                  </p>
-                                  {this.props.auth.email ===
-                                  event.posters_email ? (
-                                    <div>
-                                      <DeleteIcon
-                                        id={event.id}
-                                        style={{ color: "white" }}
-                                        onClick={this.delete}
-                                      />
-                                      <div
-                                        id={event.id}
-                                        onClick={this.showForm}
-                                      >
-                                        EDIT
+                      {this.props.events.pending > 0 &&
+                        this.props.events.pending.map(event => {
+                          return (
+                            // <FlexDiv key={event.id}>
+                            // 	<Card id={event.id}>
+                            <GridListTile
+                              key={event.id}
+                              style={{ width: this.state.windowWidth }}
+                            >
+                              {" "}
+                              {/* Dynamically render 50% width or 100% width to adjust! */}
+                              <img
+                                className="yelp-img"
+                                src={event.img_url}
+                                style={{ width: "100%" }}
+                              />
+                              <GridListTileBar
+                                style={{ height: "auto" }}
+                                title={event.name}
+                                subtitle={
+                                  <div className="shadow-box">
+                                    <span>by: {event.author}</span>
+                                    <p
+                                      style={{ color: "white" }}
+                                      className="comments-number"
+                                    >
+                                      comments: {event.total_comments}
+                                    </p>
+                                    {this.props.auth.email ===
+                                    event.posters_email ? (
+                                      <div>
+                                        <DeleteIcon
+                                          id={event.id}
+                                          style={{ color: "white" }}
+                                          onClick={this.delete}
+                                        />
+                                        <div
+                                          id={event.id}
+                                          onClick={this.showForm}
+                                        >
+                                          EDIT
+                                        </div>
+                                        {this.state.showEdit ? (
+                                          <form>
+                                            <input
+                                              type="text"
+                                              placeholder="New Event Name"
+                                              onChange={this.handleChange}
+                                              name="editName"
+                                              value={this.state.editName}
+                                            />
+                                            <input
+                                              type="date"
+                                              placeholder="New Event Date"
+                                              onChange={this.handleChange}
+                                              name="editDate"
+                                              value={this.state.editDate}
+                                            />
+                                            <button
+                                              id={event.id}
+                                              onClick={this.update}
+                                            >
+                                              Submit
+                                            </button>
+                                          </form>
+                                        ) : null}
                                       </div>
-                                      {this.state.showEdit ? (
-                                        <form>
-                                          <input
-                                            type="text"
-                                            placeholder="New Event Name"
-                                            onChange={this.handleChange}
-                                            name="editName"
-                                            value={this.state.editName}
-                                          />
-                                          <input
-                                            type="date"
-                                            placeholder="New Event Date"
-                                            onChange={this.handleChange}
-                                            name="editDate"
-                                            value={this.state.editDate}
-                                          />
-                                          <button
-                                            id={event.id}
-                                            onClick={this.update}
-                                          >
-                                            Submit
-                                          </button>
-                                        </form>
-                                      ) : null}
-                                    </div>
-                                  ) : null}
-                                </div>
-                              }
-                              actionIcon={
-                                <IconButton>
-                                  <Link to={`/events/${event.id}`}>
-                                    <InfoIcon style={{ color: "white" }} />
-                                  </Link>
-                                </IconButton>
-                              }
-                            />
-                          </GridListTile>
-                        );
-                      })}
+                                    ) : null}
+                                  </div>
+                                }
+                                actionIcon={
+                                  <IconButton>
+                                    <Link to={`/events/${event.id}`}>
+                                      <InfoIcon style={{ color: "white" }} />
+                                    </Link>
+                                  </IconButton>
+                                }
+                              />
+                            </GridListTile>
+                          );
+                        })}
                     </GridList>
                   </TabContainer>
                 )}
@@ -383,86 +385,87 @@ class EventList extends React.Component {
                           Lets Sign Up For An Event!
                         </ListSubheader>
                       </GridListTile>
-                      {this.props.events.map(event => {
-                        return (
-                          // <FlexDiv key={event.id}>
-                          // 	<Card id={event.id}>
-                          <GridListTile
-                            key={event.id}
-                            style={{ width: this.state.windowWidth }}
-                          >
-                            {" "}
-                            {/* Dynamically render 50% width or 100% width to adjust! */}
-                            <img
-                              className="yelp-img"
-                              src={event.img_url}
-                              style={{ width: "100%" }}
-                            />
-                            <GridListTileBar
-                              style={{ height: "auto" }}
-                              title={event.name}
-                              subtitle={
-                                <div className="shadow-box">
-                                  <span>by: {event.author}</span>
-                                  <p
-                                    style={{ color: "white" }}
-                                    className="comments-number"
-                                  >
-                                    comments: {event.total_comments}
-                                  </p>
-                                  {this.props.auth.email ===
-                                  event.posters_email ? (
-                                    <div>
-                                      <DeleteIcon
-                                        id={event.id}
-                                        style={{ color: "white" }}
-                                        onClick={this.delete}
-                                      />
-                                      <div
-                                        id={event.id}
-                                        onClick={this.showForm}
-                                      >
-                                        EDIT
+                      {this.props.events.past &&
+                        this.props.events.past.map(event => {
+                          return (
+                            // <FlexDiv key={event.id}>
+                            // 	<Card id={event.id}>
+                            <GridListTile
+                              key={event.id}
+                              style={{ width: this.state.windowWidth }}
+                            >
+                              {" "}
+                              {/* Dynamically render 50% width or 100% width to adjust! */}
+                              <img
+                                className="yelp-img"
+                                src={event.img_url}
+                                style={{ width: "100%" }}
+                              />
+                              <GridListTileBar
+                                style={{ height: "auto" }}
+                                title={event.name}
+                                subtitle={
+                                  <div className="shadow-box">
+                                    <span>by: {event.author}</span>
+                                    <p
+                                      style={{ color: "white" }}
+                                      className="comments-number"
+                                    >
+                                      comments: {event.total_comments}
+                                    </p>
+                                    {this.props.auth.email ===
+                                    event.posters_email ? (
+                                      <div>
+                                        <DeleteIcon
+                                          id={event.id}
+                                          style={{ color: "white" }}
+                                          onClick={this.delete}
+                                        />
+                                        <div
+                                          id={event.id}
+                                          onClick={this.showForm}
+                                        >
+                                          EDIT
+                                        </div>
+                                        {this.state.showEdit ? (
+                                          <form>
+                                            <input
+                                              type="text"
+                                              placeholder="New Event Name"
+                                              onChange={this.handleChange}
+                                              name="editName"
+                                              value={this.state.editName}
+                                            />
+                                            <input
+                                              type="date"
+                                              placeholder="New Event Date"
+                                              onChange={this.handleChange}
+                                              name="editDate"
+                                              value={this.state.editDate}
+                                            />
+                                            <button
+                                              id={event.id}
+                                              onClick={this.update}
+                                            >
+                                              Submit
+                                            </button>
+                                          </form>
+                                        ) : null}
                                       </div>
-                                      {this.state.showEdit ? (
-                                        <form>
-                                          <input
-                                            type="text"
-                                            placeholder="New Event Name"
-                                            onChange={this.handleChange}
-                                            name="editName"
-                                            value={this.state.editName}
-                                          />
-                                          <input
-                                            type="date"
-                                            placeholder="New Event Date"
-                                            onChange={this.handleChange}
-                                            name="editDate"
-                                            value={this.state.editDate}
-                                          />
-                                          <button
-                                            id={event.id}
-                                            onClick={this.update}
-                                          >
-                                            Submit
-                                          </button>
-                                        </form>
-                                      ) : null}
-                                    </div>
-                                  ) : null}
-                                </div>
-                              }
-                              actionIcon={
-                                <IconButton>
-                                  <Link to={`/events/${event.id}`}>
-                                    <InfoIcon style={{ color: "white" }} />
-                                  </Link>
-                                </IconButton>
-                              }
-                            />
-                          </GridListTile>
-                        );
-                      })}
+                                    ) : null}
+                                  </div>
+                                }
+                                actionIcon={
+                                  <IconButton>
+                                    <Link to={`/events/${event.id}`}>
+                                      <InfoIcon style={{ color: "white" }} />
+                                    </Link>
+                                  </IconButton>
+                                }
+                              />
+                            </GridListTile>
+                          );
+                        })}
                     </GridList>
                   </TabContainer>
                 )}

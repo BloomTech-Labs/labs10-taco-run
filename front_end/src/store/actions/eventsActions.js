@@ -22,11 +22,12 @@ export const EVENTS_CREATE_ERROR = "EVENTS_CREATE_ERROR";
 
 const BASE_URL = "https://production-taco.herokuapp.com";
 
-export const getEvents = () => dispatch => {
+export const getEvents = id => dispatch => {
   dispatch({ type: EVENTS_GET_START });
   axios
-    .get(`https://production-taco.herokuapp.com/events`)
+    .get(`https://production-taco.herokuapp.com/users_events/${id}`)
     .then(res => {
+      console.log(res.data);
       dispatch({ type: EVENTS_GET_COMPLETE, payload: res.data });
     })
     .catch(err => {
@@ -47,16 +48,15 @@ export const getEvent = id => dispatch => {
     });
 };
 
-export const createEvent = (event) => {
+export const createEvent = event => {
   return dispatch => {
     dispatch({ type: EVENTS_CREATE_START });
     axios
       .post(`https://production-taco.herokuapp.com/events`, event)
       .then(() => {
-        axios.get('https://production-taco.herokuapp.com/events')
-        .then(res2 => {
-          dispatch({type: EVENTS_CREATE_COMPLETE, payload: res2.data })
-        })
+        axios.get("https://production-taco.herokuapp.com/events").then(res2 => {
+          dispatch({ type: EVENTS_CREATE_COMPLETE, payload: res2.data });
+        });
       })
       .catch(err => {
         dispatch({ type: EVENTS_CREATE_ERROR, payload: err });
@@ -64,7 +64,7 @@ export const createEvent = (event) => {
   };
 };
 
-export const deleteEvent = (id) => {
+export const deleteEvent = id => {
   return dispatch => {
     dispatch({ type: EVENT_DELETE_START });
     axios
@@ -84,10 +84,9 @@ export const updateEvent = event => {
     axios
       .put(`https://production-taco.herokuapp.com/events`, event)
       .then(() => {
-        axios.get('https://production-taco.herokuapp.com/events')
-        .then(res2 => {
-          dispatch({type: EVENT_UPDATE_COMPLETE, payload: res2.data })
-        })
+        axios.get("https://production-taco.herokuapp.com/events").then(res2 => {
+          dispatch({ type: EVENT_UPDATE_COMPLETE, payload: res2.data });
+        });
       })
       .catch(err => {
         dispatch({
