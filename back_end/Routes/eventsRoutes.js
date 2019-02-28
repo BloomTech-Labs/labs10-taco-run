@@ -85,7 +85,7 @@ router.get("/:id/comments", (req, res) => {
 //post http://localhost:5555/events
 //-------------------------------------------
 router.post('', (req, res) => {
-	const {name, date, location, venue, author, user_id, lat, lon, img_url, raiting, price, url, posters_email } = req.body;
+	const {name, date, location, venue, author, user_id, invite_only, lat, lon, img_url, raiting, price, url, posters_email } = req.body;
 
 	/* first we check to see if the event already exists*/
 	db('events')
@@ -93,10 +93,10 @@ router.post('', (req, res) => {
 	.then(check => {
 		//if it does not already exist we can create it
 		if (check.length === 0){
-			db.insert({name, date, location, venue, author, user_id, lat, lon, img_url, raiting, price, url, posters_email }).into('events')
+			db.insert({name, date, location, venue, author, user_id, invite_only, lat, lon, img_url, raiting, price, url, posters_email }).into('events')
 			.then(() => {
 				db('events')
-				.where({name, date, user_id })
+				.where({name, date, invite_only, user_id })
 				.then(r1 => { //extra work around to get the id of the event to pass to the many to many join table
 					id = r1[0].id
 					let obj = {user_id, event_id: id}
