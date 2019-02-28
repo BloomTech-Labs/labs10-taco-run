@@ -212,7 +212,7 @@ class CreateEvent extends React.Component {
                             onChange={this.handleChange}
                           />
                           <input
-                            type="date"
+                            type="datetime-local"
                             name="date"
                             placeholder="event date"
                             onChange={this.handleChange}

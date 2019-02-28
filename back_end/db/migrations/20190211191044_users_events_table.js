@@ -18,6 +18,10 @@ exports.up = function(knex, Promise) {
   		.inTable('events')
       .onDelete('CASCADE')
 
+    tbl
+      .boolean('isPending')
+      .defaultTo(true)
+
   })
 };
 

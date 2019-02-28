@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import Auth from "./components/auth/Auth.js";
-import NotAuth from "./components/auth/NotAuth";
 import NoPage from "./components/404/NoPage.js";
 import { Route, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
@@ -23,7 +21,6 @@ class App extends Component {
         {this.props.auth.isEmpty ? (
           <Switch>
             <Route exact path="/" component={LandingPage} />
-            <Route component={NotAuth} />
           </Switch>
         ) : (
           <div>
