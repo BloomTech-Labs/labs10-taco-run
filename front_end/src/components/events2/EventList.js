@@ -34,6 +34,9 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 
+// Badge Import
+import Badge from "@material-ui/core/Badge";
+
 function TabContainer(props) {
   return (
     <Typography component="div" style={{ padding: 8 * 3 }}>
@@ -52,6 +55,12 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper,
     display: "flex",
     flexWrap: "wrap"
+  },
+  margin: {
+    margin: theme.spacing.unit * 2
+  },
+  padding: {
+    padding: `0 ${theme.spacing.unit * 2}px`
   }
 });
 
@@ -144,7 +153,17 @@ class EventList extends React.Component {
                 <AppBar position="static">
                   <Tabs value={tabValue} onChange={this.handleChangeTabs}>
                     <Tab label="Upcoming" />
-                    <Tab label="Pending" />
+                    <Tab
+                      label={
+                        <Badge
+                          className={classes.padding}
+                          color="secondary"
+                          badgeContent={this.props.pendingCount}
+                        >
+                          Pending
+                        </Badge>
+                      }
+                    />
                     <Tab label="Past" />
                   </Tabs>
                 </AppBar>
@@ -266,28 +285,26 @@ class EventList extends React.Component {
                         paddingLeft: 55
                       }}
                     >
-                      {" "}
                       {/* This gets rid of the small horizontal scrollbar */}
                       <GridListTile
                         cols={2}
                         style={{ height: "auto", textAlign: "center" }}
                       >
-                        {" "}
                         {/* This is so the "events list" text doesn't have an absurd height and to center the text */}
                         <ListSubheader component="div">
                           Lets Sign Up For An Event!
                         </ListSubheader>
                       </GridListTile>
-                      {this.props.events.pending > 0 &&
+                      {this.props.events.pending &&
                         this.props.events.pending.map(event => {
                           return (
                             // <FlexDiv key={event.id}>
                             // 	<Card id={event.id}>
+
                             <GridListTile
                               key={event.id}
                               style={{ width: this.state.windowWidth }}
                             >
-                              {" "}
                               {/* Dynamically render 50% width or 100% width to adjust! */}
                               <img
                                 className="yelp-img"
@@ -483,7 +500,8 @@ class EventList extends React.Component {
 const mapStateToProps = state => {
   return {
     auth: state.firebase.auth,
-    events: state.eventsReducer.events
+    events: state.eventsReducer.events,
+    pendingCount: state.eventsReducer.pendingCount
   };
 };
 

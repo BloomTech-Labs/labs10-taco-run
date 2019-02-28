@@ -28,7 +28,10 @@ export const getEvents = id => dispatch => {
     .get(`https://production-taco.herokuapp.com/users_events/${id}`)
     .then(res => {
       console.log(res.data);
-      dispatch({ type: EVENTS_GET_COMPLETE, payload: res.data });
+      dispatch({
+        type: EVENTS_GET_COMPLETE,
+        payload: res.data
+      });
     })
     .catch(err => {
       dispatch({ type: EVENTS_GET_ERROR, payload: err });
