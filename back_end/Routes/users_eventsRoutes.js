@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../config.js')
 
+
 //CREATE
 //an invitation to join the event is created
 //post http://localhost:5555/users_events
@@ -99,7 +100,6 @@ router.delete('/decline', (req, res) => {
 //get http://localhost:5555/users_events/:id
 //this will allow us to get all the data from each event the user is going to and possibly display it on the front end.
 //-------------------------------------------
-
 router.get('/:id', (req, res) => {
 	const { id } = req.params;
 
