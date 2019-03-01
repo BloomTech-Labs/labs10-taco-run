@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const db = require('../config.js')
 
+
 //CREATE
-//user signs up to go to an event
+//an invitation to join the event is created
 //post http://localhost:5555/users_events
 //-------------------------------------------
 router.post('', (req, res) => {
@@ -23,27 +24,7 @@ router.post('', (req, res) => {
 			//user adds event since he is not yet going to event
 			db.insert({user_id, event_id}).into('users_events')
 			.then(response => {
-				
-				/*
-					find the current number of people attending the event
-					and add 1 to it, because now one more person is going
-				*/
-				
-				db('events')
-					.where({id: event_id})
-					.first()
-					.then(res2 => {
-						let attending = res2.total_users
-						attending = attending + 1
-
-						//update the new amount
-						db('events')
-							.where({id: event_id})
-							.update({total_users: attending })
-							.then(res3 => {
-								return res.status(200).json(res3)
-							})
-					})
+				res.status(200).json(response)
 			})
 			//catch error for adding event
 			.catch(error => {
@@ -57,12 +38,68 @@ router.post('', (req, res) => {
 	})
 })
 
+//UPDATE
+//the user accepts the event invitation
+//post http://localhost:5555/users_events/accept
+router.put('/accept', (req, res) => {
+
+	const {user_id, event_id} = req.body
+
+	db('users_events')
+	.where({user_id, event_id})
+	.update({isPending: false})
+	.then(() => {
+
+		/*
+			find the current number of people attending the event
+			and add 1 to it, because now one more person is going
+		*/
+
+		db('events')
+			.where({id: event_id})
+			.first()
+			.then(res2 => {
+				let attending = res2.total_users
+				attending = attending + 1
+
+				//update the new amount
+				db('events')
+					.where({id: event_id})
+					.update({total_users: attending })
+					.then(res3 => {
+						return res.status(200).json(res3)
+					})
+			})
+
+	})
+	.catch(error1 => { //error updating the event invitation
+		return res.status(200).json(error1)
+	})
+
+})
+
+//DELETE
+//the user declines the event invitation
+//delete http://localhost:5555/users_events/decline
+router.delete('/decline', (req, res) => {
+	const {user_id, event_id} = req.body
+	db('users_events')
+	.where({user_id, event_id})
+	.del()
+	.then(res => {
+		res.status(200).json(response)
+	})
+	.catch(error => {
+		res.status(500).json(error)
+	})
+})
+
+
 //READ
 //get all events from a user
 //get http://localhost:5555/users_events/:id
 //this will allow us to get all the data from each event the user is going to and possibly display it on the front end.
 //-------------------------------------------
-
 router.get('/:id', (req, res) => {
 	const { id } = req.params;
 
@@ -120,8 +157,6 @@ router.get('/:id', (req, res) => {
 //-------------------------------------------
 router.delete('', (req, res) => {
 	const {user_id, event_id} = req.body
-
-
 
 	db('users_events')
 	.where({user_id, event_id})

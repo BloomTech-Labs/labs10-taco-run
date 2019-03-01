@@ -42,12 +42,11 @@ exports.up = function(knex, Promise) {
 
     tbl
       .string('posters_email')
-      // .notNullable()
+      .notNullable()
 
 
     tbl
       .boolean('invite_only')
-      .defaultTo(false)
 
     tbl
       .integer('user_id')
