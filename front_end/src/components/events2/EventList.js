@@ -34,6 +34,9 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 
+// Badge Import
+import Badge from "@material-ui/core/Badge";
+
 function TabContainer(props) {
   return (
     <Typography component="div" style={{ padding: 8 * 3 }}>
@@ -52,6 +55,12 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper,
     display: "flex",
     flexWrap: "wrap"
+  },
+  margin: {
+    margin: theme.spacing.unit * 2
+  },
+  padding: {
+    padding: `0 ${theme.spacing.unit * 2}px`
   }
 });
 
@@ -76,7 +85,7 @@ class EventList extends React.Component {
   };
 
   componentDidMount() {
-    this.props.getEvents();
+    this.props.getEvents(parseInt(localStorage.getItem("user_id")));
     console.log(window.innerWidth);
     window.addEventListener("resize", this.checkWindowWidth);
     /* 
@@ -138,40 +147,50 @@ class EventList extends React.Component {
         <DrawerBar />
 
         <div>
-          <div>
-            {this.props.events ? (
-              <div className={classes.root}>
-                <AppBar position="static">
-                  <Tabs value={tabValue} onChange={this.handleChangeTabs}>
-                    <Tab label="Upcoming" />
-                    <Tab label="Pending" />
-                    <Tab label="Past" />
-                  </Tabs>
-                </AppBar>
-                {tabValue === 0 && (
-                  <TabContainer>
-                    <GridList
-                      cellHeight={180}
-                      className="grid-list"
-                      style={{
-                        marginLeft: 10,
-                        marginRight: 10,
-                        paddingLeft: 55
-                      }}
+          {this.props.events ? (
+            <div className={classes.root}>
+              <AppBar position="static">
+                <Tabs value={tabValue} onChange={this.handleChangeTabs}>
+                  <Tab label="Upcoming" />
+                  <Tab
+                    label={
+                      <Badge
+                        className={classes.padding}
+                        color="secondary"
+                        badgeContent={this.props.pendingCount}
+                      >
+                        Pending
+                      </Badge>
+                    }
+                  />
+                  <Tab label="Past" />
+                </Tabs>
+              </AppBar>
+              {tabValue === 0 && (
+                <TabContainer>
+                  <GridList
+                    cellHeight={180}
+                    className="grid-list"
+                    style={{
+                      marginLeft: 10,
+                      marginRight: 10,
+                      paddingLeft: 55
+                    }}
+                  >
+                    {" "}
+                    {/* This gets rid of the small horizontal scrollbar */}
+                    <GridListTile
+                      cols={2}
+                      style={{ height: "auto", textAlign: "center" }}
                     >
                       {" "}
-                      {/* This gets rid of the small horizontal scrollbar */}
-                      <GridListTile
-                        cols={2}
-                        style={{ height: "auto", textAlign: "center" }}
-                      >
-                        {" "}
-                        {/* This is so the "events list" text doesn't have an absurd height and to center the text */}
-                        <ListSubheader component="div">
-                          Lets Sign Up For An Event!
-                        </ListSubheader>
-                      </GridListTile>
-                      {this.props.events.map(event => {
+                      {/* This is so the "events list" text doesn't have an absurd height and to center the text */}
+                      <ListSubheader component="div">
+                        Lets Sign Up For An Event!
+                      </ListSubheader>
+                    </GridListTile>
+                    {this.props.events.upcoming &&
+                      this.props.events.upcoming.map(event => {
                         return (
                           // <FlexDiv key={event.id}>
                           // 	<Card id={event.id}>
@@ -251,33 +270,139 @@ class EventList extends React.Component {
                           </GridListTile>
                         );
                       })}
-                    </GridList>
-                  </TabContainer>
-                )}
-                {tabValue === 1 && (
-                  <TabContainer>
-                    <GridList
-                      cellHeight={180}
-                      className="grid-list"
-                      style={{
-                        marginLeft: 10,
-                        marginRight: 10,
-                        paddingLeft: 55
-                      }}
+                  </GridList>
+                </TabContainer>
+              )}
+              {tabValue === 1 && (
+                <TabContainer>
+                  <GridList
+                    cellHeight={180}
+                    className="grid-list"
+                    style={{
+                      marginLeft: 10,
+                      marginRight: 10,
+                      paddingLeft: 55
+                    }}
+                  >
+                    {/* This gets rid of the small horizontal scrollbar */}
+                    <GridListTile
+                      cols={2}
+                      style={{ height: "auto", textAlign: "center" }}
+                    >
+                      {/* This is so the "events list" text doesn't have an absurd height and to center the text */}
+                      <ListSubheader component="div">
+                        Lets Sign Up For An Event!
+                      </ListSubheader>
+                    </GridListTile>
+                    {this.props.events.pending &&
+                      this.props.events.pending.map(event => {
+                        return (
+                          // <FlexDiv key={event.id}>
+                          // 	<Card id={event.id}>
+
+                          <GridListTile
+                            key={event.id}
+                            style={{ width: this.state.windowWidth }}
+                          >
+                            {/* Dynamically render 50% width or 100% width to adjust! */}
+                            <img
+                              className="yelp-img"
+                              src={event.img_url}
+                              style={{ width: "100%" }}
+                            />
+                            <GridListTileBar
+                              style={{ height: "auto" }}
+                              title={event.name}
+                              subtitle={
+                                <div className="shadow-box">
+                                  <span>by: {event.author}</span>
+                                  <p
+                                    style={{ color: "white" }}
+                                    className="comments-number"
+                                  >
+                                    comments: {event.total_comments}
+                                  </p>
+                                  {this.props.auth.email ===
+                                  event.posters_email ? (
+                                    <div>
+                                      <DeleteIcon
+                                        id={event.id}
+                                        style={{ color: "white" }}
+                                        onClick={this.delete}
+                                      />
+                                      <div
+                                        id={event.id}
+                                        onClick={this.showForm}
+                                      >
+                                        EDIT
+                                      </div>
+                                      {this.state.showEdit ? (
+                                        <form>
+                                          <input
+                                            type="text"
+                                            placeholder="New Event Name"
+                                            onChange={this.handleChange}
+                                            name="editName"
+                                            value={this.state.editName}
+                                          />
+                                          <input
+                                            type="date"
+                                            placeholder="New Event Date"
+                                            onChange={this.handleChange}
+                                            name="editDate"
+                                            value={this.state.editDate}
+                                          />
+                                          <button
+                                            id={event.id}
+                                            onClick={this.update}
+                                          >
+                                            Submit
+                                          </button>
+                                        </form>
+                                      ) : null}
+                                    </div>
+                                  ) : null}
+                                </div>
+                              }
+                              actionIcon={
+                                <IconButton>
+                                  <Link to={`/events/${event.id}`}>
+                                    <InfoIcon style={{ color: "white" }} />
+                                  </Link>
+                                </IconButton>
+                              }
+                            />
+                          </GridListTile>
+                        );
+                      })}
+                  </GridList>
+                </TabContainer>
+              )}
+              {tabValue === 2 && (
+                <TabContainer>
+                  <GridList
+                    cellHeight={180}
+                    className="grid-list"
+                    style={{
+                      marginLeft: 10,
+                      marginRight: 10,
+                      paddingLeft: 55
+                    }}
+                  >
+                    {" "}
+                    {/* This gets rid of the small horizontal scrollbar */}
+                    <GridListTile
+                      cols={2}
+                      style={{ height: "auto", textAlign: "center" }}
                     >
                       {" "}
-                      {/* This gets rid of the small horizontal scrollbar */}
-                      <GridListTile
-                        cols={2}
-                        style={{ height: "auto", textAlign: "center" }}
-                      >
-                        {" "}
-                        {/* This is so the "events list" text doesn't have an absurd height and to center the text */}
-                        <ListSubheader component="div">
-                          Lets Sign Up For An Event!
-                        </ListSubheader>
-                      </GridListTile>
-                      {this.props.events.map(event => {
+                      {/* This is so the "events list" text doesn't have an absurd height and to center the text */}
+                      <ListSubheader component="div">
+                        Lets Sign Up For An Event!
+                      </ListSubheader>
+                    </GridListTile>
+                    {this.props.events.past &&
+                      this.props.events.past.map(event => {
                         return (
                           // <FlexDiv key={event.id}>
                           // 	<Card id={event.id}>
@@ -357,120 +482,13 @@ class EventList extends React.Component {
                           </GridListTile>
                         );
                       })}
-                    </GridList>
-                  </TabContainer>
-                )}
-                {tabValue === 2 && (
-                  <TabContainer>
-                    <GridList
-                      cellHeight={180}
-                      className="grid-list"
-                      style={{
-                        marginLeft: 10,
-                        marginRight: 10,
-                        paddingLeft: 55
-                      }}
-                    >
-                      {" "}
-                      {/* This gets rid of the small horizontal scrollbar */}
-                      <GridListTile
-                        cols={2}
-                        style={{ height: "auto", textAlign: "center" }}
-                      >
-                        {" "}
-                        {/* This is so the "events list" text doesn't have an absurd height and to center the text */}
-                        <ListSubheader component="div">
-                          Lets Sign Up For An Event!
-                        </ListSubheader>
-                      </GridListTile>
-                      {this.props.events.map(event => {
-                        return (
-                          // <FlexDiv key={event.id}>
-                          // 	<Card id={event.id}>
-                          <GridListTile
-                            key={event.id}
-                            style={{ width: this.state.windowWidth }}
-                          >
-                            {" "}
-                            {/* Dynamically render 50% width or 100% width to adjust! */}
-                            <img
-                              className="yelp-img"
-                              src={event.img_url}
-                              style={{ width: "100%" }}
-                            />
-                            <GridListTileBar
-                              style={{ height: "auto" }}
-                              title={event.name}
-                              subtitle={
-                                <div className="shadow-box">
-                                  <span>by: {event.author}</span>
-                                  <p
-                                    style={{ color: "white" }}
-                                    className="comments-number"
-                                  >
-                                    comments: {event.total_comments}
-                                  </p>
-                                  {this.props.auth.email ===
-                                  event.posters_email ? (
-                                    <div>
-                                      <DeleteIcon
-                                        id={event.id}
-                                        style={{ color: "white" }}
-                                        onClick={this.delete}
-                                      />
-                                      <div
-                                        id={event.id}
-                                        onClick={this.showForm}
-                                      >
-                                        EDIT
-                                      </div>
-                                      {this.state.showEdit ? (
-                                        <form>
-                                          <input
-                                            type="text"
-                                            placeholder="New Event Name"
-                                            onChange={this.handleChange}
-                                            name="editName"
-                                            value={this.state.editName}
-                                          />
-                                          <input
-                                            type="date"
-                                            placeholder="New Event Date"
-                                            onChange={this.handleChange}
-                                            name="editDate"
-                                            value={this.state.editDate}
-                                          />
-                                          <button
-                                            id={event.id}
-                                            onClick={this.update}
-                                          >
-                                            Submit
-                                          </button>
-                                        </form>
-                                      ) : null}
-                                    </div>
-                                  ) : null}
-                                </div>
-                              }
-                              actionIcon={
-                                <IconButton>
-                                  <Link to={`/events/${event.id}`}>
-                                    <InfoIcon style={{ color: "white" }} />
-                                  </Link>
-                                </IconButton>
-                              }
-                            />
-                          </GridListTile>
-                        );
-                      })}
-                    </GridList>
-                  </TabContainer>
-                )}
-              </div>
-            ) : (
-              <div>Loading ...</div>
-            )}
-          </div>
+                  </GridList>
+                </TabContainer>
+              )}
+            </div>
+          ) : (
+            <div>Loading ...</div>
+          )}
         </div>
       </div>
     );
@@ -480,7 +498,8 @@ class EventList extends React.Component {
 const mapStateToProps = state => {
   return {
     auth: state.firebase.auth,
-    events: state.eventsReducer.events
+    events: state.eventsReducer.events,
+    pendingCount: state.eventsReducer.pendingCount
   };
 };
 

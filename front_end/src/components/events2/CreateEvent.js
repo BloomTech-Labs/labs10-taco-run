@@ -7,15 +7,19 @@ import { withAlert } from "react-alert";
 import "./create_event.css";
 import Popup from "reactjs-popup";
 import Nav from "../nav/Nav.js";
-import Big from 'big.js';
-import firebase from 'firebase';
+import Big from "big.js";
+import firebase from "firebase";
 import DrawerBar from "../drawer/Drawer";
-import 'date-fns';
-import PropTypes from 'prop-types';
-import Grid from '@material-ui/core/Grid';
-import { withStyles } from '@material-ui/core/styles';
-import DateFnsUtils from '@date-io/date-fns';
-import { MuiPickersUtilsProvider, TimePicker, DatePicker } from 'material-ui-pickers';
+import "date-fns";
+import PropTypes from "prop-types";
+import Grid from "@material-ui/core/Grid";
+import { withStyles } from "@material-ui/core/styles";
+import DateFnsUtils from "@date-io/date-fns";
+import {
+  MuiPickersUtilsProvider,
+  TimePicker,
+  DatePicker
+} from "material-ui-pickers";
 
 import {
   CreateEventWrapper,
@@ -32,8 +36,8 @@ import {
 
 const styles = {
   grid: {
-    width: '60%',
-  },
+    width: "60%"
+  }
 };
 
 const TacoLocation = ({ text }) => <div>{text}</div>;
@@ -55,13 +59,15 @@ class CreateEvent extends React.Component {
       lat_av: 0,
       lon_av: 0,
       show_map: false,
+      // For date and time picker
+      selectedDate: new Date()
     };
   }
 
   componentDidMount() {}
 
   handleDateChange = date => {
-    this.setState({ date: date });
+    this.setState({ selectedDate: date });
   };
 
   handleChange = event => {
@@ -230,11 +236,12 @@ class CreateEvent extends React.Component {
                             onChange={this.handleChange}
                           />
 
-
-
-
                           <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                            <Grid container className={classes.grid} justify="space-around">
+                            <Grid
+                              container
+                              className={classes.grid}
+                              justify="space-around"
+                            >
                               <DatePicker
                                 margin="normal"
                                 label="Date picker"
@@ -249,10 +256,6 @@ class CreateEvent extends React.Component {
                               />
                             </Grid>
                           </MuiPickersUtilsProvider>
-
-
-
-
 
                           <p
                             onClick={() => {
@@ -293,7 +296,9 @@ const mapStateToProps = state => {
   };
 };
 
-
-export default connect(mapStateToProps,{ createEvent })(withStyles(styles)(CreateEvent));
+export default connect(
+  mapStateToProps,
+  { createEvent }
+)(withStyles(styles)(CreateEvent));
 
 // export default withStyles(styles)(MaterialUIPickers);
