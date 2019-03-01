@@ -10,7 +10,7 @@ const db = require("../config.js")
 //post http://localhost:5555/events
 //-------------------------------------------
 router.post('', (req, res) => {
-	const {name, date, location, venue, author, user_id, lat, lon, img_url, raiting, price, url, posters_email } = req.body;
+	const {name, date, location, venue, author, user_id, lat, lon, img_url, raiting, price, url, posters_email, invite_only } = req.body;
 
 	/* first we check to see if the event already exists*/
 	db('events')
@@ -18,7 +18,7 @@ router.post('', (req, res) => {
 	.then(check => {
 		//if it does not already exist we can create it
 		if (check.length === 0){
-			db.insert({name, date, location, venue, author, user_id, lat, lon, img_url, raiting, price, url, posters_email }).into('events')
+			db.insert({name, date, location, venue, author, user_id, lat, lon, img_url, raiting, price, url, posters_email, invite_only }).into('events')
 			.then(() => {
 				db('events')
 				.where({name, date, location, venue, author, user_id })
@@ -68,9 +68,13 @@ router.get("/:id", (req, res) => {
     .join("users", "users.id", "=", "users_events.user_id")
     .where("events.id", id)
     .then(resp => {
+    	console.log(resp)
     	let users_ar = []
+    	
     	for (let i = 0; i < resp.length; i++){
-    		users_ar.push({name: resp[i].name, email: resp[i].email, id: resp[i].user_id})
+    		if (resp[i].isPending === false){
+    			users_ar.push({name: resp[i].name, email: resp[i].email, id: resp[i].user_id})
+    		}
     	}
 
     	let obj = {
