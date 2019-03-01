@@ -20,6 +20,7 @@ const initialState = {
   event: {},
   events: [],
   attendees: [],
+  pendingCount: 0,
   fetchingEvents: false,
   fetchedEvents: false,
   fetchingEvent: false,
@@ -51,6 +52,7 @@ const eventsReducer = (state = initialState, action) => {
       return {
         ...state,
         events: action.payload,
+        pendingCount: action.payload.pending.length,
         fetchingEvents: false,
         fetchedEvents: true,
         error: null
@@ -124,13 +126,13 @@ const eventsReducer = (state = initialState, action) => {
       };
 
     case EVENT_UPDATE_COMPLETE:
-      console.log(action.payload)
+      console.log(action.payload);
       return {
         ...state,
         updatingEvents: false,
         updatedEvents: true,
         error: null,
-        events: action.payload,
+        events: action.payload
       };
 
     case EVENT_UPDATE_ERROR:
