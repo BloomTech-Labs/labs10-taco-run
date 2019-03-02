@@ -1,11 +1,9 @@
 import React from 'react';
-import Nav from '../nav/Nav.js'
 import running from './running.png'
 import { MainDiv, TopHr, BottomHr } from './started_css.js'
 import { Link } from "react-router-dom";
 import { CreateLink, ContainLink } from '../events2/eventlist_css.js';
 import DrawerBar from "../drawer/Drawer";
-import firebase from 'firebase'
 import {connect} from 'react-redux';
 
 class GetStarted extends React.Component {
@@ -40,7 +38,7 @@ class GetStarted extends React.Component {
               </ContainLink>
             </div>
             <div>
-              <img src={running}/>
+              <img src={running} alt = "running-taco"/>
             </div>
           </MainDiv>
           <BottomHr/>
