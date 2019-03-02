@@ -3,15 +3,11 @@ import { connect } from "react-redux";
 import { createEvent } from "../../store/actions/eventsActions";
 import GoogleMapReact from "google-map-react";
 import axios from "axios";
-import { withAlert } from "react-alert";
 import "./create_event.css";
 import Popup from "reactjs-popup";
-import Nav from "../nav/Nav.js";
-import Big from "big.js";
 import firebase from "firebase";
 import DrawerBar from "../drawer/Drawer";
 import "date-fns";
-import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/core/styles";
 import DateFnsUtils from "@date-io/date-fns";
@@ -23,10 +19,8 @@ import {
 
 import {
   CreateEventWrapper,
-  FormElement,
-  LabelElement,
-  InputElement,
-  FormHeader,
+  FormElement,  
+  InputElement,  
   SubmitButton,
   YelpDiv,
   CenterP,
@@ -200,7 +194,7 @@ class CreateEvent extends React.Component {
                   <p>{idx + 1}</p>
                   <p>Name: {t.name}</p>
                   <p>
-                    <img className="yelp_img" src={t.image_url} />
+                    <img className="yelp_img" alt="yelp-restaurant-img" src={t.image_url} />
                   </p>
                   <p>
                     Location:{" "}
