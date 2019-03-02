@@ -1,7 +1,6 @@
 import './custom.css'
 
 import React from 'react';
-import Navigation from '../navigation/Navigation.js';
 import yelp from './img/yelp.jpg'
 import events from './img/event.png'
 import tacos from './img/tacos.jpg'
@@ -10,25 +9,18 @@ import facebook from './img/facebook.png'
 import google from './img/google.png'
 import twitter from './img/twitter.png'
 
-import { Link } from 'react-router-dom'
-
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
+
 import Typography from '@material-ui/core/Typography';
 
-import ErrorAlert from '../alerts/ErrorAlert.js';
-import { withAlert } from 'react-alert'
 
 import {connect} from 'react-redux';
-import {signIn, signUp, facebookAuth, twitterAuth, googleAuth, githubAuth, passReset} from '../../store/actions/authActions.js';
+import {facebookAuth, twitterAuth, googleAuth} from '../../store/actions/authActions.js';
 
 const styles = {
   card: {
@@ -70,9 +62,9 @@ const LandingPage = (props) => {
             
             <h4 className="centerT">Login With</h4>
             <div className="flexCenter bottom">
-              <img src={facebook} className="image" onClick={() => { props.facebookAuth(); props.history.push('get-started') } }/>
-              <img src={google} className="image" onClick={() => { props.googleAuth(); props.history.push('get-started') } }/>
-              <img src={twitter} className="image" onClick={() => { props.twitterAuth(); props.history.push('get-started') } }/>
+              <img src={facebook} className="image" alt="facebook-provider-img" onClick={() => { props.facebookAuth(); props.history.push('get-started') } }/>
+              <img src={google} className="image" alt="google-provider-img" onClick={() => { props.googleAuth(); props.history.push('get-started') } }/>
+              <img src={twitter} className="image" alt="twitter-provider-img" onClick={() => { props.twitterAuth(); props.history.push('get-started') } }/>
             </div>          
 
             <div className="flexContain">
