@@ -1,14 +1,4 @@
 import React from "react";
-import axios from "axios";
-import Nav from "../nav/Nav.js";
-import {
-  Card,
-  FlexDiv,
-  ViewEvent,
-  DispayComments,
-  CreateLink,
-  ContainLink
-} from "./eventlist_css.js";
 import { Link } from "react-router-dom";
 import {
   getEvents,
@@ -204,6 +194,7 @@ class EventList extends React.Component {
                               className="yelp-img"
                               src={event.img_url}
                               style={{ width: "100%" }}
+                              alt = "yelp-cover-img"
                             />
                             <GridListTileBar
                               style={{ height: "auto" }}
@@ -309,6 +300,7 @@ class EventList extends React.Component {
                               className="yelp-img"
                               src={event.img_url}
                               style={{ width: "100%" }}
+                              alt = "yelp-cover-img"
                             />
                             <GridListTileBar
                               style={{ height: "auto" }}
@@ -416,6 +408,7 @@ class EventList extends React.Component {
                               className="yelp-img"
                               src={event.img_url}
                               style={{ width: "100%" }}
+                              alt = "yelp-cover-img"
                             />
                             <GridListTileBar
                               style={{ height: "auto" }}
