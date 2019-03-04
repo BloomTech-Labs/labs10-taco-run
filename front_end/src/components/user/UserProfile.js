@@ -249,7 +249,7 @@ class UserProfile extends React.Component {
                 >
                   <TextField
                     id="standard-search"
-                    label="Search field"
+                    label="Find a new favorite"
                     type="search"
                     className={classes.textField}
                     margin="normal"
@@ -267,7 +267,7 @@ class UserProfile extends React.Component {
               >
                 <TextField
                   id="standard-search"
-                  label="Search field"
+                  label="Find a new friend"
                   type="search"
                   className={classes.textField}
                   margin="normal"

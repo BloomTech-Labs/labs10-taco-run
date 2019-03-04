@@ -56,9 +56,18 @@ export const createEvent = (event, id) => {
     axios
       .post(`https://production-taco.herokuapp.com/events`, event)
       .then(() => {
-        axios.get(`https://production-taco.herokuapp.com/users_events/${id}`).then(res2 => {
-          dispatch({ type: EVENTS_CREATE_COMPLETE, payload: res2.data });
-        });
+        axios
+          .get(
+            `https://production-taco.herokuapp.com/users_events/${localStorage.getItem(
+              "user_id"
+            )}`
+          )
+          .then(res => {
+            dispatch({
+              type: EVENTS_CREATE_COMPLETE,
+              payload: res.data
+            });
+          });
       })
       .catch(err => {
         dispatch({ type: EVENTS_CREATE_ERROR, payload: err });
@@ -72,7 +81,18 @@ export const deleteEvent = id => {
     axios
       .delete(`https://production-taco.herokuapp.com/events/${id}`)
       .then(() => {
-        dispatch({ type: EVENT_DELETE_COMPLETE, payload: parseInt(id) });
+        axios
+          .get(
+            `https://production-taco.herokuapp.com/users_events/${localStorage.getItem(
+              "user_id"
+            )}`
+          )
+          .then(res => {
+            dispatch({
+              type: EVENTS_CREATE_COMPLETE,
+              payload: res.data
+            });
+          });
       })
       .catch(err => {
         dispatch({ type: EVENT_DELETE_ERROR, payload: err });
