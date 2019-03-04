@@ -3,7 +3,9 @@ import { Link } from "react-router-dom";
 import {
   getEvents,
   deleteEvent,
-  updateEvent
+  updateEvent,
+  acceptEvent,
+  declineEvent
 } from "../../store/actions/eventsActions";
 import { connect } from "react-redux";
 import "./create_event.css";
@@ -127,12 +129,30 @@ class EventList extends React.Component {
     }
   };
 
+  joinEvent = event => {
+    event.preventDefault()
+    let id = Number(event.target.id)
+    let id_user = Number(localStorage.getItem("user_id"))
+    let obj = {user_id: id_user, event_id: id}
+    this.props.acceptEvent(obj)
+  }
+
+  declineEvent = event => {
+    event.preventDefault()
+    let id = Number(event.target.id)
+    let id_user = Number(localStorage.getItem("user_id"))
+    let obj = {user_id: id_user, event_id: id}
+    this.props.declineEvent(obj)
+  }
+
   render() {
     // For tabs
     const { classes } = this.props;
     const { tabValue } = this.state;
     console.log(this.props)
     console.log(this.state)
+
+
 
     return (
       <div>
@@ -304,6 +324,8 @@ class EventList extends React.Component {
                               style={{ width: "100%" }}
                               alt = "yelp-cover-img"
                             />
+                            <button id={event.id} onClick={this.joinEvent}>LETS GO</button>
+                            <button>NOT THIS TIME</button>
                             <GridListTileBar
                               style={{ height: "auto" }}
                               title={event.name}
@@ -316,46 +338,6 @@ class EventList extends React.Component {
                                   >
                                     comments: {event.total_comments}
                                   </p>
-                                  {this.props.auth.email ===
-                                  event.posters_email ? (
-                                    <div>
-                                      <DeleteIcon
-                                        id={event.id}
-                                        style={{ color: "white" }}
-                                        onClick={this.delete}
-                                      />
-                                      <div
-                                        id={event.id}
-                                        onClick={this.showForm}
-                                      >
-                                        EDIT
-                                      </div>
-                                      {this.state.showEdit ? (
-                                        <form>
-                                          <input
-                                            type="text"
-                                            placeholder="New Event Name"
-                                            onChange={this.handleChange}
-                                            name="editName"
-                                            value={this.state.editName}
-                                          />
-                                          <input
-                                            type="date"
-                                            placeholder="New Event Date"
-                                            onChange={this.handleChange}
-                                            name="editDate"
-                                            value={this.state.editDate}
-                                          />
-                                          <button
-                                            id={event.id}
-                                            onClick={this.update}
-                                          >
-                                            Submit
-                                          </button>
-                                        </form>
-                                      ) : null}
-                                    </div>
-                                  ) : null}
                                 </div>
                               }
                               actionIcon={
@@ -500,5 +482,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { getEvents, deleteEvent, updateEvent }
+  { getEvents, deleteEvent, updateEvent, acceptEvent, declineEvent }
 )(withStyles(styles, { withTheme: true })(EventList));

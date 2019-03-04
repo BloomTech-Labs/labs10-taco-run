@@ -40,7 +40,7 @@ router.post('', (req, res) => {
 
 //UPDATE
 //the user accepts the event invitation
-//post http://localhost:5555/users_events/accept
+//put http://localhost:5555/users_events/accept
 router.put('/accept', (req, res) => {
 
 	const {user_id, event_id} = req.body
