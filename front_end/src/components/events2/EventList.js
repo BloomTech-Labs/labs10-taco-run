@@ -325,7 +325,7 @@ class EventList extends React.Component {
                               alt = "yelp-cover-img"
                             />
                             <button id={event.id} onClick={this.joinEvent}>LETS GO</button>
-                            <button>NOT THIS TIME</button>
+                            <button id={event.id} onClick={this.declineEvent}>NOT THIS TIME</button>
                             <GridListTileBar
                               style={{ height: "auto" }}
                               title={event.name}

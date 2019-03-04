@@ -21,7 +21,7 @@ router.post('', (req, res) => {
 			db.insert({name, date, author, user_id, posters_email, invite_only }).into('events')
 			.then(() => {
 				db('events')
-				.where({name, date, location, venue, author, user_id })
+				.where({name, date, author, user_id, posters_email })
 				.then(r1 => { //extra work around to get the id of the event to pass to the many to many join table
 					id = r1[0].id
 					let obj = {user_id, event_id: id, isPending: false}

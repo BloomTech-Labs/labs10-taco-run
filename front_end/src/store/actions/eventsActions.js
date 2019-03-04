@@ -149,6 +149,7 @@ export const declineEvent = obj => {
       })
     })
     .catch(error => {
+      console.log(error)
       dispatch({ type: EVENTS_GET_ERROR, payload: error });
     })
   }

@@ -83,17 +83,17 @@ router.put('/accept', (req, res) => {
 //delete http://localhost:5555/users_events/decline
 router.delete('/decline', (req, res) => {
 	const {user_id, event_id} = req.body
+	console.log(req.body)
 	db('users_events')
 	.where({user_id, event_id})
 	.del()
-	.then(res => {
-		res.status(200).json(response)
+	.then(response => {
+		return res.status(200).json(response)
 	})
 	.catch(error => {
-		res.status(500).json(error)
+		return res.status(500).json(error)
 	})
 })
-
 
 //READ
 //get all events from a user
