@@ -62,11 +62,9 @@ class EventList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showEdit: false,
       editName: "",
       editDate: "",
       windowWidth: "",
-      // For tabs
       tabValue: 0
     };
   }
@@ -230,46 +228,6 @@ class EventList extends React.Component {
                                   >
                                     comments: {event.total_comments}
                                   </p>
-                                  {this.props.auth.email ===
-                                  event.posters_email ? (
-                                    <div>
-                                      <DeleteIcon
-                                        id={event.id}
-                                        style={{ color: "white" }}
-                                        onClick={this.delete}
-                                      />
-                                      <div
-                                        id={event.id}
-                                        onClick={this.showForm}
-                                      >
-                                        EDIT
-                                      </div>
-                                      {this.state.showEdit ? (
-                                        <form>
-                                          <input
-                                            type="text"
-                                            placeholder="New Event Name"
-                                            onChange={this.handleChange}
-                                            name="editName"
-                                            value={this.state.editName}
-                                          />
-                                          <input
-                                            type="date"
-                                            placeholder="New Event Date"
-                                            onChange={this.handleChange}
-                                            name="editDate"
-                                            value={this.state.editDate}
-                                          />
-                                          <button
-                                            id={event.id}
-                                            onClick={this.update}
-                                          >
-                                            Submit
-                                          </button>
-                                        </form>
-                                      ) : null}
-                                    </div>
-                                  ) : null}
                                 </div>
                               }
                               actionIcon={

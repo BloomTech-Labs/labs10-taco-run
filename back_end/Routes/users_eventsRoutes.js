@@ -19,7 +19,7 @@ router.post('', (req, res) => {
 
 		// if user attemps to sign up for event he is already going to
 		if (response.length > 0){
-			return res.status(200).json({msg: 'you are aleady going to this event'})
+			return res.status(200).json({msg: 'you are aleady invited user to event'})
 		} else {
 			//user adds event since he is not yet going to event
 			db.insert({user_id, event_id}).into('users_events')
