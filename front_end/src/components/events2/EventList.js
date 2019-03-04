@@ -141,6 +141,8 @@ class EventList extends React.Component {
     // For tabs
     const { classes } = this.props;
     const { tabValue } = this.state;
+    console.log(this.props)
+    console.log(this.state)
 
     return (
       <div>

@@ -10,7 +10,7 @@ const db = require("../config.js")
 //post http://localhost:5555/events
 //-------------------------------------------
 router.post('', (req, res) => {
-	const {name, date, location, venue, author, user_id, lat, lon, img_url, raiting, price, url, posters_email, invite_only } = req.body;
+	const {name, date, author, user_id, posters_email, invite_only } = req.body;
 
 	/* first we check to see if the event already exists*/
 	db('events')
@@ -18,7 +18,7 @@ router.post('', (req, res) => {
 	.then(check => {
 		//if it does not already exist we can create it
 		if (check.length === 0){
-			db.insert({name, date, location, venue, author, user_id, lat, lon, img_url, raiting, price, url, posters_email, invite_only }).into('events')
+			db.insert({name, date, author, user_id, posters_email, invite_only }).into('events')
 			.then(() => {
 				db('events')
 				.where({name, date, location, venue, author, user_id })
@@ -166,12 +166,13 @@ router.post('', (req, res) => {
 //update an event
 //put http://localhost:5555/events/:id
 //-------------------------------------------
+
 router.put('/:id', (req, res) => {	
-	const { name, date, location, venue, author, url, posters_email, invite_only } = req.body;	
+	const {name, date, location, venue, author, lat, lon, img_url, raiting, price, url, invite_only } = req.body;	
 	const { id } = req.params;	
 	db('events')
 	.where({id})
-	.update({name, date, location, venue, author, url, posters_email, invite_only})
+	.update({name, date, location, venue, author, lat, lon, img_url, raiting, price, url, invite_only })
 	.then(response => {
 		return res.status(200).json(response)
 	})
