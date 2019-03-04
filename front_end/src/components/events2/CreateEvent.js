@@ -1,9 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { createEvent } from "../../store/actions/eventsActions";
-import axios from "axios";
 import "./create_event.css";
-import firebase from "firebase";
 import DrawerBar from "../drawer/Drawer";
 import "date-fns";
 import Grid from "@material-ui/core/Grid";
@@ -59,18 +57,9 @@ class CreateEvent extends React.Component {
     super(props);
     this.state = {
       name: "",
-      selectedDate: new Date(),
-      location: "",
-      venue: "",
+      selectedDate: new Date(),            
       author: "",
-      user_id: "",
-      city_location: "",
-      tacos_places: [],
-      destinations: [],
-      zoom: 11,
-      lat_av: 0,
-      lon_av: 0,
-      show_map: false,
+      user_id: "",      
       checkedInvite: true,
       checkedNoInvite: true,
       invite_only: false
@@ -98,56 +87,7 @@ class CreateEvent extends React.Component {
     console.log(`${[event.target.name]}: ${event.target.value}`)
     this.setState({ [event.target.name]: event.target.value });
   };
-  searchMap = event => {
-    event.preventDefault();
-    let key = firebase.functions().app_.options_.yelpkey;
-    let city = this.state.city_location;
-    axios
-      .get(
-        `${"https://cors-anywhere.herokuapp.com/"}https://api.yelp.com/v3/businesses/search?term=taco&location=${city}&categories=mexican`,
-        {
-          headers: {
-            Authorization: `Bearer ${key}`
-          }
-        }
-      )
-      .then(res => {
-        console.log(res);
-        let destinations = [];
-        let obj;
-        let biz = res.data.businesses;
-        let lat_ar = [];
-        let lon_ar = [];
-        for (let i = 0; i < biz.length; i++) {
-          obj = {
-            lat: biz[i].coordinates.latitude,
-            lon: biz[i].coordinates.longitude,
-            number: i + 1
-          };
-          lat_ar.push(biz[i].coordinates.latitude);
-          lon_ar.push(biz[i].coordinates.longitude);
-          destinations.push(obj);
-        }
-        const average = arr => arr.reduce((p, c) => p + c, 0) / arr.length;
-        const av_lat = average(lat_ar);
-        const av_lon = average(lon_ar);
-        this.setState({
-          city_location: "",
-          tacos_places: res.data.businesses,
-          destinations: destinations,
-          lat_av: av_lat,
-          lon_av: av_lon,
-          show_map: true
-        });
-      })
-      .catch(error => {
-        this.props.alert.show("invalid city");
-        console.log(error);
-        this.setState({
-          city_location: ""
-        });
-      });
-  };
+
   handleSubmit = obj => {
     console.log("obj is: \n");
     console.log(obj);
@@ -162,10 +102,7 @@ class CreateEvent extends React.Component {
     this.props.createEvent(event_obj);
     this.props.history.push("/events");
   };
-
-  eventsPush = () => {
-    this.props.history.push("/events");
-  }
+  
   render() {
     const { classes } = this.props;
     console.log(this.props);
