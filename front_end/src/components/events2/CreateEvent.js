@@ -47,7 +47,7 @@ class CreateEvent extends React.Component {
     super(props);
     this.state = {
       name: "",
-      date: "",
+      date: new Date(),
       location: "",
       venue: "",
       author: "",
@@ -59,15 +59,13 @@ class CreateEvent extends React.Component {
       lat_av: 0,
       lon_av: 0,
       show_map: false,
-      // For date and time picker
-      selectedDate: new Date()
     };
   }
 
   componentDidMount() {}
 
   handleDateChange = date => {
-    this.setState({ selectedDate: date });
+    this.setState({ date: date });
   };
 
   handleChange = event => {
@@ -150,7 +148,7 @@ class CreateEvent extends React.Component {
       posters_email: this.props.auth.email
     };
 
-    this.props.createEvent(event_obj);
+    this.props.createEvent(event_obj, localStorage.getItem("user_id"));
     this.props.history.push("/events");
   };
 
@@ -158,7 +156,7 @@ class CreateEvent extends React.Component {
     console.log(this.state);
     console.log(this.props);
     const { classes } = this.props;
-    const { selectedDate } = this.state;
+    const { date } = this.state;
     return (
       <div className="create-event-full-wrapper">
         <div className="navigation-wrapper">
@@ -245,13 +243,13 @@ class CreateEvent extends React.Component {
                               <DatePicker
                                 margin="normal"
                                 label="Date picker"
-                                value={selectedDate}
+                                value={date}
                                 onChange={this.handleDateChange}
                               />
                               <TimePicker
                                 margin="normal"
                                 label="Time picker"
-                                value={selectedDate}
+                                value={date}
                                 onChange={this.handleDateChange}
                               />
                             </Grid>
