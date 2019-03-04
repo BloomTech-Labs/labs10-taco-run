@@ -60,13 +60,15 @@ class CreateEvent extends React.Component {
       selectedDate: new Date(),            
       author: "",
       user_id: "",      
-      checkedInvite: true,
+      checkedInvite: false,
       checkedNoInvite: true,
       invite_only: true,
       posters_email: ""
     };
   }
-  componentDidMount() {}
+  componentDidMount() {
+    console.log(`checkedInvite is: ${this.state.checkedInvite}`);
+  }
 
   handleDateChange = date => {
     this.setState({ selectedDate: date });
@@ -74,14 +76,8 @@ class CreateEvent extends React.Component {
 
   handleSwitchChange = name => event => {
     this.setState({ [name]: event.target.checked });
-    // console.log(`${[name]}: ${event.target.checked}`)
-    if (this.state.checkedInvite === false) {
-      this.setState({ invite_only: false })
-      console.log(`invite_only is: ${this.state.invite_only}`);
-    } else {
-      this.setState({ invite_only: true })
-      console.log(`invite_only is: ${this.state.invite_only}`);
-    }
+    console.log(`${[name]}: ${event.target.checked}`);
+
   };
 
   handleChange = event => {    
@@ -97,7 +93,7 @@ class CreateEvent extends React.Component {
       author: this.props.auth.displayName,
       user_id: parseInt(localStorage.getItem("user_id"), 10),
       posters_email: this.props.auth.email,
-      invite_only: this.state.invite_only,          
+      invite_only: this.state.checkedInvite,          
     }    
     /*
       - "name": "another really fun event!",
