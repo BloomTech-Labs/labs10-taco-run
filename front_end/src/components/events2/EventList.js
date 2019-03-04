@@ -44,7 +44,8 @@ const styles = theme => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
     display: "flex",
-    flexWrap: "wrap"
+    flexWrap: "wrap",
+    marginLeft: theme.spacing.unit * 8
   },
   margin: {
     margin: theme.spacing.unit * 2
