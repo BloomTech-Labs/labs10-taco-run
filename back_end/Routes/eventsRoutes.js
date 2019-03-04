@@ -24,6 +24,7 @@ router.post("", (req, res) => {
   db("events")
     .where({ name, posters_email })
     .then(res => {
+      console.log("First first .then");
       if (res.length === 0) {
         db("events")
           .insert({
@@ -37,6 +38,7 @@ router.post("", (req, res) => {
             invite_only
           })
           .then(() => {
+            console.log("First .then");
             db("events")
               .where({
                 name,
@@ -51,6 +53,8 @@ router.post("", (req, res) => {
               .then(res => {
                 // if invite only is true then only set relationship for said user
                 var event_id = res[0].id;
+                console.log("Second .then with ");
+                console.log(invite_only);
                 if (invite_only === true) {
                   db("users_events")
                     .insert({
@@ -70,20 +74,39 @@ router.post("", (req, res) => {
                     .join("users", "users.id", "=", "users_friends.friends_id")
                     .where("users_friends.user_id", user_id)
                     .then(res => {
-                      db("users_events").insert({
-                        user_id,
-                        event_id: event_id,
-                        isPending: false
-                      });
-                      for (let i = 0; i < res.length; i++) {
-                        const id = res[i].friends_id;
-                        console.log(id, event_id);
-                        db("users_events").insert({
-                          user_id: id,
+                      console.log("third .then");
+                      db("users_events")
+                        .insert({
+                          user_id,
                           event_id: event_id,
-                          isPending: true
+                          isPending: false
+                        })
+                        .then(() => {
+                          console.log("fourth .then");
+                          for (let i = 0; i < res.length; i++) {
+                            const id = res[i].friends_id;
+                            console.log(id, event_id);
+                            db("users_events")
+                              .insert({
+                                user_id: id,
+                                event_id: event_id,
+                                isPending: true
+                              })
+                              .then(res => {
+                                console.log("fifth .then");
+                                res.status(200).json(res);
+                              })
+                              .catch(err => {
+                                res.status(500).json(err);
+                              });
+                          }
+                        })
+                        .catch(err => {
+                          res.status(500).json(err);
                         });
-                      }
+                    })
+                    .catch(err => {
+                      res.status(500).json(err);
                     });
                 }
               })
