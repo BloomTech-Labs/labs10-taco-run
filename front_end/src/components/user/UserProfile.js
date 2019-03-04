@@ -5,7 +5,6 @@
 */
 import React from "react";
 import { connect } from "react-redux";
-import Nav from "../nav/Nav.js";
 import DrawerBar from "../drawer/Drawer";
 
 // --> import userActions
@@ -24,10 +23,8 @@ import {
 } from "../../store/actions/favoritesActions";
 
 import { Link } from "react-router-dom";
-import { Dropdown } from "semantic-ui-react";
 import "./UserProfile.css";
 import { Container, EditBtn, FlexEnd } from "./userprofile_css.js";
-import { DeleteBtn } from "../events2/eventsingle_css.js";
 
 //-------------Material UI------------------
 import PropTypes from "prop-types";
@@ -39,12 +36,9 @@ import Typography from "@material-ui/core/Typography";
 
 // Select imports
 import ReactDOM from "react-dom";
-import Input from "@material-ui/core/Input";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
-import FilledInput from "@material-ui/core/FilledInput";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
-import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 
@@ -154,7 +148,7 @@ class UserProfile extends React.Component {
     }
 
     let box = document.getElementById("results");
-    if (e.target != box && box.style.display == "inline-block") {
+    if (e.target !== box && box.style.display === "inline-block") {
       box.style.display = "none";
     }
   };
@@ -303,6 +297,7 @@ class UserProfile extends React.Component {
                         </Link>
                       );
                     }
+                    return "Locations map completed"
                   })}
                 </div>
               ) : (
@@ -329,8 +324,9 @@ class UserProfile extends React.Component {
                         </Link>
                       );
                     }
+                    return "Users map completed"
                   })}
-                </div>
+                </div>                
               )}
             </div>
           </div>
@@ -371,6 +367,7 @@ class UserProfile extends React.Component {
                         </MenuItem>
                       );
                     }
+                    return "Favorites Map completed"
                   })}
                 </Select>
               </FormControl>

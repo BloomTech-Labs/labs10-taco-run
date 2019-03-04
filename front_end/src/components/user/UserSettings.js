@@ -1,5 +1,4 @@
 import React from "react";
-import Nav from "../nav/Nav.js";
 import Select from "react-select";
 import "./settings.css";
 import {
@@ -8,14 +7,12 @@ import {
   Reset,
   Switch,
   SwitchTab,
-  FlexDiv,
-  CenterDiv,
+  FlexDiv,  
   Submit
 } from "./user_settings_css.js";
 import axios from "axios";
 import { withAlert } from "react-alert";
 import PhoneInput from "react-phone-number-input";
-import { isValidPhoneNumber } from "react-phone-number-input";
 import Billing from "../billing/Billing.js";
 import DrawerBar from "../drawer/Drawer";
 

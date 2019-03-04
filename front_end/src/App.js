@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-
-import NoPage from "./components/404/NoPage.js";
 import { Route, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { Switch } from "react-router-dom";

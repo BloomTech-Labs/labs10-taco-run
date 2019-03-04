@@ -18,7 +18,6 @@ import {
 } from "./eventsingle_css.js";
 
 import { Container } from "./eventsingle_css.js";
-import Nav from "../nav/Nav.js";
 import { fetchUser } from "../../store/actions/userActions";
 import Popup from "reactjs-popup";
 import "./create_event.css"
@@ -122,7 +121,7 @@ class EventSingle extends React.Component {
   leaveEvent = event => {
     event.preventDefault();
     console.log('connected')
-    let user_id = parseInt(localStorage.getItem("user_id"))
+    // let user_id = parseInt(localStorage.getItem("user_id"))
     let obj =  {data: { user_id: parseInt(localStorage.getItem("user_id")), event_id: parseInt(this.props.match.params.id)}}
     console.log(obj)
     axios.delete('https://production-taco.herokuapp.com/users_events', obj)
@@ -263,7 +262,7 @@ class EventSingle extends React.Component {
             <button onClick={this.leaveEvent}>Click here to leave event</button><br/>
             <button onClick={this.attendEvent}>Click here to Attend</button><br/>
             <button onClick={this.addFav}>Add location to favorites</button>
-            <p><img className="yelp_img" src={this.state.img_url}/></p>
+            <p><img className="yelp_img" alt="restaurant-img" src={this.state.img_url}/></p>
             <p>Venue: {this.state.venue}</p>
             <p>Date: {this.state.date}</p>
             <p>Location {this.state.location}</p>
@@ -283,6 +282,7 @@ class EventSingle extends React.Component {
                     </div>
                   );
                 }
+                return "map completed";
               })}
             </div>
             <div className="event-discussion">
@@ -327,11 +327,12 @@ class EventSingle extends React.Component {
                         <h4> - {comment.posted_by}</h4>
                         <h6>{comment.date}</h6>
                         <h5>{comment.content}</h5>
-                        <img src={comment.pic_url} />
+                        <img src={comment.pic_url} alt="comment-img" />
                       </Comment>
                     </FlexDiv>
                   );
                 }
+                return "comments map completed"
               })}
             </div>
           </div>

@@ -5,7 +5,6 @@
 */
 import React from "react";
 import { connect } from "react-redux";
-import Nav from "../nav/Nav.js";
 import DrawerBar from "../drawer/Drawer";
 
 // --> import userActions
@@ -19,10 +18,8 @@ import {
 } from "../../store/actions/favoritesActions";
 
 import { Link } from "react-router-dom";
-import { Dropdown } from "semantic-ui-react";
 import "../user/UserProfile.css";
 import { Container, EditBtn, FlexEnd } from "../user/userprofile_css.js";
-import { DeleteBtn } from "../events2/eventsingle_css.js";
 
 //-------------Material UI------------------
 import PropTypes from "prop-types";
@@ -33,13 +30,9 @@ import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 
 // Select imports
-import ReactDOM from "react-dom";
-import Input from "@material-ui/core/Input";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
-import FilledInput from "@material-ui/core/FilledInput";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
-import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 
@@ -220,6 +213,7 @@ class UsersProfile extends React.Component {
                         </option>
                       );
                     }
+                    return "Favorites map completed"
                   })}
                 </select>
               </div>
@@ -264,6 +258,7 @@ class UsersProfile extends React.Component {
                         </MenuItem>
                       );
                     }
+                    return "Favorites map completed"
                   })}
                 </Select>
               </FormControl>
