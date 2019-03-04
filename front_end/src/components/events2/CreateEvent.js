@@ -1,10 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import { createEvent } from "../../store/actions/eventsActions";
-import GoogleMapReact from "google-map-react";
 import axios from "axios";
 import "./create_event.css";
-import Popup from "reactjs-popup";
 import firebase from "firebase";
 import DrawerBar from "../drawer/Drawer";
 import "date-fns";
@@ -16,32 +14,52 @@ import {
   TimePicker,
   DatePicker
 } from "material-ui-pickers";
-
 import {
-  CreateEventWrapper,
-  FormElement,  
-  InputElement,  
-  SubmitButton,
-  YelpDiv,
-  CenterP,
+  CreateEventWrapper,  
   FlexForm,
-  MapDiv
 } from "./create_event_css.js";
 
-const styles = {
-  grid: {
-    width: "60%"
-  }
-};
+import TextField from '@material-ui/core/TextField';
+import SaveIcon from '@material-ui/icons/Save';
+import Button from '@material-ui/core/Button';
+import classNames from 'classnames';
 
-const TacoLocation = ({ text }) => <div>{text}</div>;
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
+
+const styles = theme => ({
+  grid: {
+    width: "100%",        
+    borderRadius: 10,
+    padding: 10
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: "100%",
+  },
+  button: {
+    margin: theme.spacing.unit,
+    backgroundColor: "lightsalmon",
+    width: "60%"
+  },
+  leftIcon: {
+    marginRight: theme.spacing.unit,
+  },
+  iconSmall: {
+    fontSize: 20,
+  },
+});
+
+
+// const TacoLocation = ({ text }) => <div>{text}</div>;
 
 class CreateEvent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       name: "",
-      date: new Date(),
+      selectedDate: new Date(),
       location: "",
       venue: "",
       author: "",
@@ -53,23 +71,36 @@ class CreateEvent extends React.Component {
       lat_av: 0,
       lon_av: 0,
       show_map: false,
+      checkedInvite: true,
+      checkedNoInvite: true,
+      invite_only: false
     };
   }
-
   componentDidMount() {}
 
   handleDateChange = date => {
-    this.setState({ date: date });
+    this.setState({ selectedDate: date });
+  };
+
+  handleSwitchChange = name => event => {
+    this.setState({ [name]: event.target.checked });
+    console.log(`${[name]}: ${event.target.checked}`)
+    if (this.state.checkedInvite === false) {
+      this.setState({ invite_only: false })
+      console.log(`invite_only is: ${this.state.invite_only}`);
+    } else {
+      this.setState({ invite_only: true })
+      console.log(`invite_only is: ${this.state.invite_only}`);
+    }
   };
 
   handleChange = event => {
+    console.log(`${[event.target.name]}: ${event.target.value}`)
     this.setState({ [event.target.name]: event.target.value });
   };
-
   searchMap = event => {
     event.preventDefault();
     let key = firebase.functions().app_.options_.yelpkey;
-
     let city = this.state.city_location;
     axios
       .get(
@@ -82,13 +113,11 @@ class CreateEvent extends React.Component {
       )
       .then(res => {
         console.log(res);
-
         let destinations = [];
         let obj;
         let biz = res.data.businesses;
         let lat_ar = [];
         let lon_ar = [];
-
         for (let i = 0; i < biz.length; i++) {
           obj = {
             lat: biz[i].coordinates.latitude,
@@ -99,12 +128,9 @@ class CreateEvent extends React.Component {
           lon_ar.push(biz[i].coordinates.longitude);
           destinations.push(obj);
         }
-
         const average = arr => arr.reduce((p, c) => p + c, 0) / arr.length;
-
         const av_lat = average(lat_ar);
         const av_lon = average(lon_ar);
-
         this.setState({
           city_location: "",
           tacos_places: res.data.businesses,
@@ -122,175 +148,97 @@ class CreateEvent extends React.Component {
         });
       });
   };
-
   handleSubmit = obj => {
-    let event_obj = {
-      user_id: parseInt(localStorage.getItem("user_id"), 10),
-      author: this.props.auth.displayName,
+    console.log("obj is: \n");
+    console.log(obj);
+    let event_obj = {        
       name: this.state.name,
-      date: this.state.date,
-      location: obj.location,
-      lat: obj.lat,
-      lon: obj.lon,
-      img_url: obj.img_url,
-      raiting: obj.raiting,
-      price: obj.price,
-      url: obj.url,
-      venue: obj.name,
-      total_comments: 0,
-      total_users: 1,
-      posters_email: this.props.auth.email
-    };
-
-    this.props.createEvent(event_obj, localStorage.getItem("user_id"));
+      date: this.state.selectedDate,
+      posters_email: this.props.auth.email,
+      invite_only: this.state.invite_only,
+      user_id: parseInt(localStorage.getItem("user_id"), 10),
+      author: this.props.auth.displayName
+    }
+    this.props.createEvent(event_obj);
     this.props.history.push("/events");
   };
 
+  eventsPush = () => {
+    this.props.history.push("/events");
+  }
   render() {
-    console.log(this.state);
-    console.log(this.props);
     const { classes } = this.props;
-    const { date } = this.state;
+    console.log(this.props);
+    const { selectedDate } = this.state;
     return (
       <div className="create-event-full-wrapper">
         <div className="navigation-wrapper">
           <DrawerBar />
-        </div>
+        </div>        
 
-        {this.state.show_map ? (
-          <MapDiv>
-            <GoogleMapReact
-              bootstrapURLKeys={{
-                key: firebase.functions().app_.options_.googlekey
-              }}
-              defaultZoom={this.state.zoom}
-              defaultCenter={{ lat: this.state.lat_av, lng: this.state.lon_av }}
-            >
-              {this.state.destinations.map(d => {
-                return <TacoLocation lat={d.lat} lng={d.lon} text={d.number} />;
-              })}
-            </GoogleMapReact>
-          </MapDiv>
-        ) : null}
-
-        <CreateEventWrapper>
-          <FormElement onSubmit={this.searchMap}>
-            <InputElement
-              name="city_location"
-              onChange={this.handleChange}
-              value={this.state.city_location}
-              type="text"
-              placeholder="look up taco places by city"
-            />
-            <SubmitButton onClick={this.searchMap}>Submit</SubmitButton>
-          </FormElement>
-
-          <div>
-            {this.state.tacos_places.map((t, idx) => {
-              return (
-                <YelpDiv key={t.id}>
-                  <p>{idx + 1}</p>
-                  <p>Name: {t.name}</p>
-                  <p>
-                    <img className="yelp_img" alt="yelp-restaurant-img" src={t.image_url} />
-                  </p>
-                  <p>
-                    Location:{" "}
-                    {`${t.location.display_address[0]} ${
-                      t.location.display_address[1]
-                    }`}
-                  </p>
-                  <p>Rating: {t.rating}</p>
-                  <p>Price: {t.price}</p>
-                  <p>
-                    <a href={t.url}>View on Yelp</a>
-                  </p>
-
-                  <Popup
-                    trigger={
-                      <div>
-                        <CenterP>CREATE EVENT</CenterP>
-                      </div>
+        <div className = "form-wrapper">
+          <CreateEventWrapper>              
+            <FlexForm>                            
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <Grid
+                  container
+                  className={classes.grid}
+                  justify="space-evenly"
+                >
+                  <TextField
+                    required
+                    id="standard-name"
+                    name = "name" // --> needs a name attribute so it'll load correctly
+                    label="Name"
+                    className={classes.textField}
+                    value={this.state.name}
+                    onChange={this.handleChange}
+                    type = "text"
+                    margin="normal"
+                  />                  
+                  <DatePicker
+                    margin="normal"
+                    label="Date picker"
+                    value={selectedDate}
+                    onChange={this.handleDateChange}
+                  />
+                  <TimePicker
+                    margin="normal"
+                    label="Time picker"
+                    value={selectedDate}
+                    onChange={this.handleDateChange}
+                  />
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={this.state.checkedInvite}
+                        onChange={this.handleSwitchChange('checkedInvite')}
+                        value= {this.state.checkedInvite}
+                      />
                     }
-                    modal
-                  >
-                    {close => {
-                      return (
-                        <FlexForm>
-                          <div>
-                            <div />
-                            <p onClick={close}>X</p>
-                          </div>
-                          <input
-                            type="text"
-                            name="name"
-                            placeholder="event name"
-                            onChange={this.handleChange}
-                          />
-
-                          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                            <Grid
-                              container
-                              className={classes.grid}
-                              justify="space-around"
-                            >
-                              <DatePicker
-                                margin="normal"
-                                label="Date picker"
-                                value={date}
-                                onChange={this.handleDateChange}
-                              />
-                              <TimePicker
-                                margin="normal"
-                                label="Time picker"
-                                value={date}
-                                onChange={this.handleDateChange}
-                              />
-                            </Grid>
-                          </MuiPickersUtilsProvider>
-
-                          <p
-                            onClick={() => {
-                              this.handleSubmit({
-                                lat: t.coordinates.latitude,
-                                lon: t.coordinates.longitude,
-                                name: t.name,
-                                img_url: t.image_url,
-                                location: `${t.location.display_address[0]} ${
-                                  t.location.display_address[1]
-                                }`,
-                                raiting: t.rating,
-                                price: t.price,
-                                url: t.url
-                              });
-                            }}
-                          >
-                            Create Event
-                          </p>
-                        </FlexForm>
-                      );
-                    }}
-                  </Popup>
-                </YelpDiv>
-              );
-            })}
-          </div>
-        </CreateEventWrapper>
+                    label="Invite Only"
+                  />
+                  <Button variant="contained" size="small" className={classes.button} onClick = {this.handleSubmit}>
+                    <SaveIcon className={classNames(classes.leftIcon, classes.iconSmall)} />
+                      Create
+                  </Button>
+                </Grid>
+              </MuiPickersUtilsProvider>
+            </FlexForm>  
+          </CreateEventWrapper>
+        </div>
       </div>
     );
   }
 }
-
 const mapStateToProps = state => {
   return {
     auth: state.firebase.auth,
     user: state.userReducer.user
   };
 };
-
 export default connect(
   mapStateToProps,
   { createEvent }
 )(withStyles(styles)(CreateEvent));
-
 // export default withStyles(styles)(MaterialUIPickers);
