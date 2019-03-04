@@ -24,7 +24,7 @@ router.post("", (req, res) => {
   db("events")
     .where({ name, posters_email })
     .then(res => {
-      console.log("First first .then");
+      // Create event
       if (res.length === 0) {
         db("events")
           .insert({
@@ -38,7 +38,7 @@ router.post("", (req, res) => {
             invite_only
           })
           .then(() => {
-            console.log("First .then");
+            // Get event id
             db("events")
               .where({
                 name,
@@ -51,10 +51,8 @@ router.post("", (req, res) => {
                 invite_only
               })
               .then(res => {
-                // if invite only is true then only set relationship for said user
                 var event_id = res[0].id;
-                console.log("Second .then with ");
-                console.log(invite_only);
+                // if invite only is true then only set relationship for said user
                 if (invite_only === true) {
                   db("users_events")
                     .insert({
@@ -74,7 +72,7 @@ router.post("", (req, res) => {
                     .join("users", "users.id", "=", "users_friends.friends_id")
                     .where("users_friends.user_id", user_id)
                     .then(res => {
-                      console.log("third .then");
+                      // Insert into user
                       db("users_events")
                         .insert({
                           user_id,
@@ -82,7 +80,7 @@ router.post("", (req, res) => {
                           isPending: false
                         })
                         .then(() => {
-                          console.log("fourth .then");
+                          // For every friend of user create relationship
                           for (let i = 0; i < res.length; i++) {
                             const id = res[i].friends_id;
                             console.log(id, event_id);
@@ -93,13 +91,14 @@ router.post("", (req, res) => {
                                 isPending: true
                               })
                               .then(res => {
-                                console.log("fifth .then");
                                 res.status(200).json(res);
                               })
                               .catch(err => {
                                 res.status(500).json(err);
                               });
                           }
+                          // res.end to close out any functions
+                          res.end();
                         })
                         .catch(err => {
                           res.status(500).json(err);
@@ -109,6 +108,8 @@ router.post("", (req, res) => {
                       res.status(500).json(err);
                     });
                 }
+                // res.end to close out any functions
+                res.end();
               })
               .catch(err => {
                 res.status(500).json(err);
@@ -118,6 +119,8 @@ router.post("", (req, res) => {
             res.status(500).json(err);
           });
       }
+      // res.end to close out any functions
+      res.end();
     })
     .catch(err => {
       res.status(500).json(err);
