@@ -62,7 +62,8 @@ class CreateEvent extends React.Component {
       user_id: "",      
       checkedInvite: true,
       checkedNoInvite: true,
-      invite_only: false
+      invite_only: true,
+      posters_email: ""
     };
   }
   componentDidMount() {}
@@ -73,7 +74,7 @@ class CreateEvent extends React.Component {
 
   handleSwitchChange = name => event => {
     this.setState({ [name]: event.target.checked });
-    console.log(`${[name]}: ${event.target.checked}`)
+    // console.log(`${[name]}: ${event.target.checked}`)
     if (this.state.checkedInvite === false) {
       this.setState({ invite_only: false })
       console.log(`invite_only is: ${this.state.invite_only}`);
@@ -83,8 +84,7 @@ class CreateEvent extends React.Component {
     }
   };
 
-  handleChange = event => {
-    console.log(`${[event.target.name]}: ${event.target.value}`)
+  handleChange = event => {    
     this.setState({ [event.target.name]: event.target.value });
   };
 
@@ -98,7 +98,7 @@ class CreateEvent extends React.Component {
       user_id: parseInt(localStorage.getItem("user_id"), 10),
       posters_email: this.props.auth.email,
       invite_only: this.state.invite_only,          
-    }
+    }    
     /*
       - "name": "another really fun event!",
 	    - "date": "2019-03-01T03:09:15.212Z",
@@ -107,13 +107,14 @@ class CreateEvent extends React.Component {
 	    - "posters_email": "lanners.marshall@yahoo.com",
 	    - "invite_only": true
     */
-    this.props.createEvent(event_obj);
-    this.props.history.push("/events");
+    console.log("event_obj is: \n");
+    console.log(event_obj);
+    // this.props.createEvent(event_obj);
+    // this.props.history.push("/events");
   };
   
   render() {
-    const { classes } = this.props;
-    console.log(this.props);
+    const { classes } = this.props;    
     const { selectedDate } = this.state;
     return (
       <div className="create-event-full-wrapper">
@@ -134,13 +135,34 @@ class CreateEvent extends React.Component {
                     required
                     id="standard-name"
                     name = "name" // --> needs a name attribute so it'll load correctly
-                    label="Name"
+                    label="Event Name"
                     className={classes.textField}
                     value={this.state.name}
                     onChange={this.handleChange}
                     type = "text"
                     margin="normal"
-                  />                  
+                  />  
+
+                  <TextField
+                    disabled
+                    id="standard-disabled"
+                    label="Author of the Event"
+                    defaultValue= {this.props.auth.displayName}
+                    // value = {this.state.author}
+                    className={classes.textField}
+                    margin="normal"
+                  />
+
+                  <TextField
+                    disabled
+                    id="standard-disabled"
+                    label="Email Address"
+                    defaultValue= {this.props.auth.email}
+                    // value = {this.state.posters_email}
+                    className={classes.textField}
+                    margin="normal"
+                  />
+
                   <DatePicker
                     required
                     margin="normal"
