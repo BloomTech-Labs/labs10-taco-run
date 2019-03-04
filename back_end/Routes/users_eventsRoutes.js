@@ -19,7 +19,7 @@ router.post('', (req, res) => {
 
 		// if user attemps to sign up for event he is already going to
 		if (response.length > 0){
-			return res.status(200).json({msg: 'you are aleady going to this event'})
+			return res.status(200).json({msg: 'you are aleady invited user to event'})
 		} else {
 			//user adds event since he is not yet going to event
 			db.insert({user_id, event_id}).into('users_events')
@@ -40,7 +40,7 @@ router.post('', (req, res) => {
 
 //UPDATE
 //the user accepts the event invitation
-//post http://localhost:5555/users_events/accept
+//put http://localhost:5555/users_events/accept
 router.put('/accept', (req, res) => {
 
 	const {user_id, event_id} = req.body
@@ -83,17 +83,17 @@ router.put('/accept', (req, res) => {
 //delete http://localhost:5555/users_events/decline
 router.delete('/decline', (req, res) => {
 	const {user_id, event_id} = req.body
+	console.log(req.body)
 	db('users_events')
 	.where({user_id, event_id})
 	.del()
-	.then(res => {
-		res.status(200).json(response)
+	.then(response => {
+		return res.status(200).json(response)
 	})
 	.catch(error => {
-		res.status(500).json(error)
+		return res.status(500).json(error)
 	})
 })
-
 
 //READ
 //get all events from a user
