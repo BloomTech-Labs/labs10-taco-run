@@ -97,13 +97,21 @@ class EventSingle extends React.Component {
     this.info()
   }
 
+  handleChange = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+
+  handleEdit = event => {
+    this.setState({ editComment: event.target.value });
+  };
+
   info = () => {
     axios.get(`https://production-taco.herokuapp.com/events/${this.props.match.params.id}`)
     .then(res => {
-      // console.log(res)
+      console.log(res)
       this.setState({        
         date: res.data.date,        
-        posted_by: res.data.author,        
+        posted_by: res.data.users[0].name,        
         attending: res.data.users,
         loaded: true
       })
@@ -198,15 +206,7 @@ class EventSingle extends React.Component {
     let obj = { data: ids };
     let cid = obj.data.comment_id;
     this.props.deleteComment(obj, cid);
-  };
-
-  handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
-
-  handleEdit = event => {
-    this.setState({ editComment: event.target.value });
-  };
+  };  
 
   addFav = event => {
     event.preventDefault();
@@ -222,7 +222,7 @@ class EventSingle extends React.Component {
       }
     })
     .catch(error => {
-      //console.log(error)
+      console.log(error);
     })
   }
 
