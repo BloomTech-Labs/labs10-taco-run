@@ -141,11 +141,11 @@ router.get("/:id/info", (req, res) => {
 router.put("/:id", (req, res) => {
   const { id } = req.params;
   console.log(id);
-  const { name, phone, reminder, hard_or_soft, heat_pref, street_gourmet } = req.body;
+  const { hard_or_soft, heat_pref, street_gourmet } = req.body;
   console.log(req.body);
   db("users")
     .where({ id })
-    .update({ name, phone, reminder, hard_or_soft, heat_pref, street_gourmet })
+    .update({ hard_or_soft, heat_pref, street_gourmet })
     .then(response => {
       return res.status(200).json(response);
     })

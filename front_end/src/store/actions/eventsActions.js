@@ -50,7 +50,7 @@ export const getEvent = id => dispatch => {
     });
 };
 
-export const createEvent = event => {
+export const createEvent = (event, id) => {
   return dispatch => {
     dispatch({ type: EVENTS_CREATE_START });
     axios
