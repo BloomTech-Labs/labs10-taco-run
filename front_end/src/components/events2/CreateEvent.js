@@ -94,11 +94,19 @@ class CreateEvent extends React.Component {
     let event_obj = {        
       name: this.state.name,
       date: this.state.selectedDate,
-      posters_email: this.props.auth.email,
-      invite_only: this.state.invite_only,
+      author: this.props.auth.displayName,
       user_id: parseInt(localStorage.getItem("user_id"), 10),
-      author: this.props.auth.displayName
+      posters_email: this.props.auth.email,
+      invite_only: this.state.invite_only,          
     }
+    /*
+      - "name": "another really fun event!",
+	    - "date": "2019-03-01T03:09:15.212Z",
+	    - "author": "Marshall Lanners",
+	    - "user_id": 1,
+	    - "posters_email": "lanners.marshall@yahoo.com",
+	    - "invite_only": true
+    */
     this.props.createEvent(event_obj);
     this.props.history.push("/events");
   };
@@ -134,12 +142,14 @@ class CreateEvent extends React.Component {
                     margin="normal"
                   />                  
                   <DatePicker
+                    required
                     margin="normal"
                     label="Date picker"
                     value={selectedDate}
                     onChange={this.handleDateChange}
                   />
                   <TimePicker
+                    required
                     margin="normal"
                     label="Time picker"
                     value={selectedDate}
