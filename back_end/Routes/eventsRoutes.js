@@ -124,44 +124,6 @@ router.get("/:id/comments", (req, res) => {
 	})
 });
 
-//Create
-//create a new event
-//post http://localhost:5555/events
-//-------------------------------------------
-router.post('', (req, res) => {
-	const {name, date, location, venue, author, user_id, invite_only, lat, lon, img_url, raiting, price, url, posters_email } = req.body;
-
-	/* first we check to see if the event already exists*/
-	db('events')
-	.where({name})
-	.then(check => {
-		//if it does not already exist we can create it
-		if (check.length === 0){
-			db.insert({name, date, location, venue, author, user_id, invite_only, lat, lon, img_url, raiting, price, url, posters_email }).into('events')
-			.then(() => {
-				db('events')
-				.where({name, date, invite_only, user_id })
-				.then(r1 => { //extra work around to get the id of the event to pass to the many to many join table
-					id = r1[0].id
-					let obj = {user_id, event_id: id}
-					//now that event is created we sign up the user as someone going to the event
-					db.insert(obj).into('users_events')
-					.then(r2 => {
-						return res.status(200).json(r2)
-					})
-				})
-			})
-			.catch(error => {
-				console.log(error)
-				return res.status(500).json(error)
-			})//end of if statement
-		} else {
-			//if event already exists then we let the user know it is already there
-			return res.status(200).json({msg: 'event is already present'})
-		}
-	})
-})
-
 //UPDATE
 //update an event
 //put http://localhost:5555/events/:id
