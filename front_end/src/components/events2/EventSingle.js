@@ -101,17 +101,9 @@ class EventSingle extends React.Component {
     axios.get(`https://production-taco.herokuapp.com/events/${this.props.match.params.id}`)
     .then(res => {
       // console.log(res)
-      this.setState({
-        venue: res.data.venue,
-        date: res.data.date,
-        location: res.data.location,
-        posted_by: res.data.author,
-        price: res.data.price,
-        raiting: res.data.raiting,
-        url: res.data.url,
-        img_url: res.data.img_url,
-        lat: parseFloat(res.data.lat),
-        lon: parseFloat(res.data.lon),
+      this.setState({        
+        date: res.data.date,        
+        posted_by: res.data.author,        
         attending: res.data.users,
         loaded: true
       })
@@ -277,7 +269,7 @@ class EventSingle extends React.Component {
               {this.state.attending.map(attendee => {
                 if (attendee !== undefined) {
                   return (
-                    <div>
+                    <div key = {attendee.name}>
                       <h4>{attendee.name}</h4>
                     </div>
                   );
@@ -290,7 +282,7 @@ class EventSingle extends React.Component {
               {this.props.comments.map(comment => {
                 if (comment !== undefined) {
                   return (
-                    <FlexDiv>
+                    <FlexDiv key = {comment.id}>
 
                       {this.props.user.email === comment.posters_email ? (
                         <FlexDiv>
