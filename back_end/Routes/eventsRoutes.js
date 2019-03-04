@@ -4,7 +4,6 @@ const knex = require("knex")
 const dbConfig = require('../knexfile')
 const db = require("../config.js")
 
-
 //Create
 //create a new event
 //post http://localhost:5555/events
@@ -21,7 +20,7 @@ router.post('', (req, res) => {
 			db.insert({name, date, author, user_id, posters_email, invite_only }).into('events')
 			.then(() => {
 				db('events')
-				.where({name, date, location, venue, author, user_id })
+				.where({name, date, author, user_id, posters_email, invite_only })
 				.then(r1 => { //extra work around to get the id of the event to pass to the many to many join table
 					id = r1[0].id
 					let obj = {user_id, event_id: id, isPending: false}
@@ -142,8 +141,6 @@ router.put('/:id', (req, res) => {
 		return res.status(500).json(error)
 	})
 })
-
-
 
 //DELETE
 //delete an event
