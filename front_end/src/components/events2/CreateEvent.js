@@ -84,9 +84,7 @@ class CreateEvent extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  handleSubmit = obj => {
-    console.log("obj is: \n");
-    console.log(obj);
+  handleSubmit = obj => {    
     let event_obj = {        
       name: this.state.name,
       date: this.state.selectedDate,
@@ -105,7 +103,7 @@ class CreateEvent extends React.Component {
     */
     console.log("event_obj is: \n");
     console.log(event_obj);
-    // this.props.createEvent(event_obj);
+    this.props.createEvent(event_obj);
     // this.props.history.push("/events");
   };
   
