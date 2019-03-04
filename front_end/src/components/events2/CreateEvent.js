@@ -38,7 +38,7 @@ const styles = theme => ({
   },
   button: {
     margin: theme.spacing.unit,
-    backgroundColor: "lightsalmon",
+    backgroundColor: "lightgreen",
     width: "60%"
   },
   leftIcon: {
@@ -46,7 +46,7 @@ const styles = theme => ({
   },
   iconSmall: {
     fontSize: 20,
-  },
+  },  
 });
 
 
@@ -104,7 +104,7 @@ class CreateEvent extends React.Component {
     console.log("event_obj is: \n");
     console.log(event_obj);
     this.props.createEvent(event_obj);
-    // this.props.history.push("/events");
+    this.props.history.push("/events");
   };
   
   render() {
