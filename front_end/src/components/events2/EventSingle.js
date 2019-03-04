@@ -22,7 +22,7 @@ import { fetchUser } from "../../store/actions/userActions";
 import Popup from "reactjs-popup";
 import "./create_event.css"
 import GoogleMapReact from 'google-map-react';
-import SearchBox from 'react-google-maps'
+// import SearchBox from 'react-google-maps'
 
 import { MapDiv } from "./create_event_css.js";
 import { withAlert } from 'react-alert';
