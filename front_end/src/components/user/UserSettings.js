@@ -66,7 +66,8 @@ class UserSettings extends React.Component {
       selectedOption3: "",
       profile: true,
       selected: ["", "active"],
-      value: ""
+      value: "",
+      tabvalue: 0,
     };
   }
 
