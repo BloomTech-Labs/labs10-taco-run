@@ -217,16 +217,54 @@ const styles = theme => ({
   root: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
+    display: "flex",
+    flexWrap: "wrap"
+  },
+  margin: {
+    margin: theme.spacing.unit * 2
+  },
+  padding: {
+    padding: `0 ${theme.spacing.unit * 2}px`
+  },
+  paper: {
+    padding: theme.spacing.unit * 2,
+    color: theme.palette.text.secondary
+  },
+  bigAvatar: {
+    margin: 10,
+    width: 60,
+    height: 60
+  },
+  button: {
+    margin: theme.spacing.unit,
+    height: 40
+  },
+  leftIcon: {
+    marginRight: theme.spacing.unit
+  },
+  rightIcon: {
+    marginLeft: theme.spacing.unit
+  },
+  iconSmall: {
+    fontSize: 20
   },
   card: {
-    maxWidth: 645,
+    minWidth: 275
   },
-  media: {
-    height: 140,
+  bullet: {
+    display: "inline-block",
+    margin: "0 2px",
+    transform: "scale(0.8)"
   },
-  media2: {
-    height: 350,
+  title: {
+    fontSize: 14
   },
+  pos: {
+    marginBottom: 12
+  },
+  pmarg: {
+    marginBottom: 10
+  }
 });
 
 
