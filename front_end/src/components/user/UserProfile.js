@@ -45,6 +45,18 @@ import Select from "@material-ui/core/Select";
 // Search field imports
 import TextField from "@material-ui/core/TextField";
 
+// Avatar imports
+import Avatar from "@material-ui/core/Avatar";
+
+// List imports for friends
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@material-ui/icons/Delete";
+
 function TabContainer(props) {
   return (
     <Typography component="div" style={{ padding: 8 * 3 }}>
@@ -87,6 +99,15 @@ const styles = theme => ({
   },
   menu: {
     width: 200
+  },
+  // For avatar
+  avatar: {
+    margin: 10
+  },
+  bigAvatar: {
+    margin: 10,
+    width: 200,
+    height: 200
   }
 });
 
@@ -225,7 +246,10 @@ class UserProfile extends React.Component {
           </Link>
           <div className="profile-details">
             <h1>{this.props.user.name}</h1>
-            <img src={this.props.user.user_pic}/>
+            <Avatar
+              src={this.props.user.user_pic}
+              className={classes.bigAvatar}
+            />
             <h3>Shell preference: {this.props.user.hard_or_soft}</h3>
             <h3>Street or Gourmet: {this.props.user.street_gourmet}</h3>
             <h3>Spiciness: {this.props.user.heat_pref}</h3>
@@ -298,7 +322,7 @@ class UserProfile extends React.Component {
                         </Link>
                       );
                     }
-                    return "Locations map completed"
+                    return "Locations map completed";
                   })}
                 </div>
               ) : (
@@ -325,9 +349,9 @@ class UserProfile extends React.Component {
                         </Link>
                       );
                     }
-                    return "Users map completed"
+                    return "Users map completed";
                   })}
-                </div>                
+                </div>
               )}
             </div>
           </div>
@@ -368,7 +392,7 @@ class UserProfile extends React.Component {
                         </MenuItem>
                       );
                     }
-                    return "Favorites Map completed"
+                    return "Favorites Map completed";
                   })}
                 </Select>
               </FormControl>
@@ -445,21 +469,26 @@ class UserProfile extends React.Component {
               {tabValue === 1 && (
                 <TabContainer>
                   {/* Friends Tab */}
-                  {this.props.friends.map(friend => {
-                    return (
-                      <Link to={`/user/${friend.id}`}>
-                        <div className="resultsDisplay">
-                          <div className="location-picture">
-                            {/* <img /> */}
-                            <button onClick={this.friendDelete} id={friend.id}>
-                              X
-                            </button>
-                            <h3>{friend.name}</h3>
-                          </div>
-                        </div>
-                      </Link>
-                    );
-                  })}
+                  <List>
+                    {this.props.friends.map(friend => {
+                      return (
+                        <Link to={`/user/${friend.id}`}>
+                          <ListItem className="resultsDisplay">
+                            <ListItemAvatar className="location-picture">
+                              <Avatar src={friend.user_pic} />
+                            </ListItemAvatar>
+                            <ListItemText primary={friend.name} />
+                            <IconButton aria-label="Delete">
+                              <DeleteIcon
+                                onClick={this.friendDelete}
+                                id={friend.id}
+                              />
+                            </IconButton>
+                          </ListItem>
+                        </Link>
+                      );
+                    })}
+                  </List>
                 </TabContainer>
               )}
             </div>
