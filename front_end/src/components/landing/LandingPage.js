@@ -62,9 +62,9 @@ const LandingPage = (props) => {
             
             <h4 className="centerT">Login With</h4>
             <div className="flexCenter bottom">
-              <img src={facebook} className="image" alt="facebook-provider-img" onClick={() => { props.facebookAuth(); props.history.push('get-started') } }/>
-              <img src={google} className="image" alt="google-provider-img" onClick={() => { props.googleAuth(); props.history.push('get-started') } }/>
-              <img src={twitter} className="image" alt="twitter-provider-img" onClick={() => { props.twitterAuth(); props.history.push('get-started') } }/>
+              <img src={facebook} className="image" alt="facebook-provider-img" onClick={() => { props.facebookAuth(); props.history.push('/events_create') } }/>
+              <img src={google} className="image" alt="google-provider-img" onClick={() => { props.googleAuth(); props.history.push('/events_create') } }/>
+              <img src={twitter} className="image" alt="twitter-provider-img" onClick={() => { props.twitterAuth(); props.history.push('/events_create') } }/>
             </div>          
 
             <div className="flexContain">

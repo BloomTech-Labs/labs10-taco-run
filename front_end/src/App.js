@@ -6,7 +6,6 @@ import { Switch } from "react-router-dom";
 // --> Components List
 import LandingPage from "./components/landing/LandingPage";
 import UserSettings from "./components/user/UserSettings";
-import GetStarted from "./components/get_started/GetStarted";
 import UserProfile from "./components/user/UserProfile";
 import UsersProfile from "./components/users/UsersProfile";
 import EventList from "./components/events2/EventList";
@@ -28,7 +27,6 @@ class App extends Component {
               <Route exact path="/events_create" component={CreateEvent} />
               <Route path="/events/:id" component={EventSingle} />
               <Route exact path="/user-settings" component={UserSettings} />
-              <Route exact path="/get-started" component={GetStarted} />
               <Route exact path="/user-profile" component={UserProfile} />
               <Route exact path="/user/:id" component={UsersProfile} />
             </Switch>

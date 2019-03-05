@@ -20,6 +20,7 @@ export const EVENTS_CREATE_START = "EVENTS_CREATE_START";
 export const EVENTS_CREATE_COMPLETE = "EVENTS_CREATE_COMPLETE";
 export const EVENTS_CREATE_ERROR = "EVENTS_CREATE_ERROR";
 
+
 const BASE_URL = "https://production-taco.herokuapp.com";
 
 export const getEvents = id => dispatch => {
@@ -118,3 +119,38 @@ export const updateEvent = event => {
       });
   };
 };
+
+export const acceptEvent = obj => {
+  return dispatch => {
+    axios.put('https://production-taco.herokuapp.com/users_events/accept', obj)
+    .then(() => {
+      axios.get(`https://production-taco.herokuapp.com/users_events/${obj.user_id}`)
+      .then(res => {
+        console.log(res)
+        dispatch({type: EVENTS_GET_COMPLETE, payload: res.data})
+      })
+    })
+    .catch(error => {
+      dispatch({ type: EVENTS_GET_ERROR, payload: error });
+    })
+  }
+}
+
+export const declineEvent = obj => {
+  return dispatch => {
+    axios.delete('https://production-taco.herokuapp.com/users_events/decline',
+      {data: obj}
+    )
+    .then(() => {
+      axios.get(`https://production-taco.herokuapp.com/users_events/${obj.user_id}`)
+      .then(res => {
+        console.log(res)
+        dispatch({type: EVENTS_GET_COMPLETE, payload: res.data})
+      })
+    })
+    .catch(error => {
+      console.log(error)
+      dispatch({ type: EVENTS_GET_ERROR, payload: error });
+    })
+  }
+}
