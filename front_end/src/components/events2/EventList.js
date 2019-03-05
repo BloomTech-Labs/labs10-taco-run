@@ -25,26 +25,26 @@ import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import KeyboardVoiceIcon from '@material-ui/icons/KeyboardVoice';
-import Icon from '@material-ui/core/Icon';
-import SaveIcon from '@material-ui/icons/Save';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
+import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import KeyboardVoiceIcon from "@material-ui/icons/KeyboardVoice";
+import Icon from "@material-ui/core/Icon";
+import SaveIcon from "@material-ui/icons/Save";
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
 
-import './custom.css'
+import "./custom.css";
 
-import Moment from 'react-moment';
+import Moment from "react-moment";
 
 // Badge Import
 import Badge from "@material-ui/core/Badge";
 
-import {ListContainer, UpcomingContainer, FlexList} from './eventlist_css.js'
+import { ListContainer, UpcomingContainer, FlexList } from "./eventlist_css.js";
 
 function TabContainer(props) {
   return (
@@ -63,7 +63,7 @@ const styles = theme => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
     display: "flex",
-    flexWrap: "wrap",
+    flexWrap: "wrap"
   },
   margin: {
     margin: theme.spacing.unit * 2
@@ -73,43 +73,43 @@ const styles = theme => ({
   },
   paper: {
     padding: theme.spacing.unit * 2,
-    color: theme.palette.text.secondary,
+    color: theme.palette.text.secondary
   },
   bigAvatar: {
     margin: 10,
     width: 60,
-    height: 60,
+    height: 60
   },
   button: {
     margin: theme.spacing.unit,
     height: 40
   },
   leftIcon: {
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing.unit
   },
   rightIcon: {
-    marginLeft: theme.spacing.unit,
+    marginLeft: theme.spacing.unit
   },
   iconSmall: {
-    fontSize: 20,
+    fontSize: 20
   },
   card: {
-    minWidth: 275,
+    minWidth: 275
   },
   bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
+    display: "inline-block",
+    margin: "0 2px",
+    transform: "scale(0.8)"
   },
   title: {
-    fontSize: 14,
+    fontSize: 14
   },
   pos: {
-    marginBottom: 12,
+    marginBottom: 12
   },
   pmarg: {
     marginBottom: 10
-  },
+  }
 });
 
 //root
@@ -135,7 +135,7 @@ class EventList extends React.Component {
   componentDidMount() {
     this.props.getEvents(parseInt(localStorage.getItem("user_id")));
     console.log(window.innerWidth);
-    
+
     /* 
 			- This is to check if the window is getting resized or not (kind of like a media query) 
 			and then invoking my checkWindowWidth function to adjust the this.state.windowWidth value
@@ -170,27 +170,27 @@ class EventList extends React.Component {
   };
 
   joinEvent = id => {
-    let id_user = Number(localStorage.getItem("user_id"))
-    let obj = {user_id: id_user, event_id: id}
-    this.props.acceptEvent(obj)
-  }
+    let id_user = Number(localStorage.getItem("user_id"));
+    let obj = { user_id: id_user, event_id: id };
+    this.props.acceptEvent(obj);
+  };
 
   declineEvent = id => {
-    let id_user = Number(localStorage.getItem("user_id"))
-    let obj = {user_id: id_user, event_id: id}
-    this.props.declineEvent(obj)
-  }
+    let id_user = Number(localStorage.getItem("user_id"));
+    let obj = { user_id: id_user, event_id: id };
+    this.props.declineEvent(obj);
+  };
 
   render() {
     // For tabs
     const { classes } = this.props;
     const { tabValue } = this.state;
-    console.log(this.props)
-    console.log(this.state)
+    console.log(this.props);
+    console.log(this.state);
     const bull = <span className={classes.bullet}>•</span>;
 
     return (
-      <div>
+      <div className="events-container">
         <DrawerBar />
 
         <ListContainer>
@@ -214,149 +214,277 @@ class EventList extends React.Component {
                 </Tabs>
               </AppBar>
               {tabValue === 0 && (
-                  <TabContainer>
-                      <Grid container >
-                        {this.props.events.upcoming &&
-                          this.props.events.upcoming.map(event => {
-                            return (
-                              <Grid item xs={12} key={event.id}>
-                                <Paper className={`${classes.paper} flexList`}>
-                                  {this.props.auth.email === event.posters_email ? (
-                                    <Button variant="contained" onClick={() => { this.props.deleteEvent(event.id)}} color="secondary" id={event.id} className={classes.button}>
-                                      Delete
-                                      <DeleteIcon className={classes.rightIcon} />
-                                    </Button>
-                                    ) : null
-                                  }
+                <TabContainer>
+                  <Grid container>
+                    {this.props.events.upcoming &&
+                      this.props.events.upcoming.map(event => {
+                        return (
+                          <Grid item xs={12} key={event.id}>
+                            <Paper className={`${classes.paper} flexList`}>
+                              {this.props.auth.email === event.posters_email ? (
+                                <Button
+                                  variant="contained"
+                                  onClick={() => {
+                                    this.props.deleteEvent(event.id);
+                                  }}
+                                  color="secondary"
+                                  id={event.id}
+                                  className={classes.button}
+                                >
+                                  Delete
+                                  <DeleteIcon className={classes.rightIcon} />
+                                </Button>
+                              ) : null}
 
-                                  <Card className={`${classes.card} spacingCard`}>
-                                    <CardContent>
-                                      <Typography variant="h5" component="h2" className={classes.pos}>
-                                        {event.name}
-                                      </Typography>
-                                      <Typography component="p" className={classes.pmarg}>
-                                        <Moment format="dddd, MMMM Do YYYY, h:mm:ss a">{event.date}</Moment>
-                                      </Typography>
-                                      <Typography component="p" className={classes.pmarg}>
-                                        total attending: {event.total_users}
-                                      </Typography>
-                                      <Typography component="p" className={classes.pmarg}>
-                                        comments: {event.total_comments}
-                                      </Typography>
-                                      <Typography component="p" className={classes.pmarg}>
-                                        posted by {event.author}
-                                      </Typography>
-                                      <Avatar alt="posters image" src={event.posters_pic} className={classes.bigAvatar} />
-                                    </CardContent>
-                                  </Card>
-                                  <Button className={classes.button} variant="contained" size="medium" color="primary" onClick={() => {this.props.history.push(`/events/${event.id}`)}}>
-                                    View Event
-                                  </Button>
-                                </Paper>
-                              </Grid>
-                            );
-                          })}
-                      </Grid>
-                  </TabContainer>
+                              <Card className={`${classes.card} spacingCard`}>
+                                <CardContent>
+                                  <Typography
+                                    variant="h5"
+                                    component="h2"
+                                    className={classes.pos}
+                                  >
+                                    {event.name}
+                                  </Typography>
+                                  <Typography
+                                    component="p"
+                                    className={classes.pmarg}
+                                  >
+                                    <Moment format="dddd, MMMM Do YYYY, h:mm:ss a">
+                                      {event.date}
+                                    </Moment>
+                                  </Typography>
+                                  <Typography
+                                    component="p"
+                                    className={classes.pmarg}
+                                  >
+                                    total attending: {event.total_users}
+                                  </Typography>
+                                  <Typography
+                                    component="p"
+                                    className={classes.pmarg}
+                                  >
+                                    comments: {event.total_comments}
+                                  </Typography>
+                                  <Typography
+                                    component="p"
+                                    className={classes.pmarg}
+                                  >
+                                    posted by {event.author}
+                                  </Typography>
+                                  <Avatar
+                                    alt="posters image"
+                                    src={event.posters_pic}
+                                    className={classes.bigAvatar}
+                                  />
+                                </CardContent>
+                              </Card>
+                              <Button
+                                className={classes.button}
+                                variant="contained"
+                                size="medium"
+                                color="primary"
+                                onClick={() => {
+                                  this.props.history.push(
+                                    `/events/${event.id}`
+                                  );
+                                }}
+                              >
+                                View Event
+                              </Button>
+                            </Paper>
+                          </Grid>
+                        );
+                      })}
+                  </Grid>
+                </TabContainer>
               )}
               {tabValue === 1 && (
                 <TabContainer>
-                  <Grid container >
+                  <Grid container>
                     {this.props.events.pending &&
                       this.props.events.pending.map(event => {
                         return (
+                          <Grid item xs={12} key={event.id}>
+                            <Paper className={`${classes.paper} flexList`}>
+                              {this.props.auth.email === event.posters_email ? (
+                                <Button
+                                  variant="contained"
+                                  onClick={() => {
+                                    this.props.deleteEvent(event.id);
+                                  }}
+                                  color="secondary"
+                                  id={event.id}
+                                  className={classes.button}
+                                >
+                                  Delete
+                                  <DeleteIcon className={classes.rightIcon} />
+                                </Button>
+                              ) : null}
 
-                              <Grid item xs={12} key={event.id}>
-                                <Paper className={`${classes.paper} flexList`}>
-                                  {this.props.auth.email === event.posters_email ? (
-                                    <Button variant="contained" onClick={() => { this.props.deleteEvent(event.id)}} color="secondary" id={event.id} className={classes.button}>
-                                      Delete
-                                      <DeleteIcon className={classes.rightIcon} />
-                                    </Button>
-                                    ) : null
-                                  }
-
-                                  <Card className={`${classes.card} spacingCard`}>
-                                    <CardContent>
-                                      <Typography variant="h5" component="h2" className={classes.pos}>
-                                        {event.name}
-                                      </Typography>
-                                      <Typography component="p" className={classes.pmarg}>
-                                        <Moment format="dddd, MMMM Do YYYY, h:mm:ss a">{event.date}</Moment>
-                                      </Typography>
-                                      <Typography component="p" className={classes.pmarg}>
-                                        total attending: {event.total_users}
-                                      </Typography>
-                                      <Typography component="p" className={classes.pmarg}>
-                                        comments: {event.total_comments}
-                                      </Typography>
-                                      <Typography component="p" className={classes.pmarg}>
-                                        posted by {event.author}
-                                      </Typography>
-                                      <Avatar alt="posters image" src={event.posters_pic} className={classes.bigAvatar} />
-                                    </CardContent>
-                                  </Card>
-                                  <Button className={classes.button} variant="contained" size="medium" color="primary" onClick={() => {this.props.history.push(`/events/${event.id}`)}}>
-                                    View Event
-                                  </Button>
-                                  <Button className={classes.button} id={event.id} onClick={() => {this.joinEvent(event.id)}}>
-                                    LETS GO
-                                  </Button>
-                                  <Button className={classes.button} id={event.id} onClick={() => {this.declineEvent(event.id)}}>
-                                    NOT THIS TIME
-                                  </Button>
-                                </Paper>
-                              </Grid>
-                            );
-                          })}
+                              <Card className={`${classes.card} spacingCard`}>
+                                <CardContent>
+                                  <Typography
+                                    variant="h5"
+                                    component="h2"
+                                    className={classes.pos}
+                                  >
+                                    {event.name}
+                                  </Typography>
+                                  <Typography
+                                    component="p"
+                                    className={classes.pmarg}
+                                  >
+                                    <Moment format="dddd, MMMM Do YYYY, h:mm:ss a">
+                                      {event.date}
+                                    </Moment>
+                                  </Typography>
+                                  <Typography
+                                    component="p"
+                                    className={classes.pmarg}
+                                  >
+                                    total attending: {event.total_users}
+                                  </Typography>
+                                  <Typography
+                                    component="p"
+                                    className={classes.pmarg}
+                                  >
+                                    comments: {event.total_comments}
+                                  </Typography>
+                                  <Typography
+                                    component="p"
+                                    className={classes.pmarg}
+                                  >
+                                    posted by {event.author}
+                                  </Typography>
+                                  <Avatar
+                                    alt="posters image"
+                                    src={event.posters_pic}
+                                    className={classes.bigAvatar}
+                                  />
+                                </CardContent>
+                              </Card>
+                              <Button
+                                className={classes.button}
+                                variant="contained"
+                                size="medium"
+                                color="primary"
+                                onClick={() => {
+                                  this.props.history.push(
+                                    `/events/${event.id}`
+                                  );
+                                }}
+                              >
+                                View Event
+                              </Button>
+                              <Button
+                                className={classes.button}
+                                id={event.id}
+                                onClick={() => {
+                                  this.joinEvent(event.id);
+                                }}
+                              >
+                                LETS GO
+                              </Button>
+                              <Button
+                                className={classes.button}
+                                id={event.id}
+                                onClick={() => {
+                                  this.declineEvent(event.id);
+                                }}
+                              >
+                                NOT THIS TIME
+                              </Button>
+                            </Paper>
+                          </Grid>
+                        );
+                      })}
                   </Grid>
                 </TabContainer>
               )}
               {tabValue === 2 && (
-                    <TabContainer>
-                      <Grid container >
-                        {this.props.events.past &&
-                          this.props.events.past.map(event => {
-                            return (
-                              <Grid item xs={12} key={event.id} >
-                                <Paper className={`${classes.paper} flexList`}>
-                                  {this.props.auth.email === event.posters_email ? (
-                                    <Button variant="contained" onClick={() => { this.props.deleteEvent(event.id)}} color="secondary" id={event.id} className={classes.button}>
-                                      Delete
-                                      <DeleteIcon className={classes.rightIcon} />
-                                    </Button>
-                                    ) : null
-                                  }
+                <TabContainer>
+                  <Grid container>
+                    {this.props.events.past &&
+                      this.props.events.past.map(event => {
+                        return (
+                          <Grid item xs={12} key={event.id}>
+                            <Paper className={`${classes.paper} flexList`}>
+                              {this.props.auth.email === event.posters_email ? (
+                                <Button
+                                  variant="contained"
+                                  onClick={() => {
+                                    this.props.deleteEvent(event.id);
+                                  }}
+                                  color="secondary"
+                                  id={event.id}
+                                  className={classes.button}
+                                >
+                                  Delete
+                                  <DeleteIcon className={classes.rightIcon} />
+                                </Button>
+                              ) : null}
 
-                                  <Card className={`${classes.card} spacingCard`}>
-                                    <CardContent>
-                                      <Typography variant="h5" component="h2" className={classes.pos}>
-                                        {event.name}
-                                      </Typography>
-                                      <Typography component="p" className={classes.pmarg}>
-                                        <Moment format="dddd, MMMM Do YYYY, h:mm:ss a">{event.date}</Moment>
-                                      </Typography>
-                                      <Typography component="p" className={classes.pmarg}>
-                                        total attending: {event.total_users}
-                                      </Typography>
-                                      <Typography component="p" className={classes.pmarg}>
-                                        comments: {event.total_comments}
-                                      </Typography>
-                                      <Typography component="p" className={classes.pmarg}>
-                                        posted by {event.author}
-                                      </Typography>
-                                      <Avatar alt="posters image" src={event.posters_pic} className={classes.bigAvatar} />
-                                    </CardContent>
-                                  </Card>
-                                  <Button className={classes.button} variant="contained" size="medium" color="primary" onClick={() => {this.props.history.push(`/events/${event.id}`)}}>
-                                    View Event
-                                  </Button>
-                                </Paper>
-                              </Grid>
-                            );
-                          })}
-                      </Grid>
-                  </TabContainer>
+                              <Card className={`${classes.card} spacingCard`}>
+                                <CardContent>
+                                  <Typography
+                                    variant="h5"
+                                    component="h2"
+                                    className={classes.pos}
+                                  >
+                                    {event.name}
+                                  </Typography>
+                                  <Typography
+                                    component="p"
+                                    className={classes.pmarg}
+                                  >
+                                    <Moment format="dddd, MMMM Do YYYY, h:mm:ss a">
+                                      {event.date}
+                                    </Moment>
+                                  </Typography>
+                                  <Typography
+                                    component="p"
+                                    className={classes.pmarg}
+                                  >
+                                    total attending: {event.total_users}
+                                  </Typography>
+                                  <Typography
+                                    component="p"
+                                    className={classes.pmarg}
+                                  >
+                                    comments: {event.total_comments}
+                                  </Typography>
+                                  <Typography
+                                    component="p"
+                                    className={classes.pmarg}
+                                  >
+                                    posted by {event.author}
+                                  </Typography>
+                                  <Avatar
+                                    alt="posters image"
+                                    src={event.posters_pic}
+                                    className={classes.bigAvatar}
+                                  />
+                                </CardContent>
+                              </Card>
+                              <Button
+                                className={classes.button}
+                                variant="contained"
+                                size="medium"
+                                color="primary"
+                                onClick={() => {
+                                  this.props.history.push(
+                                    `/events/${event.id}`
+                                  );
+                                }}
+                              >
+                                View Event
+                              </Button>
+                            </Paper>
+                          </Grid>
+                        );
+                      })}
+                  </Grid>
+                </TabContainer>
               )}
             </div>
           ) : (

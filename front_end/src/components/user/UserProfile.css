@@ -38,9 +38,22 @@
   display: block;
 }
 
+.profile-details {
+  display: flex;
+}
+
+.profile-preferences {
+  align-self: center;
+  margin: 0 auto;
+}
+
+.profile-name {
+  font-size: 3em;
+}
+
 /* --------------CSS for results-------------- */
 #results {
-  max-width: 200px;
+  max-width: 300px;
   width: 100%;
   display: none;
 }
@@ -48,7 +61,6 @@
 .result-display {
   display: flex;
   background-color: #fff;
-
   transition: 0.2s;
 }
 
