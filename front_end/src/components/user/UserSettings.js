@@ -87,6 +87,10 @@ class UserSettings extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
+  handleTabChange = (event, tabvalue) => {
+    this.setState({ tabvalue });
+  };
+
   handleSelect1 = selectedOption1 => {
     this.setState({ selectedOption1 });
   };
