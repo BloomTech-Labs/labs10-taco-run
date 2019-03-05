@@ -144,6 +144,9 @@ class UserSettings extends React.Component {
   };
 
   render() {
+
+    const { classes } = this.props;
+    const { tabvalue } = this.state;
     return (
       <div>
         <DrawerBar />
