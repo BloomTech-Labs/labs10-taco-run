@@ -179,4 +179,8 @@ class UserSettings extends React.Component {
   }
 }
 
-export default withAlert()(UserSettings);
+// export default withAlert()(UserSettings);
+export default compose(
+  withAlert(),
+  withStyles(styles, {withTheme: true}),
+  connect(mapStateToProps, null ))(UserSettings);
