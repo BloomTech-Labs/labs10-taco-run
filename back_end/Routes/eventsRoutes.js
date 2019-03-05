@@ -8,6 +8,7 @@ const db = require("../config.js");
 //create a new event
 //post http://localhost:5555/events
 //-------------------------------------------
+
 router.post("", (req, res) => {
   const {
     name,
@@ -19,7 +20,7 @@ router.post("", (req, res) => {
     posters_email,
     invite_only
   } = req.body;
-
+  
   /* first we check to see if the event already exists*/
   db("events")
     .where({ name, posters_email })

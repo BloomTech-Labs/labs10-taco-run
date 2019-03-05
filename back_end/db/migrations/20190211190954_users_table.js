@@ -12,6 +12,9 @@ exports.up = function(knex, Promise) {
       .unique()
 
     tbl
+      .string('user_pic')
+
+    tbl
       .boolean('isPremium')
       .defaultTo(false)
 

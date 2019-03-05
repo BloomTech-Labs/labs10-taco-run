@@ -31,6 +31,7 @@
     "react-if-elseif-else-render": "^1.0.2",
     "react-images-upload": "^1.2.6",
     "react-images-uploader": "^1.2.0-rc1",
+    "react-moment": "^0.8.4",
     "react-phone-number-input": "^2.3.5",
     "react-progress-button": "^5.1.0",
     "react-redux": "^6.0.0",
