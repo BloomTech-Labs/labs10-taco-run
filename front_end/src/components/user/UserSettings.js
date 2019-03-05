@@ -15,6 +15,7 @@ import { withAlert } from "react-alert";
 import PhoneInput from "react-phone-number-input";
 import Billing from "../billing/Billing.js";
 import DrawerBar from "../drawer/Drawer";
+import PropTypes from "prop-types";
 
 import {connect} from 'react-redux';
 // import Button from '@material-ui/core/Button';
