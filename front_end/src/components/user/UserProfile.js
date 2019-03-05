@@ -23,7 +23,9 @@ import {
 } from "../../store/actions/favoritesActions";
 
 import { Link } from "react-router-dom";
+// CSS IMPORT
 import "./UserProfile.css";
+
 import { Container, EditBtn, FlexEnd } from "./userprofile_css.js";
 
 //-------------Material UI------------------
@@ -113,7 +115,7 @@ const styles = theme => ({
   }
 });
 
-//------------------------------------------
+//^^^^^^^^^^Material UI ABOVE^^^^^^^^^^^^^^^
 
 class UserProfile extends React.Component {
   state = {
@@ -247,14 +249,18 @@ class UserProfile extends React.Component {
             </FlexEnd>
           </Link>
           <div className="profile-details">
-            <h1>{this.props.user.name}</h1>
-            <Avatar
-              src={this.props.user.user_pic}
-              className={classes.bigAvatar}
-            />
-            <h3>Shell preference: {this.props.user.hard_or_soft}</h3>
-            <h3>Street or Gourmet: {this.props.user.street_gourmet}</h3>
-            <h3>Spiciness: {this.props.user.heat_pref}</h3>
+            <div className="profile-header">
+              <h1 className="profile-name">{this.props.user.name}</h1>
+              <Avatar
+                src={this.props.user.user_pic}
+                className={classes.bigAvatar}
+              />
+            </div>
+            <div className="profile-preferences">
+              <h3>Shell preference: {this.props.user.hard_or_soft}</h3>
+              <h3>Street or Gourmet: {this.props.user.street_gourmet}</h3>
+              <h3>Spiciness: {this.props.user.heat_pref}</h3>
+            </div>
           </div>
 
           {/* Search Bar */}

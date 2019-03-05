@@ -17,12 +17,5 @@
   }
 }
 
-.events-container {
-  padding-left: 73px;
-}
-
 @media only screen and (max-width: 600px) {
-  .events-container {
-    padding-left: 57px;
-  }
 }
