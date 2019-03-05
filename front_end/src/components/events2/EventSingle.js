@@ -124,12 +124,20 @@ class EventSingle extends React.Component {
     zoom: 13,
     lat_av: 0,
     lon_av: 0,
+    currentPage: 1,
+    tacosPerPage: 5,
   };
 
   fileSelect = (event) => {
     // console.log(event.target.files[0]);
     this.setState({
       picture: event.target.files[0]
+    })
+  }
+
+  handleClick = (event) => {
+    this.setState({
+      currentPage: Number(event.target.id)
     })
   }
 
@@ -395,6 +403,32 @@ class EventSingle extends React.Component {
     const { classes } = this.props;
     console.log(this.state)
     console.log(this.props)
+
+
+    const {taco_places, currentPage, tacosPerPage} = this.state
+    const indexOfLastTaco = currentPage * tacosPerPage;
+    const indexOfFirstTaco = indexOfLastTaco - tacosPerPage;
+    const currentTacos = taco_places.slice(indexOfFirstTaco, indexOfLastTaco);
+    const pageNumbers = [];
+
+
+
+    for (let i = 1; i <= Math.ceil(taco_places.length / tacosPerPage); i++) {
+      pageNumbers.push(i);
+    }
+
+    const renderPageNumbers = pageNumbers.map(number => {
+      return (
+        <button
+          key={number}
+          id={number}
+          onClick={this.handleClick}
+        >
+          {number}
+        </button>
+      );
+    });
+
     return (
       <div>
         <DrawerBar />
@@ -477,7 +511,7 @@ class EventSingle extends React.Component {
 
 
               <div>
-                {this.state.taco_places.map((t, idx) => {
+                {currentTacos.map((t, idx) => {
                   return (
                 <Card className={classes.card}>
                   <CardActionArea>
@@ -502,7 +536,10 @@ class EventSingle extends React.Component {
                   </CardActionArea>
                   <CardActions>
                     <Button size="small" color="primary">
-                      <a href={t.url}>View on Yelp</a>
+                      <a href={t.url} className="noUnderline">View on Yelp</a>
+                    </Button>
+                    <Button size="small" color="primary">
+                      Add Location
                     </Button>
                   </CardActions>
                 </Card>
@@ -510,6 +547,7 @@ class EventSingle extends React.Component {
                 })}
               </div>
               </MuiPickersUtilsProvider>
+              {renderPageNumbers}
             </div>
 
           ) : null } 
