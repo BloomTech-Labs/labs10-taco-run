@@ -18,7 +18,7 @@ import {
 // } from "./eventsingle_css.js";
 
 // import { Container } from "./eventsingle_css.js";
-import { fetchUser } from "../../store/actions/userActions";
+import { fetchUser, searchUsers } from "../../store/actions/userActions";
 import Popup from "reactjs-popup";
 import "./create_event.css"
 import GoogleMapReact from 'google-map-react';
@@ -490,6 +490,7 @@ class EventSingle extends React.Component {
 const mapStateToProps = state => {
   return {
     user: state.userReducer.user,
+    users: state.userReducer.users,
     event: state.eventsReducer.event,
     attendees: state.eventsReducer.attendees,
     comments: state.commentsReducer.comments,
@@ -497,4 +498,13 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps,{getEvent,updateEvent,getComments,fetchUser,makeComment,deleteComment,updateComment})(withStyles(styles)(EventSingle));
+export default connect(mapStateToProps,{
+  getEvent,
+  updateEvent,
+  getComments,
+  fetchUser,
+  searchUsers,
+  makeComment,
+  deleteComment,
+  updateComment
+})(withStyles(styles)(EventSingle));
