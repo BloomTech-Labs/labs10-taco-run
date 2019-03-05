@@ -42,9 +42,12 @@ export const twitterAuth = () => {
 		let provider = new firebase.auth.TwitterAuthProvider();
 		firebase.auth().signInWithPopup(provider)
 		.then(response => {
+
 			let username = response.additionalUserInfo.profile.name
 			let email = response.additionalUserInfo.profile.email
-			makeAxios(username, email)
+			let user_pic = response.additionalUserInfo.profile.picture.data.url
+
+			makeAxios(username, email, user_pic)
 		})
 		.then(() => {
 			dispatch({type: "TWITTER_SUCCESS"})
@@ -61,29 +64,18 @@ export const googleAuth = () => {
 		let provider = new firebase.auth.GoogleAuthProvider();
 		firebase.auth().signInWithPopup(provider)
 		.then(response => {
-			//console.log(response)
+
 			let username = response.additionalUserInfo.profile.name
 			let email = response.additionalUserInfo.profile.email
-			makeAxios(username, email)
+			let user_pic = response.additionalUserInfo.profile.picture
+
+			makeAxios(username, email, user_pic)
 		})
 		.then(() => {
 			dispatch({type: "GOOGLE_SUCCESS"})
 		})
 		.catch(error => {
 			dispatch({type: "GOOGLE_ERROR", payload: error.message})
-		})
-	}
-}
-
-export const passReset = (email) => {
-	return (dispatch, getState, {getFirebase}) => {
-		const firebase = getFirebase();
-		firebase.auth().sendPasswordResetEmail(email)
-		.then(() => {
-			dispatch({type: "RESET_SUCCESS"})
-		})
-		.catch(error => {
-			dispatch({type: "RESET_ERROR", payload: error.message})
 		})
 	}
 }
