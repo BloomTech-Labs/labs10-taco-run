@@ -2,18 +2,26 @@ import {
   EVENTS_CREATE_START,
   EVENTS_CREATE_COMPLETE,
   EVENTS_CREATE_ERROR,
+
   EVENT_DELETE_START,
   EVENT_DELETE_COMPLETE,
   EVENT_DELETE_ERROR,
+
   EVENT_UPDATE_START,
   EVENT_UPDATE_COMPLETE,
   EVENT_UPDATE_ERROR,
+
   EVENTS_GET_START,
   EVENTS_GET_COMPLETE,
   EVENTS_GET_ERROR,
+
   EVENT_GET_START,
   EVENT_GET_COMPLETE,
-  EVENT_GET_ERROR
+  EVENT_GET_ERROR,
+
+  EVENTS_INVITE_START,
+  EVENTS_INVITE_COMPLETE,
+  EVENTS_INVITE_ERROR
 } from "../actions/eventsActions";
 
 const initialState = {
@@ -23,14 +31,22 @@ const initialState = {
   pendingCount: 0,
   fetchingEvents: false,
   fetchedEvents: false,
+
   fetchingEvent: false,
   fetchedEvent: false,
+
   updatingEvent: false,
   updatedEvent: false,
+
   creatingEvent: false,
   createdEvent: false,
+
   deletingEvent: false,
   deletedEvent: false,
+
+  invitingEvent: false,
+  invitedEvent: false,
+
   error: null
 };
 
@@ -139,6 +155,26 @@ const eventsReducer = (state = initialState, action) => {
       return {
         ...state,
         error: "Error updating Events"
+      };
+
+    case EVENTS_INVITE_START:
+      return {
+        ...state,
+        invitingEvent: true,
+        invitedEvent: false,        
+      };
+          
+    case EVENTS_INVITE_COMPLETE:
+      return {
+        ...state,
+        invitingEvent: false,
+        invitedEvent: true,        
+      };
+
+    case EVENTS_INVITE_ERROR:
+      return {
+        ...state,
+        error: "Events invite Error D;"
       };
 
     default:

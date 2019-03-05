@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import firebase from 'firebase';
 import { connect } from "react-redux";
-import { getEvent, updateEvent } from "../../store/actions/eventsActions";
+import { getEvent, updateEvent, inviteEvent } from "../../store/actions/eventsActions";
 import {
   getComments,
   makeComment,
@@ -55,6 +55,8 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import ListItemText from "@material-ui/core/ListItemText";
+import IconButton from "@material-ui/core/IconButton";
+import Icon from "@material-ui/core/Icon";
 
 const styles = theme => ({
   root: {
@@ -360,7 +362,16 @@ class EventSingle extends React.Component {
     this.setState({ search: "" });    
     let box = document.getElementById("results");
     box.style.display = "inline-block";    
-  }
+  };
+
+  handleInvite = e => {
+    e.preventDefault();
+    let inviteObject = { // --> we need to create the expected invite object before we send it
+      user_id: this.props.users[0].id,
+      event_id: this.props.match.params.id
+    };
+    this.props.inviteEvent(inviteObject);
+  };
 
   render() {       
     console.log("this.props is: \n");
@@ -446,12 +457,17 @@ class EventSingle extends React.Component {
                           {this.props.users.map(result => {
                             if (result !== undefined) {
                               return (
-                                <Link to={`user/${result.id}`}>
+                                <Link key = {result.name} to={`user/${result.id}`}>
                                   <ListItem className="resultsDisplay">
                                     <ListItemAvatar className="location-picture">
                                       <Avatar src={result.user_pic} />
                                     </ListItemAvatar>
-                                    <ListItemText primary={result.name} />                                    
+                                    <ListItemText primary={result.name} />
+                                    <IconButton aria-label="Add">
+                                    <Icon onClick={this.handleInvite} id={result.id}>
+                                      +
+                                    </Icon>
+                                  </IconButton>                                    
                                   </ListItem>
                                   <Divider />
                                 </Link>
@@ -614,5 +630,6 @@ export default connect(mapStateToProps,{
   searchUsers,
   makeComment,
   deleteComment,
-  updateComment
+  updateComment,
+  inviteEvent
 })(withStyles(styles)(EventSingle));
