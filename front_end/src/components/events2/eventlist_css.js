@@ -4,6 +4,16 @@ export const Card = styled.div`
 	padding: 1%;
 `
 
+export const ListContainer = styled.div`
+	max-width: 1000px;
+	margin: 0 auto;
+`
+
+export const FlexList = styled.div`
+
+`
+
+
 export const FlexDiv = styled.div`
 	border: solid black 1px;
 	max-width: 800px;
