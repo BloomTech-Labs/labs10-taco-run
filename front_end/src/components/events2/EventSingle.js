@@ -92,7 +92,9 @@ class EventSingle extends React.Component {
 
     checkedInvite: false,
     selectedDate: new Date(),
-    location: ''
+    location: '',
+
+    search: ""
   };
 
   fileSelect = (event) => {
@@ -352,6 +354,18 @@ class EventSingle extends React.Component {
                       type = "text"
                       margin="normal"
                   />  
+
+                  <div className = "search-users-wrapper">
+                    <TextField
+                      id="standard-search"
+                      label="Find a new friend"
+                      type="search"
+                      className={classes.textField}
+                      margin="normal"
+                      value={this.state.search}
+                      onChange={this.handleChange}
+                    />
+                  </div>
 
                   </Grid>
                 </MuiPickersUtilsProvider>
