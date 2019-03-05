@@ -74,7 +74,6 @@ const styles = theme => ({
   paper: {
     padding: theme.spacing.unit * 2,
     color: theme.palette.text.secondary,
-    minWidth: 600
   },
   bigAvatar: {
     margin: 10,
@@ -170,17 +169,13 @@ class EventList extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  joinEvent = event => {
-    event.preventDefault()
-    let id = Number(event.target.id)
+  joinEvent = id => {
     let id_user = Number(localStorage.getItem("user_id"))
     let obj = {user_id: id_user, event_id: id}
     this.props.acceptEvent(obj)
   }
 
-  declineEvent = event => {
-    event.preventDefault()
-    let id = Number(event.target.id)
+  declineEvent = id => {
     let id_user = Number(localStorage.getItem("user_id"))
     let obj = {user_id: id_user, event_id: id}
     this.props.declineEvent(obj)
@@ -220,12 +215,10 @@ class EventList extends React.Component {
               </AppBar>
               {tabValue === 0 && (
                   <TabContainer>
-                      <Grid container spacing={24}>
+                      <Grid container >
                         {this.props.events.upcoming &&
                           this.props.events.upcoming.map(event => {
                             return (
-                              // <FlexDiv key={event.id}>
-                              // 	<Card id={event.id}>
                               <Grid item xs={12} key={event.id}>
                                 <Paper className={`${classes.paper} flexList`}>
                                   {this.props.auth.email === event.posters_email ? (
@@ -236,7 +229,7 @@ class EventList extends React.Component {
                                     ) : null
                                   }
 
-                                  <Card className={classes.card}>
+                                  <Card className={`${classes.card} spacingCard`}>
                                     <CardContent>
                                       <Typography variant="h5" component="h2" className={classes.pos}>
                                         {event.name}
@@ -268,139 +261,102 @@ class EventList extends React.Component {
               )}
               {tabValue === 1 && (
                 <TabContainer>
-                  <GridList
-                    cellHeight={180}
-                    className="grid-list"
-                    style={{
-                      marginLeft: 10,
-                      marginRight: 10,
-                      paddingLeft: 55
-                    }}
-                  >
-                    {/* This gets rid of the small horizontal scrollbar */}
-                    <GridListTile
-                      cols={2}
-                      style={{ height: "auto", textAlign: "center" }}
-                    >
-                      {/* This is so the "events list" text doesn't have an absurd height and to center the text */}
-                      <ListSubheader component="div">
-                        Lets Sign Up For An Event!
-                      </ListSubheader>
-                    </GridListTile>
+                  <Grid container >
                     {this.props.events.pending &&
                       this.props.events.pending.map(event => {
                         return (
-                          // <FlexDiv key={event.id}>
-                          // 	<Card id={event.id}>
 
-                          <GridListTile
-                            key={event.id}
-                            style={{ width: this.state.windowWidth }}
-                          >
-                            {/* Dynamically render 50% width or 100% width to adjust! */}
-                            <img
-                              className="yelp-img"
-                              src={event.img_url}
-                              style={{ width: "100%" }}
-                              alt = "yelp-cover-img"
-                            />
-                            <button id={event.id} onClick={this.joinEvent}>LETS GO</button>
-                            <button id={event.id} onClick={this.declineEvent}>NOT THIS TIME</button>
-                            <GridListTileBar
-                              style={{ height: "auto" }}
-                              title={event.name}
-                              subtitle={
-                                <div className="shadow-box">
-                                  <span>by: {event.author}</span>
-                                  <p
-                                    style={{ color: "white" }}
-                                    className="comments-number"
-                                  >
-                                    comments: {event.total_comments}
-                                  </p>
-                                </div>
-                              }
-                              actionIcon={
-                                <IconButton>
-                                  <Link to={`/events/${event.id}`}>
-                                    <InfoIcon style={{ color: "white" }} />
-                                  </Link>
-                                </IconButton>
-                              }
-                            />
-                          </GridListTile>
-                        );
-                      })}
-                  </GridList>
+                              <Grid item xs={12} key={event.id}>
+                                <Paper className={`${classes.paper} flexList`}>
+                                  {this.props.auth.email === event.posters_email ? (
+                                    <Button variant="contained" onClick={() => { this.props.deleteEvent(event.id)}} color="secondary" id={event.id} className={classes.button}>
+                                      Delete
+                                      <DeleteIcon className={classes.rightIcon} />
+                                    </Button>
+                                    ) : null
+                                  }
+
+                                  <Card className={`${classes.card} spacingCard`}>
+                                    <CardContent>
+                                      <Typography variant="h5" component="h2" className={classes.pos}>
+                                        {event.name}
+                                      </Typography>
+                                      <Typography component="p" className={classes.pmarg}>
+                                        <Moment format="dddd, MMMM Do YYYY, h:mm:ss a">{event.date}</Moment>
+                                      </Typography>
+                                      <Typography component="p" className={classes.pmarg}>
+                                        total attending: {event.total_users}
+                                      </Typography>
+                                      <Typography component="p" className={classes.pmarg}>
+                                        comments: {event.total_comments}
+                                      </Typography>
+                                      <Typography component="p" className={classes.pmarg}>
+                                        posted by {event.author}
+                                      </Typography>
+                                      <Avatar alt="posters image" src={event.posters_pic} className={classes.bigAvatar} />
+                                    </CardContent>
+                                  </Card>
+                                  <Button className={classes.button} variant="contained" size="medium" color="primary" onClick={() => {this.props.history.push(`/events/${event.id}`)}}>
+                                    View Event
+                                  </Button>
+                                  <Button className={classes.button} id={event.id} onClick={() => {this.joinEvent(event.id)}}>
+                                    LETS GO
+                                  </Button>
+                                  <Button className={classes.button} id={event.id} onClick={() => {this.declineEvent(event.id)}}>
+                                    NOT THIS TIME
+                                  </Button>
+                                </Paper>
+                              </Grid>
+                            );
+                          })}
+                  </Grid>
                 </TabContainer>
               )}
               {tabValue === 2 && (
-                <TabContainer>
-                  <GridList
-                    cellHeight={180}
-                    className="grid-list"
-                    style={{
-                      marginLeft: 10,
-                      marginRight: 10,
-                      paddingLeft: 55
-                    }}
-                  >
-                    {" "}
-                    {/* This gets rid of the small horizontal scrollbar */}
-                    <GridListTile
-                      cols={2}
-                      style={{ height: "auto", textAlign: "center" }}
-                    >
-                      {" "}
-                      {/* This is so the "events list" text doesn't have an absurd height and to center the text */}
-                      <ListSubheader component="div">
-                        Lets Sign Up For An Event!
-                      </ListSubheader>
-                    </GridListTile>
-                    {this.props.events.past &&
-                      this.props.events.past.map(event => {
-                        return (
-                          // <FlexDiv key={event.id}>
-                          // 	<Card id={event.id}>
-                          <GridListTile
-                            key={event.id}
-                            style={{ width: this.state.windowWidth }}
-                          >
-                            {" "}
-                            {/* Dynamically render 50% width or 100% width to adjust! */}
-                            <img
-                              className="yelp-img"
-                              src={event.img_url}
-                              style={{ width: "100%" }}
-                              alt = "yelp-cover-img"
-                            />
-                            <GridListTileBar
-                              style={{ height: "auto" }}
-                              title={event.name}
-                              subtitle={
-                                <div className="shadow-box">
-                                  <span>by: {event.author}</span>
-                                  <p
-                                    style={{ color: "white" }}
-                                    className="comments-number"
-                                  >
-                                    comments: {event.total_comments}
-                                  </p>
-                                </div>
-                              }
-                              actionIcon={
-                                <IconButton>
-                                  <Link to={`/events/${event.id}`}>
-                                    <InfoIcon style={{ color: "white" }} />
-                                  </Link>
-                                </IconButton>
-                              }
-                            />
-                          </GridListTile>
-                        );
-                      })}
-                  </GridList>
-                </TabContainer>
+                    <TabContainer>
+                      <Grid container >
+                        {this.props.events.past &&
+                          this.props.events.past.map(event => {
+                            return (
+                              <Grid item xs={12} key={event.id}>
+                                <Paper className={`${classes.paper} flexList`}>
+                                  {this.props.auth.email === event.posters_email ? (
+                                    <Button variant="contained" onClick={() => { this.props.deleteEvent(event.id)}} color="secondary" id={event.id} className={classes.button}>
+                                      Delete
+                                      <DeleteIcon className={classes.rightIcon} />
+                                    </Button>
+                                    ) : null
+                                  }
+
+                                  <Card className={`${classes.card} spacingCard`}>
+                                    <CardContent>
+                                      <Typography variant="h5" component="h2" className={classes.pos}>
+                                        {event.name}
+                                      </Typography>
+                                      <Typography component="p" className={classes.pmarg}>
+                                        <Moment format="dddd, MMMM Do YYYY, h:mm:ss a">{event.date}</Moment>
+                                      </Typography>
+                                      <Typography component="p" className={classes.pmarg}>
+                                        total attending: {event.total_users}
+                                      </Typography>
+                                      <Typography component="p" className={classes.pmarg}>
+                                        comments: {event.total_comments}
+                                      </Typography>
+                                      <Typography component="p" className={classes.pmarg}>
+                                        posted by {event.author}
+                                      </Typography>
+                                      <Avatar alt="posters image" src={event.posters_pic} className={classes.bigAvatar} />
+                                    </CardContent>
+                                  </Card>
+                                  <Button className={classes.button} variant="contained" size="medium" color="primary" onClick={() => {this.props.history.push(`/events/${event.id}`)}}>
+                                    View Event
+                                  </Button>
+                                </Paper>
+                              </Grid>
+                            );
+                          })}
+                      </Grid>
+                  </TabContainer>
               )}
             </div>
           ) : (
