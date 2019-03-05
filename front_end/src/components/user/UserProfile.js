@@ -243,11 +243,6 @@ class UserProfile extends React.Component {
       <div className="profile">
         <DrawerBar />
         <Container>
-          <Link to="/user-settings">
-            <FlexEnd>
-              <EditBtn>edit profile</EditBtn>
-            </FlexEnd>
-          </Link>
           <div className="profile-details">
             <div className="profile-header">
               <h1 className="profile-name">{this.props.user.name}</h1>
@@ -260,6 +255,9 @@ class UserProfile extends React.Component {
               <h3>Shell preference: {this.props.user.hard_or_soft}</h3>
               <h3>Street or Gourmet: {this.props.user.street_gourmet}</h3>
               <h3>Spiciness: {this.props.user.heat_pref}</h3>
+              <Link to="/user-settings">
+                <EditBtn>edit profile</EditBtn>
+              </Link>
             </div>
           </div>
 
