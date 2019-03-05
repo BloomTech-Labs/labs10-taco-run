@@ -208,7 +208,11 @@ class UserSettings extends React.Component {
   }
 }
 
-const styles = {
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.paper,
+  },
   card: {
     maxWidth: 645,
   },
@@ -218,7 +222,7 @@ const styles = {
   media2: {
     height: 350,
   },
-};
+});
 
 
 const mapStateToProps = (state) => {
