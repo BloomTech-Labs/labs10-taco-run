@@ -2,22 +2,22 @@ import React from "react";
 import axios from "axios";
 import firebase from 'firebase';
 import { connect } from "react-redux";
-import { getEvent } from "../../store/actions/eventsActions";
+import { getEvent, updateEvent } from "../../store/actions/eventsActions";
 import {
   getComments,
   makeComment,
   deleteComment,
   updateComment
 } from "../../store/actions/commentsActions";
-import {
-  Comment,
-  FormComment,
-  CommentSubmit,
-  DeleteBtn,
-  FlexDiv
-} from "./eventsingle_css.js";
+// import {
+//   Comment,
+//   FormComment,
+//   CommentSubmit,
+//   DeleteBtn,
+//   FlexDiv
+// } from "./eventsingle_css.js";
 
-import { Container } from "./eventsingle_css.js";
+// import { Container } from "./eventsingle_css.js";
 import { fetchUser } from "../../store/actions/userActions";
 import Popup from "reactjs-popup";
 import "./create_event.css"
@@ -27,6 +27,48 @@ import GoogleMapReact from 'google-map-react';
 import { MapDiv } from "./create_event_css.js";
 import { withAlert } from 'react-alert';
 import DrawerBar from "../drawer/Drawer";
+
+// --> Edit Event Form
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import SaveIcon from '@material-ui/icons/Save';
+import classNames from 'classnames';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
+import "date-fns";
+import Grid from "@material-ui/core/Grid";
+import { withStyles } from "@material-ui/core/styles";
+import DateFnsUtils from "@date-io/date-fns";
+import {
+  MuiPickersUtilsProvider,
+  TimePicker,
+  DatePicker
+} from "material-ui-pickers";
+
+
+const styles = theme => ({
+  grid: {
+    width: "100%",        
+    borderRadius: 10,
+    padding: 10
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: "100%",
+  },
+  button: {
+    margin: theme.spacing.unit,
+    backgroundColor: "lightgreen",
+    width: "60%"
+  },
+  leftIcon: {
+    marginRight: theme.spacing.unit,
+  },
+  iconSmall: {
+    fontSize: 20,
+  },  
+});
 
 const TacoLocation = ({ text }) => <div>{text}</div>;
 
@@ -45,7 +87,12 @@ class EventSingle extends React.Component {
     attending: [],
     loaded: false,
     picture: '',
-    pic_url: ''
+    pic_url: '',
+    modalOpened: false,
+
+    checkedInvite: false,
+    selectedDate: new Date(),
+    location: ''
   };
 
   fileSelect = (event) => {
@@ -97,24 +144,26 @@ class EventSingle extends React.Component {
     this.info()
   }
 
+  handleChange = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+
+  handleEdit = event => {
+    this.setState({ editComment: event.target.value });
+  };
+
   info = () => {
     axios.get(`https://production-taco.herokuapp.com/events/${this.props.match.params.id}`)
     .then(res => {
-      // console.log(res)
-      this.setState({
-        venue: res.data.venue,
-        date: res.data.date,
-        location: res.data.location,
-        posted_by: res.data.author,
-        price: res.data.price,
-        raiting: res.data.raiting,
-        url: res.data.url,
-        img_url: res.data.img_url,
-        lat: parseFloat(res.data.lat),
-        lon: parseFloat(res.data.lon),
+      console.log(res)
+      this.setState({        
+        date: res.data.date,        
+        posted_by: res.data.users[0].name,        
         attending: res.data.users,
-        loaded: true
-      })
+        loaded: true,
+        checkedInvite: res.data.invite_only,
+        selectedDate: res.data.date
+      });
     })
   }
 
@@ -206,15 +255,7 @@ class EventSingle extends React.Component {
     let obj = { data: ids };
     let cid = obj.data.comment_id;
     this.props.deleteComment(obj, cid);
-  };
-
-  handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
-
-  handleEdit = event => {
-    this.setState({ editComment: event.target.value });
-  };
+  };  
 
   addFav = event => {
     event.preventDefault();
@@ -230,33 +271,124 @@ class EventSingle extends React.Component {
       }
     })
     .catch(error => {
-      //console.log(error)
+      console.log(error);
     })
+  };
+
+  openModal = () => {
+    this.state.modalOpened === false ? (
+      this.setState({ modalOpened: true })
+    ) : (
+      this.setState({ modalOpened: false })
+    )
   }
 
-  render() {
-    console.log(this.props)
+  handleDateChange = date => {
+    this.setState({ selectedDate: date });
+  };
+
+  handleChange = event => {    
+    this.setState({ [event.target.name]: event.target.value });
+  };
+
+  handleSwitchChange = name => event => {
+    this.setState({ [name]: event.target.checked });
+    console.log(`${[name]}: ${event.target.checked}`);
+  };
+
+  render() {       
+    const { classes } = this.props;
     return (
       <div>
       <DrawerBar />
 
-        {this.state.loaded ? (
-          <MapDiv>
-            <GoogleMapReact
-              bootstrapURLKeys={{ key: firebase.functions().app_.options_.googlekey }}
-              defaultZoom={16}
-              defaultCenter={{lat: this.state.lat, lng: this.state.lon}}
-            >
-            <TacoLocation
-              text={this.state.venue}
-              lat={this.state.lat}
-              lng={this.state.lon}
-            />
-            </GoogleMapReact>
-          </MapDiv>
-          ) : null}
+      {this.state.posted_by === this.props.auth.displayName ? (     
+        <div className = "title-event-wrapper" style = {{ paddingLeft: 150, display: "flex", width: "100%", height: 50, justifyContent: "space-evenly", alignItems: "center" }}>
+          <h1>You are the author of this event</h1>          
+          <Popup trigger = {<Button variant="contained" color="primary" className= "save-button">Update</Button>} modal>
+            {close => (
+              <div className = "modal-open">
+                <a className = "close-modal" onClick = {close}>&times;</a> {/* Close Button "X" */}
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <Grid
+                    container
+                    className={classes.grid}
+                    justify="space-evenly"
+                  >
+                    <DatePicker
+                      required
+                      margin="normal"
+                      label="Date picker"
+                      value={this.state.selectedDate}
+                      onChange={this.handleDateChange}
+                    />
 
-        <Container>
+                    <TimePicker
+                      required
+                      margin="normal"
+                      label="Time picker"
+                      value={this.state.selectedDate}
+                      onChange={this.handleDateChange}
+                    />
+
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          checked={this.state.checkedInvite}
+                          onChange={this.handleSwitchChange('checkedInvite')}
+                          value= {this.state.checkedInvite}
+                        />
+                      }
+                      label="Invite Only"
+                    />
+
+                    <TextField                      
+                      id="standard-name"
+                      name = "location" // --> needs a name attribute so it'll load correctly
+                      label="Location Name"
+                      className={classes.textField}
+                      value={this.state.location}
+                      onChange={this.handleChange}
+                      type = "text"
+                      margin="normal"
+                  />  
+
+                  </Grid>
+                </MuiPickersUtilsProvider>
+              </div>
+            )}
+          </Popup>
+        </div>
+
+      ) : (
+        <h1>You are not the author of this event</h1>
+      )
+      }
+
+        {/* {this.state.loaded ? (
+          <div className = "state-loaded-wrapper">
+            <div className = "event-title-wrapper" style = {{ width: "100%", paddingLeft: 126 }}>
+              <h3>Event Title Here</h3>
+            </div>
+            {/* <div className = "map-div-wrapper">
+              <MapDiv>
+                <GoogleMapReact
+                  bootstrapURLKeys={{ key: firebase.functions().app_.options_.googlekey }}
+                  defaultZoom={16}
+                  defaultCenter={{lat: this.state.lat, lng: this.state.lon}}
+                >
+                <TacoLocation
+                  text={this.state.venue}
+                  lat={this.state.lat}
+                  lng={this.state.lon}
+                />
+                </GoogleMapReact>
+              </MapDiv>
+            </div> */}
+          { /* </div>
+          ) : null} */}
+
+        {/* <Container>
 
           <div>
             <button onClick={this.leaveEvent}>Click here to leave event</button><br/>
@@ -277,20 +409,20 @@ class EventSingle extends React.Component {
               {this.state.attending.map(attendee => {
                 if (attendee !== undefined) {
                   return (
-                    <div>
+                    <div key = {attendee.name}>
                       <h4>{attendee.name}</h4>
                     </div>
                   );
                 }
                 return "map completed";
               })}
-            </div>
-            <div className="event-discussion">
+            </div> */}
+            {/* <div className="event-discussion">
               <h2 className="event-discussion-title">Discussion</h2>
               {this.props.comments.map(comment => {
                 if (comment !== undefined) {
                   return (
-                    <FlexDiv>
+                    <FlexDiv key = {comment.id}>
 
                       {this.props.user.email === comment.posters_email ? (
                         <FlexDiv>
@@ -348,7 +480,7 @@ class EventSingle extends React.Component {
           </FormComment>
 
           <CommentSubmit onClick={this.createComment}>Submit</CommentSubmit>
-        </Container>
+        </Container> */}
       </div>
     );
   }
@@ -360,8 +492,9 @@ const mapStateToProps = state => {
     user: state.userReducer.user,
     event: state.eventsReducer.event,
     attendees: state.eventsReducer.attendees,
-    comments: state.commentsReducer.comments
+    comments: state.commentsReducer.comments,
+    auth: state.firebase.auth,    
   };
 };
 
-export default connect(mapStateToProps,{getEvent,getComments,fetchUser,makeComment,deleteComment,updateComment})(withAlert()(EventSingle));
+export default connect(mapStateToProps,{getEvent,updateEvent,getComments,fetchUser,makeComment,deleteComment,updateComment})(withStyles(styles)(EventSingle));
