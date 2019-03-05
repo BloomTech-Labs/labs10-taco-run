@@ -150,61 +150,59 @@ class UserSettings extends React.Component {
     return (
       <div>
         <DrawerBar />
+        <div>
         <ContainForm>
-          <Switch>
-            <div>
-              <SwitchTab
-                onClick={this.switchToBilling}
-                className={this.state.selected[0]}
-              >
-                Billing
-              </SwitchTab>
-              <SwitchTab
-                onClick={this.switchToProfile}
-                className={this.state.selected[1]}
-              >
-                Profile
-              </SwitchTab>
-            </div>
-          </Switch>
-          {this.state.profile ? (
-            <div>
-              <h2 className="prefs">User Preferences</h2>
-              <FlexDiv>
-                <div>
-                  <h3>Shell Type</h3>
-                  <Select
-                    value={this.state.selectedOption1}
-                    onChange={this.handleSelect1}
-                    options={options1}
-                    className="select"
-                  />
+                  <div className={classes.root}>
+                  <AppBar position="static">
+                    <Tabs tabvalue={tabvalue} onChange={this.handleTabChange}>
+                      <Tab label="Billing" />
+                      <Tab label="Profile" />
+                    </Tabs>
+                  </AppBar>
+                  {tabvalue === 0 && <TabContainer onClick={this.switchToBilling}
+                      className={this.state.selected[0]}><Billing /></TabContainer>}
+                  {tabvalue === 1 && <TabContainer onClick={this.switchToProfile}
+                      className={this.state.selected[1]} >
+                        <div>
+                    <h2 className="prefs">User Preferences</h2>
+                    <FlexDiv>
+                      <div>
+                        <h3>Shell Type</h3>
+                        <Select
+                          value={this.state.selectedOption1}
+                          onChange={this.handleSelect1}
+                          options={options1}
+                          className="select"
+                        />
+                      </div>
+                      <div>
+                        <h3>Spiciness</h3>
+                        <Select
+                          value={this.state.selectedOption2}
+                          onChange={this.handleSelect2}
+                          options={options2}
+                          className="select"
+                        />
+                      </div>
+                      <div>
+                        <h3>Restaurant Type</h3>
+                        <Select
+                          value={this.state.selectedOption3}
+                          onChange={this.handleSelect3}
+                          options={options3}
+                          className="select"
+                        />
+                      </div>
+                    </FlexDiv>
+                    <Submit onClick={this.submitEdit}>SUBMIT</Submit>
+                  </div>
+                      
+                      </TabContainer>}
+                  {/* {tabvalue === 2 && <TabContainer>Item Three</TabContainer>} */}
                 </div>
-                <div>
-                  <h3>Spiciness</h3>
-                  <Select
-                    value={this.state.selectedOption2}
-                    onChange={this.handleSelect2}
-                    options={options2}
-                    className="select"
-                  />
-                </div>
-                <div>
-                  <h3>Restaurant Type</h3>
-                  <Select
-                    value={this.state.selectedOption3}
-                    onChange={this.handleSelect3}
-                    options={options3}
-                    className="select"
-                  />
-                </div>
-              </FlexDiv>
-              <Submit onClick={this.submitEdit}>SUBMIT</Submit>
-            </div>
-          ) : (
-            <Billing />
-          )}
         </ContainForm>
+        </div>
+      
       </div>
     );
   }
