@@ -438,33 +438,35 @@ class UserProfile extends React.Component {
                     </div>
                   ) : (
                     <div id="Favorites" className="tabcontent">
-                      {this.props.favorites
-                        .filter(
-                          favorite => favorite.location === this.state.value
-                        )
-                        .map(favorite => {
-                          return (
-                            <ListItem>
-                              <div
-                                className={`resultsDisplay ${
-                                  favorite.location
-                                }`}
-                              >
-                                <div className="location-picture">
-                                  {/* <img /> */}
-                                  <ListItemText primary={favorite.name} />
-                                  <ListItemText primary={favorite.location} />
-                                  <IconButton aria-label="Delete">
-                                    <DeleteIcon
-                                      onClick={this.favoriteDelete}
-                                      id={favorite.id}
-                                    />
-                                  </IconButton>
+                      <List>
+                        {this.props.favorites
+                          .filter(
+                            favorite => favorite.location === this.state.value
+                          )
+                          .map(favorite => {
+                            return (
+                              <ListItem>
+                                <div
+                                  className={`resultsDisplay ${
+                                    favorite.location
+                                  }`}
+                                >
+                                  <div className="location-picture">
+                                    {/* <img /> */}
+                                    <ListItemText primary={favorite.name} />
+                                    <ListItemText primary={favorite.location} />
+                                    <IconButton aria-label="Delete">
+                                      <DeleteIcon
+                                        onClick={this.favoriteDelete}
+                                        id={favorite.id}
+                                      />
+                                    </IconButton>
+                                  </div>
                                 </div>
-                              </div>
-                            </ListItem>
-                          );
-                        })}
+                              </ListItem>
+                            );
+                          })}
+                      </List>
                     </div>
                   )}
                 </TabContainer>

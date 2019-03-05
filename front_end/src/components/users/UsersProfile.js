@@ -36,6 +36,20 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 
+// Avatar imports
+import Avatar from "@material-ui/core/Avatar";
+
+// List imports for friends
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@material-ui/icons/Delete";
+import Icon from "@material-ui/core/Icon";
+import Divider from "@material-ui/core/Divider";
+
 function TabContainer(props) {
   return (
     <Typography component="div" style={{ padding: 8 * 3 }}>
@@ -62,6 +76,15 @@ const styles = theme => ({
   },
   selectEmpty: {
     marginTop: theme.spacing.unit * 0
+  },
+  // For avatar
+  avatar: {
+    margin: 10
+  },
+  bigAvatar: {
+    margin: 10,
+    width: 200,
+    height: 200
   }
 });
 
@@ -175,6 +198,10 @@ class UsersProfile extends React.Component {
         <Container>
           <div className="profile-details">
             <h1>{this.props.user.name}</h1>
+            <Avatar
+              src={this.props.user.user_pic}
+              className={classes.bigAvatar}
+            />
             <h3>Shell preference: {this.props.user.hard_or_soft}</h3>
             <h3>Street or Gourmet: {this.props.user.street_gourmet}</h3>
             <h3>Spiciness: {this.props.user.heat_pref}</h3>
@@ -213,7 +240,7 @@ class UsersProfile extends React.Component {
                         </option>
                       );
                     }
-                    return "Favorites map completed"
+                    return "Favorites map completed";
                   })}
                 </select>
               </div>
@@ -258,7 +285,7 @@ class UsersProfile extends React.Component {
                         </MenuItem>
                       );
                     }
-                    return "Favorites map completed"
+                    return "Favorites map completed";
                   })}
                 </Select>
               </FormControl>
@@ -279,49 +306,51 @@ class UsersProfile extends React.Component {
                   {/* Favorites Tab */}
                   {this.state.value === "All" ? (
                     <div id="Favorites" className="tabcontent">
-                      {this.props.favorites.map(favorite => {
-                        return (
-                          // <Link to={`/locations/${location.name}`}>
-                          <div
-                            className={`resultsDisplay ${favorite.location}`}
-                          >
-                            <div className="location-picture">
-                              {/* <img /> */}
-                              <h3>{favorite.name}</h3>
-                              <p>{favorite.location}</p>
-                              <button
-                                onClick={this.favoriteDelete}
-                                id={favorite.id}
+                      <List>
+                        {this.props.favorites.map(favorite => {
+                          return (
+                            <ListItem>
+                              <div
+                                className={`resultsDisplay ${
+                                  favorite.location
+                                }`}
                               >
-                                X
-                              </button>
-                            </div>
-                          </div>
-                          // </Link>
-                        );
-                      })}
+                                <div className="location-picture">
+                                  {/* <img /> */}
+                                  <ListItemText primary={favorite.name} />
+                                  <ListItemText primary={favorite.location} />
+                                </div>
+                              </div>
+                            </ListItem>
+                          );
+                        })}
+                      </List>
                     </div>
                   ) : (
                     <div id="Favorites" className="tabcontent">
-                      {this.props.favorites
-                        .filter(
-                          favorite => favorite.location === this.state.value
-                        )
-                        .map(favorite => {
-                          return (
-                            // <Link to={`/locations/${favorite.name}`}>
-                            <div
-                              className={`resultsDisplay ${favorite.location}`}
-                            >
-                              <div className="location-picture">
-                                {/* <img /> */}
-                                <h3>{favorite.name}</h3>
-                                <p>{favorite.location}</p>
-                              </div>
-                            </div>
-                            // </Link>
-                          );
-                        })}
+                      <List>
+                        {this.props.favorites
+                          .filter(
+                            favorite => favorite.location === this.state.value
+                          )
+                          .map(favorite => {
+                            return (
+                              <ListItem>
+                                <div
+                                  className={`resultsDisplay ${
+                                    favorite.location
+                                  }`}
+                                >
+                                  <div className="location-picture">
+                                    {/* <img /> */}
+                                    <ListItemText primary={favorite.name} />
+                                    <ListItemText primary={favorite.location} />
+                                  </div>
+                                </div>
+                              </ListItem>
+                            );
+                          })}
+                      </List>
                     </div>
                   )}
                 </TabContainer>
@@ -329,34 +358,20 @@ class UsersProfile extends React.Component {
               {tabValue === 1 && (
                 <TabContainer>
                   {/* Friends Tab */}
-                  {this.props.friends.map(friend => {
-                    return (
-                      <div>
-                        {friend.id ===
-                        parseInt(localStorage.getItem("user_id")) ? (
-                          <Link to={`/user-profile`}>
-                            <div className="resultsDisplay">
-                              <div className="location-picture">
-                                {/* <img /> */}
-
-                                <h3>{friend.name}</h3>
-                              </div>
-                            </div>
-                          </Link>
-                        ) : (
-                          <Link to={`/user/${friend.id}`}>
-                            <div className="resultsDisplay">
-                              <div className="location-picture">
-                                {/* <img /> */}
-
-                                <h3>{friend.name}</h3>
-                              </div>
-                            </div>
-                          </Link>
-                        )}
-                      </div>
-                    );
-                  })}
+                  <List>
+                    {this.props.friends.map(friend => {
+                      return (
+                        <Link to={`/user/${friend.id}`}>
+                          <ListItem className="resultsDisplay">
+                            <ListItemAvatar className="location-picture">
+                              <Avatar src={friend.user_pic} />
+                            </ListItemAvatar>
+                            <ListItemText primary={friend.name} />
+                          </ListItem>
+                        </Link>
+                      );
+                    })}
+                  </List>
                 </TabContainer>
               )}
             </div>
