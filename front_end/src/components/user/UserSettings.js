@@ -207,7 +207,12 @@ class UserSettings extends React.Component {
     );
   }
 }
-
+const mapStateToProps = (state) => {
+  return {
+    auth: state.firebase.auth,
+    error: state.auth.authError
+  }
+}
 // export default withAlert()(UserSettings);
 export default compose(
   withAlert(),
