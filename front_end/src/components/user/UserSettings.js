@@ -16,6 +16,9 @@ import PhoneInput from "react-phone-number-input";
 import Billing from "../billing/Billing.js";
 import DrawerBar from "../drawer/Drawer";
 import PropTypes from "prop-types";
+import SaveIcon from '@material-ui/icons/Save';
+import Button from '@material-ui/core/Button';
+import classNames from 'classnames';
 
 import {connect} from 'react-redux';
 // import Button from '@material-ui/core/Button';
@@ -199,6 +202,10 @@ class UserSettings extends React.Component {
                         />
                       </div>
                     </FlexDiv>
+                    <Button variant="contained" size="small" className={classes.button} onClick={this.submitEdit}>
+                    <SaveIcon className={classNames(classes.leftIcon, classes.iconSmall)} />
+                    SUBMIT
+                  </Button>
                     <Submit onClick={this.submitEdit}>SUBMIT</Submit>
                   </div>
                       
@@ -264,7 +271,20 @@ const styles = theme => ({
   },
   pmarg: {
     marginBottom: 10
-  }
+  },
+  button: {
+    margin: theme.spacing.unit,
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    backgroundColor: "grey",
+    width: "89%"
+  },
+  leftIcon: {
+    marginRight: theme.spacing.unit,
+  },
+  iconSmall: {
+    fontSize: 20,
+  },  
 });
 
 
