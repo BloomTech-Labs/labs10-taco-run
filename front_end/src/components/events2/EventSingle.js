@@ -31,7 +31,10 @@ import DrawerBar from "../drawer/Drawer";
 // --> Edit Event Form
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import { fade } from '@material-ui/core/styles/colorManipulator';
 import SaveIcon from '@material-ui/icons/Save';
+import InputBase from '@material-ui/core/InputBase';
+import SearchIcon from '@material-ui/icons/Search';
 import classNames from 'classnames';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
@@ -45,8 +48,18 @@ import {
   DatePicker
 } from "material-ui-pickers";
 
+import { Link } from "react-router-dom";
+import Divider from "@material-ui/core/Divider";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import Avatar from "@material-ui/core/Avatar";
+import ListItemText from "@material-ui/core/ListItemText";
 
 const styles = theme => ({
+  root: {
+    width: "100%"
+  },
   grid: {
     width: "100%",        
     borderRadius: 10,
@@ -68,6 +81,45 @@ const styles = theme => ({
   iconSmall: {
     fontSize: 20,
   },  
+  inputRoot: {
+    color: 'inherit',
+    width: '100%',
+  },
+  inputInput: {
+    paddingTop: theme.spacing.unit,
+    paddingRight: theme.spacing.unit,
+    paddingBottom: theme.spacing.unit,
+    paddingLeft: theme.spacing.unit * 10,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: 200,
+    },
+  },
+  search: {
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    '&:hover': {
+      backgroundColor: fade(theme.palette.common.white, 0.25),
+    },
+    marginRight: theme.spacing.unit * 2,
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing.unit * 3,
+      width: 'auto',
+    },
+  },
+  searchIcon: {
+    width: theme.spacing.unit * 9,
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
 
 const TacoLocation = ({ text }) => <div>{text}</div>;
@@ -297,15 +349,29 @@ class EventSingle extends React.Component {
     this.setState({ [name]: event.target.checked });
     console.log(`${[name]}: ${event.target.checked}`);
   };
+  
+  handleSearchChange = e => {
+    this.setState({ search: [e.target.value] });    
+  };
+
+  handleSubmitUsers = e => {
+    e.preventDefault();
+    this.props.searchUsers(this.state.search);
+    this.setState({ search: "" });    
+    let box = document.getElementById("results");
+    box.style.display = "inline-block";    
+  }
 
   render() {       
+    console.log("this.props is: \n");
+    console.log(this.props);
     const { classes } = this.props;
     return (
       <div>
       <DrawerBar />
 
       {this.state.posted_by === this.props.auth.displayName ? (     
-        <div className = "title-event-wrapper" style = {{ paddingLeft: 150, display: "flex", width: "100%", height: 50, justifyContent: "space-evenly", alignItems: "center" }}>
+        <div className = {classes.root} style = {{ paddingLeft: 150, display: "flex", width: "100%", height: 50, justifyContent: "space-evenly", alignItems: "center" }}>
           <h1>You are the author of this event</h1>          
           <Popup trigger = {<Button variant="contained" color="primary" className= "save-button">Update</Button>} modal>
             {close => (
@@ -353,20 +419,48 @@ class EventSingle extends React.Component {
                       onChange={this.handleChange}
                       type = "text"
                       margin="normal"
-                  />  
+                    />  
 
-                  <div className = "search-users-wrapper">
-                    <TextField
-                      id="standard-search"
-                      label="Find a new friend"
-                      type="search"
-                      className={classes.textField}
-                      margin="normal"
-                      value={this.state.search}
-                      onChange={this.handleChange}
-                    />
-                  </div>
-
+                    <div className={classes.search}>
+                      <div className={classes.searchIcon}>
+                        {/* <SearchIcon onSubmit = {this.handleSubmitUsers}/> */}
+                      </div>
+                      <form
+                        className={classes.container}
+                        noValidate
+                        autoComplete="off"
+                        onSubmit={this.handleSubmitUsers}
+                      >
+                        <TextField
+                          id="standard-search"
+                          label="Invite More People"
+                          type="search"
+                          className={classes.textField}
+                          margin="normal"
+                          value={this.state.search}
+                          onChange={this.handleSearchChange}
+                        />
+                      </form> 
+                      <div id="results" ref={node => (this.node = node)}>
+                        <List>
+                          {this.props.users.map(result => {
+                            if (result !== undefined) {
+                              return (
+                                <Link to={`user/${result.id}`}>
+                                  <ListItem className="resultsDisplay">
+                                    <ListItemAvatar className="location-picture">
+                                      <Avatar src={result.user_pic} />
+                                    </ListItemAvatar>
+                                    <ListItemText primary={result.name} />                                    
+                                  </ListItem>
+                                  <Divider />
+                                </Link>
+                              );
+                            }
+                          })}
+                        </List>
+                      </div>                     
+                    </div>
                   </Grid>
                 </MuiPickersUtilsProvider>
               </div>
