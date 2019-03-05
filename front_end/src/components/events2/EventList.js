@@ -318,7 +318,7 @@ class EventList extends React.Component {
                         {this.props.events.past &&
                           this.props.events.past.map(event => {
                             return (
-                              <Grid item xs={12} key={event.id}>
+                              <Grid item xs={12} key={event.id} >
                                 <Paper className={`${classes.paper} flexList`}>
                                   {this.props.auth.email === event.posters_email ? (
                                     <Button variant="contained" onClick={() => { this.props.deleteEvent(event.id)}} color="secondary" id={event.id} className={classes.button}>
