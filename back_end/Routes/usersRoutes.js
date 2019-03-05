@@ -11,7 +11,7 @@ const Fuse = require("fuse.js");
 //post http://localhost:5555/users
 //-------------------------------------------
 router.post("", (req, res) => {
-  const { name, email } = req.body;
+  const { name, email, user_pic } = req.body;
 
   if (!name || !email) {
     return res.status(500).json({ msg: "please provide full information" });
@@ -24,11 +24,11 @@ router.post("", (req, res) => {
       //if users is not already here imput user to database
       if (response.length === 0) {
         db("users")
-          .insert({ name, email })
+          .insert({ name, email, user_pic })
           .then(() => {
             //return res.status(201).json(user[0])
             db("users")
-              .where({ name, email })
+              .where({ name, email, user_pic })
               .then(res2 => {
                 console.log(res2);
                 return res.status(200).json(res2[0].id);
