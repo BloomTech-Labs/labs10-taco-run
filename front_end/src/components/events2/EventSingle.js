@@ -91,7 +91,8 @@ class EventSingle extends React.Component {
     modalOpened: false,
 
     checkedInvite: false,
-    selectedDate: new Date()
+    selectedDate: new Date(),
+    location: ''
   };
 
   fileSelect = (event) => {
@@ -286,14 +287,16 @@ class EventSingle extends React.Component {
     this.setState({ selectedDate: date });
   };
 
+  handleChange = event => {    
+    this.setState({ [event.target.name]: event.target.value });
+  };
+
   handleSwitchChange = name => event => {
     this.setState({ [name]: event.target.checked });
     console.log(`${[name]}: ${event.target.checked}`);
-
   };
 
-  render() {
-    console.log(this.props);    
+  render() {       
     const { classes } = this.props;
     return (
       <div>
@@ -338,6 +341,17 @@ class EventSingle extends React.Component {
                       }
                       label="Invite Only"
                     />
+
+                    <TextField                      
+                      id="standard-name"
+                      name = "location" // --> needs a name attribute so it'll load correctly
+                      label="Location Name"
+                      className={classes.textField}
+                      value={this.state.location}
+                      onChange={this.handleChange}
+                      type = "text"
+                      margin="normal"
+                  />  
 
                   </Grid>
                 </MuiPickersUtilsProvider>
