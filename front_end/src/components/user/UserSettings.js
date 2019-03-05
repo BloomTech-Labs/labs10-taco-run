@@ -57,6 +57,10 @@ function TabContainer(props) {
   );
 }
 
+TabContainer.propTypes = {
+  children: PropTypes.node.isRequired
+};
+
 class UserSettings extends React.Component {
   constructor(props) {
     super(props);
