@@ -40,7 +40,7 @@
 
 /* --------------CSS for results-------------- */
 #results {
-  max-width: 200px;
+  max-width: 300px;
   width: 100%;
   display: none;
 }
@@ -48,7 +48,6 @@
 .result-display {
   display: flex;
   background-color: #fff;
-
   transition: 0.2s;
 }
 

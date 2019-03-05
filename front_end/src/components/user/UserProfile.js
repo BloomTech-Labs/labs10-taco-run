@@ -56,6 +56,8 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
+import Icon from "@material-ui/core/Icon";
+import Divider from "@material-ui/core/Divider";
 
 function TabContainer(props) {
   return (
@@ -303,23 +305,20 @@ class UserProfile extends React.Component {
                   {this.props.locations.map(result => {
                     if (result !== undefined) {
                       return (
-                        <Link to={`/${result.id}`}>
-                          <div className="result-display">
-                            <button onClick={this.favoriteAdd} id={result.id}>
-                              Add
-                            </button>
-                            <div className="result-image">
-                              {/* <img
-                          alt="User"
-                          src={}
-                        /> */}
-                            </div>
-                            <div className="result-name">
-                              <h5>{result.name}</h5>
-                              <p>{result.location}</p>
+                        <ListItem>
+                          <div className={`resultsDisplay ${result.location}`}>
+                            <div className="location-picture">
+                              {/* <img /> */}
+                              <ListItemText primary={result.name} />
+                              <ListItemText primary={result.location} />
+                              <IconButton aria-label="Add">
+                                <Icon onClick={this.favoriteAdd} id={result.id}>
+                                  +
+                                </Icon>
+                              </IconButton>
                             </div>
                           </div>
-                        </Link>
+                        </ListItem>
                       );
                     }
                     return "Locations map completed";
@@ -328,29 +327,28 @@ class UserProfile extends React.Component {
               ) : (
                 // Results for Users
                 <div id="results" ref={node => (this.node = node)}>
-                  {this.props.users.map(result => {
-                    if (result !== undefined) {
-                      return (
-                        <Link to={`user/${result.id}`}>
-                          <div className="result-display">
-                            <div className="result-image">
-                              {/* <img
-                            alt="User"
-                            src={}
-                          /> */}
-                            </div>
-                            <button onClick={this.friendAdd} id={result.id}>
-                              Add
-                            </button>
-                            <div className="result-name">
-                              <h3>{result.name}</h3>
-                            </div>
-                          </div>
-                        </Link>
-                      );
-                    }
-                    return "Users map completed";
-                  })}
+                  <List>
+                    {this.props.users.map(result => {
+                      if (result !== undefined) {
+                        return (
+                          <Link to={`user/${result.id}`}>
+                            <ListItem className="resultsDisplay">
+                              <ListItemAvatar className="location-picture">
+                                <Avatar src={result.user_pic} />
+                              </ListItemAvatar>
+                              <ListItemText primary={result.name} />
+                              <IconButton aria-label="Delete">
+                                <Icon onClick={this.friendAdd} id={result.id}>
+                                  +
+                                </Icon>
+                              </IconButton>
+                            </ListItem>
+                            <Divider />
+                          </Link>
+                        );
+                      }
+                    })}
+                  </List>
                 </div>
               )}
             </div>
@@ -392,7 +390,6 @@ class UserProfile extends React.Component {
                         </MenuItem>
                       );
                     }
-                    return "Favorites Map completed";
                   })}
                 </Select>
               </FormControl>
@@ -413,27 +410,31 @@ class UserProfile extends React.Component {
                   {/* Favorites Tab */}
                   {this.state.value === "All" ? (
                     <div id="Favorites" className="tabcontent">
-                      {this.props.favorites.map(favorite => {
-                        return (
-                          // <Link to={`/locations/${location.name}`}>
-                          <div
-                            className={`resultsDisplay ${favorite.location}`}
-                          >
-                            <div className="location-picture">
-                              {/* <img /> */}
-                              <h3>{favorite.name}</h3>
-                              <p>{favorite.location}</p>
-                              <button
-                                onClick={this.favoriteDelete}
-                                id={favorite.id}
+                      <List>
+                        {this.props.favorites.map(favorite => {
+                          return (
+                            <ListItem>
+                              <div
+                                className={`resultsDisplay ${
+                                  favorite.location
+                                }`}
                               >
-                                X
-                              </button>
-                            </div>
-                          </div>
-                          // </Link>
-                        );
-                      })}
+                                <div className="location-picture">
+                                  {/* <img /> */}
+                                  <ListItemText primary={favorite.name} />
+                                  <ListItemText primary={favorite.location} />
+                                  <IconButton aria-label="Delete">
+                                    <DeleteIcon
+                                      onClick={this.favoriteDelete}
+                                      id={favorite.id}
+                                    />
+                                  </IconButton>
+                                </div>
+                              </div>
+                            </ListItem>
+                          );
+                        })}
+                      </List>
                     </div>
                   ) : (
                     <div id="Favorites" className="tabcontent">
@@ -443,23 +444,25 @@ class UserProfile extends React.Component {
                         )
                         .map(favorite => {
                           return (
-                            // <Link to={`/locations/${favorite.name}`}>
-                            <div
-                              className={`resultsDisplay ${favorite.location}`}
-                            >
-                              <div className="location-picture">
-                                {/* <img /> */}
-                                <h3>{favorite.name}</h3>
-                                <p>{favorite.location}</p>
-                                <button
-                                  onClick={this.favoriteDelete}
-                                  id={favorite.id}
-                                >
-                                  X
-                                </button>
+                            <ListItem>
+                              <div
+                                className={`resultsDisplay ${
+                                  favorite.location
+                                }`}
+                              >
+                                <div className="location-picture">
+                                  {/* <img /> */}
+                                  <ListItemText primary={favorite.name} />
+                                  <ListItemText primary={favorite.location} />
+                                  <IconButton aria-label="Delete">
+                                    <DeleteIcon
+                                      onClick={this.favoriteDelete}
+                                      id={favorite.id}
+                                    />
+                                  </IconButton>
+                                </div>
                               </div>
-                            </div>
-                            // </Link>
+                            </ListItem>
                           );
                         })}
                     </div>
