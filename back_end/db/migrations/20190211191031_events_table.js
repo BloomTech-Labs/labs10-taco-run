@@ -11,6 +11,9 @@ exports.up = function(knex, Promise) {
       .notNullable()
 
     tbl
+      .string('posters_pic')
+
+    tbl
       .string('location', 128)
       // .notNullable()
 

@@ -84,14 +84,16 @@ class CreateEvent extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  handleSubmit = obj => {    
+  handleSubmit = obj => {
+    
     let event_obj = {        
       name: this.state.name,
       date: this.state.selectedDate,
       author: this.props.auth.displayName,
       user_id: parseInt(localStorage.getItem("user_id"), 10),
       posters_email: this.props.auth.email,
-      invite_only: this.state.checkedInvite,          
+      invite_only: this.state.checkedInvite, 
+      posters_pic: this.props.auth.photoURL    
     }    
     /*
       - "name": "another really fun event!",
@@ -110,6 +112,7 @@ class CreateEvent extends React.Component {
   render() {
     const { classes } = this.props;    
     const { selectedDate } = this.state;
+    console.log(this.props)
     return (
       <div className="create-event-full-wrapper">
         <div className="navigation-wrapper">
