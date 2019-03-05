@@ -207,6 +207,20 @@ class UserSettings extends React.Component {
     );
   }
 }
+
+const styles = {
+  card: {
+    maxWidth: 645,
+  },
+  media: {
+    height: 140,
+  },
+  media2: {
+    height: 350,
+  },
+};
+
+
 const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,
