@@ -238,10 +238,6 @@ const styles = theme => ({
     width: 60,
     height: 60
   },
-  button: {
-    margin: theme.spacing.unit,
-    height: 40
-  },
   leftIcon: {
     marginRight: theme.spacing.unit
   },
@@ -273,7 +269,9 @@ const styles = theme => ({
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
     backgroundColor: "grey",
-    width: "89%"
+    width: "89%",
+    height: 40
+
   },
   leftIcon: {
     marginRight: theme.spacing.unit,
