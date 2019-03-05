@@ -272,12 +272,6 @@ const styles = theme => ({
     width: "89%",
     height: 40
 
-  },
-  leftIcon: {
-    marginRight: theme.spacing.unit,
-  },
-  iconSmall: {
-    fontSize: 20,
   },  
 });
 
