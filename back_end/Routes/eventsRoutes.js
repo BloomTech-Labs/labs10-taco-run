@@ -23,9 +23,9 @@ router.post("", (req, res) => {
   /* first we check to see if the event already exists*/
   db("events")
     .where({ name, posters_email })
-    .then(res => {
+    .then(res1 => {
       // Create event
-      if (res.length === 0) {
+      if (res1.length === 0) {
         db("events")
           .insert({
             name,
@@ -37,7 +37,7 @@ router.post("", (req, res) => {
             posters_email,
             invite_only
           })
-          .then(() => {
+          .then(res2 => {
             // Get event id
             db("events")
               .where({
@@ -50,8 +50,8 @@ router.post("", (req, res) => {
                 posters_email,
                 invite_only
               })
-              .then(res => {
-                var event_id = res[0].id;
+              .then(res3 => {
+                var event_id = res3[0].id;
                 // if invite only is true then only set relationship for said user
                 if (invite_only === true) {
                   db("users_events")
@@ -60,8 +60,9 @@ router.post("", (req, res) => {
                       event_id: event_id,
                       isPending: false
                     })
-                    .then(res => {
-                      res.status(200).json(res);
+                    .then(res4 => {
+                      console.log("res4");
+                      res.status(200).json(res4);
                     })
                     .catch(err => {
                       res.status(500).json(err);
@@ -71,7 +72,7 @@ router.post("", (req, res) => {
                   db("users_friends")
                     .join("users", "users.id", "=", "users_friends.friends_id")
                     .where("users_friends.user_id", user_id)
-                    .then(res => {
+                    .then(res5 => {
                       // Insert into user
                       db("users_events")
                         .insert({
@@ -79,10 +80,10 @@ router.post("", (req, res) => {
                           event_id: event_id,
                           isPending: false
                         })
-                        .then(() => {
+                        .then(res6 => {
                           // For every friend of user create relationship
-                          for (let i = 0; i < res.length; i++) {
-                            const id = res[i].friends_id;
+                          for (let i = 0; i < res5.length; i++) {
+                            const id = res5[i].friends_id;
                             console.log(id, event_id);
                             db("users_events")
                               .insert({
@@ -90,15 +91,10 @@ router.post("", (req, res) => {
                                 event_id: event_id,
                                 isPending: true
                               })
-                              .then(res => {
-                                res.status(200).json(res);
-                              })
-                              .catch(err => {
-                                res.status(500).json(err);
+                              .then(res7 => {
+                                res.status(200).json(res7);
                               });
                           }
-                          // res.end to close out any functions
-                          res.end();
                         })
                         .catch(err => {
                           res.status(500).json(err);
@@ -108,8 +104,6 @@ router.post("", (req, res) => {
                       res.status(500).json(err);
                     });
                 }
-                // res.end to close out any functions
-                res.end();
               })
               .catch(err => {
                 res.status(500).json(err);
@@ -119,8 +113,6 @@ router.post("", (req, res) => {
             res.status(500).json(err);
           });
       }
-      // res.end to close out any functions
-      res.end();
     })
     .catch(err => {
       res.status(500).json(err);
