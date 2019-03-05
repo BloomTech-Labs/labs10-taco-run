@@ -16,6 +16,21 @@ import PhoneInput from "react-phone-number-input";
 import Billing from "../billing/Billing.js";
 import DrawerBar from "../drawer/Drawer";
 
+import {connect} from 'react-redux';
+// import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core/styles';
+// import { withRouter } from "react-router-dom";
+import Typography from '@material-ui/core/Typography';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+// import Typography from '@material-ui/core/Typography';
+import { compose } from 'recompose';
+
 
 const options1 = [
   { value: "Soft", label: "Soft" },
