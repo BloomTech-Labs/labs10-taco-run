@@ -206,7 +206,7 @@ class UserSettings extends React.Component {
                     <SaveIcon className={classNames(classes.leftIcon, classes.iconSmall)} />
                     SUBMIT
                   </Button>
-                    <Submit onClick={this.submitEdit}>SUBMIT</Submit>
+                    {/* <Submit onClick={this.submitEdit}>SUBMIT</Submit> */}
                   </div>
                       
                       </TabContainer>}
