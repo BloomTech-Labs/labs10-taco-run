@@ -235,49 +235,47 @@ class EventList extends React.Component {
                                   <DeleteIcon className={classes.rightIcon} />
                                 </Button>
                               ) : null}
+                              <Avatar
+                                alt="posters image"
+                                src={event.posters_pic}
+                                className={classes.bigAvatar}
+                              />
 
-                              <Card className={`${classes.card} spacingCard`}>
-                                <CardContent>
-                                  <Typography
-                                    variant="h5"
-                                    component="h2"
-                                    className={classes.pos}
-                                  >
-                                    {event.name}
-                                  </Typography>
-                                  <Typography
-                                    component="p"
-                                    className={classes.pmarg}
-                                  >
-                                    <Moment format="dddd, MMMM Do YYYY, h:mm:ss a">
-                                      {event.date}
-                                    </Moment>
-                                  </Typography>
-                                  <Typography
-                                    component="p"
-                                    className={classes.pmarg}
-                                  >
-                                    total attending: {event.total_users}
-                                  </Typography>
-                                  <Typography
-                                    component="p"
-                                    className={classes.pmarg}
-                                  >
-                                    comments: {event.total_comments}
-                                  </Typography>
-                                  <Typography
-                                    component="p"
-                                    className={classes.pmarg}
-                                  >
-                                    posted by {event.author}
-                                  </Typography>
-                                  <Avatar
-                                    alt="posters image"
-                                    src={event.posters_pic}
-                                    className={classes.bigAvatar}
-                                  />
-                                </CardContent>
-                              </Card>
+                              <CardContent>
+                                <Typography
+                                  variant="h5"
+                                  component="h2"
+                                  className={classes.pos}
+                                >
+                                  {event.name}
+                                </Typography>
+                                <Typography
+                                  component="p"
+                                  className={classes.pmarg}
+                                >
+                                  <Moment format="dddd, MMMM Do YYYY, h:mm:ss a">
+                                    {event.date}
+                                  </Moment>
+                                </Typography>
+                                <Typography
+                                  component="p"
+                                  className={classes.pmarg}
+                                >
+                                  total attending: {event.total_users}
+                                </Typography>
+                                <Typography
+                                  component="p"
+                                  className={classes.pmarg}
+                                >
+                                  comments: {event.total_comments}
+                                </Typography>
+                                <Typography
+                                  component="p"
+                                  className={classes.pmarg}
+                                >
+                                  posted by {event.author}
+                                </Typography>
+                              </CardContent>
                               <Button
                                 className={classes.button}
                                 variant="contained"
