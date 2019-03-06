@@ -78,6 +78,7 @@ const styles = theme => ({
     padding: theme.spacing.unit * 2,
     color: theme.palette.text.secondary
   },
+  appBar: {},
   bigAvatar: {
     margin: 10,
     width: 60,
@@ -134,9 +135,16 @@ const styles = theme => ({
     marginLeft: theme.spacing.unit
   },
   tabs: {
-    width: "33%"
+    width: "33%",
+    [theme.breakpoints.down("xs")]: {
+      width: "inherit"
+    }
   },
-  tabBar: { display: "flex", justifyContent: "center" },
+  tabBar: {
+    display: "flex",
+    justifyContent: "center",
+    backgroundColor: "orange"
+  },
   textBox: {
     [theme.breakpoints.down("xs")]: {
       textAlign: "center"
@@ -228,11 +236,11 @@ class EventList extends React.Component {
         <ListContainer>
           {this.props.events ? (
             <div className={classes.root}>
-              <AppBar position="static">
+              <div className={classes.appBar} position="static">
                 <Tabs
                   value={tabValue}
                   onChange={this.handleChangeTabs}
-                  className={classes.tabBar}
+                  classes={{ flexContainer: classes.tabBar }}
                 >
                   <Tab label="Upcoming" className={classes.tabs} />
                   <Tab
@@ -249,7 +257,7 @@ class EventList extends React.Component {
                   />
                   <Tab label="Past" className={classes.tabs} />
                 </Tabs>
-              </AppBar>
+              </div>
               {tabValue === 0 && (
                 <TabContainer>
                   <Grid>

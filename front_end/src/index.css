@@ -4,6 +4,18 @@
 
 @media only screen and (max-width: 600px) {
   .app {
-    padding-left: 58px;
+    padding-left: 57px;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .app {
+    padding-left: 56px;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .app {
+    padding-left: 55px;
   }
 }
