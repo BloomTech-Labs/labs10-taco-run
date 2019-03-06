@@ -268,20 +268,6 @@ class EventList extends React.Component {
                         return (
                           <Grid item xs={12} key={event.id}>
                             <Paper className={`${classes.paper} flexList`}>
-                              {this.props.auth.email === event.posters_email ? (
-                                <Button
-                                  variant="contained"
-                                  onClick={() => {
-                                    this.props.deleteEvent(event.id);
-                                  }}
-                                  color="secondary"
-                                  id={event.id}
-                                  className={classes.button}
-                                >
-                                  Delete
-                                  <DeleteIcon className={classes.rightIcon} />
-                                </Button>
-                              ) : null}
                               <Avatar
                                 alt="posters image"
                                 src={event.posters_pic}
@@ -336,6 +322,20 @@ class EventList extends React.Component {
                               >
                                 View Event
                               </Button>
+                              {this.props.auth.email === event.posters_email ? (
+                                <Button
+                                  variant="contained"
+                                  onClick={() => {
+                                    this.props.deleteEvent(event.id);
+                                  }}
+                                  color="secondary"
+                                  id={event.id}
+                                  className={classes.button}
+                                >
+                                  Delete
+                                  <DeleteIcon className={classes.rightIcon} />
+                                </Button>
+                              ) : null}
                             </Paper>
                           </Grid>
                         );
