@@ -63,7 +63,10 @@ const styles = theme => ({
   },
   menuButton: {
     marginLeft: 12,
-    marginRight: 36
+    marginRight: 36,
+    [theme.breakpoints.down("xs")]: {
+      margin: "0"
+    }
   },
   hide: {
     display: "none"
@@ -86,9 +89,21 @@ const styles = theme => ({
       duration: theme.transitions.duration.leavingScreen
     }),
     overflowX: "hidden",
-    width: theme.spacing.unit * 7 + 1,
-    [theme.breakpoints.up("sm")]: {
-      width: theme.spacing.unit * 9 + 1
+    width: theme.spacing.unit * 7 + 1
+  },
+  topText: {
+    display: "flex",
+    justifyContent: "space-between",
+    flexDirection: "row",
+    width: "100%",
+    [theme.breakpoints.down("xs")]: {
+      justifyContent: "center"
+    }
+  },
+  rightText: {
+    marginRight: 25,
+    [theme.breakpoints.down("xs")]: {
+      display: "none"
     }
   },
   toolbar: {
@@ -148,6 +163,7 @@ class DrawerBar extends React.Component {
   /*============================= Navigation Button Helpers END =============================*/
 
   render() {
+    console.log(this.props);
     const { classes, theme } = this.props; // --> this is to access the style function found below
     return (
       <div className={classes.root}>
@@ -172,10 +188,19 @@ class DrawerBar extends React.Component {
             >
               <MenuIcon /> {/* This is the sandwich icon */}
             </IconButton>
-
-            <Typography variant="h6" color="inherit" noWrap>
-              Let's Get Tacos
-            </Typography>
+            <div className={classes.topText}>
+              <Typography variant="h6" color="inherit" noWrap>
+                Let's Get Tacos
+              </Typography>
+              <Typography
+                className={classes.rightText}
+                variant="h6"
+                color="inherit"
+                noWrap
+              >
+                Welcome, {this.props.auth.displayName}
+              </Typography>
+            </div>
           </Toolbar>{" "}
           {/* Holds the sandwich bar icon and text from Typography */}
         </AppBar>{" "}

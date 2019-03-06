@@ -138,12 +138,14 @@ const styles = theme => ({
     width: "33%",
     [theme.breakpoints.down("xs")]: {
       width: "inherit"
-    }
+    },
+    color: "white"
   },
   tabBar: {
     display: "flex",
     justifyContent: "center",
-    backgroundColor: "orange"
+    backgroundColor: "#3f51b5",
+    color: "ffff"
   },
   textBox: {
     [theme.breakpoints.down("xs")]: {
