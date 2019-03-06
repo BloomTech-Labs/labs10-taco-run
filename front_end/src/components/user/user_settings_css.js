@@ -15,7 +15,7 @@ export const ProfileForm = styled.form`
 	border-radius: 4px;
 	> input {
 		font-size: 1.4rem;
-		border: solid black 1px;
+		// border: solid black 1px;
 		margin-bottom: 15px;
 		max-width: 400px;
 		padding: 1%;

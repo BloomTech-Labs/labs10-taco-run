@@ -59,8 +59,28 @@ const LandingPage = (props) => {
                 </CardActionArea>
               </Card>
             </div>
+
+            <div className="flexCenter">
+            <Card className={`widthMax`}> 
+            <CardContent>
+            <Typography gutterBottom variant="h5" component="h2" className="centerT">Login With</Typography>
+
+            </CardContent>
+            {/* <CardActionArea className="flexMax">
+            <img src={facebook} className="image" alt="facebook-provider-img" onClick={() => { props.facebookAuth(); props.history.push('/events_create') } }/>
+              <img src={google} className="image" alt="google-provider-img" onClick={() => { props.googleAuth(); props.history.push('/events_create') } }/>
+              <img src={twitter} className="image" alt="twitter-provider-img" onClick={() => { props.twitterAuth(); props.history.push('/events_create') } }/>
+
+
+            </CardActionArea> */}
             
-            <h4 className="centerT">Login With</h4>
+            {/* <CardContent>
+            <Typography gutterBottom variant="h5" component="h2" className="centerT">Login With</Typography>
+
+            </CardContent> */}
+            </Card>
+            </div>
+          
             <div className="flexCenter bottom">
               <img src={facebook} className="image" alt="facebook-provider-img" onClick={() => { props.facebookAuth(); props.history.push('/events_create') } }/>
               <img src={google} className="image" alt="google-provider-img" onClick={() => { props.googleAuth(); props.history.push('/events_create') } }/>

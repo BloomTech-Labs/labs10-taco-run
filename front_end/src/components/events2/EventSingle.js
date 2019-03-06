@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import firebase from 'firebase';
 import { connect } from "react-redux";
-import { getEvent, updateEvent } from "../../store/actions/eventsActions";
+import { getEvent, updateEvent, inviteEvent } from "../../store/actions/eventsActions";
 import {
   getComments,
   makeComment,
@@ -22,7 +22,7 @@ import {searchUsers} from '../../store/actions/userActions'
 
 
 // import { Container } from "./eventsingle_css.js";
-import { fetchUser } from "../../store/actions/userActions";
+import { fetchUser, searchUsers } from "../../store/actions/userActions";
 import Popup from "reactjs-popup";
 import "./create_event.css"
 import GoogleMapReact from 'google-map-react';
@@ -35,7 +35,10 @@ import DrawerBar from "../drawer/Drawer";
 // --> Edit Event Form
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import { fade } from '@material-ui/core/styles/colorManipulator';
 import SaveIcon from '@material-ui/icons/Save';
+import InputBase from '@material-ui/core/InputBase';
+import SearchIcon from '@material-ui/icons/Search';
 import classNames from 'classnames';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
@@ -59,8 +62,20 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Image from 'react-image-resizer';
 import './custom.css'
 
+import { Link } from "react-router-dom";
+import Divider from "@material-ui/core/Divider";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import Avatar from "@material-ui/core/Avatar";
+import ListItemText from "@material-ui/core/ListItemText";
+import IconButton from "@material-ui/core/IconButton";
+import Icon from "@material-ui/core/Icon";
 
 const styles = theme => ({
+  root: {
+    width: "100%"
+  },
   grid: {
     width: "100%",        
     borderRadius: 10,
@@ -82,6 +97,38 @@ const styles = theme => ({
   iconSmall: {
     fontSize: 20,
   },  
+
+  inputRoot: {
+    color: 'inherit',
+    width: '100%',
+  },
+  inputInput: {
+    paddingTop: theme.spacing.unit,
+    paddingRight: theme.spacing.unit,
+    paddingBottom: theme.spacing.unit,
+    paddingLeft: theme.spacing.unit * 10,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: 200,
+    },
+  },
+  search: {
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    '&:hover': {
+      backgroundColor: fade(theme.palette.common.white, 0.25),
+    },
+    marginRight: theme.spacing.unit * 2,
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing.unit * 3,
+      width: 'auto',
+    },
+  },
+
   searchIcon: {
     width: theme.spacing.unit * 9,
     height: '100%',
@@ -91,12 +138,14 @@ const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
+
   marginT: {
     marginTop: 6
   },
   media: {
     height: 140,
   },
+
 });
 
 const image = {
@@ -136,6 +185,8 @@ class EventSingle extends React.Component {
     lon_av: 0,
     currentPage: 1,
     tacosPerPage: 6,
+    location: '',
+    search: ""
   };
 
   fileSelect = (event) => {
@@ -345,6 +396,27 @@ class EventSingle extends React.Component {
     this.setState({ [name]: event.target.checked });
     console.log(`${[name]}: ${event.target.checked}`);
   };
+  
+  handleSearchChange = e => {
+    this.setState({ search: [e.target.value] });    
+  };
+
+  handleSubmitUsers = e => {
+    e.preventDefault();
+    this.props.searchUsers(this.state.search);
+    this.setState({ search: "" });    
+    let box = document.getElementById("results");
+    box.style.display = "inline-block";    
+  };
+
+  handleInvite = e => {
+    e.preventDefault();
+    let inviteObject = { // --> we need to create the expected invite object before we send it
+      user_id: this.props.users[0].id,
+      event_id: this.props.match.params.id
+    };
+    this.props.inviteEvent(inviteObject);
+  };
 
   switchForm = () => {
     this.setState({
@@ -416,6 +488,8 @@ class EventSingle extends React.Component {
 
 
   render() {       
+    console.log("this.props is: \n");
+    console.log(this.props);
     const { classes } = this.props;
     console.log(this.state)
     console.log(this.props)
@@ -445,6 +519,7 @@ class EventSingle extends React.Component {
 
     return (
       <div>
+
         <DrawerBar />
         <div class="container">
           {this.state.posted_by === this.props.auth.displayName ? (
@@ -502,6 +577,22 @@ class EventSingle extends React.Component {
                     variant="contained" 
                     className={classes.marginT}
                     onClick={() => {this.searchMap(this.state.city_location)}}
+
+      <DrawerBar />
+
+      {this.state.posted_by === this.props.auth.displayName ? (     
+        <div className = {classes.root} style = {{ paddingLeft: 150, display: "flex", width: "100%", height: 50, justifyContent: "space-evenly", alignItems: "center" }}>
+          <h1>You are the author of this event</h1>          
+          <Popup trigger = {<Button variant="contained" color="primary" className= "save-button">Update</Button>} modal>
+            {close => (
+              <div className = "modal-open">
+                <a className = "close-modal" onClick = {close}>&times;</a> {/* Close Button "X" */}
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <Grid
+                    container
+                    className={classes.grid}
+                    justify="space-evenly"
+
                   >
                     Search
                   </Button>
@@ -539,6 +630,7 @@ class EventSingle extends React.Component {
                           style={image}
                           key={idx}
                         />
+
                       <Typography component="p">
                         Location:{" "}
                         {`${t.location.display_address[0]} ${
@@ -575,6 +667,70 @@ class EventSingle extends React.Component {
                 </Card>
                   )
                 })}
+
+                      }
+                      label="Invite Only"
+                    />
+
+                    <TextField                      
+                      id="standard-name"
+                      name = "location" // --> needs a name attribute so it'll load correctly
+                      label="Location Name"
+                      className={classes.textField}
+                      value={this.state.location}
+                      onChange={this.handleChange}
+                      type = "text"
+                      margin="normal"
+                    />  
+
+                    <div className={classes.search}>
+                      <div className={classes.searchIcon}>
+                        {/* <SearchIcon onSubmit = {this.handleSubmitUsers}/> */}
+                      </div>
+                      <form
+                        className={classes.container}
+                        noValidate
+                        autoComplete="off"
+                        onSubmit={this.handleSubmitUsers}
+                      >
+                        <TextField
+                          id="standard-search"
+                          label="Invite More People"
+                          type="search"
+                          className={classes.textField}
+                          margin="normal"
+                          value={this.state.search}
+                          onChange={this.handleSearchChange}
+                        />
+                      </form> 
+                      <div id="results" ref={node => (this.node = node)}>
+                        <List>
+                          {this.props.users.map(result => {
+                            if (result !== undefined) {
+                              return (
+                                <Link key = {result.name} to={`user/${result.id}`}>
+                                  <ListItem className="resultsDisplay">
+                                    <ListItemAvatar className="location-picture">
+                                      <Avatar src={result.user_pic} />
+                                    </ListItemAvatar>
+                                    <ListItemText primary={result.name} />
+                                    <IconButton aria-label="Add">
+                                    <Icon onClick={this.handleInvite} id={result.id}>
+                                      +
+                                    </Icon>
+                                  </IconButton>                                    
+                                  </ListItem>
+                                  <Divider />
+                                </Link>
+                              );
+                            }
+                          })}
+                        </List>
+                      </div>                     
+                    </div>
+                  </Grid>
+                </MuiPickersUtilsProvider>
+
               </div>
               </MuiPickersUtilsProvider>
               {renderPageNumbers}
@@ -590,6 +746,7 @@ class EventSingle extends React.Component {
 const mapStateToProps = state => {
   return {
     user: state.userReducer.user,
+    users: state.userReducer.users,
     event: state.eventsReducer.event,
     attendees: state.eventsReducer.attendees,
     comments: state.commentsReducer.comments,
@@ -599,4 +756,18 @@ const mapStateToProps = state => {
   };
 };
 
+
 export default connect(mapStateToProps,{getEvent,updateEvent,getComments,fetchUser,makeComment,deleteComment,updateComment, fetchFriends, searchUsers})(withStyles(styles)(EventSingle));
+
+export default connect(mapStateToProps,{
+  getEvent,
+  updateEvent,
+  getComments,
+  fetchUser,
+  searchUsers,
+  makeComment,
+  deleteComment,
+  updateComment,
+  inviteEvent
+})(withStyles(styles)(EventSingle));
+

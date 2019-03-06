@@ -15,6 +15,21 @@ import { withAlert } from "react-alert";
 import PhoneInput from "react-phone-number-input";
 import Billing from "../billing/Billing.js";
 import DrawerBar from "../drawer/Drawer";
+import PropTypes from "prop-types";
+import SaveIcon from '@material-ui/icons/Save';
+import Button from '@material-ui/core/Button';
+import classNames from 'classnames';
+
+import {connect} from 'react-redux';
+// import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core/styles';
+// import { withRouter } from "react-router-dom";
+import Typography from '@material-ui/core/Typography';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+// import Typography from '@material-ui/core/Typography';
+import { compose } from 'recompose';
 
 
 const options1 = [
@@ -34,6 +49,18 @@ const options3 = [
   { value: "Gourmet", label: "Gourmet" }
 ];
 
+function TabContainer(props) {
+  return (
+    <Typography component="div" style={{ padding: 8 * 3 }}>
+      {props.children}
+    </Typography>
+  );
+}
+
+TabContainer.propTypes = {
+  children: PropTypes.node.isRequired
+};
+
 class UserSettings extends React.Component {
   constructor(props) {
     super(props);
@@ -43,7 +70,8 @@ class UserSettings extends React.Component {
       selectedOption3: "",
       profile: true,
       selected: ["", "active"],
-      value: ""
+      value: "",
+      tabvalue: 0,
     };
   }
 
@@ -62,6 +90,10 @@ class UserSettings extends React.Component {
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
+  };
+
+  handleTabChange = (event, tabvalue) => {
+    this.setState({ tabvalue });
   };
 
   handleSelect1 = selectedOption1 => {
@@ -116,67 +148,142 @@ class UserSettings extends React.Component {
   };
 
   render() {
+
+    const { classes } = this.props;
+    const { tabvalue } = this.state;
     return (
       <div>
         <DrawerBar />
+        <div>
         <ContainForm>
-          <Switch>
-            <div>
-              <SwitchTab
-                onClick={this.switchToBilling}
-                className={this.state.selected[0]}
-              >
-                Billing
-              </SwitchTab>
-              <SwitchTab
-                onClick={this.switchToProfile}
-                className={this.state.selected[1]}
-              >
-                Profile
-              </SwitchTab>
-            </div>
-          </Switch>
-          {this.state.profile ? (
-            <div>
-              <h2 className="prefs">User Preferences</h2>
-              <FlexDiv>
-                <div>
-                  <h3>Shell Type</h3>
-                  <Select
-                    value={this.state.selectedOption1}
-                    onChange={this.handleSelect1}
-                    options={options1}
-                    className="select"
-                  />
+                  <div className={classes.root}>
+                  <AppBar position="static">
+                    <Tabs tabvalue={tabvalue} onChange={this.handleTabChange}>
+                      <Tab label="Billing" />
+                      <Tab label="Profile" />
+                    </Tabs>
+                  </AppBar>
+                  {tabvalue === 0 && <TabContainer onClick={this.switchToBilling}
+                      className={this.state.selected[0]}><Billing /></TabContainer>}
+                  {tabvalue === 1 && <TabContainer onClick={this.switchToProfile}
+                      className={this.state.selected[1]} >
+                        <div>
+                    <h2 className="prefs">User Preferences</h2>
+                    <FlexDiv>
+                      <div>
+                        <h3>Shell Type</h3>
+                        <Select
+                          value={this.state.selectedOption1}
+                          onChange={this.handleSelect1}
+                          options={options1}
+                          className="select"
+                        />
+                      </div>
+                      <div>
+                        <h3>Spiciness</h3>
+                        <Select
+                          value={this.state.selectedOption2}
+                          onChange={this.handleSelect2}
+                          options={options2}
+                          className="select"
+                        />
+                      </div>
+                      <div>
+                        <h3>Restaurant Type</h3>
+                        <Select
+                          value={this.state.selectedOption3}
+                          onChange={this.handleSelect3}
+                          options={options3}
+                          className="select"
+                        />
+                      </div>
+                    </FlexDiv>
+                    <Button variant="contained" size="small" className={classes.button} onClick={this.submitEdit}>
+                    <SaveIcon className={classNames(classes.leftIcon, classes.iconSmall)} />
+                    SUBMIT
+                  </Button>
+                    {/* <Submit onClick={this.submitEdit}>SUBMIT</Submit> */}
+                  </div>
+                      
+                      </TabContainer>}
+                  {/* {tabvalue === 2 && <TabContainer>Item Three</TabContainer>} */}
                 </div>
-                <div>
-                  <h3>Spiciness</h3>
-                  <Select
-                    value={this.state.selectedOption2}
-                    onChange={this.handleSelect2}
-                    options={options2}
-                    className="select"
-                  />
-                </div>
-                <div>
-                  <h3>Restaurant Type</h3>
-                  <Select
-                    value={this.state.selectedOption3}
-                    onChange={this.handleSelect3}
-                    options={options3}
-                    className="select"
-                  />
-                </div>
-              </FlexDiv>
-              <Submit onClick={this.submitEdit}>SUBMIT</Submit>
-            </div>
-          ) : (
-            <Billing />
-          )}
         </ContainForm>
+        </div>
+      
       </div>
     );
   }
 }
 
-export default withAlert()(UserSettings);
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.paper,
+    display: "flex",
+    flexWrap: "wrap"
+  },
+  margin: {
+    margin: theme.spacing.unit * 2
+  },
+  padding: {
+    padding: `0 ${theme.spacing.unit * 2}px`
+  },
+  paper: {
+    padding: theme.spacing.unit * 2,
+    color: theme.palette.text.secondary
+  },
+  bigAvatar: {
+    margin: 10,
+    width: 60,
+    height: 60
+  },
+  leftIcon: {
+    marginRight: theme.spacing.unit
+  },
+  rightIcon: {
+    marginLeft: theme.spacing.unit
+  },
+  iconSmall: {
+    fontSize: 20
+  },
+  card: {
+    minWidth: 275
+  },
+  bullet: {
+    display: "inline-block",
+    margin: "0 2px",
+    transform: "scale(0.8)"
+  },
+  title: {
+    fontSize: 14
+  },
+  pos: {
+    marginBottom: 12
+  },
+  pmarg: {
+    marginBottom: 10
+  },
+  button: {
+    margin: theme.spacing.unit,
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    backgroundColor: "grey",
+    width: "89%",
+    height: 40
+
+  },  
+});
+
+
+const mapStateToProps = (state) => {
+  return {
+    auth: state.firebase.auth,
+    error: state.auth.authError
+  }
+}
+// export default withAlert()(UserSettings);
+export default compose(
+  withAlert(),
+  withStyles(styles, {withTheme: true}),
+  connect(mapStateToProps, null ))(UserSettings);

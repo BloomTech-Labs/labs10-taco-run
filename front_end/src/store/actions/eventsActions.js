@@ -20,6 +20,9 @@ export const EVENTS_CREATE_START = "EVENTS_CREATE_START";
 export const EVENTS_CREATE_COMPLETE = "EVENTS_CREATE_COMPLETE";
 export const EVENTS_CREATE_ERROR = "EVENTS_CREATE_ERROR";
 
+export const EVENTS_INVITE_START = "EVENTS_INVITE_START";
+export const EVENTS_INVITE_COMPLETE = "EVENTS_INVITE_COMPLETE";
+export const EVENTS_INVITE_ERROR = "EVENTS_INVITE_ERROR";
 
 const BASE_URL = "https://production-taco.herokuapp.com";
 
@@ -154,3 +157,18 @@ export const declineEvent = obj => {
     })
   }
 }
+
+export const inviteEvent = inviteObject => dispatch => {
+  dispatch({ type: EVENTS_INVITE_START });
+  axios
+    .post(`https://production-taco.herokuapp.com/users_events/`, inviteObject)
+    .then(response => {
+      console.log("response in inviteEvent is: \n");
+      console.log(response);
+      dispatch({ type: EVENTS_INVITE_COMPLETE, payload: response.data });
+    })
+    .catch(err => {
+      console.log(err);
+      dispatch({ type: EVENTS_INVITE_ERROR, payload: err });
+    });
+};

@@ -12,6 +12,9 @@ import EventList from "./components/events2/EventList";
 import CreateEvent from "./components/events2/CreateEvent";
 import EventSingle from "./components/events2/EventSingle";
 
+// CSS IMPORT
+import "./index.css";
+
 class App extends Component {
   render() {
     return (
@@ -21,7 +24,7 @@ class App extends Component {
             <Route exact path="/" component={LandingPage} />
           </Switch>
         ) : (
-          <div>
+          <div className="app">
             <Switch>
               <Route exact path="/events" component={EventList} />
               <Route exact path="/events_create" component={CreateEvent} />
