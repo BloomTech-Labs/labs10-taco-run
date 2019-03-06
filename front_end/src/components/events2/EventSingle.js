@@ -7,7 +7,7 @@ import {
   getComments,
   makeComment,
   deleteComment,
-  updateComment
+  updateComment,
 } from "../../store/actions/commentsActions";
 // import {
 //   Comment,
@@ -17,24 +17,24 @@ import {
 //   FlexDiv
 // } from "./eventsingle_css.js";
 
+import {fetchFriends} from '../../store/actions/friendsActions'
+import {searchUsers} from '../../store/actions/userActions'
+
 // import { Container } from "./eventsingle_css.js";
-import { fetchUser, searchUsers } from "../../store/actions/userActions";
+import { fetchUser } from "../../store/actions/userActions";
 import Popup from "reactjs-popup";
 import "./create_event.css"
 import GoogleMapReact from 'google-map-react';
 // import SearchBox from 'react-google-maps'
 
-import { MapDiv } from "./create_event_css.js";
+import { MapDiv, YelpDiv } from "./create_event_css.js";
 import { withAlert } from 'react-alert';
 import DrawerBar from "../drawer/Drawer";
 
 // --> Edit Event Form
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import { fade } from '@material-ui/core/styles/colorManipulator';
 import SaveIcon from '@material-ui/icons/Save';
-import InputBase from '@material-ui/core/InputBase';
-import SearchIcon from '@material-ui/icons/Search';
 import classNames from 'classnames';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
@@ -42,12 +42,20 @@ import "date-fns";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/core/styles";
 import DateFnsUtils from "@date-io/date-fns";
+import SearchIcon from '@material-ui/icons/Search';
 import {
   MuiPickersUtilsProvider,
   TimePicker,
   DatePicker
 } from "material-ui-pickers";
-
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Image from 'react-image-resizer';
 import { Link } from "react-router-dom";
 import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
@@ -58,10 +66,9 @@ import ListItemText from "@material-ui/core/ListItemText";
 import IconButton from "@material-ui/core/IconButton";
 import Icon from "@material-ui/core/Icon";
 
+import './custom.css'
+
 const styles = theme => ({
-  root: {
-    width: "100%"
-  },
   grid: {
     width: "100%",        
     borderRadius: 10,
@@ -83,36 +90,6 @@ const styles = theme => ({
   iconSmall: {
     fontSize: 20,
   },  
-  inputRoot: {
-    color: 'inherit',
-    width: '100%',
-  },
-  inputInput: {
-    paddingTop: theme.spacing.unit,
-    paddingRight: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit,
-    paddingLeft: theme.spacing.unit * 10,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: 200,
-    },
-  },
-  search: {
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
-    },
-    marginRight: theme.spacing.unit * 2,
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing.unit * 3,
-      width: 'auto',
-    },
-  },
   searchIcon: {
     width: theme.spacing.unit * 9,
     height: '100%',
@@ -122,9 +99,21 @@ const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  marginT: {
+    marginTop: 6
+  },
+  media: {
+    height: 140,
+  },
 });
 
-const TacoLocation = ({ text }) => <div>{text}</div>;
+const image = {
+  border: '1px solid #ccc',
+  background: '#fefefe',
+  marginBottom: 5
+}
+
+const TacoLocation = ({ text }) => <div className="taco">{text}</div>;
 
 class EventSingle extends React.Component {
   state = {
@@ -142,12 +131,19 @@ class EventSingle extends React.Component {
     loaded: false,
     picture: '',
     pic_url: '',
+    show_update: false,
     modalOpened: false,
-
+    show_map: false,
     checkedInvite: false,
     selectedDate: new Date(),
-    location: '',
-
+    city_location: "",
+    taco_places: [],
+    destinations: [],
+    zoom: 13,
+    lat_av: 0,
+    lon_av: 0,
+    currentPage: 1,
+    tacosPerPage: 6,
     search: ""
   };
 
@@ -155,6 +151,12 @@ class EventSingle extends React.Component {
     // console.log(event.target.files[0]);
     this.setState({
       picture: event.target.files[0]
+    })
+  }
+
+  handleClick = (event) => {
+    this.setState({
+      currentPage: Number(event.target.id)
     })
   }
 
@@ -198,6 +200,7 @@ class EventSingle extends React.Component {
     this.props.getComments(this.props.match.params.id);
     this.props.fetchUser(localStorage.getItem("user_id"));
     this.info()
+    this.props.fetchFriends(localStorage.getItem("user_id"))
   }
 
   handleChange = event => {
@@ -351,7 +354,74 @@ class EventSingle extends React.Component {
     this.setState({ [name]: event.target.checked });
     console.log(`${[name]}: ${event.target.checked}`);
   };
-  
+
+  switchForm = () => {
+    this.setState({
+      show_update: !this.state.show_update,
+    })
+  }
+
+  searchMap = event => {
+
+    let key = firebase.functions().app_.options_.yelpkey;
+
+    let city = this.state.city_location;
+    axios
+      .get(
+        `${"https://cors-anywhere.herokuapp.com/"}https://api.yelp.com/v3/businesses/search?term=taco&location=${city}&categories=mexican`,
+        {
+          headers: {
+            Authorization: `Bearer ${key}`
+          }
+        }
+      )
+      .then(res => {
+        console.log(res);
+
+        let destinations = [];
+        let obj;
+        let biz = res.data.businesses;
+        let lat_ar = [];
+        let lon_ar = [];
+
+        for (let i = 0; i < biz.length; i++) {
+          obj = {
+            lat: biz[i].coordinates.latitude,
+            lon: biz[i].coordinates.longitude,
+            name: biz[i].name
+          };
+          lat_ar.push(biz[i].coordinates.latitude);
+          lon_ar.push(biz[i].coordinates.longitude);
+          destinations.push(obj);
+        }
+
+        const average = arr => arr.reduce((p, c) => p + c, 0) / arr.length;
+
+        const av_lat = average(lat_ar);
+        const av_lon = average(lon_ar);
+
+        this.setState({
+          city_location: "",
+          taco_places: res.data.businesses,
+          destinations: destinations,
+          lat_av: av_lat,
+          lon_av: av_lon,
+          show_map: true
+        });
+      })
+      .catch(error => {
+        //this.props.alert.show("invalid city");
+        console.log(error);
+        this.setState({
+          city_location: ""
+        });
+      });
+  };
+
+  addVenue = (obj) => {
+    this.props.updateEvent(obj, this.props.match.params.id)
+  }
+
   handleSearchChange = e => {
     this.setState({ search: [e.target.value] });    
   };
@@ -374,262 +444,233 @@ class EventSingle extends React.Component {
   };
 
   render() {       
-    console.log("this.props is: \n");
-    console.log(this.props);
     const { classes } = this.props;
+    console.log(this.state)
+    console.log(this.props)
+
+    const {taco_places, currentPage, tacosPerPage} = this.state
+    const indexOfLastTaco = currentPage * tacosPerPage;
+    const indexOfFirstTaco = indexOfLastTaco - tacosPerPage;
+    const currentTacos = taco_places.slice(indexOfFirstTaco, indexOfLastTaco);
+    const pageNumbers = [];
+
+    for (let i = 1; i <= Math.ceil(taco_places.length / tacosPerPage); i++) {
+      pageNumbers.push(i);
+    }
+
+    const renderPageNumbers = pageNumbers.map(number => {
+      return (
+        <button
+          key={number}
+          id={number}
+          onClick={this.handleClick}
+          className="btnMargin"
+        >
+          {number}
+        </button>
+      );
+    });
+
     return (
       <div>
-      <DrawerBar />
+        <DrawerBar />
+        <div class="container">
+          {this.state.posted_by === this.props.auth.displayName ? (
+            <div>
+              <Button variant="contained" color="primary" >
+                Primary
+              </Button>
 
-      {this.state.posted_by === this.props.auth.displayName ? (     
-        <div className = {classes.root} style = {{ paddingLeft: 150, display: "flex", width: "100%", height: 50, justifyContent: "space-evenly", alignItems: "center" }}>
-          <h1>You are the author of this event</h1>          
-          <Popup trigger = {<Button variant="contained" color="primary" className= "save-button">Update</Button>} modal>
-            {close => (
-              <div className = "modal-open">
-                <a className = "close-modal" onClick = {close}>&times;</a> {/* Close Button "X" */}
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <Grid
-                    container
-                    className={classes.grid}
-                    justify="space-evenly"
-                  >
-                    <DatePicker
-                      required
-                      margin="normal"
-                      label="Date picker"
-                      value={this.state.selectedDate}
-                      onChange={this.handleDateChange}
-                    />
-
-                    <TimePicker
-                      required
-                      margin="normal"
-                      label="Time picker"
-                      value={this.state.selectedDate}
-                      onChange={this.handleDateChange}
-                    />
-
-                    <FormControlLabel
-                      control={
-                        <Switch
-                          checked={this.state.checkedInvite}
-                          onChange={this.handleSwitchChange('checkedInvite')}
-                          value= {this.state.checkedInvite}
-                        />
-                      }
-                      label="Invite Only"
-                    />
-
-                    <TextField                      
-                      id="standard-name"
-                      name = "location" // --> needs a name attribute so it'll load correctly
-                      label="Location Name"
-                      className={classes.textField}
-                      value={this.state.location}
-                      onChange={this.handleChange}
-                      type = "text"
-                      margin="normal"
-                    />  
-
-                    <div className={classes.search}>
-                      <div className={classes.searchIcon}>
-                        {/* <SearchIcon onSubmit = {this.handleSubmitUsers}/> */}
-                      </div>
-                      <form
-                        className={classes.container}
-                        noValidate
-                        autoComplete="off"
-                        onSubmit={this.handleSubmitUsers}
-                      >
-                        <TextField
-                          id="standard-search"
-                          label="Invite More People"
-                          type="search"
-                          className={classes.textField}
-                          margin="normal"
-                          value={this.state.search}
-                          onChange={this.handleSearchChange}
-                        />
-                      </form> 
-                      <div id="results" ref={node => (this.node = node)}>
-                        <List>
-                          {this.props.users.map(result => {
-                            if (result !== undefined) {
-                              return (
-                                <Link key = {result.name} to={`user/${result.id}`}>
-                                  <ListItem className="resultsDisplay">
-                                    <ListItemAvatar className="location-picture">
-                                      <Avatar src={result.user_pic} />
-                                    </ListItemAvatar>
-                                    <ListItemText primary={result.name} />
-                                    <IconButton aria-label="Add">
-                                    <Icon onClick={this.handleInvite} id={result.id}>
-                                      +
-                                    </Icon>
-                                  </IconButton>                                    
-                                  </ListItem>
-                                  <Divider />
-                                </Link>
-                              );
-                            }
-                          })}
-                        </List>
-                      </div>                     
-                    </div>
-                  </Grid>
-                </MuiPickersUtilsProvider>
-              </div>
-            )}
-          </Popup>
-        </div>
-
-      ) : (
-        <h1>You are not the author of this event</h1>
-      )
-      }
-
-        {/* {this.state.loaded ? (
-          <div className = "state-loaded-wrapper">
-            <div className = "event-title-wrapper" style = {{ width: "100%", paddingLeft: 126 }}>
-              <h3>Event Title Here</h3>
-            </div>
-            {/* <div className = "map-div-wrapper">
-              <MapDiv>
-                <GoogleMapReact
-                  bootstrapURLKeys={{ key: firebase.functions().app_.options_.googlekey }}
-                  defaultZoom={16}
-                  defaultCenter={{lat: this.state.lat, lng: this.state.lon}}
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <Grid
+                  container
+                  className={classes.grid}
+                  justify="space-evenly"
                 >
-                <TacoLocation
-                  text={this.state.venue}
-                  lat={this.state.lat}
-                  lng={this.state.lon}
-                />
-                </GoogleMapReact>
-              </MapDiv>
-            </div> */}
-          { /* </div>
-          ) : null} */}
+                  <DatePicker
+                    required
+                    margin="normal"
+                    label="Date picker"
+                    value={this.state.selectedDate}
+                    onChange={this.handleDateChange}
+                  />
 
-        {/* <Container>
+                  <TimePicker
+                    required
+                    margin="normal"
+                    label="Time picker"
+                    value={this.state.selectedDate}
+                    onChange={this.handleDateChange}
+                  />
 
-          <div>
-            <button onClick={this.leaveEvent}>Click here to leave event</button><br/>
-            <button onClick={this.attendEvent}>Click here to Attend</button><br/>
-            <button onClick={this.addFav}>Add location to favorites</button>
-            <p><img className="yelp_img" alt="restaurant-img" src={this.state.img_url}/></p>
-            <p>Venue: {this.state.venue}</p>
-            <p>Date: {this.state.date}</p>
-            <p>Location {this.state.location}</p>
-            <p>posted_by: {this.state.posted_by}</p>
-            <p>price: {this.state.price}</p>
-            <p>raiting: {this.state.raiting}</p>
-            <p><a href={this.state.url}>Yelp Link</a></p>
-          </div>
-          <div>
-            <div className="event-invited">
-              <h2 className="event-invited-title">Attending</h2>
-              {this.state.attending.map(attendee => {
-                if (attendee !== undefined) {
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={this.state.checkedInvite}
+                        onChange={this.handleSwitchChange('checkedInvite')}
+                        value= {this.state.checkedInvite}
+                      />
+                    }
+                    label="Invite Only"
+                  />
+                  
+
+                  <TextField                      
+                    id="standard-name"
+                    name = "city_location" // --> needs a name attribute so it'll load correctly
+                    label="Search taco places by city"
+                    className={classes.textField}
+                    value={this.state.city_location}
+                    onChange={this.handleChange}
+                    type = "text"
+                    margin="normal"
+                  /> 
+
+                  <Button 
+                    variant="contained" 
+                    className={classes.marginT}
+                    onClick={() => {this.searchMap(this.state.city_location)}}
+                  >
+                    Search
+                  </Button>
+                </Grid>
+
+                <div className={classes.search}>
+                  <div className={classes.searchIcon}>
+                    {/* <SearchIcon onSubmit = {this.handleSubmitUsers}/> */}
+                  </div>
+                  <form
+                    className={classes.container}
+                    noValidate
+                    autoComplete="off"
+                    onSubmit={this.handleSubmitUsers}
+                  >
+                    <TextField
+                      id="standard-search"
+                      label="Invite More People"
+                      type="search"
+                      className={classes.textField}
+                      margin="normal"
+                      value={this.state.search}
+                      onChange={this.handleSearchChange}
+                    />
+                  </form> 
+                  <div id="results" ref={node => (this.node = node)}>
+                    <List>
+                      {this.props.users.map(result => {
+                        if (result !== undefined) {
+                          return (
+                            <Link key = {result.name} to={`user/${result.id}`}>
+                              <ListItem className="resultsDisplay">
+                                <ListItemAvatar className="location-picture">
+                                  <Avatar src={result.user_pic} />
+                                </ListItemAvatar>
+                                <ListItemText primary={result.name} />
+                                <IconButton aria-label="Add">
+                                <Icon onClick={this.handleInvite} id={result.id}>
+                                  +
+                                </Icon>
+                              </IconButton>                                    
+                              </ListItem>
+                              <Divider />
+                            </Link>
+                          );
+                        }
+                      })}
+                    </List>
+                  </div>                     
+                </div>
+
+                {this.state.show_map ? (
+                  <MapDiv>
+                    <GoogleMapReact
+                      bootstrapURLKeys={{
+                        key: firebase.functions().app_.options_.googlekey
+                      }}
+                      defaultZoom={this.state.zoom}
+                      defaultCenter={{ lat: this.state.lat_av, lng: this.state.lon_av }}
+                    >
+                      {this.state.destinations.map((d, i) => {
+                        return <TacoLocation lat={d.lat} lng={d.lon} text={d.name} key={i} />;
+                      })}
+                    </GoogleMapReact>
+                  </MapDiv>
+                ) : null}
+
+              <div class="flex1">
+                {currentTacos.map((t, idx) => {
                   return (
-                    <div key = {attendee.name}>
-                      <h4>{attendee.name}</h4>
-                    </div>
-                  );
-                }
-                return "map completed";
-              })}
-            </div> */}
-            {/* <div className="event-discussion">
-              <h2 className="event-discussion-title">Discussion</h2>
-              {this.props.comments.map(comment => {
-                if (comment !== undefined) {
-                  return (
-                    <FlexDiv key = {comment.id}>
-
-                      {this.props.user.email === comment.posters_email ? (
-                        <FlexDiv>
-                          <DeleteBtn
-                            onClick={this.commentDelete}
-                            id={comment.id}
-                          >
-                            X
-                          </DeleteBtn>
-                          <Popup
-                            trigger={<button>Edit Comment</button>}
-                            position="right center"
-                          >
-                            <FormComment onSubmit={this.commentUpdate}>
-                              <textarea
-                                type="text"
-                                placeholder={"Add a comment or upload image"}
-                                onChange={this.handleEdit}
-                                name="content"
-                                value={this.state.editComment}
-                              />
-                            </FormComment>
-                            <CommentSubmit
-                              onClick={this.commentUpdate}
-                              id={comment.id}
-                            >
-                              Edit
-                            </CommentSubmit>
-                          </Popup>
-                        </FlexDiv>
-                      ) : null }
-
-                      <Comment key={comment.id}>
-                        <h4> - {comment.posted_by}</h4>
-                        <h6>{comment.date}</h6>
-                        <h5>{comment.content}</h5>
-                        <img src={comment.pic_url} alt="comment-img" />
-                      </Comment>
-                    </FlexDiv>
-                  );
-                }
-                return "comments map completed"
-              })}
+                <Card className="card">
+                  <CardActionArea>
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="h2">
+                        {t.name}
+                      </Typography>
+                       <Image
+                          src={t.image_url}
+                          width={220}
+                          height={220}
+                          style={image}
+                          key={idx}
+                        />
+                      <Typography component="p">
+                        Location:{" "}
+                        {`${t.location.display_address[0]} ${
+                          t.location.display_address[1]
+                        }`}<br/>
+                        Rating: {t.rating}<br/>
+                        Price: {t.price}<br/>
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                  <CardActions>
+                    <Button size="small" color="primary">
+                      <a href={t.url} className="noUnderline">View on Yelp</a>
+                    </Button>
+                    <Button size="small" color="primary" 
+                      onClick={() => {this.addVenue(
+                        {
+                          lat: t.coordinates.latitude,
+                          lon: t.coordinates.longitude,
+                          venue: t.name,
+                          img_url: t.image_url,
+                          location: `${t.location.display_address[0]} ${
+                            t.location.display_address[1]
+                          }`,
+                          raiting: t.rating,
+                          price: t.price,
+                          url: t.url
+                        }
+                      )}}
+                    >
+                      Add Location
+                    </Button>
+                  </CardActions>
+                </Card>
+                  )
+                })}
+              </div>
+              </MuiPickersUtilsProvider>
+              {renderPageNumbers}
             </div>
-          </div>
-          <FormComment onSubmit={this.createComment}>
-            <textarea
-              type="text"
-              placeholder="Add a comment or upload image"
-              onChange={this.handleChange}
-              name="content"
-              value={this.state.content}
-            /><br />
-            <input type="file" onChange={this.fileSelect}></input>
-          </FormComment>
 
-          <CommentSubmit onClick={this.createComment}>Submit</CommentSubmit>
-        </Container> */}
+          ) : null } 
+        </div>
       </div>
-    );
+    )
   }
 }
 
-// mapStateToProps
 const mapStateToProps = state => {
   return {
     user: state.userReducer.user,
-    users: state.userReducer.users,
     event: state.eventsReducer.event,
     attendees: state.eventsReducer.attendees,
     comments: state.commentsReducer.comments,
-    auth: state.firebase.auth,    
+    auth: state.firebase.auth,  
+    friends: state.friendsReducer.friends,
+    users: state.userReducer.users 
   };
 };
 
-export default connect(mapStateToProps,{
-  getEvent,
-  updateEvent,
-  getComments,
-  fetchUser,
-  searchUsers,
-  makeComment,
-  deleteComment,
-  updateComment,
-  inviteEvent
-})(withStyles(styles)(EventSingle));
+export default connect(mapStateToProps,{getEvent,updateEvent,getComments,fetchUser,makeComment,deleteComment,updateComment, fetchFriends, searchUsers, inviteEvent})(withStyles(styles)(EventSingle));
