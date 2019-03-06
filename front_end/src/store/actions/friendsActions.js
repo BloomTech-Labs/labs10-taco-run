@@ -67,7 +67,8 @@ export const addFriend = friend => {
   };
 };
 
-export const deleteFriend = (ids, f_id) => {
+export const deleteFriend = ids => {
+  console.log(ids);
   return dispatch => {
     dispatch({ type: FRIEND_DELETE_START });
     axios
@@ -75,7 +76,18 @@ export const deleteFriend = (ids, f_id) => {
         data: ids
       })
       .then(() => {
-        dispatch({ type: FRIEND_DELETE_COMPLETE, payload: f_id });
+        axios
+          .get(
+            `https://production-taco.herokuapp.com/users_friends/${localStorage.getItem(
+              "user_id"
+            )}`
+          )
+          .then(res => {
+            dispatch({
+              type: FRIEND_DELETE_COMPLETE,
+              payload: res.data
+            });
+          });
       })
       .catch(error => {
         dispatch({ type: FRIEND_DELETE_ERROR, payload: error.data });

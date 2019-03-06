@@ -163,7 +163,6 @@ class DrawerBar extends React.Component {
   /*============================= Navigation Button Helpers END =============================*/
 
   render() {
-    console.log(this.props);
     const { classes, theme } = this.props; // --> this is to access the style function found below
     return (
       <div className={classes.root}>
