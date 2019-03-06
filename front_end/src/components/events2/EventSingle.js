@@ -56,6 +56,7 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
+import Image from 'react-image-resizer';
 import './custom.css'
 
 
@@ -93,9 +94,18 @@ const styles = theme => ({
   marginT: {
     marginTop: 6
   },
+  media: {
+    height: 140,
+  },
 });
 
-const TacoLocation = ({ text }) => <div>{text}</div>;
+const image = {
+  border: '1px solid #ccc',
+  background: '#fefefe',
+  marginBottom: 5
+}
+
+const TacoLocation = ({ text }) => <div className="taco">{text}</div>;
 
 class EventSingle extends React.Component {
   state = {
@@ -125,7 +135,7 @@ class EventSingle extends React.Component {
     lat_av: 0,
     lon_av: 0,
     currentPage: 1,
-    tacosPerPage: 5,
+    tacosPerPage: 6,
   };
 
   fileSelect = (event) => {
@@ -343,7 +353,7 @@ class EventSingle extends React.Component {
   }
 
   searchMap = event => {
-    //event.preventDefault();
+
     let key = firebase.functions().app_.options_.yelpkey;
 
     let city = this.state.city_location;
@@ -369,7 +379,7 @@ class EventSingle extends React.Component {
           obj = {
             lat: biz[i].coordinates.latitude,
             lon: biz[i].coordinates.longitude,
-            number: i + 1
+            name: biz[i].name
           };
           lat_ar.push(biz[i].coordinates.latitude);
           lon_ar.push(biz[i].coordinates.longitude);
@@ -399,19 +409,22 @@ class EventSingle extends React.Component {
       });
   };
 
+  addVenue = (obj) => {
+    this.props.updateEvent(obj, this.props.match.params.id)
+  }
+
+
+
   render() {       
     const { classes } = this.props;
     console.log(this.state)
     console.log(this.props)
-
 
     const {taco_places, currentPage, tacosPerPage} = this.state
     const indexOfLastTaco = currentPage * tacosPerPage;
     const indexOfFirstTaco = indexOfLastTaco - tacosPerPage;
     const currentTacos = taco_places.slice(indexOfFirstTaco, indexOfLastTaco);
     const pageNumbers = [];
-
-
 
     for (let i = 1; i <= Math.ceil(taco_places.length / tacosPerPage); i++) {
       pageNumbers.push(i);
@@ -423,6 +436,7 @@ class EventSingle extends React.Component {
           key={number}
           id={number}
           onClick={this.handleClick}
+          className="btnMargin"
         >
           {number}
         </button>
@@ -502,28 +516,29 @@ class EventSingle extends React.Component {
                       defaultZoom={this.state.zoom}
                       defaultCenter={{ lat: this.state.lat_av, lng: this.state.lon_av }}
                     >
-                      {this.state.destinations.map(d => {
-                        return <TacoLocation lat={d.lat} lng={d.lon} text={d.number} />;
+                      {this.state.destinations.map((d, i) => {
+                        return <TacoLocation lat={d.lat} lng={d.lon} text={d.name} key={i} />;
                       })}
                     </GoogleMapReact>
                   </MapDiv>
                 ) : null}
 
-
-              <div>
+              <div class="flex1">
                 {currentTacos.map((t, idx) => {
                   return (
-                <Card className={classes.card}>
+                <Card className="card">
                   <CardActionArea>
-                    <CardMedia
-                      className={classes.media}
-                      image={t.image_url}
-                      title="Contemplative Reptile"
-                    />
                     <CardContent>
                       <Typography gutterBottom variant="h5" component="h2">
                         {t.name}
                       </Typography>
+                       <Image
+                          src={t.image_url}
+                          width={220}
+                          height={220}
+                          style={image}
+                          key={idx}
+                        />
                       <Typography component="p">
                         Location:{" "}
                         {`${t.location.display_address[0]} ${
@@ -538,7 +553,22 @@ class EventSingle extends React.Component {
                     <Button size="small" color="primary">
                       <a href={t.url} className="noUnderline">View on Yelp</a>
                     </Button>
-                    <Button size="small" color="primary">
+                    <Button size="small" color="primary" 
+                      onClick={() => {this.addVenue(
+                        {
+                          lat: t.coordinates.latitude,
+                          lon: t.coordinates.longitude,
+                          venue: t.name,
+                          img_url: t.image_url,
+                          location: `${t.location.display_address[0]} ${
+                            t.location.display_address[1]
+                          }`,
+                          raiting: t.rating,
+                          price: t.price,
+                          url: t.url
+                        }
+                      )}}
+                    >
                       Add Location
                     </Button>
                   </CardActions>
@@ -570,23 +600,3 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps,{getEvent,updateEvent,getComments,fetchUser,makeComment,deleteComment,updateComment, fetchFriends, searchUsers})(withStyles(styles)(EventSingle));
-
-
-
-
-            // {this.state.show_map ? (
-            //   <MapDiv>
-            //     <GoogleMapReact
-            //       bootstrapURLKeys={{
-            //         key: firebase.functions().app_.options_.googlekey
-            //       }}
-            //       defaultZoom={this.state.zoom}
-            //       defaultCenter={{ lat: this.state.lat_av, lng: this.state.lon_av }}
-            //     >
-            //       {this.state.destinations.map(d => {
-            //         return <TacoLocation lat={d.lat} lng={d.lon} text={d.number} />;
-            //       })}
-            //     </GoogleMapReact>
-            //   </MapDiv>
-            // ) : null}
-
