@@ -133,6 +133,10 @@ const styles = theme => ({
   rightIcon: {
     marginLeft: theme.spacing.unit
   },
+  tabs: {
+    width: "33%"
+  },
+  tabBar: { display: "flex", justifyContent: "center" },
   textBox: {
     [theme.breakpoints.down("xs")]: {
       textAlign: "center"
@@ -225,8 +229,12 @@ class EventList extends React.Component {
           {this.props.events ? (
             <div className={classes.root}>
               <AppBar position="static">
-                <Tabs value={tabValue} onChange={this.handleChangeTabs}>
-                  <Tab label="Upcoming" />
+                <Tabs
+                  value={tabValue}
+                  onChange={this.handleChangeTabs}
+                  className={classes.tabBar}
+                >
+                  <Tab label="Upcoming" className={classes.tabs} />
                   <Tab
                     label={
                       <Badge
@@ -237,8 +245,9 @@ class EventList extends React.Component {
                         Pending
                       </Badge>
                     }
+                    className={classes.tabs}
                   />
-                  <Tab label="Past" />
+                  <Tab label="Past" className={classes.tabs} />
                 </Tabs>
               </AppBar>
               {tabValue === 0 && (
