@@ -104,11 +104,11 @@ export const deleteEvent = id => {
   };
 };
 
-export const updateEvent = (event, id) => {
+export const updateEvent = event => {
   return dispatch => {
     dispatch({ type: EVENT_UPDATE_START });
     axios
-      .put(`https://production-taco.herokuapp.com/events/${id}`, event)
+      .put(`https://production-taco.herokuapp.com/events`, event)
       .then(() => {
         axios.get("https://production-taco.herokuapp.com/events").then(res2 => {
           dispatch({ type: EVENT_UPDATE_COMPLETE, payload: res2.data });

@@ -20,7 +20,6 @@ import {
 import {fetchFriends} from '../../store/actions/friendsActions'
 import {searchUsers} from '../../store/actions/userActions'
 
-
 // import { Container } from "./eventsingle_css.js";
 import { fetchUser } from "../../store/actions/userActions";
 import Popup from "reactjs-popup";
@@ -57,7 +56,6 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Image from 'react-image-resizer';
-
 import { Link } from "react-router-dom";
 import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
@@ -68,14 +66,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import IconButton from "@material-ui/core/IconButton";
 import Icon from "@material-ui/core/Icon";
 
-
-
-
-
-
 import './custom.css'
-
-//search
 
 const styles = theme => ({
   grid: {
@@ -544,12 +535,6 @@ class EventSingle extends React.Component {
                   </Button>
                 </Grid>
 
-
-
-
-
-
-
                 <div className={classes.search}>
                   <div className={classes.searchIcon}>
                     {/* <SearchIcon onSubmit = {this.handleSubmitUsers}/> */}
@@ -595,15 +580,6 @@ class EventSingle extends React.Component {
                     </List>
                   </div>                     
                 </div>
-
-
-
-
-
-
-
-
-
 
                 {this.state.show_map ? (
                   <MapDiv>
