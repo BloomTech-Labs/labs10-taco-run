@@ -57,7 +57,7 @@ export const searchUsers = term => {
 export const updateUser = (edited_user, id) => {
   return dispatch => {
     axios
-      .put(`https://production-taco.herokuapp.com//users/${id}`, edited_user)
+      .put(`https://production-taco.herokuapp.com/users/${id}`, edited_user)
       .then(res => {
         console.log(res)
       })

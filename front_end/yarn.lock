@@ -8525,6 +8525,11 @@ react-if-elseif-else-render@^1.0.2:
     react "^15.5.4"
     webpack "^2.6.1"
 
+react-image-resizer@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/react-image-resizer/-/react-image-resizer-1.3.0.tgz#99e25bb94ab2fe888c26538c5d764abd2b4e2a93"
+  integrity sha512-JZwNWumImYwPNeaf+MV5wEtUvyPK8crjLYo7AVf3/3LQ92oPwi/Clxmg76f14EQm73cbwxKgXTlJbFOSRGQGtA==
+
 react-images-upload@^1.2.6:
   version "1.2.6"
   resolved "https://registry.yarnpkg.com/react-images-upload/-/react-images-upload-1.2.6.tgz#3ac831537d14f48ec7ed599ff4c8839c903c5393"
