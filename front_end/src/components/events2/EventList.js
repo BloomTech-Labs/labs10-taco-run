@@ -18,6 +18,10 @@ import ListSubheader from "@material-ui/core/ListSubheader";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import InfoIcon from "@material-ui/icons/Info";
+
+// import HomeIcon from '@material-ui/icons/Home';
+import SvgIcon from "@material-ui/core/SvgIcon";
+
 //-------------Material UI------------------
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
@@ -62,7 +66,6 @@ const styles = theme => ({
   root: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
-    display: "flex",
     flexWrap: "wrap"
   },
   margin: {
@@ -81,8 +84,25 @@ const styles = theme => ({
     height: 60
   },
   button: {
+    margin: theme.spacing.unit
+  },
+  buttonAccept: {
     margin: theme.spacing.unit,
-    height: 40
+    backgroundColor: "#17a81c",
+    height: "40",
+    color: "white"
+  },
+  buttonDecline: {
+    margin: theme.spacing.unit,
+    backgroundColor: "#c41515",
+    height: "40",
+    color: "white"
+  },
+  buttonGroup: {
+    [theme.breakpoints.down("xs")]: {
+      display: "flex",
+      flexDirection: "column"
+    }
   },
   leftIcon: {
     marginRight: theme.spacing.unit
@@ -109,6 +129,14 @@ const styles = theme => ({
   },
   pmarg: {
     marginBottom: 10
+  },
+  rightIcon: {
+    marginLeft: theme.spacing.unit
+  },
+  textBox: {
+    [theme.breakpoints.down("xs")]: {
+      textAlign: "center"
+    }
   }
 });
 
@@ -215,7 +243,7 @@ class EventList extends React.Component {
               </AppBar>
               {tabValue === 0 && (
                 <TabContainer>
-                  <Grid container>
+                  <Grid>
                     {this.props.events.upcoming &&
                       this.props.events.upcoming.map(event => {
                         return (
@@ -241,7 +269,7 @@ class EventList extends React.Component {
                                 className={classes.bigAvatar}
                               />
 
-                              <CardContent>
+                              <CardContent className={classes.textBox}>
                                 <Typography
                                   variant="h5"
                                   component="h2"
@@ -318,80 +346,83 @@ class EventList extends React.Component {
                                   <DeleteIcon className={classes.rightIcon} />
                                 </Button>
                               ) : null}
+                              <Avatar
+                                alt="posters image"
+                                src={event.posters_pic}
+                                className={classes.bigAvatar}
+                              />
 
-                              <Card className={`${classes.card} spacingCard`}>
-                                <CardContent>
-                                  <Typography
-                                    variant="h5"
-                                    component="h2"
-                                    className={classes.pos}
-                                  >
-                                    {event.name}
-                                  </Typography>
-                                  <Typography
-                                    component="p"
-                                    className={classes.pmarg}
-                                  >
-                                    <Moment format="dddd, MMMM Do YYYY, h:mm:ss a">
-                                      {event.date}
-                                    </Moment>
-                                  </Typography>
-                                  <Typography
-                                    component="p"
-                                    className={classes.pmarg}
-                                  >
-                                    total attending: {event.total_users}
-                                  </Typography>
-                                  <Typography
-                                    component="p"
-                                    className={classes.pmarg}
-                                  >
-                                    comments: {event.total_comments}
-                                  </Typography>
-                                  <Typography
-                                    component="p"
-                                    className={classes.pmarg}
-                                  >
-                                    posted by {event.author}
-                                  </Typography>
-                                  <Avatar
-                                    alt="posters image"
-                                    src={event.posters_pic}
-                                    className={classes.bigAvatar}
-                                  />
-                                </CardContent>
-                              </Card>
-                              <Button
-                                className={classes.button}
-                                variant="contained"
-                                size="medium"
-                                color="primary"
-                                onClick={() => {
-                                  this.props.history.push(
-                                    `/events/${event.id}`
-                                  );
-                                }}
-                              >
-                                View Event
-                              </Button>
-                              <Button
-                                className={classes.button}
-                                id={event.id}
-                                onClick={() => {
-                                  this.joinEvent(event.id);
-                                }}
-                              >
-                                LETS GO
-                              </Button>
-                              <Button
-                                className={classes.button}
-                                id={event.id}
-                                onClick={() => {
-                                  this.declineEvent(event.id);
-                                }}
-                              >
-                                NOT THIS TIME
-                              </Button>
+                              <CardContent className={classes.textBox}>
+                                <Typography
+                                  variant="h5"
+                                  component="h2"
+                                  className={classes.pos}
+                                >
+                                  {event.name}
+                                </Typography>
+                                <Typography
+                                  component="p"
+                                  className={classes.pmarg}
+                                >
+                                  <Moment format="dddd, MMMM Do YYYY, h:mm:ss a">
+                                    {event.date}
+                                  </Moment>
+                                </Typography>
+                                <Typography
+                                  component="p"
+                                  className={classes.pmarg}
+                                >
+                                  total attending: {event.total_users}
+                                </Typography>
+                                <Typography
+                                  component="p"
+                                  className={classes.pmarg}
+                                >
+                                  comments: {event.total_comments}
+                                </Typography>
+                                <Typography
+                                  component="p"
+                                  className={classes.pmarg}
+                                >
+                                  posted by {event.author}
+                                </Typography>
+                              </CardContent>
+
+                              <div className={classes.buttonGroup}>
+                                <Button
+                                  className={classes.button}
+                                  variant="contained"
+                                  size="medium"
+                                  color="primary"
+                                  onClick={() => {
+                                    this.props.history.push(
+                                      `/events/${event.id}`
+                                    );
+                                  }}
+                                >
+                                  View Event
+                                </Button>
+                                <Button
+                                  variant="contained"
+                                  className={classes.buttonAccept}
+                                  id={event.id}
+                                  onClick={() => {
+                                    this.joinEvent(event.id);
+                                  }}
+                                >
+                                  LET'S GO
+                                </Button>
+                                <Button
+                                  variant="contained"
+                                  className={classes.buttonDecline}
+                                  id={event.id}
+                                  onClick={() => {
+                                    this.declineEvent(event.id);
+                                  }}
+                                >
+                                  NOT THIS TIME
+                                </Button>
+                              </div>
                             </Paper>
                           </Grid>
                         );
@@ -407,6 +438,59 @@ class EventList extends React.Component {
                         return (
                           <Grid item xs={12} key={event.id}>
                             <Paper className={`${classes.paper} flexList`}>
+                              <Avatar
+                                alt="posters image"
+                                src={event.posters_pic}
+                                className={classes.bigAvatar}
+                              />
+                              <CardContent className={classes.textBox}>
+                                <Typography
+                                  variant="h5"
+                                  component="h2"
+                                  className={classes.pos}
+                                >
+                                  {event.name}
+                                </Typography>
+                                <Typography
+                                  component="p"
+                                  className={classes.pmarg}
+                                >
+                                  <Moment format="dddd, MMMM Do YYYY, h:mm:ss a">
+                                    {event.date}
+                                  </Moment>
+                                </Typography>
+                                <Typography
+                                  component="p"
+                                  className={classes.pmarg}
+                                >
+                                  total attending: {event.total_users}
+                                </Typography>
+                                <Typography
+                                  component="p"
+                                  className={classes.pmarg}
+                                >
+                                  comments: {event.total_comments}
+                                </Typography>
+                                <Typography
+                                  component="p"
+                                  className={classes.pmarg}
+                                >
+                                  posted by {event.author}
+                                </Typography>
+                              </CardContent>
+                              <Button
+                                className={classes.button}
+                                variant="contained"
+                                size="medium"
+                                color="primary"
+                                onClick={() => {
+                                  this.props.history.push(
+                                    `/events/${event.id}`
+                                  );
+                                }}
+                              >
+                                View Event
+                              </Button>
                               {this.props.auth.email === event.posters_email ? (
                                 <Button
                                   variant="contained"
@@ -421,62 +505,6 @@ class EventList extends React.Component {
                                   <DeleteIcon className={classes.rightIcon} />
                                 </Button>
                               ) : null}
-
-                              <Card className={`${classes.card} spacingCard`}>
-                                <CardContent>
-                                  <Typography
-                                    variant="h5"
-                                    component="h2"
-                                    className={classes.pos}
-                                  >
-                                    {event.name}
-                                  </Typography>
-                                  <Typography
-                                    component="p"
-                                    className={classes.pmarg}
-                                  >
-                                    <Moment format="dddd, MMMM Do YYYY, h:mm:ss a">
-                                      {event.date}
-                                    </Moment>
-                                  </Typography>
-                                  <Typography
-                                    component="p"
-                                    className={classes.pmarg}
-                                  >
-                                    total attending: {event.total_users}
-                                  </Typography>
-                                  <Typography
-                                    component="p"
-                                    className={classes.pmarg}
-                                  >
-                                    comments: {event.total_comments}
-                                  </Typography>
-                                  <Typography
-                                    component="p"
-                                    className={classes.pmarg}
-                                  >
-                                    posted by {event.author}
-                                  </Typography>
-                                  <Avatar
-                                    alt="posters image"
-                                    src={event.posters_pic}
-                                    className={classes.bigAvatar}
-                                  />
-                                </CardContent>
-                              </Card>
-                              <Button
-                                className={classes.button}
-                                variant="contained"
-                                size="medium"
-                                color="primary"
-                                onClick={() => {
-                                  this.props.history.push(
-                                    `/events/${event.id}`
-                                  );
-                                }}
-                              >
-                                View Event
-                              </Button>
                             </Paper>
                           </Grid>
                         );
