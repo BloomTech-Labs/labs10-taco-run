@@ -42,7 +42,7 @@
 | POST    | /users_friends | Creates a new `friends` relationship using the information sent inside the `body` of the request(user_id, friends_id ). First we made the person our friend,then we set the other person as friends with us. So 2 entries are created with each post request. Id is automatically incremented. | [Details](#POST/users_friends) |
 | GET    | /users_friends/:id |If the user is logged in, respond with an array of all the all friends contained in the database for a particular user. If the user is not logged in repond with the err code. (could be used to get all of loggin users friends by passing in users id to the url. Can also be used to get all the friends of another user by passing in thier id to the url) | [Details](#GET/users_friends/:id) |
 | DELETE | users_friends/ | If the user is logged in, finds and deletes the firends .You will be removed frome you friend, and your friend will be removed from your freinds list.(2 deletes accure)  If the user is not logged-in or does not contain the entry respond with the err code. | [Details](#DELETE/users_friends/) |
-
+| POST    | /users_events | Creates a new `invitation` to join the event using the information sent inside the `body` of the request(user_id, event_id ). First check is user is already going to event. If user attemps to sign up for event he is already going to responds with a message. If the user isn't already going, the user is added to the event. Id is automatically incremented. | [Details](#POST/users_events) |
 
 
 
@@ -69,7 +69,7 @@
 17.[Details](#POST/users_friends)
 18.[Details](#GET/users_friends/:id)
 19.[Details](#DELETE/users_friends/)
-20.
+20.[Details](#POST/users_events)
 21.
 22.
 23.
