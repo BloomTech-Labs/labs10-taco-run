@@ -239,19 +239,11 @@ class UserSettings extends React.Component {
             <div className={classes.root}>
               <AppBar position="static">
                 <Tabs tabvalue={tabvalue} classes = {{ flexContainer: classes.justifyTabs }} onChange={this.handleTabChange}>
-                  <Tab label="Billing" style = {{ width: "50%" }} />
                   <Tab label="Profile" style = {{ width: "50%" }} />
+                  <Tab label="Billing" style = {{ width: "50%" }} />                  
                 </Tabs>
               </AppBar>
-              {tabvalue === 0 && (
-                <TabContainer
-                  onClick={this.switchToBilling}
-                  className={this.state.selected[0]}
-                >
-                  <Billing />
-                </TabContainer>
-              )}
-              {tabvalue === 1 && (
+              {tabvalue === 0 && (                
                 <TabContainer
                   onClick={this.switchToProfile}
                   className={this.state.selected[1]}
@@ -303,6 +295,14 @@ class UserSettings extends React.Component {
                     </Button>
                     {/* <Submit onClick={this.submitEdit}>SUBMIT</Submit> */}
                   </div>
+                </TabContainer>
+              )}
+              {tabvalue === 1 && (
+                <TabContainer
+                  onClick={this.switchToBilling}
+                  className={this.state.selected[0]}
+                >
+                  <Billing />
                 </TabContainer>
               )}
               {/* {tabvalue === 2 && <TabContainer>Item Three</TabContainer>} */}
