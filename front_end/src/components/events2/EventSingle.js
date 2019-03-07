@@ -595,8 +595,7 @@ class EventSingle extends React.Component {
                     label="Invite Only"
                   />
                
-                  
-
+                
                   <TextField                      
                     id="standard-name"
                     name = "city_location" // --> needs a name attribute so it'll load correctly
