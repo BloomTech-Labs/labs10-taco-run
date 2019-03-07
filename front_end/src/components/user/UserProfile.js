@@ -17,6 +17,7 @@ import {
 } from "../../store/actions/friendsActions";
 // --> import favoritesActions
 import {
+  addFavorite,
   fetchFavorites,
   searchFavorites,
   deleteFavorite
@@ -178,17 +179,6 @@ class UserProfile extends React.Component {
     }
   };
 
-  favoriteAdd = event => {
-    event.preventDefault();
-    let ids = {
-      user_id: parseInt(localStorage.getItem("user_id")),
-      friends_id: parseInt(event.target.id)
-    };
-    let obj = { data: ids };
-    let cid = obj.data.user_id;
-    this.props.addFavorite(obj, cid);
-  };
-
   friendAdd = event => {
     event.preventDefault();
     let ids = {
@@ -198,20 +188,6 @@ class UserProfile extends React.Component {
     let obj = { data: ids };
     let cid = obj.data.user_id;
     this.props.addFriend(obj, cid);
-  };
-
-  friendDelete = event => {
-    event.preventDefault();
-    let ids = {
-      user_id: parseInt(localStorage.getItem("user_id")),
-      friends_id: parseInt(event.target.id)
-    };
-    this.props.deleteFriend(ids, parseInt(event.target.id));
-  };
-
-  favoriteDelete = event => {
-    event.preventDefault();
-    this.props.deleteFavorite(event.target.id);
   };
 
   componentDidMount() {
@@ -253,8 +229,8 @@ class UserProfile extends React.Component {
             </div>
             <div className="profile-preferences">
               <h3>Shell preference: {this.props.user.hard_or_soft}</h3>
-              <h3>Street or Gourmet: {this.props.user.street_gourmet}</h3>
               <h3>Spiciness: {this.props.user.heat_pref}</h3>
+              <h3>Street or Gourmet: {this.props.user.street_gourmet}</h3>
               <Link to="/user-settings">
                 <EditBtn>edit profile</EditBtn>
               </Link>
@@ -316,7 +292,19 @@ class UserProfile extends React.Component {
                               <ListItemText primary={result.name} />
                               <ListItemText primary={result.location} />
                               <IconButton aria-label="Add">
-                                <Icon onClick={this.favoriteAdd} id={result.id}>
+                                <Icon
+                                  onClick={event => {
+                                    event.preventDefault();
+                                    let ids = {
+                                      name: result.name,
+                                      location: result.location,
+                                      user_id: parseInt(
+                                        localStorage.getItem("user_id")
+                                      )
+                                    };
+                                    this.props.addFavorite(ids);
+                                  }}
+                                >
                                   +
                                 </Icon>
                               </IconButton>
@@ -429,8 +417,10 @@ class UserProfile extends React.Component {
                                   <ListItemText primary={favorite.location} />
                                   <IconButton aria-label="Delete">
                                     <DeleteIcon
-                                      onClick={this.favoriteDelete}
-                                      id={favorite.id}
+                                      onClick={event => {
+                                        event.preventDefault();
+                                        this.props.deleteFavorite(favorite.id);
+                                      }}
                                     />
                                   </IconButton>
                                 </div>
@@ -489,8 +479,16 @@ class UserProfile extends React.Component {
                             <ListItemText primary={friend.name} />
                             <IconButton aria-label="Delete">
                               <DeleteIcon
-                                onClick={this.friendDelete}
-                                id={friend.id}
+                                onClick={event => {
+                                  event.preventDefault();
+                                  let ids = {
+                                    user_id: parseInt(
+                                      localStorage.getItem("user_id")
+                                    ),
+                                    friends_id: friend.id
+                                  };
+                                  this.props.deleteFriend(ids, ids.friends_id);
+                                }}
                               />
                             </IconButton>
                           </ListItem>
@@ -528,6 +526,7 @@ export default connect(
     searchUsers,
     searchFavorites,
     addFriend,
+    addFavorite,
     deleteFriend,
     deleteFavorite
   }
