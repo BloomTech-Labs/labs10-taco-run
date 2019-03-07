@@ -229,8 +229,8 @@ class UserProfile extends React.Component {
             </div>
             <div className="profile-preferences">
               <h3>Shell preference: {this.props.user.hard_or_soft}</h3>
-              <h3>Street or Gourmet: {this.props.user.street_gourmet}</h3>
               <h3>Spiciness: {this.props.user.heat_pref}</h3>
+              <h3>Street or Gourmet: {this.props.user.street_gourmet}</h3>
               <Link to="/user-settings">
                 <EditBtn>edit profile</EditBtn>
               </Link>
