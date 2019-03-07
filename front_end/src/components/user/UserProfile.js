@@ -251,7 +251,7 @@ class UserProfile extends React.Component {
               <h3>Spiciness: {this.props.user.heat_pref}</h3>
               <h3>Street or Gourmet: {this.props.user.street_gourmet}</h3>
               <Link to="/user-settings">
-                <EditBtn>edit profile</EditBtn>
+                <EditBtn>Edit Profile</EditBtn>
               </Link>
             </div>
           </div>
