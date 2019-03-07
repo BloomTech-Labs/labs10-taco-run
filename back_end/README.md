@@ -13,6 +13,14 @@
 - run `yarn server`
 
 ---
+
+---
+
+Endpoint URL's
+Production:
+https://production-taco.herokuapp.com/
+Local:
+http://localhost:5555/
 ---
 #### Endpoints
 
@@ -41,9 +49,12 @@
 | UPDATE    | /events | Edits an existing `event` location using the information sent inside the `body` of the request(name, date, location, venue, author, user_id, lat, lon, img_url, raiting, price, url, posters_email). It first we check to see if the event already exists. After the event is created we sign up the user as someone going to the event | [Details](#UPDATE/events) |
 | POST    | /users_friends | Creates a new `friends` relationship using the information sent inside the `body` of the request(user_id, friends_id ). First we made the person our friend,then we set the other person as friends with us. So 2 entries are created with each post request. Id is automatically incremented. | [Details](#POST/users_friends) |
 | GET    | /users_friends/:id |If the user is logged in, respond with an array of all the all friends contained in the database for a particular user. If the user is not logged in repond with the err code. (could be used to get all of loggin users friends by passing in users id to the url. Can also be used to get all the friends of another user by passing in thier id to the url) | [Details](#GET/users_friends/:id) |
-| DELETE | users_friends/ | If the user is logged in, finds and deletes the firends .You will be removed frome you friend, and your friend will be removed from your freinds list.(2 deletes accure)  If the user is not logged-in or does not contain the entry respond with the err code. | [Details](#DELETE/users_friends/) |
+| DELETE | users_friends/ | If the user is logged in, finds and deletes the friends .You will be removed frome you friend, and your friend will be removed from your freinds list.(2 deletes accure)  If the user is not logged-in or does not contain the entry respond with the err code. | [Details](#DELETE/users_friends/) |
 | POST    | /users_events | Creates a new `invitation` to join the event using the information sent inside the `body` of the request(user_id, event_id ). First check is user is already going to event. If user attemps to sign up for event he is already going to responds with a message. If the user isn't already going, the user is added to the event. Id is automatically incremented. | [Details](#POST/users_events) |
 | UPDATE    | /users_events/accept | Edits an existing `users_events` location using the information sent inside the `body` of the request where (user_id, event_id). It then changes the IsPending Flag to false. It then finds the current number of people attending the event and add 1 to it, because and additonal atendee is going. Then it updates the `total_users: attending` the new amount of attendees in the event with the corresponding id events. | [Details](#UPDATE/users_events/accept) |
+| DELETE | /users_events/decline | If the user is logged in, finds and deletes the the event invitation.Where (user_id, event_id). This allows the user to decline and invitation.  If the user is not logged-in or does not contain the entry respond with the err code. | [Details](#DELETE//users_events/decline) |
+
+
 
 
 
