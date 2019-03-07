@@ -52,7 +52,7 @@ export const addFavorite = favorite => {
       .then(() => {
         axios
           .get(
-            `https://production-taco.herokuapp.com/users_favorites/${localStorage.getItem(
+            `https://production-taco.herokuapp.com/favorites/${localStorage.getItem(
               "user_id"
             )}`
           )
