@@ -40,7 +40,8 @@
 | GET    | events/:id/comments |If the user is logged in, respond with an array of all the comments contained in the database for an event. If the user is not logged in repond with the err code. | [Details](#GET/events/:id/comments) |
 | UPDATE    | /events | Edits an existing `event` location using the information sent inside the `body` of the request(name, date, location, venue, author, user_id, lat, lon, img_url, raiting, price, url, posters_email). It first we check to see if the event already exists. After the event is created we sign up the user as someone going to the event | [Details](#POST/events) |
 | POST    | /users_friends | Creates a new `friends` relationship using the information sent inside the `body` of the request(user_id, friends_id ). First we made the person our friend,then we set the other person as friends with us. So 2 entries are created with each post request. Id is automatically incremented. | [Details](#POST/users_friends) |
-| GET    | /users_friends/:id |If the user is logged in, respond with an array of all the favorites contained in the database for a user. If the user is not logged in repond with the err code. | [Details](#GET/users_friends/:id) |
+| GET    | /users_friends/:id |If the user is logged in, respond with an array of all the all friends contained in the database for a particular user. If the user is not logged in repond with the err code. (could be used to get all of loggin users friends by passing in users id to the url. Can also be used to get all the friends of another user by passing in thier id to the url) | [Details](#GET/users_friends/:id) |
+| DELETE | users_friends/ | If the user is logged in, finds and deletes the firends .You will be removed frome you friend, and your friend will be removed from your freinds list.(2 deletes accure)  If the user is not logged-in or does not contain the entry respond with the err code. | [Details](#DELETE/users_friends/) |
 
 
 
@@ -66,8 +67,8 @@
 15.[Details](#GET/events/:id/comments)
 16.[Details](#POST/events)
 17.[Details](#POST/users_friends)
-18.
-19.
+18.[Details](#GET/users_friends/:id)
+19.[Details](#DELETE/users_friends/)
 20.
 21.
 22.
