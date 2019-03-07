@@ -152,6 +152,10 @@ const styles = theme => ({
 });
 
 
+
+//search
+
+
 const image = {
   border: '1px solid #ccc',
   background: '#fefefe',
@@ -307,7 +311,8 @@ class EventSingle extends React.Component {
       } else {
         this.props.alert.show('You are no long attending event')
       }
-      this.getEventInfoSingle()
+      //this.getEventInfoSingle()
+      this.props.history.push('/events')
     })
     .catch(error => {
       console.log(error)
@@ -430,8 +435,14 @@ class EventSingle extends React.Component {
 
   searchMap = event => {
 
+    this.setState({
+      show_map: false,
+      taco_places: []
+    }, () => {
+
     let key = firebase.functions().app_.options_.yelpkey;
     let city = this.state.city_location;
+
     axios
       .get(
         `${"https://cors-anywhere.herokuapp.com/"}https://api.yelp.com/v3/businesses/search?term=taco&location=${city}&categories=mexican`,
@@ -482,6 +493,7 @@ class EventSingle extends React.Component {
           city_location: ""
         });
       });
+    })
   };
 
   addVenue = (obj) => {
@@ -489,6 +501,7 @@ class EventSingle extends React.Component {
     this.setState({
       loaded: false
     })
+    this.props.alert.show(`${obj.venue} set as venue`)
   }
 
   handleSearchChange = e => {
@@ -548,9 +561,9 @@ class EventSingle extends React.Component {
         <div className="container">
 
           {this.state.posted_by === this.props.auth.displayName ? (
-            <div className="container">
+            <div className="container spacingBottom">
               <Button variant="contained" color="primary" onClick={this.switchForm}>
-                Invite/Venue
+                Invite/Location
               </Button>
             </div>
 
@@ -683,8 +696,6 @@ class EventSingle extends React.Component {
                 {currentTacos.map((t, idx) => {
                   return (
 
-
-
               <Card className="card">
                 <CardActionArea>
                   <CardMedia
@@ -738,7 +749,6 @@ class EventSingle extends React.Component {
               {renderPageNumbers}
             </div>
 
-
             ) :
 
         <div>
@@ -764,7 +774,7 @@ class EventSingle extends React.Component {
             <div className="container">
               <div className="flexCardBtn">
                 <div className="joinBtnDiv">
-                  <Button variant="contained" color="primary" onClick={this.leaveEvent} className={classes.cardBtn}>
+                  <Button variant="contained" color="primary" onClick={this.addFav} className={classes.cardBtn}>
                     Add location to favorites
                   </Button>
                 </div>
@@ -775,34 +785,51 @@ class EventSingle extends React.Component {
                 </div>
               </div>
 
-              <Card className={classes.card}>
-                <CardActionArea>
-                  <CardMedia
-                    className={classes.media}
-                    image={this.state.img_url}
-                    title="venue picture"
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      {this.state.venue}
-                    </Typography>
-                    <Typography component="p" className={classes.pstyle}>
-                      <Moment format="dddd, MMMM Do YYYY, h:mm:ss a">
-                        {this.state.date}
-                      </Moment><br/>
-                      Location {this.state.location}<br/>
-                      posted by: {this.state.posted_by}<br />
-                      price: {this.state.price}<br />
-                      raiting: {this.state.raiting}<br />
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-                <CardActions>
-                  <Button size="small" color="primary" >
-                    <a href={this.state.url} className="noUnderline">Yelp Link</a>
-                  </Button>
-                </CardActions>
-              </Card>
+              {this.state.location ? (
+                <Card className={classes.card}>
+                  <CardActionArea>
+                    <CardMedia
+                      className={classes.media}
+                      image={this.state.img_url}
+                      title="venue picture"
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="h2">
+                        {this.state.venue}
+                      </Typography>
+                      <Typography component="p" className={classes.pstyle}>
+                        <Moment format="dddd, MMMM Do YYYY, h:mm:ss a">
+                          {this.state.date}
+                        </Moment><br/>
+                        Location {this.state.location}<br/>
+                        posted by: {this.state.posted_by}<br />
+                        price: {this.state.price}<br />
+                        raiting: {this.state.raiting}<br />
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                  <CardActions>
+                    <Button size="small" color="primary" >
+                      <a href={this.state.url} className="noUnderline">Yelp Link</a>
+                    </Button>
+                  </CardActions>
+                </Card>
+
+                ) : 
+                  <div className="attendeesDiv spacingTop">
+                  <Card className={classes.cardSmall}>
+                    <CardContent>
+                      <Typography variant="h5" component="h2">
+                      No Location <br/>
+                      Currently Set
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                  </div>
+            }
+              
+
+
             </div>
 
             <h2 className="event-invited-title attendingh2">Attending</h2>
@@ -828,6 +855,8 @@ class EventSingle extends React.Component {
               })}
             </div>
 
+
+
             <h2 className="event-discussion-title attendingh2">Discussion</h2>
             <div className="event-discussion container">
               
@@ -847,12 +876,15 @@ class EventSingle extends React.Component {
                           <Typography component="p" className={classes.pstyle}>
                             {comment.content}
                           </Typography>
-                          <Image
-                            src={comment.pic_url}
-                            width={220}
-                            height={220}
-                            style={image}
-                          />
+                          {comment.pic_url ? (
+                            <Image
+                              src={comment.pic_url}
+                              width={220}
+                              height={220}
+                              style={image}
+                            />
+                            ) : null
+                          }
                         </CardContent>
                       </Card>
 
@@ -949,4 +981,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps,{getEvent,updateEvent,getComments,fetchUser,makeComment,deleteComment,updateComment, fetchFriends, searchUsers, inviteEvent})(withStyles(styles)(EventSingle));
+export default connect(mapStateToProps,{getEvent,updateEvent,getComments,fetchUser,makeComment,deleteComment,updateComment, fetchFriends, searchUsers, inviteEvent})(withStyles(styles)(withAlert()(EventSingle)));
