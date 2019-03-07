@@ -75,8 +75,10 @@ export const FlexForm = styled.form`
 
 export const MapDiv = styled.div`
   border: solid black 1px;
-  height: 400px;
-  max-width: 800px;
+  height: 450px;
+  max-width: 1000px;
   margin: 0 auto;
   margin-top: 40px;
+  width: 98%;
+  margin-bottom: 15px;
 `

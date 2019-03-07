@@ -10,9 +10,42 @@
 .container {
 	margin-bottom: 15px;
 	max-width: 1000px;
-  width: 100%;
-  margin: 25px auto 200px auto;
-  border: solid black 1px;
+  width: 98%;
+  margin: 0 auto;
+/*  border: solid black 1px;*/
+}
+
+.flexCommentBtn {
+	display:flex;
+	flex-direction: row;
+}
+
+.flexCardBtn {
+	display: flex;
+}
+
+.formSubmit {
+	margin-left: .5%;
+}
+
+.formSubmit:hover {
+	cursor: pointer;
+}
+
+.pageBottom {
+	margin-bottom: 100px;
+}
+
+.popupDiv {
+	padding: 4%;
+}
+
+.deleteCommentBtn {
+	margin-right: 2%;
+}
+
+.comment {
+	display: flex;
 }
 
 .noUnderline {
@@ -33,6 +66,7 @@
 	margin: .5%;
 	font-size: 1.6rem;
 	border-radius: 4px;
+	margin-bottom: 100px;
 }
 
 .btnMargin:focus {
@@ -47,6 +81,25 @@
 	cursor:pointer;
 	background-color:#fbfafa;
 }
+
+.joinBtnDiv {
+	margin-right: 2%;
+}
+.attendeesDiv {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.attendingh2 {
+	margin-left: 1%;
+}
+
+.spacing {
+	margin-bottom: 15px;
+	margin-top: 5px;
+}
+
+
 
 @media only screen and (max-width: 600px) {
 	.flexList {
@@ -70,4 +123,31 @@
     margin-top: 15px;
     margin-bottom: 15px;
   }
+  .comment {
+		flex-direction: column-reverse;
+	}
+	.flexCardBtn {
+		flex-direction: column;
+	}
+	.topMarg {
+		margin-top: 10px;
+		display: flex;
+		justify-content: center;
+	}
+	.joinBtnDiv {
+		margin: 0;
+		display: flex;
+		justify-content: center;
+	}
+	.attendeesDiv {
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+	.attendingh2 {
+		text-align: center;
+	}
+	.formTop {
+		flex-direction: column;
+	}
 }

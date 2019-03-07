@@ -152,7 +152,8 @@ router.get("/:id", (req, res) => {
           users_ar.push({
             name: resp[i].name,
             email: resp[i].email,
-            id: resp[i].user_id
+            id: resp[i].user_id,
+            user_pic: resp[i].user_pic
           });
         }
       }
@@ -169,7 +170,8 @@ router.get("/:id", (req, res) => {
         lat: resp[0].lat,
         lon: resp[0].lon,
         url: resp[0].url,
-        email: resp[0].email
+        email: resp[0].email,
+        posted_by: resp[0].author
       };
       res.status(200).json(obj);
     })
@@ -197,7 +199,8 @@ router.get("/:id/comments", (req, res) => {
           id: resp[i].id,
           posted_by: resp[i].posted_by,
           posters_email: resp[i].posters_email,
-          pic_url: resp[i].pic_url
+          pic_url: resp[i].pic_url,
+          posters_pic: resp[i].posters_pic
         });
       }
 
