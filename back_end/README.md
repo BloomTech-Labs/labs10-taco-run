@@ -16,7 +16,7 @@
 ---
 #### Endpoints
 
-| Method | Endpoint      | Description                                                                   | body                  |
+| Method | Endpoint      | Description                                                                    | Body Details #                  |
 | ------ | ------------- | ----------------------------------------------------------------------------- | --------------------- |
 <!-- | POST   | /api/register | Creates a `user` using the information sent inside the `body` of the request. | { "username": "user", "password": "pass", "role": 0 } |
 | POST   | /api/login | Use the credentials sent inside the `body` to authenticate the user. On successful login, create a new JWT with the user id as the subject and send it back to the client.| { "username": "user","password": "pass" } |
@@ -34,11 +34,51 @@
 | GET    | /favorites/:id |If the user is logged in, respond with an array of all the favorites contained in the database for a user. If the user is not logged in repond with the err code. | [Details](#GET/favorites/:id) |
 | GET    | /favorites/search/:term |If the user is logged in, Gets favorites based off search term using fuse.js for fuzzy search. If the user is not logged in repond with the err code. | [Details](#GET/favorites/search/:term) |
 | DELETE | /favorites/:id | If the user is logged in, finds and deletes the favorite(Currently this deletes the event based on the PK of the favorites table).  If the user is not logged-in or does not contain the entry respond with the err code. | [Details](#DELETE/favorites/:id) |
-| POST    | /events | Creates a new `event` location using the information sent inside the `body` of the request(name, date, location, venue, author, user_id, lat, lon, img_url, raiting, price, url, posters_email).  Id is automatically incremented. It first we check to see if the event already exists. After the event is created we sign up the user as someone going to the event | [Details](#POST/events) |
+| POST    | /events | Creates a new `event` location using the information sent inside the `body` of the request(name, date, location, venue, author, user_id, , raiting, price, url, posters_email).  Id is automatically incremented. It first we check to see if the event already exists. After the event is created we sign up the user as someone going to the event | [Details](#POST/events) |
 | GET    | /events | If the user is logged in, respond with an array of all the events objects contained in the database.  | [Details](#GET/events) |
 | GET    | /events/:id |If the user is logged in, respond with an array of all the events contained in the database for a user. If the user is not logged in repond with the err code. | [Details](#GET/events/:id) |
 | GET    | events/:id/comments |If the user is logged in, respond with an array of all the comments contained in the database for an event. If the user is not logged in repond with the err code. | [Details](#GET/events/:id/comments) |
 | UPDATE    | /events | Edits an existing `event` location using the information sent inside the `body` of the request(name, date, location, venue, author, user_id, lat, lon, img_url, raiting, price, url, posters_email). It first we check to see if the event already exists. After the event is created we sign up the user as someone going to the event | [Details](#POST/events) |
+| POST    | /users_friends | Creates a new `friends` relationship using the information sent inside the `body` of the request(user_id, friends_id ). First we made the person our friend,then we set the other person as friends with us. So 2 entries are created with each post request. Id is automatically incremented. | [Details](#POST/users_friends) |
+
+
+
+
+
+
+---
+## Description Details Index:
+---
+1.[Details](#GET/users)
+2.[Details](#POST/users)
+3.[Details](#GET/users/:id)
+4.[Details](#GET/users/:id/info)
+5.[Details](#UPDATE/users/:id)
+6.[Description Details](#UPDATE/users/:id/prem)
+7.[Details](#DELETE/users/:id)
+8.[Details](#POST/payments)
+9.[Details](#POST/favorites)
+10.[Details](#GET/favorites/:id)
+11.[Details](#DELETE/favorites/:id)
+12.[Details](#POST/events)
+13.[Details](#GET/events)
+14.[Details](#GET/events/:id)
+15.[Details](#GET/events/:id/comments)
+16.[Details](#POST/events)
+17.[Details](#POST/users_friends)
+18.
+19.
+20.
+21.
+22.
+23.
+24.
+25.
+26.
+27.
+28.
+29.
+30.
 ---
 
 
