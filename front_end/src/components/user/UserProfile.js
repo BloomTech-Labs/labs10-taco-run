@@ -113,6 +113,25 @@ const styles = theme => ({
     margin: 10,
     width: 200,
     height: 200
+  },
+  justifyTabs: {
+    justifyContent: "center"
+  },
+  root_81: {
+    padding: 0,
+    width: "100%",
+    textAlign: "center",
+    margin: "0 10px",
+    [theme.breakpoints.up("sm")]: {
+      display: "flex",
+      flexDirection: "row",
+      flexWrap: "wrap",
+    }
+  },
+  evenWidth: {
+    [theme.breakpoints.up("sm")]: {
+      width: "50%"
+    }
   }
 });
 
@@ -232,7 +251,7 @@ class UserProfile extends React.Component {
               <h3>Spiciness: {this.props.user.heat_pref}</h3>
               <h3>Street or Gourmet: {this.props.user.street_gourmet}</h3>
               <Link to="/user-settings">
-                <EditBtn>edit profile</EditBtn>
+                <EditBtn>Edit Profile</EditBtn>
               </Link>
             </div>
           </div>
@@ -391,10 +410,10 @@ class UserProfile extends React.Component {
           <div className="profile-personal-container">
             {/* Tabs */}
             <div className={classes.root}>
-              <AppBar position="static">
-                <Tabs value={tabValue} onChange={this.handleChangeTabs}>
-                  <Tab label="Favorite" />
-                  <Tab label="Friends" />
+              <AppBar position="static" style = {{ justifyContent: "center" }}>
+                <Tabs value={tabValue} onChange={this.handleChangeTabs} classes={{ flexContainer: classes.justifyTabs }}>
+                  <Tab label="Favorite" style = {{ width: "50%" }} />
+                  <Tab label="Friends" style = {{ width: "50%" }} />
                 </Tabs>
               </AppBar>
               {tabValue === 0 && (
@@ -468,10 +487,10 @@ class UserProfile extends React.Component {
               {tabValue === 1 && (
                 <TabContainer>
                   {/* Friends Tab */}
-                  <List>
+                  <List classes = {{ root: classes.root_81 }}>
                     {this.props.friends.map(friend => {
                       return (
-                        <Link to={`/user/${friend.id}`}>
+                        <Link to={`/user/${friend.id}`} className = {classes.evenWidth}>
                           <ListItem className="resultsDisplay">
                             <ListItemAvatar className="location-picture">
                               <Avatar src={friend.user_pic} />

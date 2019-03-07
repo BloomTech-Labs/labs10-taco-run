@@ -52,6 +52,84 @@ const options3 = [
   { value: "Gourmet", label: "Gourmet" }
 ];
 
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.paper,
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "center"
+  },
+  margin: {
+    margin: theme.spacing.unit * 2
+  },
+  padding: {
+    padding: `0 ${theme.spacing.unit * 2}px`
+  },
+  paper: {
+    padding: theme.spacing.unit * 2,
+    color: theme.palette.text.secondary
+  },
+  bigAvatar: {
+    margin: 10,
+    width: 60,
+    height: 60
+  },
+  leftIcon: {
+    marginRight: theme.spacing.unit
+  },
+  rightIcon: {
+    marginLeft: theme.spacing.unit
+  },
+  iconSmall: {
+    fontSize: 20
+  },
+  card: {
+    minWidth: 275
+  },
+  bullet: {
+    display: "inline-block",
+    margin: "0 2px",
+    transform: "scale(0.8)"
+  },
+  title: {
+    fontSize: 14
+  },
+  pos: {
+    marginBottom: 12
+  },
+  pmarg: {
+    marginBottom: 10
+  },
+  button: {
+    margin: 0,
+    marginLeft: 0,
+    marginRight: 0,
+    backgroundColor: "grey",
+    width: "100%",
+    height: 40,
+    [theme.breakpoints.up("sm")]: {
+      width: "98.4%"
+    }
+  },
+  justifyTabs: {
+    justifyContent: "space-evenly"
+  },
+  boxPadding: {
+    [theme.breakpoints.up("sm")]: {
+      paddingRight: 10
+    }
+  },
+  columnUp: {
+    [theme.breakpoints.up("sm")]: {
+      flexDirection: "column"
+    },
+    [theme.breakpoints.up("md")]: {
+      flexDirection: "row"
+    }
+  }
+});
+
 function TabContainer(props) {
   return (
     <Typography component="div" style={{ padding: 8 * 3 }}>
@@ -160,29 +238,21 @@ class UserSettings extends React.Component {
           <ContainForm>
             <div className={classes.root}>
               <AppBar position="static">
-                <Tabs tabvalue={tabvalue} onChange={this.handleTabChange}>
-                  <Tab label="Billing" />
-                  <Tab label="Profile" />
+                <Tabs tabvalue={tabvalue} classes = {{ flexContainer: classes.justifyTabs }} onChange={this.handleTabChange}>
+                  <Tab label="Profile" style = {{ width: "50%" }} />
+                  <Tab label="Billing" style = {{ width: "50%" }} />                  
                 </Tabs>
               </AppBar>
-              {tabvalue === 0 && (
-                <TabContainer
-                  onClick={this.switchToBilling}
-                  className={this.state.selected[0]}
-                >
-                  <Billing />
-                </TabContainer>
-              )}
-              {tabvalue === 1 && (
+              {tabvalue === 0 && (                
                 <TabContainer
                   onClick={this.switchToProfile}
                   className={this.state.selected[1]}
                 >
                   <div>
                     <h2 className="prefs">User Preferences</h2>
-                    <FlexDiv>
-                      <div>
-                        <h3>Shell Type</h3>
+                    <FlexDiv className = {classes.columnUp}>
+                      <div className = {classes.boxPadding}>
+                        <h3 style = {{ textAlign: "center" }}>Shell Type</h3>
                         <Select
                           value={this.state.selectedOption1}
                           onChange={this.handleSelect1}
@@ -190,8 +260,8 @@ class UserSettings extends React.Component {
                           className="select"
                         />
                       </div>
-                      <div>
-                        <h3>Spiciness</h3>
+                      <div className = {classes.boxPadding}>
+                        <h3 style = {{ textAlign: "center" }}>Spiciness</h3>
                         <Select
                           value={this.state.selectedOption2}
                           onChange={this.handleSelect2}
@@ -199,8 +269,8 @@ class UserSettings extends React.Component {
                           className="select"
                         />
                       </div>
-                      <div>
-                        <h3>Restaurant Type</h3>
+                      <div className = {classes.boxPadding}>
+                        <h3 style = {{ textAlign: "center" }}>Restaurant Type</h3>
                         <Select
                           value={this.state.selectedOption3}
                           onChange={this.handleSelect3}
@@ -227,6 +297,14 @@ class UserSettings extends React.Component {
                   </div>
                 </TabContainer>
               )}
+              {tabvalue === 1 && (
+                <TabContainer
+                  onClick={this.switchToBilling}
+                  className={this.state.selected[0]}
+                >
+                  <Billing />
+                </TabContainer>
+              )}
               {/* {tabvalue === 2 && <TabContainer>Item Three</TabContainer>} */}
             </div>
           </ContainForm>
@@ -235,64 +313,6 @@ class UserSettings extends React.Component {
     );
   }
 }
-
-const styles = theme => ({
-  root: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
-    display: "flex",
-    flexWrap: "wrap"
-  },
-  margin: {
-    margin: theme.spacing.unit * 2
-  },
-  padding: {
-    padding: `0 ${theme.spacing.unit * 2}px`
-  },
-  paper: {
-    padding: theme.spacing.unit * 2,
-    color: theme.palette.text.secondary
-  },
-  bigAvatar: {
-    margin: 10,
-    width: 60,
-    height: 60
-  },
-  leftIcon: {
-    marginRight: theme.spacing.unit
-  },
-  rightIcon: {
-    marginLeft: theme.spacing.unit
-  },
-  iconSmall: {
-    fontSize: 20
-  },
-  card: {
-    minWidth: 275
-  },
-  bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)"
-  },
-  title: {
-    fontSize: 14
-  },
-  pos: {
-    marginBottom: 12
-  },
-  pmarg: {
-    marginBottom: 10
-  },
-  button: {
-    margin: theme.spacing.unit,
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    backgroundColor: "grey",
-    width: "89%",
-    height: 40
-  }
-});
 
 const mapStateToProps = state => {
   return {
