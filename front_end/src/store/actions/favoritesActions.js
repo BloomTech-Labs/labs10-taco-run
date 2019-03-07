@@ -47,6 +47,7 @@ export const searchFavorites = term => {
 };
 
 export const addFavorite = favorite => {
+  console.log(favorite);
   return dispatch => {
     dispatch({ type: FAVORITE_ADD_START });
     axios
@@ -54,7 +55,7 @@ export const addFavorite = favorite => {
       .then(() => {
         axios
           .get(
-            `https://production-taco.herokuapp.com/users_friends/${localStorage.getItem(
+            `https://production-taco.herokuapp.com/users_favorites/${localStorage.getItem(
               "user_id"
             )}`
           )
