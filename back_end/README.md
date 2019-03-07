@@ -13,10 +13,18 @@
 - run `yarn server`
 
 ---
+
+---
+
+Endpoint URL's
+Production:
+https://production-taco.herokuapp.com/
+Local:
+http://localhost:5555/
 ---
 #### Endpoints
 
-| Method | Endpoint      | Description                                                                   | body                  |
+| Method | Endpoint      | Description                                                                    | Body Details #                  |
 | ------ | ------------- | ----------------------------------------------------------------------------- | --------------------- |
 <!-- | POST   | /api/register | Creates a `user` using the information sent inside the `body` of the request. | { "username": "user", "password": "pass", "role": 0 } |
 | POST   | /api/login | Use the credentials sent inside the `body` to authenticate the user. On successful login, create a new JWT with the user id as the subject and send it back to the client.| { "username": "user","password": "pass" } |
@@ -27,18 +35,63 @@
 | GET    | users/:id | If the user is logged in, respond with an array of all the events contained in the database for a user. If the user is not logged in repond with the err code. | [Details](#GET/users/:id) |
 | GET    | /users/:id/info | If the user is logged in, respond with an object of all the users info contained in the database. If the user is not logged in repond with the err code. | [Details](#GET/users/:id/info) |
 | PUT    | /users/:id | If the user is logged in, responds with an object with the users entry that has been updated. If the user is not logged-in or does not contain the entry respond with the err code. | [Details](#UPDATE/users/:id) |
-| PUT    | /users/:id/prem | If the user is logged in, responds with an object with the users entry that has been updated. If the user is not logged-in or does not contain the entry respond with the err code. | [Description Details](#UPDATE/users/:id/prem) |
+| PUT    | /users/:id/prem | If the user is logged in, responds with an object with the users entry that has been updated. If the user is not logged-in or does not contain the entry respond with the err code. | [Details](#UPDATE/users/:id/prem) |
 | DELETE | /users/:id | If the user is logged in, finds and deletes user. It also deletes user relationship where he is a friend in users_friends table. If the user is not logged-in or does not contain the entry respond with the err code. | [Details](#DELETE/users/:id) |
 | POST    | /payments | This is where the billing API endpoint will go (Stripe Feature). Creates a `stripe.customers` using the information sent inside the `body` of the request(email, id). It then creates a charge with the amount description, currency and customenr id.  | [Details](#POST/payments) |
 | POST    | /favorites | Creates a new `favorite` location using the information sent inside the `body` of the request(name, location, user_id).  Id is automatically incremented. | [Details](#POST/favorites) |
 | GET    | /favorites/:id |If the user is logged in, respond with an array of all the favorites contained in the database for a user. If the user is not logged in repond with the err code. | [Details](#GET/favorites/:id) |
 | GET    | /favorites/search/:term |If the user is logged in, Gets favorites based off search term using fuse.js for fuzzy search. If the user is not logged in repond with the err code. | [Details](#GET/favorites/search/:term) |
 | DELETE | /favorites/:id | If the user is logged in, finds and deletes the favorite(Currently this deletes the event based on the PK of the favorites table).  If the user is not logged-in or does not contain the entry respond with the err code. | [Details](#DELETE/favorites/:id) |
-| POST    | /events | Creates a new `event` location using the information sent inside the `body` of the request(name, date, location, venue, author, user_id, lat, lon, img_url, raiting, price, url, posters_email).  Id is automatically incremented. It first we check to see if the event already exists. After the event is created we sign up the user as someone going to the event | [Details](#POST/events) |
+| POST    | /events | Creates a new `event` location using the information sent inside the `body` of the request(name, date, location, venue, author, user_id, , raiting, price, url, posters_email).  Id is automatically incremented. It first we check to see if the event already exists. After the event is created we sign up the user as someone going to the event | [Details](#POST/events) |
 | GET    | /events | If the user is logged in, respond with an array of all the events objects contained in the database.  | [Details](#GET/events) |
 | GET    | /events/:id |If the user is logged in, respond with an array of all the events contained in the database for a user. If the user is not logged in repond with the err code. | [Details](#GET/events/:id) |
 | GET    | events/:id/comments |If the user is logged in, respond with an array of all the comments contained in the database for an event. If the user is not logged in repond with the err code. | [Details](#GET/events/:id/comments) |
-| UPDATE    | /events | Edits an existing `event` location using the information sent inside the `body` of the request(name, date, location, venue, author, user_id, lat, lon, img_url, raiting, price, url, posters_email). It first we check to see if the event already exists. After the event is created we sign up the user as someone going to the event | [Details](#POST/events) |
+| UPDATE    | /events | Edits an existing `event` location using the information sent inside the `body` of the request(name, date, location, venue, author, user_id, lat, lon, img_url, raiting, price, url, posters_email). It first we check to see if the event already exists. After the event is created we sign up the user as someone going to the event | [Details](#UPDATE/events) |
+| POST    | /users_friends | Creates a new `friends` relationship using the information sent inside the `body` of the request(user_id, friends_id ). First we made the person our friend,then we set the other person as friends with us. So 2 entries are created with each post request. Id is automatically incremented. | [Details](#POST/users_friends) |
+| GET    | /users_friends/:id |If the user is logged in, respond with an array of all the all friends contained in the database for a particular user. If the user is not logged in repond with the err code. (could be used to get all of loggin users friends by passing in users id to the url. Can also be used to get all the friends of another user by passing in thier id to the url) | [Details](#GET/users_friends/:id) |
+| DELETE | users_friends/ | If the user is logged in, finds and deletes the friends .You will be removed frome you friend, and your friend will be removed from your freinds list.(2 deletes accure)  If the user is not logged-in or does not contain the entry respond with the err code. | [Details](#DELETE/users_friends/) |
+| POST    | /users_events | Creates a new `invitation` to join the event using the information sent inside the `body` of the request(user_id, event_id ). First check is user is already going to event. If user attemps to sign up for event he is already going to responds with a message. If the user isn't already going, the user is added to the event. Id is automatically incremented. | [Details](#POST/users_events) |
+| UPDATE    | /users_events/accept | Edits an existing `users_events` location using the information sent inside the `body` of the request where (user_id, event_id). It then changes the IsPending Flag to false. It then finds the current number of people attending the event and add 1 to it, because and additonal atendee is going. Then it updates the `total_users: attending` the new amount of attendees in the event with the corresponding id events. | [Details](#UPDATE/users_events/accept) |
+| DELETE | /users_events/decline | If the user is logged in, finds and deletes the the event invitation.Where (user_id, event_id). This allows the user to decline and invitation.  If the user is not logged-in or does not contain the entry respond with the err code. | [Details](#DELETE//users_events/decline) |
+| GET    | /users_events/:id |If the user is logged in, respond with an array of all the data from each event the user is going to contained in the database. If the user is not logged in repond with the err code. | [Details](#GET/users_events/:id) |
+
+
+
+
+
+---
+## Description Details Index:
+---
+1.[Details](#GET/users)
+2.[Details](#POST/users)
+3.[Details](#GET/users/:id)
+4.[Details](#GET/users/:id/info)
+5.[Details](#UPDATE/users/:id)
+6.[Details](#UPDATE/users/:id/prem)
+7.[Details](#DELETE/users/:id)
+8.[Details](#POST/payments)
+9.[Details](#POST/favorites)
+10.[Details](#GET/favorites/:id)
+11.[Details](#DELETE/favorites/:id)
+12.[Details](#POST/events)
+13.[Details](#GET/events)
+14.[Details](#GET/events/:id)
+15.[Details](#GET/events/:id/comments)
+16.[Details](#POST/events)
+17.[Details](#POST/users_friends)
+18.[Details](#GET/users_friends/:id)
+19.[Details](#DELETE/users_friends/)
+20.[Details](#POST/users_events)
+21.[Details](#UPDATE/users_events/accept)
+22.
+23.
+24.
+25.
+26.
+27.
+28.
+29.
+30.
 ---
 
 
