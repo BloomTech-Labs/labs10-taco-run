@@ -68,7 +68,6 @@ export const addFriend = friend => {
 };
 
 export const deleteFriend = ids => {
-  console.log(ids);
   return dispatch => {
     dispatch({ type: FRIEND_DELETE_START });
     axios

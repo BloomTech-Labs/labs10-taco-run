@@ -25,7 +25,6 @@ export const fetchFavorites = id => {
         dispatch({ type: FAVORITES_FETCH_COMPLETE, payload: res.data });
       })
       .catch(err => {
-        console.log(err);
         dispatch({ type: FAVORITES_FETCH_ERROR });
       });
   };
@@ -37,7 +36,6 @@ export const searchFavorites = term => {
     axios
       .get(`https://production-taco.herokuapp.com/favorites/search/${term}`)
       .then(res => {
-        console.log(res.data);
         dispatch({ type: FAVORITES_SEARCH_COMPLETE, payload: res.data });
       })
       .catch(err => {
@@ -47,7 +45,6 @@ export const searchFavorites = term => {
 };
 
 export const addFavorite = favorite => {
-  console.log(favorite);
   return dispatch => {
     dispatch({ type: FAVORITE_ADD_START });
     axios
@@ -77,7 +74,6 @@ export const deleteFavorite = id => dispatch => {
   axios
     .delete(`https://production-taco.herokuapp.com/favorites/${id}`)
     .then(res => {
-      console.log(res.data);
       dispatch({
         type: FAVORITES_DELETE_COMPLETE,
         payload: res.data,
