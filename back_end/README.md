@@ -53,7 +53,7 @@ http://localhost:5555/
 | POST    | /users_events | Creates a new `invitation` to join the event using the information sent inside the `body` of the request(user_id, event_id ). First check is user is already going to event. If user attemps to sign up for event he is already going to responds with a message. If the user isn't already going, the user is added to the event. Id is automatically incremented. | [Details](#POST/users_events) |
 | UPDATE    | /users_events/accept | Edits an existing `users_events` location using the information sent inside the `body` of the request where (user_id, event_id). It then changes the IsPending Flag to false. It then finds the current number of people attending the event and add 1 to it, because and additonal atendee is going. Then it updates the `total_users: attending` the new amount of attendees in the event with the corresponding id events. | [Details](#UPDATE/users_events/accept) |
 | DELETE | /users_events/decline | If the user is logged in, finds and deletes the the event invitation.Where (user_id, event_id). This allows the user to decline and invitation.  If the user is not logged-in or does not contain the entry respond with the err code. | [Details](#DELETE//users_events/decline) |
-
+| GET    | /users_events/:id |If the user is logged in, respond with an array of all the data from each event the user is going to contained in the database. If the user is not logged in repond with the err code. | [Details](#GET/users_events/:id) |
 
 
 
