@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import firebase from 'firebase';
 import { connect } from "react-redux";
+import Moment from "react-moment";
 import { getEvent, updateEvent, inviteEvent } from "../../store/actions/eventsActions";
 import {
   getComments,
@@ -9,13 +10,14 @@ import {
   deleteComment,
   updateComment,
 } from "../../store/actions/commentsActions";
-// import {
-//   Comment,
-//   FormComment,
-//   CommentSubmit,
-//   DeleteBtn,
-//   FlexDiv
-// } from "./eventsingle_css.js";
+
+import {
+  Comment,
+  FormComment,
+  CommentSubmit,
+  DeleteBtn,
+  FlexDiv
+} from "./eventsingle_css.js";
 
 import {fetchFriends} from '../../store/actions/friendsActions'
 import {searchUsers} from '../../store/actions/userActions'
@@ -65,10 +67,16 @@ import Avatar from "@material-ui/core/Avatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import IconButton from "@material-ui/core/IconButton";
 import Icon from "@material-ui/core/Icon";
+import DeleteIcon from '@material-ui/icons/Delete';
 
 import './custom.css'
 
 const styles = theme => ({
+  root: {
+    ...theme.mixins.gutters(),
+    paddingTop: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2,
+  },
   grid: {
     width: "100%",        
     borderRadius: 10,
@@ -105,7 +113,44 @@ const styles = theme => ({
   media: {
     height: 140,
   },
+  pstyle: {
+    lineHeight: 1.4,
+    fontSize: '18px'
+  },
+  card: {
+    maxWidth: 600,
+    marginTop: 15
+  },
+  margRight: {
+    marginRight: "1%"
+  },
+  cardBtn: {
+    minWidth: 293
+  },
+  bigAvatar: {
+    margin: 10,
+    width: 60,
+    height: 60,
+  },
+  cardSmall: {
+    minWidth: '300px'
+  },
+  commentBtn: {
+    minWidth: 150,
+    margin: "15px 0"
+  },
+  noTop: {
+    marginTop: 0
+  },
+  comment: {
+    maxWidth: 600,
+  },
+  formComment: {
+    maxWidth: 500,
+    width: "100%"
+  }
 });
+
 
 const image = {
   border: '1px solid #ccc',
@@ -144,7 +189,8 @@ class EventSingle extends React.Component {
     lon_av: 0,
     currentPage: 1,
     tacosPerPage: 6,
-    search: ""
+    search: "",
+    email: ''
   };
 
   fileSelect = (event) => {
@@ -199,8 +245,44 @@ class EventSingle extends React.Component {
   componentDidMount() {
     this.props.getComments(this.props.match.params.id);
     this.props.fetchUser(localStorage.getItem("user_id"));
-    this.info()
     this.props.fetchFriends(localStorage.getItem("user_id"))
+    this.getEventInfoSingle()
+  }
+
+
+  getEventInfoSingle = () => {
+    axios.get(`https://production-taco.herokuapp.com/events/${this.props.match.params.id}`)
+    .then(res => {
+      console.log('res on user here \n')
+      console.log(res)
+
+      let lat,lon
+
+      if (!res.data.lat || !res.data.lon){
+        lat = 0
+        lon = 0
+      } else {
+        lat = parseFloat(res.data.lat)
+        lon = parseFloat(res.data.lon)
+      }
+
+      this.setState({
+        venue: res.data.venue,
+        date: res.data.date,
+        location: res.data.location,
+        posted_by: res.data.posted_by,
+        price: res.data.price,
+        raiting: res.data.raiting,
+        url: res.data.url,
+        img_url: res.data.img_url,
+        lat: lat,
+        lon: lon,
+        attending: res.data.users,
+        checkedInvite: res.data.invite_only,
+        loaded: true,
+        email: res.data.email,
+      })
+    })
   }
 
   handleChange = event => {
@@ -211,20 +293,6 @@ class EventSingle extends React.Component {
     this.setState({ editComment: event.target.value });
   };
 
-  info = () => {
-    axios.get(`https://production-taco.herokuapp.com/events/${this.props.match.params.id}`)
-    .then(res => {
-      console.log(res)
-      this.setState({        
-        date: res.data.date,        
-        posted_by: res.data.users[0].name,        
-        attending: res.data.users,
-        loaded: true,
-        checkedInvite: res.data.invite_only,
-        selectedDate: res.data.date
-      });
-    })
-  }
 
   leaveEvent = event => {
     event.preventDefault();
@@ -239,7 +307,7 @@ class EventSingle extends React.Component {
       } else {
         this.props.alert.show('You are no long attending event')
       }
-      this.info()
+      this.getEventInfoSingle()
     })
     .catch(error => {
       console.log(error)
@@ -254,7 +322,7 @@ class EventSingle extends React.Component {
     axios.post('https://production-taco.herokuapp.com/users_events', obj)
     .then(res => {
       console.log(res)
-      this.info()
+      this.getEventInfoSingle()
       if (res.data.msg){
         this.props.alert.show(res.data.msg)
       } else {
@@ -276,6 +344,7 @@ class EventSingle extends React.Component {
       posted_by: this.props.user.name,
       event_id: parseInt(this.props.match.params.id),
       posters_email: this.props.user.email,
+      posters_pic: this.props.user.user_pic
     };
 
     if (this.state.picture){
@@ -305,15 +374,13 @@ class EventSingle extends React.Component {
     });
   };
 
-  commentDelete = event => {
-    event.preventDefault();
+  commentDelete = comment_id => {
     let ids = {
-      comment_id: parseInt(event.target.id),
+      comment_id: comment_id,
       event_id: parseInt(this.props.match.params.id)
     };
     let obj = { data: ids };
-    let cid = obj.data.comment_id;
-    this.props.deleteComment(obj, cid);
+    this.props.deleteComment(obj, comment_id);
   };  
 
   addFav = event => {
@@ -358,13 +425,12 @@ class EventSingle extends React.Component {
   switchForm = () => {
     this.setState({
       show_update: !this.state.show_update,
-    })
+    }, () => {this.getEventInfoSingle()})
   }
 
   searchMap = event => {
 
     let key = firebase.functions().app_.options_.yelpkey;
-
     let city = this.state.city_location;
     axios
       .get(
@@ -420,6 +486,9 @@ class EventSingle extends React.Component {
 
   addVenue = (obj) => {
     this.props.updateEvent(obj, this.props.match.params.id)
+    this.setState({
+      loaded: false
+    })
   }
 
   handleSearchChange = e => {
@@ -448,6 +517,8 @@ class EventSingle extends React.Component {
     console.log(this.state)
     console.log(this.props)
 
+    const bull = <span className={classes.bullet}>•</span>;
+
     const {taco_places, currentPage, tacosPerPage} = this.state
     const indexOfLastTaco = currentPage * tacosPerPage;
     const indexOfFirstTaco = indexOfLastTaco - tacosPerPage;
@@ -474,19 +545,29 @@ class EventSingle extends React.Component {
     return (
       <div>
         <DrawerBar />
-        <div class="container">
-          {this.state.posted_by === this.props.auth.displayName ? (
-            <div>
-              <Button variant="contained" color="primary" >
-                Primary
-              </Button>
+        <div className="container">
 
+          {this.state.posted_by === this.props.auth.displayName ? (
+            <div className="container">
+              <Button variant="contained" color="primary" onClick={this.switchForm}>
+                Invite/Venue
+              </Button>
+            </div>
+
+            ) : null}
+
+            {this.state.show_update ? (
+
+
+
+            <div className="container">
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <Grid
                   container
-                  className={classes.grid}
+                  className={`${classes.grid} formTop`}
                   justify="space-evenly"
                 >
+                
                   <DatePicker
                     required
                     margin="normal"
@@ -513,6 +594,7 @@ class EventSingle extends React.Component {
                     }
                     label="Invite Only"
                   />
+               
                   
 
                   <TextField                      
@@ -600,29 +682,30 @@ class EventSingle extends React.Component {
               <div class="flex1">
                 {currentTacos.map((t, idx) => {
                   return (
-                <Card className="card">
-                  <CardActionArea>
-                    <CardContent>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        {t.name}
-                      </Typography>
-                       <Image
-                          src={t.image_url}
-                          width={220}
-                          height={220}
-                          style={image}
-                          key={idx}
-                        />
-                      <Typography component="p">
-                        Location:{" "}
-                        {`${t.location.display_address[0]} ${
-                          t.location.display_address[1]
-                        }`}<br/>
-                        Rating: {t.rating}<br/>
-                        Price: {t.price}<br/>
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
+
+
+
+              <Card className="card">
+                <CardActionArea>
+                  <CardMedia
+                    className={classes.media}
+                    image={t.image_url}
+                    title="venue picture"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      {t.name}
+                    </Typography>
+                    <Typography component="p">
+                      Location:{" "}
+                      {`${t.location.display_address[0]} ${
+                        t.location.display_address[1]
+                      }`}<br/>
+                      Rating: {t.rating}<br/>
+                      Price: {t.price}<br/>
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
                   <CardActions>
                     <Button size="small" color="primary">
                       <a href={t.url} className="noUnderline">View on Yelp</a>
@@ -645,8 +728,9 @@ class EventSingle extends React.Component {
                     >
                       Add Location
                     </Button>
-                  </CardActions>
-                </Card>
+                </CardActions>
+              </Card>
+
                   )
                 })}
               </div>
@@ -654,7 +738,199 @@ class EventSingle extends React.Component {
               {renderPageNumbers}
             </div>
 
-          ) : null } 
+
+            ) :
+
+        <div>
+          {this.state.loaded && (this.state.lat !== 0 || this.state.lon !== 0) ? (
+            <div className = "state-loaded-wrapper">
+               <div className = "map-div-wrapper">
+                <MapDiv>
+                  <GoogleMapReact
+                    bootstrapURLKeys={{ key: firebase.functions().app_.options_.googlekey }}
+                    defaultZoom={16}
+                    defaultCenter={{lat: this.state.lat, lng: this.state.lon}}
+                  >
+                  <TacoLocation
+                    text={this.state.venue}
+                    lat={this.state.lat}
+                    lng={this.state.lon}
+                  />
+                  </GoogleMapReact>
+                </MapDiv>
+              </div> 
+            </div>
+            ) : null} 
+            <div className="container">
+              <div className="flexCardBtn">
+                <div className="joinBtnDiv">
+                  <Button variant="contained" color="primary" onClick={this.leaveEvent} className={classes.cardBtn}>
+                    Add location to favorites
+                  </Button>
+                </div>
+                <div className="topMarg">
+                  <Button variant="contained" color="secondary" onClick={this.leaveEvent} className={classes.cardBtn}>
+                    Leave Event
+                  </Button>
+                </div>
+              </div>
+
+              <Card className={classes.card}>
+                <CardActionArea>
+                  <CardMedia
+                    className={classes.media}
+                    image={this.state.img_url}
+                    title="venue picture"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      {this.state.venue}
+                    </Typography>
+                    <Typography component="p" className={classes.pstyle}>
+                      <Moment format="dddd, MMMM Do YYYY, h:mm:ss a">
+                        {this.state.date}
+                      </Moment><br/>
+                      Location {this.state.location}<br/>
+                      posted by: {this.state.posted_by}<br />
+                      price: {this.state.price}<br />
+                      raiting: {this.state.raiting}<br />
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+                <CardActions>
+                  <Button size="small" color="primary" >
+                    <a href={this.state.url} className="noUnderline">Yelp Link</a>
+                  </Button>
+                </CardActions>
+              </Card>
+            </div>
+
+            <h2 className="event-invited-title attendingh2">Attending</h2>
+            <div className="event-invited container attendeesDiv">
+              
+              {this.state.attending.map(attendee => {
+                if (attendee !== undefined) {
+                  return (
+                    <Card className={classes.cardSmall} key={attendee.id}>
+                      <CardContent>
+                        <Avatar alt="Remy Sharp" src={attendee.user_pic} className={classes.bigAvatar} />
+                        <Typography variant="h5" component="h2">
+                        {attendee.name}
+                        </Typography>
+                      </CardContent>
+                      <CardActions>
+                        <Button size="small" onClick={() => {this.props.history.push(`/user/${attendee.id}`)}}>View Profile</Button>
+                      </CardActions>
+                    </Card>
+                  );
+                }
+                return "map completed";
+              })}
+            </div>
+
+            <h2 className="event-discussion-title attendingh2">Discussion</h2>
+            <div className="event-discussion container">
+              
+              {this.props.comments.map(comment => {
+                if (comment !== undefined) {
+                  return (
+                    <FlexDiv key = {comment.id} >
+                      <Card className={`${classes.card} ${classes.noTop}`}>
+                        <CardContent>
+                          <Typography component="p">
+                            posted on - {comment.date}
+                          </Typography>
+                          <Typography variant="h5" component="h2">
+                          {comment.posted_by}
+                          </Typography>
+                          <Avatar alt="Remy Sharp" src={comment.posters_pic}className={classes.bigAvatar} />
+                          <Typography component="p" className={classes.pstyle}>
+                            {comment.content}
+                          </Typography>
+                          <Image
+                            src={comment.pic_url}
+                            width={220}
+                            height={220}
+                            style={image}
+                          />
+                        </CardContent>
+                      </Card>
+
+                        {this.props.user.email === comment.posters_email ? (
+                          <div className="flexCommentBtn">
+                            <div className="deleteCommentBtn">
+                              <Button 
+                                variant="contained" 
+                                color="secondary"
+                                onClick={() => {this.commentDelete(comment.id)}}
+                                className={classes.commentBtn}
+                               >
+                                Delete
+                              <DeleteIcon className={classes.rightIcon} />
+                              </Button>
+                            </div>
+                            <Popup
+                              trigger={<div ><Button variant="contained" color="primary" className={classes.commentBtn}>Edit Comment</Button></div>}
+                              position="top center"
+                            >
+                            <div className="popupDiv">
+                              <form onSubmit={this.commentUpdate}>
+                                <TextField
+                                  id="outlined-multiline-static"
+                                  label="Edit Comment"
+                                  multiline
+                                  rows="8"
+                                  onChange={this.handleEdit}
+                                  margin="normal"
+                                  variant="outlined"
+                                  type="text"
+                                  placeholder={"edit your comment here"}
+                                  value={this.state.editComment}
+                                  name="content"
+                                />
+                              </form>
+                              <p className="formSubmit" onClick={this.commentUpdate} id={comment.id}>Submit</p>
+                            </div>
+                            </Popup>
+
+
+                          </div>
+                        ) : null }
+
+                    </FlexDiv>
+                  );
+                }
+                return "comments map completed"
+              })}
+            </div>
+            <div className="container pageBottom">
+              <Paper className={`${classes.root} ${classes.comment}`} elevation={1}>
+                <Typography variant="h5" component="h3">
+                  Post a Comment
+                </Typography>
+                <form onSubmit={this.commentUpdate}>
+                  <TextField
+                    id="outlined-multiline-static"
+                    label="Add Comment"
+                    multiline
+                    rows="8"
+                    margin="normal"
+                    variant="outlined"
+                    type="text"
+                    placeholder="Add a comment and or upload image"
+                    onChange={this.handleChange}
+                    name="content"
+                    value={this.state.content}
+                    className={classes.formComment}
+                  />
+                </form>
+                <input type="file" className="spacing" onChange={this.fileSelect}></input><br/>
+                <Button variant="contained" color="primary" onClick={this.createComment}>Submit Comment</Button>
+              </Paper>
+
+            </div>
+          </div>
+        }
         </div>
       </div>
     )

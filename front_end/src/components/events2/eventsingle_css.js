@@ -52,6 +52,7 @@ export const DeleteBtn = styled.button`
 
 export const FlexDiv = styled.div`
 	display:flex;
+	flex-direction:column;
 `
 
 
