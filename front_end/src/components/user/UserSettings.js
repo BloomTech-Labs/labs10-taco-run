@@ -7,7 +7,7 @@ import {
   Reset,
   Switch,
   SwitchTab,
-  FlexDiv,  
+  FlexDiv,
   Submit
 } from "./user_settings_css.js";
 import axios from "axios";
@@ -16,21 +16,24 @@ import PhoneInput from "react-phone-number-input";
 import Billing from "../billing/Billing.js";
 import DrawerBar from "../drawer/Drawer";
 import PropTypes from "prop-types";
-import SaveIcon from '@material-ui/icons/Save';
-import Button from '@material-ui/core/Button';
-import classNames from 'classnames';
+import SaveIcon from "@material-ui/icons/Save";
+import Button from "@material-ui/core/Button";
+import classNames from "classnames";
 
-import {connect} from 'react-redux';
+import { connect } from "react-redux";
 // import Button from '@material-ui/core/Button';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from "@material-ui/core/styles";
 // import { withRouter } from "react-router-dom";
-import Typography from '@material-ui/core/Typography';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-// import Typography from '@material-ui/core/Typography';
-import { compose } from 'recompose';
+import Typography from "@material-ui/core/Typography";
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
 
+// import user functions
+import { updateUser } from "../../store/actions/userActions";
+
+// import Typography from '@material-ui/core/Typography';
+import { compose } from "recompose";
 
 const options1 = [
   { value: "Soft", label: "Soft" },
@@ -71,7 +74,7 @@ class UserSettings extends React.Component {
       profile: true,
       selected: ["", "active"],
       value: "",
-      tabvalue: 0,
+      tabvalue: 0
     };
   }
 
@@ -125,7 +128,6 @@ class UserSettings extends React.Component {
   submitEdit = event => {
     event.preventDefault();
 
-
     let edited_user = {
       hard_or_soft: this.state.selectedOption1.value,
       heat_pref: this.state.selectedOption2.value,
@@ -133,41 +135,50 @@ class UserSettings extends React.Component {
     };
 
     let id = localStorage.getItem("user_id");
-    axios
-      .put(`https://production-taco.herokuapp.com/users/${id}`, edited_user)
-      .then(response => {
-        console.log(response);
-        this.setState({
-          selectedOption1: "",
-          selectedOption2: "",
-          selectedOption3: "",
-        });
-      });
-      this.props.alert.show('preferences updated')
-      this.props.history.push('user-profile')
+    // axios
+    //   .put(`https://production-taco.herokuapp.com/users/${id}`, edited_user)
+    //   .then(response => {
+    //     console.log(response);
+    //     this.setState({
+    //       selectedOption1: "",
+    //       selectedOption2: "",
+    //       selectedOption3: "",
+    //     });
+    //   });
+    this.props.updateUser(edited_user, id);
+    this.props.alert.show("preferences updated");
+    this.props.history.push("user-profile");
   };
 
   render() {
-
     const { classes } = this.props;
     const { tabvalue } = this.state;
     return (
       <div>
         <DrawerBar />
         <div>
-        <ContainForm>
-                  <div className={classes.root}>
-                  <AppBar position="static">
-                    <Tabs tabvalue={tabvalue} onChange={this.handleTabChange}>
-                      <Tab label="Billing" />
-                      <Tab label="Profile" />
-                    </Tabs>
-                  </AppBar>
-                  {tabvalue === 0 && <TabContainer onClick={this.switchToBilling}
-                      className={this.state.selected[0]}><Billing /></TabContainer>}
-                  {tabvalue === 1 && <TabContainer onClick={this.switchToProfile}
-                      className={this.state.selected[1]} >
-                        <div>
+          <ContainForm>
+            <div className={classes.root}>
+              <AppBar position="static">
+                <Tabs tabvalue={tabvalue} onChange={this.handleTabChange}>
+                  <Tab label="Billing" />
+                  <Tab label="Profile" />
+                </Tabs>
+              </AppBar>
+              {tabvalue === 0 && (
+                <TabContainer
+                  onClick={this.switchToBilling}
+                  className={this.state.selected[0]}
+                >
+                  <Billing />
+                </TabContainer>
+              )}
+              {tabvalue === 1 && (
+                <TabContainer
+                  onClick={this.switchToProfile}
+                  className={this.state.selected[1]}
+                >
+                  <div>
                     <h2 className="prefs">User Preferences</h2>
                     <FlexDiv>
                       <div>
@@ -198,19 +209,28 @@ class UserSettings extends React.Component {
                         />
                       </div>
                     </FlexDiv>
-                    <Button variant="contained" size="small" className={classes.button} onClick={this.submitEdit}>
-                    <SaveIcon className={classNames(classes.leftIcon, classes.iconSmall)} />
-                    SUBMIT
-                  </Button>
+                    <Button
+                      variant="contained"
+                      size="small"
+                      className={classes.button}
+                      onClick={this.submitEdit}
+                    >
+                      <SaveIcon
+                        className={classNames(
+                          classes.leftIcon,
+                          classes.iconSmall
+                        )}
+                      />
+                      SUBMIT
+                    </Button>
                     {/* <Submit onClick={this.submitEdit}>SUBMIT</Submit> */}
                   </div>
-                      
-                      </TabContainer>}
-                  {/* {tabvalue === 2 && <TabContainer>Item Three</TabContainer>} */}
-                </div>
-        </ContainForm>
+                </TabContainer>
+              )}
+              {/* {tabvalue === 2 && <TabContainer>Item Three</TabContainer>} */}
+            </div>
+          </ContainForm>
         </div>
-      
       </div>
     );
   }
@@ -271,19 +291,23 @@ const styles = theme => ({
     backgroundColor: "grey",
     width: "89%",
     height: 40
-
-  },  
+  }
 });
 
-
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     auth: state.firebase.auth,
     error: state.auth.authError
-  }
-}
+  };
+};
 // export default withAlert()(UserSettings);
 export default compose(
   withAlert(),
-  withStyles(styles, {withTheme: true}),
-  connect(mapStateToProps, null ))(UserSettings);
+  withStyles(styles, { withTheme: true }),
+  connect(
+    mapStateToProps,
+    {
+      updateUser
+    }
+  )
+)(UserSettings);
