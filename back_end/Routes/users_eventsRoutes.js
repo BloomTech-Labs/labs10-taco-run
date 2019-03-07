@@ -9,7 +9,7 @@ const db = require('../config.js')
 //-------------------------------------------
 router.post('', (req, res) => {
 
-	//would have to pass this is fron the front end
+	//would have to pass this from the front end
 	const {user_id, event_id} = req.body
 
 	//check is user is already going to event
