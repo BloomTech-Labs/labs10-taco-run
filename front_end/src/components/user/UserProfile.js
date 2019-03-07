@@ -190,11 +190,6 @@ class UserProfile extends React.Component {
     this.props.addFriend(obj, cid);
   };
 
-  favoriteDelete = event => {
-    event.preventDefault();
-    this.props.deleteFavorite(event.target.id);
-  };
-
   componentDidMount() {
     // fetchUser
     this.props.fetchUser(localStorage.getItem("user_id"));
@@ -422,8 +417,10 @@ class UserProfile extends React.Component {
                                   <ListItemText primary={favorite.location} />
                                   <IconButton aria-label="Delete">
                                     <DeleteIcon
-                                      onClick={this.favoriteDelete}
-                                      id={favorite.id}
+                                      onClick={event => {
+                                        event.preventDefault();
+                                        this.props.deleteFavorite(favorite.id);
+                                      }}
                                     />
                                   </IconButton>
                                 </div>
