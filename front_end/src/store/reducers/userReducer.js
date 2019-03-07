@@ -1,13 +1,23 @@
 import {
+  // User Fetch
   USER_FETCH_START,
   USER_FETCH_COMPLETE,
   USER_FETCH_ERROR,
+
+  // Other User Fetch
   OTHER_USER_FETCH_START,
   OTHER_USER_FETCH_COMPLETE,
   OTHER_USER_FETCH_ERROR,
+
+  // Users search
   USERS_SEARCH_START,
   USERS_SEARCH_COMPLETE,
-  USERS_SEARCH_ERROR
+  USERS_SEARCH_ERROR,
+
+  // User Update
+  USER_UPDATE_START,
+  USER_UPDATE_COMPLETE,
+  USER_UPDATE_ERROR
 } from "../actions/userActions";
 
 const initialState = {
@@ -21,7 +31,10 @@ const initialState = {
 
   users: [],
   searchingUsers: false,
-  searchedUsers: false
+  searchedUsers: false,
+
+  updatingUser: false,
+  updatedUser: false
 };
 
 const userReducer = (state = initialState, action) => {
@@ -84,6 +97,26 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         error: "Error searching users"
+      };
+    case USER_UPDATE_START:
+      return {
+        ...state,
+        updatingUser: true,
+        updatedUser: false
+      };
+
+    case USER_UPDATE_COMPLETE:
+      return {
+        ...state,
+        user: action.payload,
+        updatingUser: false,
+        updatedUser: true
+      };
+
+    case USER_UPDATE_ERROR:
+      return {
+        ...state,
+        error: "Error updating user info"
       };
 
     default:

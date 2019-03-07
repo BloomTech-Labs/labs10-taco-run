@@ -12,6 +12,10 @@ export const USERS_SEARCH_START = "USERS_SEARCH_START";
 export const USERS_SEARCH_COMPLETE = "USERS_SEARCH_COMPLETE";
 export const USERS_SEARCH_ERROR = "USERS_SEARCH_ERROR";
 
+export const USER_UPDATE_START = "USER_UPDATE_START";
+export const USER_UPDATE_COMPLETE = "USER_UPDATE_COMPLETE";
+export const USER_UPDATE_ERROR = "USER_UPDATE_ERROR";
+
 export const fetchUser = id => {
   return dispatch => {
     dispatch({ type: USER_FETCH_START });
@@ -56,10 +60,18 @@ export const searchUsers = term => {
 
 export const updateUser = (edited_user, id) => {
   return dispatch => {
+    dispatch({ type: USER_UPDATE_START });
     axios
-      .put(`https://production-taco.herokuapp.com//users/${id}`, edited_user)
-      .then(res => {
-        console.log(res)
+      .put(`https://production-taco.herokuapp.com/users/${id}`, edited_user)
+      .then(() => {
+        axios
+          .get(`https://production-taco.herokuapp.com/users/${id}/info`)
+          .then(res => {
+            dispatch({ type: USER_UPDATE_COMPLETE, payload: res.data });
+          });
       })
-  }
-}
+      .catch(err => {
+        dispatch({ type: USER_UPDATE_ERROR });
+      });
+  };
+};
