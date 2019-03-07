@@ -102,12 +102,31 @@ const styles = theme => ({
     marginBottom: 10
   },
   button: {
-    margin: theme.spacing.unit,
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
+    margin: 0,
+    marginLeft: 0,
+    marginRight: 0,
     backgroundColor: "grey",
-    width: "89%",
-    height: 40
+    width: "100%",
+    height: 40,
+    [theme.breakpoints.up("sm")]: {
+      width: "98.4%"
+    }
+  },
+  justifyTabs: {
+    justifyContent: "space-evenly"
+  },
+  boxPadding: {
+    [theme.breakpoints.up("sm")]: {
+      paddingRight: 10
+    }
+  },
+  columnUp: {
+    [theme.breakpoints.up("sm")]: {
+      flexDirection: "column"
+    },
+    [theme.breakpoints.up("md")]: {
+      flexDirection: "row"
+    }
   }
 });
 
@@ -219,9 +238,9 @@ class UserSettings extends React.Component {
           <ContainForm>
             <div className={classes.root}>
               <AppBar position="static">
-                <Tabs tabvalue={tabvalue} onChange={this.handleTabChange}>
-                  <Tab label="Billing" />
-                  <Tab label="Profile" />
+                <Tabs tabvalue={tabvalue} classes = {{ flexContainer: classes.justifyTabs }} onChange={this.handleTabChange}>
+                  <Tab label="Billing" style = {{ width: "50%" }} />
+                  <Tab label="Profile" style = {{ width: "50%" }} />
                 </Tabs>
               </AppBar>
               {tabvalue === 0 && (
@@ -239,9 +258,9 @@ class UserSettings extends React.Component {
                 >
                   <div>
                     <h2 className="prefs">User Preferences</h2>
-                    <FlexDiv>
-                      <div>
-                        <h3>Shell Type</h3>
+                    <FlexDiv className = {classes.columnUp}>
+                      <div className = {classes.boxPadding}>
+                        <h3 style = {{ textAlign: "center" }}>Shell Type</h3>
                         <Select
                           value={this.state.selectedOption1}
                           onChange={this.handleSelect1}
@@ -249,8 +268,8 @@ class UserSettings extends React.Component {
                           className="select"
                         />
                       </div>
-                      <div>
-                        <h3>Spiciness</h3>
+                      <div className = {classes.boxPadding}>
+                        <h3 style = {{ textAlign: "center" }}>Spiciness</h3>
                         <Select
                           value={this.state.selectedOption2}
                           onChange={this.handleSelect2}
@@ -258,8 +277,8 @@ class UserSettings extends React.Component {
                           className="select"
                         />
                       </div>
-                      <div>
-                        <h3>Restaurant Type</h3>
+                      <div className = {classes.boxPadding}>
+                        <h3 style = {{ textAlign: "center" }}>Restaurant Type</h3>
                         <Select
                           value={this.state.selectedOption3}
                           onChange={this.handleSelect3}
