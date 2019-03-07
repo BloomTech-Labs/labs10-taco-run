@@ -27,7 +27,7 @@
 | GET    | users/:id | If the user is logged in, respond with an array of all the events contained in the database for a user. If the user is not logged in repond with the err code. | [Details](#GET/users/:id) |
 | GET    | /users/:id/info | If the user is logged in, respond with an object of all the users info contained in the database. If the user is not logged in repond with the err code. | [Details](#GET/users/:id/info) |
 | PUT    | /users/:id | If the user is logged in, responds with an object with the users entry that has been updated. If the user is not logged-in or does not contain the entry respond with the err code. | [Details](#UPDATE/users/:id) |
-| PUT    | /users/:id/prem | If the user is logged in, responds with an object with the users entry that has been updated. If the user is not logged-in or does not contain the entry respond with the err code. | [Description Details](#UPDATE/users/:id/prem) |
+| PUT    | /users/:id/prem | If the user is logged in, responds with an object with the users entry that has been updated. If the user is not logged-in or does not contain the entry respond with the err code. | [Details](#UPDATE/users/:id/prem) |
 | DELETE | /users/:id | If the user is logged in, finds and deletes user. It also deletes user relationship where he is a friend in users_friends table. If the user is not logged-in or does not contain the entry respond with the err code. | [Details](#DELETE/users/:id) |
 | POST    | /payments | This is where the billing API endpoint will go (Stripe Feature). Creates a `stripe.customers` using the information sent inside the `body` of the request(email, id). It then creates a charge with the amount description, currency and customenr id.  | [Details](#POST/payments) |
 | POST    | /favorites | Creates a new `favorite` location using the information sent inside the `body` of the request(name, location, user_id).  Id is automatically incremented. | [Details](#POST/favorites) |
@@ -40,7 +40,7 @@
 | GET    | events/:id/comments |If the user is logged in, respond with an array of all the comments contained in the database for an event. If the user is not logged in repond with the err code. | [Details](#GET/events/:id/comments) |
 | UPDATE    | /events | Edits an existing `event` location using the information sent inside the `body` of the request(name, date, location, venue, author, user_id, lat, lon, img_url, raiting, price, url, posters_email). It first we check to see if the event already exists. After the event is created we sign up the user as someone going to the event | [Details](#POST/events) |
 | POST    | /users_friends | Creates a new `friends` relationship using the information sent inside the `body` of the request(user_id, friends_id ). First we made the person our friend,then we set the other person as friends with us. So 2 entries are created with each post request. Id is automatically incremented. | [Details](#POST/users_friends) |
-
+| GET    | /users_friends/:id |If the user is logged in, respond with an array of all the favorites contained in the database for a user. If the user is not logged in repond with the err code. | [Details](#GET/users_friends/:id) |
 
 
 
@@ -54,7 +54,7 @@
 3.[Details](#GET/users/:id)
 4.[Details](#GET/users/:id/info)
 5.[Details](#UPDATE/users/:id)
-6.[Description Details](#UPDATE/users/:id/prem)
+6.[Details](#UPDATE/users/:id/prem)
 7.[Details](#DELETE/users/:id)
 8.[Details](#POST/payments)
 9.[Details](#POST/favorites)
