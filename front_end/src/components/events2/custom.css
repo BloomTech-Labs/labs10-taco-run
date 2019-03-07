@@ -99,7 +99,13 @@
 	margin-top: 5px;
 }
 
+.spacingTop {
+	margin-top: 30px;
+}
 
+.spacingBottom {
+	margin-bottom: 30px;
+}
 
 @media only screen and (max-width: 600px) {
 	.flexList {

@@ -18,7 +18,8 @@ router.post("", (req, res) => {
     author,
     user_id,
     posters_email,
-    invite_only
+    invite_only,
+    posters_pic
   } = req.body;
   
   /* first we check to see if the event already exists*/
@@ -36,6 +37,7 @@ router.post("", (req, res) => {
             author,
             user_id,
             posters_email,
+            posters_pic,
             invite_only
           })
           .then(res2 => {
