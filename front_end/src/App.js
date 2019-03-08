@@ -15,6 +15,10 @@ import EventSingle from "./components/events2/EventSingle";
 // CSS IMPORT
 import "./index.css";
 
+// Imports for create event button
+import Fab from "@material-ui/core/Fab";
+import AddIcon from "@material-ui/icons/Add";
+
 class App extends Component {
   render() {
     return (
@@ -33,6 +37,21 @@ class App extends Component {
               <Route exact path="/user-profile" component={UserProfile} />
               <Route exact path="/user/:id" component={UsersProfile} />
             </Switch>
+            <Fab
+              color="primary"
+              aria-label="Add"
+              style={{
+                bottom: "20px",
+                right: "20px",
+                overflow: "hidden",
+                position: "fixed"
+              }}
+              onClick={() => {
+                this.props.history.push("/events_create");
+              }}
+            >
+              <AddIcon />
+            </Fab>
           </div>
         )}
       </div>
