@@ -213,9 +213,6 @@ class DrawerBar extends React.Component {
                 variant="h6"
                 color="inherit"
                 noWrap
-                onClick={() => {
-                  this.props.history.push("/user-profile");
-                }}
               >
                 {this.props.auth.displayName}
                 <Button
