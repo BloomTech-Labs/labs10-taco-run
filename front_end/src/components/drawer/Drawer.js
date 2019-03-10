@@ -29,6 +29,11 @@ import SvgIcon from "@material-ui/core/SvgIcon";
 // --> Boilerplate import from Material-UI reference
 import classNames from "classnames";
 
+// Import for menu from Material UI
+import Button from "@material-ui/core/Button";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+
 /* This is the boilerplate styling from the Material-UI reference I used */
 const drawerWidth = 240;
 
@@ -124,7 +129,9 @@ const styles = theme => ({
 
 class DrawerBar extends React.Component {
   state = {
-    isOpen: false
+    isOpen: false,
+    // For menu button
+    anchorEl: null
   };
 
   /*========================= Drawer for Material UI helpers =========================*/
@@ -163,10 +170,21 @@ class DrawerBar extends React.Component {
     this.props.history.push("/");
   };
 
+  handleClick = event => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
+
+  handleClose = () => {
+    this.setState({ anchorEl: null });
+  };
+
   /*============================= Navigation Button Helpers END =============================*/
 
   render() {
     const { classes, theme } = this.props; // --> this is to access the style function found below
+    // For menu button
+    const { anchorEl } = this.state;
+
     return (
       <div className={classes.root}>
         <CssBaseline />
@@ -195,8 +213,40 @@ class DrawerBar extends React.Component {
                 variant="h6"
                 color="inherit"
                 noWrap
+                onClick={() => {
+                  this.props.history.push("/user-profile");
+                }}
               >
-                Welcome, {this.props.auth.displayName}
+                {this.props.auth.displayName}
+                <Button
+                  aria-owns={anchorEl ? "simple-menu" : undefined}
+                  aria-haspopup="true"
+                  onClick={this.handleClick}
+                >
+                  <i class="fas fa-user-circle" />
+                </Button>
+                <Menu
+                  id="simple-menu"
+                  anchorEl={anchorEl}
+                  open={Boolean(anchorEl)}
+                  onClose={this.handleClose}
+                >
+                  <MenuItem
+                    onClick={() => {
+                      this.props.history.push("/user-profile");
+                    }}
+                  >
+                    Profile
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      this.props.history.push("/user-settings");
+                    }}
+                  >
+                    Profile Settings
+                  </MenuItem>
+                  <MenuItem onClick={this.logOut}>Logout</MenuItem>
+                </Menu>
               </Typography>
             </div>
           </Toolbar>
