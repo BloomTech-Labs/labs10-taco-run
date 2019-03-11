@@ -69,6 +69,25 @@
 	margin-bottom: 100px;
 }
 
+.bottomPadding {
+	padding-bottom: 30px;
+}
+
+.btnMarginC {
+	margin: .5%;
+	font-size: 1.6rem;
+	border-radius: 4px;
+}
+
+.btnMarginC:focus {
+  outline: none;
+}
+
+.btnMarginC:hover {
+	cursor:pointer;
+	background-color:#fbfafa;
+}
+
 .btnMargin:focus {
   outline: none;
 }

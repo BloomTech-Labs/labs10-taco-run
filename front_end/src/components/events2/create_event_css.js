@@ -4,7 +4,6 @@ export const CreateEventWrapper = styled.div`
   display: flex;
   margin: 0 auto;
   max-width: 800px;
-  margin-top: 60px;
   flex-direction:column;
   justify-content: center;
   align-items: center;
