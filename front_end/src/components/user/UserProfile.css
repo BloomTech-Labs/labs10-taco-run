@@ -29,9 +29,6 @@
 /* Style the tab content */
 .tabcontent {
   display: none;
-  padding: 6px 12px;
-  border: 1px solid #ccc;
-  border-top: none;
 }
 
 #Favorites {
@@ -40,19 +37,19 @@
 
 .profile-details {
   display: flex;
-  flex-direction: column
+  flex-direction: column;
 }
 
 .profile-preferences {
   align-self: center;
-  margin: 0 auto;  
+  margin: 0 auto;
   text-align: center;
 }
 
 @media only screen and (max-width: 400px) {
-    .profile-preferences {
-      width: 100%;      
-    }
+  .profile-preferences {
+    width: 100%;
+  }
 }
 
 .profile-name {
