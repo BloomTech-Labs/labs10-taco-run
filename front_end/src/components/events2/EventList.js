@@ -41,6 +41,9 @@ import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 
+// Imports for delete event button
+import Fab from "@material-ui/core/Fab";
+
 import "./custom.css";
 
 import Moment from "react-moment";
@@ -267,7 +270,32 @@ class EventList extends React.Component {
                       this.props.events.upcoming.map(event => {
                         return (
                           <Grid item xs={12} key={event.id}>
-                            <Paper className={`${classes.paper} flexList`}>
+                            {this.props.auth.email === event.posters_email ? (
+                              <Fab
+                                aria-haspopup="true"
+                                style={{
+                                  backgroundColor: "#ffff",
+                                  top: "55px",
+                                  left: "5px",
+                                  height: "50px",
+                                  width: "50px",
+                                  position: "relative",
+                                  zIndex: "20",
+                                  boxShadow: "none"
+                                }}
+                                onClick={() => {
+                                  this.props.deleteEvent(event.id);
+                                }}
+                              >
+                                <i class="fas fa-times" />
+                              </Fab>
+                            ) : null}
+                            <Paper
+                              className={`${classes.paper} flexList`}
+                              onClick={() => {
+                                this.props.history.push(`/events/${event.id}`);
+                              }}
+                            >
                               <Avatar
                                 alt="posters image"
                                 src={event.posters_pic}
@@ -309,33 +337,6 @@ class EventList extends React.Component {
                                   posted by {event.author}
                                 </Typography>
                               </CardContent>
-                              <Button
-                                className={classes.button}
-                                variant="contained"
-                                size="medium"
-                                color="primary"
-                                onClick={() => {
-                                  this.props.history.push(
-                                    `/events/${event.id}`
-                                  );
-                                }}
-                              >
-                                View Event
-                              </Button>
-                              {this.props.auth.email === event.posters_email ? (
-                                <Button
-                                  variant="contained"
-                                  onClick={() => {
-                                    this.props.deleteEvent(event.id);
-                                  }}
-                                  color="secondary"
-                                  id={event.id}
-                                  className={classes.button}
-                                >
-                                  Delete
-                                  <DeleteIcon className={classes.rightIcon} />
-                                </Button>
-                              ) : null}
                             </Paper>
                           </Grid>
                         );
@@ -350,21 +351,32 @@ class EventList extends React.Component {
                       this.props.events.pending.map(event => {
                         return (
                           <Grid item xs={12} key={event.id}>
-                            <Paper className={`${classes.paper} flexList`}>
-                              {this.props.auth.email === event.posters_email ? (
-                                <Button
-                                  variant="contained"
-                                  onClick={() => {
-                                    this.props.deleteEvent(event.id);
-                                  }}
-                                  color="secondary"
-                                  id={event.id}
-                                  className={classes.button}
-                                >
-                                  Delete
-                                  <DeleteIcon className={classes.rightIcon} />
-                                </Button>
-                              ) : null}
+                            <Fab
+                              aria-haspopup="true"
+                              style={{
+                                backgroundColor: "#ffff",
+                                top: "55px",
+                                left: "5px",
+                                height: "50px",
+                                width: "50px",
+                                position: "relative",
+                                zIndex: "20",
+                                boxShadow: "none"
+                              }}
+                              id={event.id}
+                              onClick={() => {
+                                this.declineEvent(event.id);
+                              }}
+                            >
+                              <i class="fas fa-times" />
+                            </Fab>
+
+                            <Paper
+                              className={`${classes.paper} flexList`}
+                              onClick={() => {
+                                this.props.history.push(`/events/${event.id}`);
+                              }}
+                            >
                               <Avatar
                                 alt="posters image"
                                 src={event.posters_pic}
@@ -409,19 +421,6 @@ class EventList extends React.Component {
 
                               <div className={classes.buttonGroup}>
                                 <Button
-                                  className={classes.button}
-                                  variant="contained"
-                                  size="medium"
-                                  color="primary"
-                                  onClick={() => {
-                                    this.props.history.push(
-                                      `/events/${event.id}`
-                                    );
-                                  }}
-                                >
-                                  View Event
-                                </Button>
-                                <Button
                                   variant="contained"
                                   className={classes.buttonAccept}
                                   id={event.id}
@@ -430,16 +429,6 @@ class EventList extends React.Component {
                                   }}
                                 >
                                   LET'S GO
-                                </Button>
-                                <Button
-                                  variant="contained"
-                                  className={classes.buttonDecline}
-                                  id={event.id}
-                                  onClick={() => {
-                                    this.declineEvent(event.id);
-                                  }}
-                                >
-                                  NOT THIS TIME
                                 </Button>
                               </div>
                             </Paper>
@@ -455,7 +444,34 @@ class EventList extends React.Component {
                     {this.props.events.past &&
                       this.props.events.past.map(event => {
                         return (
-                          <Grid item xs={12} key={event.id}>
+                          <Grid
+                            item
+                            xs={12}
+                            key={event.id}
+                            onClick={() => {
+                              this.props.history.push(`/events/${event.id}`);
+                            }}
+                          >
+                            {this.props.auth.email === event.posters_email ? (
+                              <Fab
+                                aria-haspopup="true"
+                                style={{
+                                  backgroundColor: "#ffff",
+                                  top: "55px",
+                                  left: "5px",
+                                  height: "50px",
+                                  width: "50px",
+                                  position: "relative",
+                                  zIndex: "20",
+                                  boxShadow: "none"
+                                }}
+                                onClick={() => {
+                                  this.props.deleteEvent(event.id);
+                                }}
+                              >
+                                <i class="fas fa-times" />
+                              </Fab>
+                            ) : null}
                             <Paper className={`${classes.paper} flexList`}>
                               <Avatar
                                 alt="posters image"
@@ -497,33 +513,6 @@ class EventList extends React.Component {
                                   posted by {event.author}
                                 </Typography>
                               </CardContent>
-                              <Button
-                                className={classes.button}
-                                variant="contained"
-                                size="medium"
-                                color="primary"
-                                onClick={() => {
-                                  this.props.history.push(
-                                    `/events/${event.id}`
-                                  );
-                                }}
-                              >
-                                View Event
-                              </Button>
-                              {this.props.auth.email === event.posters_email ? (
-                                <Button
-                                  variant="contained"
-                                  onClick={() => {
-                                    this.props.deleteEvent(event.id);
-                                  }}
-                                  color="secondary"
-                                  id={event.id}
-                                  className={classes.button}
-                                >
-                                  Delete
-                                  <DeleteIcon className={classes.rightIcon} />
-                                </Button>
-                              ) : null}
                             </Paper>
                           </Grid>
                         );

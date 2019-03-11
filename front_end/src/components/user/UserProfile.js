@@ -125,7 +125,7 @@ const styles = theme => ({
     [theme.breakpoints.up("sm")]: {
       display: "flex",
       flexDirection: "row",
-      flexWrap: "wrap",
+      flexWrap: "wrap"
     }
   },
   evenWidth: {
@@ -240,18 +240,26 @@ class UserProfile extends React.Component {
         <Container>
           <div className="profile-details">
             <div className="profile-header">
-              <h1 className="profile-name">{this.props.user.name}</h1>
+              <Typography variant="h3" className="profile-name">
+                {this.props.user.name}
+              </Typography>
               <Avatar
                 src={this.props.user.user_pic}
                 className={classes.bigAvatar}
               />
             </div>
             <div className="profile-preferences">
-              <h3>Shell preference: {this.props.user.hard_or_soft}</h3>
-              <h3>Spiciness: {this.props.user.heat_pref}</h3>
-              <h3>Street or Gourmet: {this.props.user.street_gourmet}</h3>
+              <Typography>
+                Shell preference: {this.props.user.hard_or_soft}
+              </Typography>
+              <Typography>Spiciness: {this.props.user.heat_pref}</Typography>
+              <Typography>
+                Street or Gourmet: {this.props.user.street_gourmet}
+              </Typography>
               <Link to="/user-settings">
-                <EditBtn>Edit Profile</EditBtn>
+                <EditBtn>
+                  <Typography>Edit Profile</Typography>
+                </EditBtn>
               </Link>
             </div>
           </div>
@@ -410,10 +418,14 @@ class UserProfile extends React.Component {
           <div className="profile-personal-container">
             {/* Tabs */}
             <div className={classes.root}>
-              <AppBar position="static" style = {{ justifyContent: "center" }}>
-                <Tabs value={tabValue} onChange={this.handleChangeTabs} classes={{ flexContainer: classes.justifyTabs }}>
-                  <Tab label="Favorite" style = {{ width: "50%" }} />
-                  <Tab label="Friends" style = {{ width: "50%" }} />
+              <AppBar position="static" style={{ justifyContent: "center" }}>
+                <Tabs
+                  value={tabValue}
+                  onChange={this.handleChangeTabs}
+                  classes={{ flexContainer: classes.justifyTabs }}
+                >
+                  <Tab label="Favorite" style={{ width: "50%" }} />
+                  <Tab label="Friends" style={{ width: "50%" }} />
                 </Tabs>
               </AppBar>
               {tabValue === 0 && (
@@ -487,10 +499,13 @@ class UserProfile extends React.Component {
               {tabValue === 1 && (
                 <TabContainer>
                   {/* Friends Tab */}
-                  <List classes = {{ root: classes.root_81 }}>
+                  <List classes={{ root: classes.root_81 }}>
                     {this.props.friends.map(friend => {
                       return (
-                        <Link to={`/user/${friend.id}`} className = {classes.evenWidth}>
+                        <Link
+                          to={`/user/${friend.id}`}
+                          className={classes.evenWidth}
+                        >
                           <ListItem className="resultsDisplay">
                             <ListItemAvatar className="location-picture">
                               <Avatar src={friend.user_pic} />

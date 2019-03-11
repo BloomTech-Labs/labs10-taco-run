@@ -198,16 +198,22 @@ class UsersProfile extends React.Component {
         <Container>
           <div className="profile-details">
             <div className="profile-header">
-              <h1 className="profile-name">{this.props.user.name}</h1>
+              <Typography className="profile-name" variant="h3">
+                {this.props.user.name}
+              </Typography>
               <Avatar
                 src={this.props.user.user_pic}
                 className={classes.bigAvatar}
               />
             </div>
             <div className="profile-preferences">
-              <h3>Shell preference: {this.props.user.hard_or_soft}</h3>
-              <h3>Street or Gourmet: {this.props.user.street_gourmet}</h3>
-              <h3>Spiciness: {this.props.user.heat_pref}</h3>
+              <Typography>
+                Shell preference: {this.props.user.hard_or_soft}
+              </Typography>
+              <Typography>
+                Street or Gourmet: {this.props.user.street_gourmet}
+              </Typography>
+              <Typography>Spiciness: {this.props.user.heat_pref}</Typography>
             </div>
           </div>
 
