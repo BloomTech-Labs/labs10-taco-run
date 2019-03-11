@@ -205,6 +205,7 @@ class DrawerBar extends React.Component {
                 onClick={() => {
                   this.props.history.push("/events");
                 }}
+                style={{ marginLeft: "10px" }}
               >
                 Let's Get Tacos
               </Typography>
