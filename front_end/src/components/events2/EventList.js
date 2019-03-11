@@ -211,7 +211,10 @@ class EventList extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  joinEvent = id => {
+  joinEvent = (event) => {
+    console.log(event.target)
+    return
+    let id = Number(event.target.id)
     let id_user = Number(localStorage.getItem("user_id"));
     let obj = { user_id: id_user, event_id: id };
     this.props.acceptEvent(obj);
@@ -421,16 +424,15 @@ class EventList extends React.Component {
                                 >
                                   View Event
                                 </Button>
-                                <Button
+
+                                <button
                                   variant="contained"
                                   className={classes.buttonAccept}
                                   id={event.id}
-                                  onClick={() => {
-                                    this.joinEvent(event.id);
-                                  }}
+                                  onClick={this.joinEvent}
                                 >
                                   LET'S GO
-                                </Button>
+                                </button>
                                 <Button
                                   variant="contained"
                                   className={classes.buttonDecline}
