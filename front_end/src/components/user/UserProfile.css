@@ -70,6 +70,10 @@
   align-items: center;
 }
 
+.profile-search {
+  display: flex;
+}
+
 /* --------------CSS for results-------------- */
 #results {
   max-width: 300px;
