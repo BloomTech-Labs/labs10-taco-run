@@ -88,7 +88,8 @@ const styles = theme => ({
   },
   margL: {
     marginLeft: "1%"
-  }
+  },
+
 });
 
 const TacoLocation = ({ text }) => <div>{text}</div>;
@@ -122,6 +123,7 @@ class CreateEvent extends React.Component {
       usState: "",
       usCity: '',
       singleVenue: '',
+      value: 0
     };
     this.setNewValue = this.setNewValue.bind(this);
   }
@@ -294,15 +296,20 @@ class CreateEvent extends React.Component {
     })
   }
 
+  setVenues = (value) => {
+    this.setState({
+      value: value
+    })
+  }
+
   render() {
     const { classes } = this.props;
-    const { selectedDate } = this.state;
-    const {taco_places, currentPage, tacosPerPage} = this.state
+    const { selectedDate, value, taco_places, currentPage, tacosPerPage } = this.state;
     const indexOfLastTaco = currentPage * tacosPerPage;
     const indexOfFirstTaco = indexOfLastTaco - tacosPerPage;
     const currentTacos = taco_places.slice(indexOfFirstTaco, indexOfLastTaco);
     const pageNumbers = [];
-    console.log(this.state)
+
 
     for (let i = 1; i <= Math.ceil(taco_places.length / tacosPerPage); i++) {
       pageNumbers.push(i);
@@ -320,6 +327,14 @@ class CreateEvent extends React.Component {
         </button>
       );
     });
+
+    function TabContainer(props) {
+      return (
+        <Typography component="div" style={{ padding: 8 * 3 }}>
+          {props.children}
+        </Typography>
+      );
+    }
 
     return (
       <div className="create-event-full-wrapper bottomPadding">
@@ -392,108 +407,119 @@ class CreateEvent extends React.Component {
                 </MuiPickersUtilsProvider>
               </FlexForm>
             </CreateEventWrapper>
+
+            <div className="venueBtns">
+              <Button onClick={() => {this.setVenues(0)}}>default</Button>
+              <Button onClick={() => {this.setVenues(1)}}>Specific Venue</Button>
+              <Button onClick={() => {this.setVenues(2)}}>Search Venues by City</Button>
+            </div>
+
           </Paper>
         </div>
 
-        <Paper className={`${classes.root2} paperVenues`} elevation={1}>
+        {this.state.value === 0 ? (null) 
+          : this.state.value === 1 ? (
 
-          <div className="containSingle">
-            <Typography variant="h5" className={`${classes.bottom} centerText`}>
-              Look Up Specific Venue
-            </Typography>
+          <Paper className={`${classes.root2} paperVenues`} elevation={1}>
+            <div className="containSingle">
+              <Typography variant="h5" className={`${classes.bottom} centerText`}>
+                Look Up Specific Venue
+              </Typography>
 
-            <TextField
-              id="outlined-name"
-              label="Venue Name"
-              className={classes.textField}
-              value={this.state.byName}
-              onChange={this.handleChange}
-              margin="normal"
-              variant="outlined"
-              name="venueName"
-            />
+              <TextField
+                id="outlined-name"
+                label="Venue Name"
+                className={classes.textField}
+                value={this.state.byName}
+                onChange={this.handleChange}
+                margin="normal"
+                variant="outlined"
+                name="venueName"
+              />
 
-            <TextField
-              id="outlined-name"
-              label="City"
-              className={classes.textField}
-              value={this.state.usCity}
-              onChange={this.handleChange}
-              margin="normal"
-              variant="outlined"
-              name="usCity"
-            />
+              <TextField
+                id="outlined-name"
+                label="City"
+                className={classes.textField}
+                value={this.state.usCity}
+                onChange={this.handleChange}
+                margin="normal"
+                variant="outlined"
+                name="usCity"
+              />
 
-            <TextField
-              id="outlined-name"
-              label="street"
-              className={classes.textField}
-              value={this.state.street}
-              onChange={this.handleChange}
-              margin="normal"
-              variant="outlined"
-              name="street"
-            />
+              <TextField
+                id="outlined-name"
+                label="street"
+                className={classes.textField}
+                value={this.state.street}
+                onChange={this.handleChange}
+                margin="normal"
+                variant="outlined"
+                name="street"
+              />
 
-            <SelectUSState onChange={this.setNewValue} className="bottom_marg"/><br />
-            <div className="bottom_marg">
-              <Button variant="contained" onClick={this.searchSingle}>
-                Search
-              </Button>
-            </div>
-          </div>
-
-          <div>
-            {this.state.show_map2 ? (
-              <div className="mapSingle">
-                <MapDiv2>
-                  <GoogleMapReact
-                    bootstrapURLKeys={{ key: firebase.functions().app_.options_.googlekey }}
-                    defaultZoom={16}
-                    defaultCenter={{lat: this.state.singleVenue.lat, lng: this.state.singleVenue.lon}}
-                  >
-                  <TacoLocation
-                    text={this.state.singleVenue.name}
-                    lat={this.state.singleVenue.lat}
-                    lng={this.state.singleVenue.lon}
-                  />
-                  </GoogleMapReact>
-                </MapDiv2>
-
-                <Card>
-                  <a href={this.state.singleVenue.url} target="_blank" className={classes.noHref}>
-                    <CardActionArea>
-                      <CardMedia
-                        className={`${classes.media}`}
-                        image={this.state.singleVenue.image_url}
-                        title="venue picture"
-                      />
-                      <CardContent>
-                        <Typography gutterBottom variant="h5" component="h2">
-                          {this.state.singleVenue.name}
-                        </Typography>
-                        <Typography component="p">
-                          Location: {this.state.singleVenue.address}<br/>
-                          Rating: {this.state.singleVenue.rating}<br/>
-                          Price: {this.state.singleVenue.price}<br/>
-                        </Typography>
-                      </CardContent>
-                    </CardActionArea>
-                  </a>
-                    <CardActions>
-                      <Button size="small" color="primary">
-                        Set as Location
-                      </Button>
-                  </CardActions>
-                </Card>
+              <SelectUSState onChange={this.setNewValue} className="bottom_marg"/><br />
+              <div className="bottom_marg">
+                <Button variant="contained" onClick={this.searchSingle}>
+                  Search
+                </Button>
               </div>
+            </div>
 
-            ) : null }
-          </div>
+            <div>
+              {this.state.show_map2 ? (
+                <div className="mapSingle">
+                  <MapDiv2>
+                    <GoogleMapReact
+                      bootstrapURLKeys={{ key: firebase.functions().app_.options_.googlekey }}
+                      defaultZoom={16}
+                      defaultCenter={{lat: this.state.singleVenue.lat, lng: this.state.singleVenue.lon}}
+                    >
+                    <TacoLocation
+                      text={this.state.singleVenue.name}
+                      lat={this.state.singleVenue.lat}
+                      lng={this.state.singleVenue.lon}
+                    />
+                    </GoogleMapReact>
+                  </MapDiv2>
 
-        </Paper>
+                  <Card>
+                    <a href={this.state.singleVenue.url} target="_blank" className={classes.noHref}>
+                      <CardActionArea>
+                        <CardMedia
+                          className={`${classes.media}`}
+                          image={this.state.singleVenue.image_url}
+                          title="venue picture"
+                        />
+                        <CardContent>
+                          <Typography gutterBottom variant="h5" component="h2">
+                            {this.state.singleVenue.name}
+                          </Typography>
+                          <Typography component="p">
+                            Location: {this.state.singleVenue.address}<br/>
+                            Rating: {this.state.singleVenue.rating}<br/>
+                            Price: {this.state.singleVenue.price}<br/>
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                    </a>
+                      <CardActions>
+                        <Button size="small" color="primary">
+                          Set as Location
+                        </Button>
+                    </CardActions>
+                  </Card>
+                </div>
 
-        <Paper className={`${classes.root2} paperVenues`} elevation={1}>
+              ) : null }
+            </div>
+          </Paper>
+
+            )
+          : this.state.value === 2 ? (
+
+          <Paper className={`${classes.root2} paperVenues`} elevation={1}>
             <div className="mapMany">
               <Typography variant="h5" className={`${classes.bottom} centerText`}>
                   Lookup Top Venues
@@ -589,6 +615,9 @@ class CreateEvent extends React.Component {
             {renderPageNumbers}
           </Paper>
 
+          )
+          : null
+        }
       </div>
     );
   }

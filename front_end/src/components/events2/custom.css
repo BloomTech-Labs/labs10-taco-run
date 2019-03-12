@@ -7,6 +7,11 @@
   width: 100%;
 }
 
+.venueBtns {
+	display:flex;
+	justify-content: center;
+}
+
 .container {
 	margin-bottom: 15px;
 	max-width: 1000px;
