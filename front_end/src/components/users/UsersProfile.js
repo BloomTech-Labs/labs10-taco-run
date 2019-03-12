@@ -10,7 +10,11 @@ import DrawerBar from "../drawer/Drawer";
 // --> import userActions
 import { fetchOtherUser, searchUsers } from "../../store/actions/userActions";
 // --> import friendsActions
-import { fetchFriends, addFriend } from "../../store/actions/friendsActions";
+import {
+  fetchFriends,
+  addFriend,
+  deleteFriend
+} from "../../store/actions/friendsActions";
 // --> import favoritesActions
 import {
   fetchFavorites,
@@ -49,6 +53,9 @@ import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Icon from "@material-ui/core/Icon";
 import Divider from "@material-ui/core/Divider";
+
+// Import for button
+import Button from "@material-ui/core/Button";
 
 function TabContainer(props) {
   return (
@@ -113,8 +120,6 @@ class UsersProfile extends React.Component {
   state = {
     search: "",
     value: "All",
-    friendFlag: null,
-    // For tabs
     tabValue: 0,
     // For select
     name: "hai",
@@ -234,11 +239,24 @@ class UsersProfile extends React.Component {
                 Street or Gourmet: {this.props.user.street_gourmet}
               </Typography>{" "}
               <FlexEnd>
-                {console.log(this.props.friendFlag)}
                 {this.props.friendFlag ? (
-                  <EditBtn>User Already Added</EditBtn>
+                  <Button
+                    variant="contained"
+                    onClick={event => {
+                      event.preventDefault();
+                      let ids = {
+                        user_id: parseInt(localStorage.getItem("user_id")),
+                        friends_id: this.props.match.params.id
+                      };
+                      this.props.deleteFriend(ids, ids.friends_id);
+                    }}
+                  >
+                    Unfriend
+                  </Button>
                 ) : (
-                  <EditBtn onClick={this.friendAdd}>Add as friend</EditBtn>
+                  <Button variant="contained" onClick={this.friendAdd}>
+                    Add as friend
+                  </Button>
                 )}
               </FlexEnd>
             </div>
@@ -435,6 +453,7 @@ export default connect(
     fetchFriends,
     searchUsers,
     searchFavorites,
-    addFriend
+    addFriend,
+    deleteFriend
   }
 )(withStyles(styles, { withTheme: true })(UsersProfile));

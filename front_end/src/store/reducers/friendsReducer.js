@@ -58,6 +58,7 @@ const friendsReducer = (state = initialState, action) => {
     case FRIEND_ADD_COMPLETE:
       return {
         ...state,
+        friendFlag: action.friendFlag,
         friends: action.payload,
         addingFriend: false,
         addedFriend: true,
@@ -79,6 +80,7 @@ const friendsReducer = (state = initialState, action) => {
     case FRIEND_DELETE_COMPLETE:
       return {
         ...state,
+        friendFlag: action.friendFlag,
         friends: action.payload,
         deletingFriend: false,
         deletedFriend: true,
