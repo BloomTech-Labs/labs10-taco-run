@@ -23,21 +23,18 @@ import Popup from "reactjs-popup";
 import {connect} from 'react-redux';
 import {facebookAuth, twitterAuth, googleAuth} from '../../store/actions/authActions.js';
 
-// const styles = {
-//   card: {
-//     maxWidth: 345,
-//   },
-//   media: {
-//     height: 140,
-//   },
-//   media2: {
-//     height: 350,
-//   },
-// };
+const styles = theme => ({
+  providerButton: {
+    height: 75,    
+    [theme.breakpoints.down("sm")]: {
+      height: 45
+    }
+  }
+});
 
-class LandingPage extends React.Component {
-  // const { classes } = props;
+class LandingPage extends React.Component {  
   render() {
+    const { classes } = this.props;
     return (
       <div id="page-wrapper">
   
@@ -74,9 +71,9 @@ class LandingPage extends React.Component {
                     alignItems: "center",
                   }}
                   >
-                    <img src={facebook} style = {{ height: 75 }} className="image" alt="facebook-provider-img" onClick={() => { this.props.facebookAuth(); this.props.history.push('/events_create') } }/>
-                    <img src={google} style = {{ height: 75 }} className="image" alt="google-provider-img" onClick={() => { this.props.googleAuth(); this.props.history.push('/events_create') } }/>
-                    <img src={twitter} style = {{ height: 75 }} className="image" alt="twitter-provider-img" onClick={() => { this.props.twitterAuth(); this.props.history.push('/events_create') } }/>
+                    <img src={facebook}  className = {classes.providerButton} alt="facebook-provider-img" onClick={() => { this.props.facebookAuth(); this.props.history.push('/events_create') } }/>
+                    <img src={google}  className = {classes.providerButton} alt="google-provider-img" onClick={() => { this.props.googleAuth(); this.props.history.push('/events_create') } }/>
+                    <img src={twitter}  className = {classes.providerButton} alt="twitter-provider-img" onClick={() => { this.props.twitterAuth(); this.props.history.push('/events_create') } }/>
                   </div>
                 </Popup>
               </li>
@@ -102,9 +99,9 @@ class LandingPage extends React.Component {
                   alignItems: "center",
                 }}
                 >
-                  <img src={facebook} style = {{ height: 75 }} className="image" alt="facebook-provider-img" onClick={() => { this.props.facebookAuth(); this.props.history.push('/events_create') } }/>
-                  <img src={google} style = {{ height: 75 }} className="image" alt="google-provider-img" onClick={() => { this.props.googleAuth(); this.props.history.push('/events_create') } }/>
-                  <img src={twitter} style = {{ height: 75 }} className="image" alt="twitter-provider-img" onClick={() => { this.props.twitterAuth(); this.props.history.push('/events_create') } }/>
+                  <img src={facebook}  className = {classes.providerButton} alt="facebook-provider-img" onClick={() => { this.props.facebookAuth(); this.props.history.push('/events_create') } }/>
+                  <img src={google}  className = {classes.providerButton} alt="google-provider-img" onClick={() => { this.props.googleAuth(); this.props.history.push('/events_create') } }/>
+                  <img src={twitter}  className = {classes.providerButton} alt="twitter-provider-img" onClick={() => { this.props.twitterAuth(); this.props.history.push('/events_create') } }/>
                 </div>
               </Popup>
             </li>            
@@ -245,4 +242,4 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)((LandingPage));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(LandingPage));

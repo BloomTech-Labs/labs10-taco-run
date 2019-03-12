@@ -2427,7 +2427,7 @@
 		border-radius: 6px;
 		border: 0;
 		display: inline-block;
-		position: relative;
+		position: relative;		
 	}
 
 		.image img {
@@ -3467,10 +3467,7 @@
 			#page-wrapper {
 				padding-top: 0;
 			}
-
-			#header {
-				display: none;
-			}
+			
 
 		/* Banner */
 
@@ -3489,21 +3486,7 @@
 			}
 
 			#navButton {
-				-moz-backface-visibility: hidden;
-				-webkit-backface-visibility: hidden;
-				-ms-backface-visibility: hidden;
-				backface-visibility: hidden;
-				-moz-transition: -moz-transform 0.5s ease;
-				-webkit-transition: -webkit-transform 0.5s ease;
-				-ms-transition: -ms-transform 0.5s ease;
-				transition: transform 0.5s ease;
-				display: block;
-				height: 44px;
-				left: 0;
-				position: fixed;
-				top: 0;
-				width: 100%;
-				z-index: 10001;
+				display: none;
 			}
 
 				#navButton .toggle {
