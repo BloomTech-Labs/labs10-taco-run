@@ -272,7 +272,7 @@ class UserProfile extends React.Component {
             </div>
             <div className="profile-preferences">
               <Typography>
-                Shell preference: {this.props.user.hard_or_soft}
+                Tortilla preference: {this.props.user.hard_or_soft}
               </Typography>
               <Typography>Spiciness: {this.props.user.heat_pref}</Typography>
               <Typography>
