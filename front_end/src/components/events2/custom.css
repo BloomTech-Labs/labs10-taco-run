@@ -7,12 +7,6 @@
   width: 100%;
 }
 
-
-.modal-body {
-	max-height: 100vh;
-  overflow-y: auto;
-}
-
 .taco_buddies {
 	width: 100%;
 	max-width: 600px;
@@ -51,7 +45,7 @@
 
 .venueBtns {
 	display:flex;
-	justify-content: center;
+	justify-content: space-around;
 	margin-top: 10px;
 }
 
@@ -110,6 +104,8 @@
 	margin: 1%;
 }
 
+date
+
 .btnMargin {
 	margin: .5%;
 	font-size: 1.6rem;
@@ -125,7 +121,9 @@
 	margin: .5%;
 	font-size: 1.6rem;
 	border-radius: 4px;
+	margin-bottom: 20px;
 }
+
 
 .mapSingle {
 	display: flex;
@@ -185,7 +183,50 @@
 	margin-bottom: 30px;
 }
 
+.modal-body {
+	width: 100%;
+	max-width: 600px;
+}
+
+.cityLook {
+	width: 600px;
+}
+
+.xbutton2 {
+	font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+	font-size: 18px;
+	margin-left: 3%;
+}
+
+.flexDivDate {
+	display:flex;
+	justify-content: space-evenly;
+}
+
+.xbutton2:hover {
+	cursor:pointer;
+}
+
+.xbutton3 {
+	font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+	font-size: 18px;
+	margin-left: 3%;
+	margin-bottom: 0;
+}
+
+.xbutton3:hover {
+	cursor:pointer;
+}
+
+.bottom_marg2 {
+	margin-left: 3%;
+	margin-bottom: 15px;
+}
+
 @media only screen and (max-width: 600px) {
+	.cityLook {
+		width: 390px;
+	}
 	.mapSingle{
 		flex-direction: column-reverse;
 	}

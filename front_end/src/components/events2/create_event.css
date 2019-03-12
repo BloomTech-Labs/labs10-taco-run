@@ -5,18 +5,23 @@
 	margin-top: 50px;
 }
 
-containSingle
-
 .noHref = {
 	text-decoration: none;
+}
+
+.removeVenue {
+	font-size: 16px;
+}
+
+.removeVenue:hover{
+	cursor:pointer;
 }
 
 .containSingle {
 	max-width: 600px;
 	width: 100%;
 	margin: 0 auto;
-	padding: 2%;
-	padding-right: 5%;
+	padding: 2% 5% 0 2%;
 }
 
 .nameField {
@@ -31,7 +36,7 @@ containSingle
 
 .flexDiv {
 	display: flex;
-	justify-content: space-evenly;
+	justify-content: space-around;
 }
 
 .formCreate {
@@ -44,6 +49,8 @@ containSingle
 	margin-left: 1%;
 	font-size: 16px;
 }
+
+
 
 .centerText {
 	text-align: center;

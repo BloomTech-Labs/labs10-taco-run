@@ -74,12 +74,10 @@ export const FlexForm = styled.form`
 
 export const MapDiv = styled.div`
   border: solid black 1px;
-  height: 450px;
+  height: 239px;
   max-width: 1000px;
   margin: 0 auto;
-  margin-top: 40px;
   width: 98%;
-  margin-bottom: 15px; 
 `
 
 export const MapDiv2 = styled(MapDiv)`
@@ -91,4 +89,12 @@ export const MapDiv2 = styled(MapDiv)`
     width: 100%;  
     height: 85px
   }
+`
+
+export const OverFlow = styled.div`
+  height: 500px
+  overFlow: scroll;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
 `
