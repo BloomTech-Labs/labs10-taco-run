@@ -7,9 +7,40 @@
   width: 100%;
 }
 
+.moreBottom {
+	margin-bottom: 100px;
+}
+
+.taco_buddies {
+	width: 100%;
+	max-width: 600px;
+	border-radius: 6px;
+}
+
+.taco_budiesDiv {
+	position: relative;
+  text-align: center;
+}
+
+.centered {
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 25px;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-weight: bold;
+  color: white;
+  background-color: black;
+  padding: .5%;
+  border-radius: 5px;
+  opacity: .57
+}
+
 .venueBtns {
 	display:flex;
 	justify-content: center;
+	margin-top: 10px;
 }
 
 .container {

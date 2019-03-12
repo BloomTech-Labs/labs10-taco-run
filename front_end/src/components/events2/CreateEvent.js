@@ -19,6 +19,9 @@ import CardMedia from '@material-ui/core/CardMedia';
 import { MapDiv, YelpDiv, MapDiv2 } from "./create_event_css.js";
 import Select from 'react-select'
 import SelectUSState from 'react-select-us-states';
+import { withAlert } from 'react-alert';
+
+import taco_buddies from './t_friends.jpg';
 
 import {
   MuiPickersUtilsProvider,
@@ -51,7 +54,6 @@ const styles = theme => ({
   },
   button: {
     margin: theme.spacing.unit,
-    backgroundColor: "lightgreen",
     width: "60%"
   },
   leftIcon: {
@@ -74,8 +76,7 @@ const styles = theme => ({
     paddingBottom: theme.spacing.unit * 2,
     maxWidth: '700px',
     width: '100%',
-    margin: '0 auto',
-    marginTop: '20px'
+    margin: '20px auto 70px auto',
   },
   bottom: {
     marginBottom: 0
@@ -89,7 +90,6 @@ const styles = theme => ({
   margL: {
     marginLeft: "1%"
   },
-
 });
 
 const TacoLocation = ({ text }) => <div>{text}</div>;
@@ -123,7 +123,10 @@ class CreateEvent extends React.Component {
       usState: "",
       usCity: '',
       singleVenue: '',
-      value: 0
+      value: 0,
+      selected_venue: "",
+      setVenue: '',
+      bottom_0: "moreBottom"
     };
     this.setNewValue = this.setNewValue.bind(this);
   }
@@ -233,6 +236,7 @@ class CreateEvent extends React.Component {
     })
   };
 
+
   searchSingle = (event) => {
     let key = firebase.functions().app_.options_.yelpkey;
     let {venueName, street, usState, usCity}  = this.state
@@ -270,6 +274,7 @@ class CreateEvent extends React.Component {
               lat: res.data.coordinates.latitude,
               lon: res.data.coordinates.longitude
             }
+
             this.setState({
               singleVenue: singleVenue,
               show_map2: true
@@ -290,15 +295,31 @@ class CreateEvent extends React.Component {
     })
   }
 
-  addVenue = (venue) => {
-    this.setState({
-      venue: venue
-    })
+  setVenues = (value) => {
+    if (value === 0) {
+      this.setState({
+        setVenue: '',
+        bottom_0: "moreBottom",
+        value: value,
+        show_map2: false,
+        show_map: false,
+      })
+    } else {
+      this.setState({
+        setVenue: '',
+        bottom_0: "",
+        value: value,
+        show_map2: false,
+        show_map: false,
+      })
+    }
   }
 
-  setVenues = (value) => {
+  setVenue = (obj) => {
+    console.log(obj)
+    this.props.alert.show(`${obj.name} set as venue`)
     this.setState({
-      value: value
+      setVenue: obj
     })
   }
 
@@ -309,6 +330,8 @@ class CreateEvent extends React.Component {
     const indexOfFirstTaco = indexOfLastTaco - tacosPerPage;
     const currentTacos = taco_places.slice(indexOfFirstTaco, indexOfLastTaco);
     const pageNumbers = [];
+
+    console.log(this.state)
 
 
     for (let i = 1; i <= Math.ceil(taco_places.length / tacosPerPage); i++) {
@@ -342,12 +365,16 @@ class CreateEvent extends React.Component {
           <DrawerBar />
         </div>
 
-        <div className="form-wrapper createDiv ">
+        <div className={`form-wrapper createDiv ${this.state.bottom_0}`}>
           <Paper className={classes.root} elevation={1}>
             <CreateEventWrapper>
               <FlexForm>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <Grid className="formDiv">
+                    <div className="taco_budiesDiv">
+                      <img src={taco_buddies} className="taco_buddies" />
+                      <div className="centered">Create Event</div>
+                    </div>
                     <div className="flexDiv">
                       <TextField
                         id="outlined-name"
@@ -409,13 +436,20 @@ class CreateEvent extends React.Component {
             </CreateEventWrapper>
 
             <div className="venueBtns">
-              <Button onClick={() => {this.setVenues(0)}}>default</Button>
-              <Button onClick={() => {this.setVenues(1)}}>Specific Venue</Button>
+              <Button onClick={() => {this.setVenues(0)}}>No Venue</Button>
+              <Button onClick={() => {this.setVenues(1)}}>Lookup Venue</Button>
               <Button onClick={() => {this.setVenues(2)}}>Search Venues by City</Button>
             </div>
 
+            {this.state.setVenue ? (
+              <Typography variant="h5" className="centerText">
+                - {this.state.setVenue.name} set as venue -
+              </Typography>
+            ) : null}
+
           </Paper>
         </div>
+
 
         {this.state.value === 0 ? (null) 
           : this.state.value === 1 ? (
@@ -505,7 +539,7 @@ class CreateEvent extends React.Component {
                       </CardActionArea>
                     </a>
                       <CardActions>
-                        <Button size="small" color="primary">
+                        <Button size="small" color="primary" onClick={() => {this.setVenue(this.state.singleVenue)}}>
                           Set as Location
                         </Button>
                     </CardActions>
@@ -590,7 +624,7 @@ class CreateEvent extends React.Component {
                       <a href={t.url} className="noUnderline">View on Yelp</a>
                     </Button>
                     <Button size="small" color="primary" 
-                      onClick={() => {this.addVenue(
+                      onClick={() => {this.setVenue(
                         {
                           lat: t.coordinates.latitude,
                           lon: t.coordinates.longitude,
@@ -628,8 +662,6 @@ const mapStateToProps = state => {
     user: state.userReducer.user
   };
 };
-export default connect(
-  mapStateToProps,
-  { createEvent }
-)(withStyles(styles)(CreateEvent));
-// export default withStyles(styles)(MaterialUIPickers);
+
+export default connect(mapStateToProps, {createEvent})(withStyles(styles)(withAlert()(CreateEvent)));
+
