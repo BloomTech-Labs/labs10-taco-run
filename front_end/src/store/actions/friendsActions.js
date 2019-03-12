@@ -22,7 +22,7 @@ export const fetchFriends = id => {
           if (
             res.data[i].friends_id === parseInt(localStorage.getItem("user_id"))
           ) {
-            dispatch({
+            return dispatch({
               type: FRIENDS_FETCH_COMPLETE,
               payload: res.data,
               friendFlag: true
