@@ -79,6 +79,12 @@
 	border-radius: 4px;
 }
 
+.reactSelect {
+	z-index: 99;
+	color:black;
+	height: 20px;
+}
+
 .btnMarginC:focus {
   outline: none;
 }

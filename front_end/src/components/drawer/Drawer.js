@@ -221,7 +221,7 @@ class DrawerBar extends React.Component {
                   aria-haspopup="true"
                   onClick={this.handleClick}
                 >
-                  <i class="fas fa-user-circle" />
+                  <i className="fas fa-user-circle" />
                 </Button>
                 <Menu
                   id="simple-menu"

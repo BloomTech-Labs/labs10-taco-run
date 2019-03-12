@@ -17,6 +17,8 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import { MapDiv, YelpDiv } from "./create_event_css.js";
+import Select from 'react-select'
+import SelectUSState from 'react-select-us-states';
 
 import {
   MuiPickersUtilsProvider,
@@ -98,6 +100,7 @@ class CreateEvent extends React.Component {
       invite_only: true,
       posters_email: "",
       show_map: false,
+      show_map2: false,
       city_location: "",
       taco_places: [],
       destinations: [],
@@ -107,12 +110,28 @@ class CreateEvent extends React.Component {
       currentPage: 1,
       tacosPerPage: 6,
       byCity: "",
-      byName: "",
-      venue: ""
+      venueName: "",
+      street: "",
+      venue: "",
+      usState: "",
+      usCity: '',
+      singleVenue: ''
     };
+    this.setNewValue = this.setNewValue.bind(this);
   }
+
   componentDidMount() {
     console.log(`checkedInvite is: ${this.state.checkedInvite}`);
+  }
+
+  setNewValue(state) {
+    this.setState({
+      usState: state
+    })
+  }
+
+  changeHandler = value => {
+    this.setState({ value })
   }
 
   handleDateChange = date => {
@@ -140,16 +159,6 @@ class CreateEvent extends React.Component {
       invite_only: this.state.checkedInvite,
       posters_pic: this.props.auth.photoURL
     };
-    /*
-      - "name": "another really fun event!",
-	    - "date": "2019-03-01T03:09:15.212Z",
-	    - "author": "Marshall Lanners",
-	    - "user_id": 1,
-	    - "posters_email": "lanners.marshall@yahoo.com",
-	    - "invite_only": true
-    */
-    console.log("event_obj is: \n");
-    console.log(event_obj);
     this.props.createEvent(event_obj);
     this.props.history.push("/events");
   };
@@ -208,7 +217,6 @@ class CreateEvent extends React.Component {
         });
       })
       .catch(error => {
-        //this.props.alert.show("invalid city");
         console.log(error);
         this.setState({
           city_location: ""
@@ -216,6 +224,57 @@ class CreateEvent extends React.Component {
       });
     })
   };
+
+  searchSingle = (event) => {
+    let key = firebase.functions().app_.options_.yelpkey;
+    let {venueName, street, usState, usCity}  = this.state
+    let url = `https://api.yelp.com/v3/businesses/matches?name=${venueName}&address1=${street}&city=${usCity}&state=${usState}&country=US`
+     axios
+      .get(
+        `${"https://cors-anywhere.herokuapp.com/"}${url}`,
+        {
+          headers: {
+            Authorization: `Bearer ${key}`
+          }
+        }
+      )
+      .then(res => {
+        console.log(res)
+        let id = res.data.businesses[0].id
+        let url = `https://api.yelp.com/v3/businesses/${id}`
+        axios
+          .get(
+            `${"https://cors-anywhere.herokuapp.com/"}${url}`,
+            {
+              headers: {
+                Authorization: `Bearer ${key}`
+              }
+            }
+          )
+          .then(res => {
+            let singleVenue = {
+              name: res.data.name,
+              image_url: res.data.image_url,
+              rating: res.data.rating,
+              url: res.data.url,
+              price: res.data.price,
+              address: `${res.data.location.display_address[0]} ${res.data.location.display_address[1]}`,
+              lat: res.data.coordinates.latitude,
+              lon: res.data.coordinates.longitude
+            }
+            this.setState({
+              singleVenue: singleVenue,
+              show_map2: true
+            })
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      })
+      .catch(error => {
+        console.log(error.data)
+      })   
+  }
 
   handleClick = (event) => {
     this.setState({
@@ -229,20 +288,15 @@ class CreateEvent extends React.Component {
     })
   }
 
-
-
-
   render() {
     const { classes } = this.props;
     const { selectedDate } = this.state;
-    console.log(this.props);
-    console.log(this.state)
-
     const {taco_places, currentPage, tacosPerPage} = this.state
     const indexOfLastTaco = currentPage * tacosPerPage;
     const indexOfFirstTaco = indexOfLastTaco - tacosPerPage;
     const currentTacos = taco_places.slice(indexOfFirstTaco, indexOfLastTaco);
     const pageNumbers = [];
+    console.log(this.state)
 
     for (let i = 1; i <= Math.ceil(taco_places.length / tacosPerPage); i++) {
       pageNumbers.push(i);
@@ -273,7 +327,6 @@ class CreateEvent extends React.Component {
               <FlexForm>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <Grid className="formDiv">
-
                     <div className="flexDiv">
                       <TextField
                         id="outlined-name"
@@ -338,8 +391,104 @@ class CreateEvent extends React.Component {
 
         <Paper className={`${classes.root2} paperVenues`} elevation={1}>
 
+          <Typography variant="h5" className={`${classes.bottom} centerText`}>
+            Look Up Specific Venue
+          </Typography>
+
+          <TextField
+            id="outlined-name"
+            label="Venue Name"
+            className={classes.textField}
+            value={this.state.byName}
+            onChange={this.handleChange}
+            margin="normal"
+            variant="outlined"
+            name="venueName"
+          />
+
+          <TextField
+            id="outlined-name"
+            label="City"
+            className={classes.textField}
+            value={this.state.usCity}
+            onChange={this.handleChange}
+            margin="normal"
+            variant="outlined"
+            name="usCity"
+          />
+
+          <TextField
+            id="outlined-name"
+            label="street"
+            className={classes.textField}
+            value={this.state.street}
+            onChange={this.handleChange}
+            margin="normal"
+            variant="outlined"
+            name="street"
+          />
+
+          <SelectUSState onChange={this.setNewValue}/><br />
+
+          <Button variant="contained" onClick={this.searchSingle}>
+            Search
+          </Button>
+
+          <div>
+            {this.state.show_map2 ? (
+              <div>
+                <MapDiv>
+                  <GoogleMapReact
+                    bootstrapURLKeys={{ key: firebase.functions().app_.options_.googlekey }}
+                    defaultZoom={16}
+                    defaultCenter={{lat: this.state.singleVenue.lat, lng: this.state.singleVenue.lon}}
+                  >
+                  <TacoLocation
+                    text={this.state.singleVenue.name}
+                    lat={this.state.singleVenue.lat}
+                    lng={this.state.singleVenue.lon}
+                  />
+                  </GoogleMapReact>
+                </MapDiv>
+
+                <Card>
+                  <CardActionArea>
+                    <CardMedia
+                      className={classes.media}
+                      image={this.state.singleVenue.image_url}
+                      title="venue picture"
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="h2">
+                        {this.state.singleVenue.name}
+                      </Typography>
+                      <Typography component="p">
+                        Location: {this.state.singleVenue.address}<br/>
+                        Rating: {this.state.singleVenue.rating}<br/>
+                        Price: {this.state.singleVenue.price}<br/>
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                    <CardActions>
+                      <Button size="small" color="primary">
+                        <a href={this.state.singleVenue.url} className="noUnderline">View on Yelp</a>
+                      </Button>
+                      <Button size="small" color="primary">
+                        Set as Location
+                      </Button>
+                  </CardActions>
+                </Card>
+              </div>
+
+            ) : null }
+          </div>
+
+        </Paper>
+
+        <Paper className={`${classes.root2} paperVenues`} elevation={1}>
+
             <Typography variant="h5" className={`${classes.bottom} centerText`}>
-                Lookup Venue
+                Lookup Top Venues
             </Typography>
 
             <form className={classes.container} noValidate autoComplete="off">
@@ -352,16 +501,6 @@ class CreateEvent extends React.Component {
                 margin="normal"
                 variant="outlined"
                 name="byCity"
-              />
-              <TextField
-                id="outlined-name"
-                label="by Venue Name"
-                className={classes.textField}
-                value={this.state.byName}
-                onChange={this.handleChange}
-                margin="normal"
-                variant="outlined"
-                name="byName"
               />
             </form>
             <Button variant="contained" onClick={this.searchMap}>
@@ -384,7 +523,7 @@ class CreateEvent extends React.Component {
                 </MapDiv>
               ) : null}
 
-              <div class="flex1">
+              <div className="flex1">
                 {currentTacos.map((t, idx) => {
                   return (
 
