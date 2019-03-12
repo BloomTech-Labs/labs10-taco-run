@@ -62,6 +62,8 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import Icon from "@material-ui/core/Icon";
 import Divider from "@material-ui/core/Divider";
 
+import Button from "@material-ui/core/Button";
+
 function TabContainer(props) {
   return (
     <Typography component="div" style={{ padding: 8 * 3 }}>
@@ -127,6 +129,25 @@ const styles = theme => ({
       display: "flex",
       flexDirection: "row",
       flexWrap: "wrap"
+    }
+  },
+  // Profile container
+  profileContainer: {
+    [theme.breakpoints.up("md")]: {
+      display: "flex",
+      maxWidth: "1000px"
+    }
+  },
+  profileDetails: {
+    display: "flex",
+    flexDirection: "column",
+    [theme.breakpoints.up("md")]: {
+      marginRight: "100px"
+    }
+  },
+  profileFunctions: {
+    [theme.breakpoints.up("md")]: {
+      width: "800px"
     }
   },
   evenWidth: {
@@ -238,8 +259,8 @@ class UserProfile extends React.Component {
     return (
       <div className="profile">
         <DrawerBar />
-        <Container>
-          <div className="profile-details">
+        <Container className={classes.profileContainer}>
+          <div className={classes.profileDetails}>
             <div className="profile-header">
               <Typography variant="h3" className="profile-name">
                 {this.props.user.name}
@@ -257,15 +278,18 @@ class UserProfile extends React.Component {
               <Typography>
                 Street or Gourmet: {this.props.user.street_gourmet}
               </Typography>
-              <Link to="/user-settings">
-                <EditBtn>
-                  <Typography>Edit Profile</Typography>
-                </EditBtn>
-              </Link>
+              <Button
+                variant="contained"
+                onClick={() => {
+                  this.props.history.push("/user-settings");
+                }}
+              >
+                Edit Profile
+              </Button>
             </div>
           </div>
 
-          <div className="profile-functions">
+          <div className={classes.profileFunctions}>
             <div className="profile-search">
               {/* Search Bar */}
               <div className="profile-search-friends">
