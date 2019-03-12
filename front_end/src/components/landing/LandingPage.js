@@ -1,4 +1,4 @@
-// import './custom.css'
+import './custom.css'
 
 import React from 'react';
 import yelp from './img/yelp.jpg'
@@ -17,6 +17,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 
 import Typography from '@material-ui/core/Typography';
+import Popup from "reactjs-popup";
 
 
 import {connect} from 'react-redux';
@@ -60,7 +61,25 @@ class LandingPage extends React.Component {
                   </li>
                 </ul>
               </li>
-              <li><a href="/" className="button">Log In</a></li>
+              <li>
+                <Popup 
+                  trigger={<a href="#" className="button">Log In</a>}
+                  modal
+                  closeOnDocumentClick                  
+                >
+                  <h3 style = {{ textAlign: "center" }}>Login With</h3>
+                  <div className = "provider-buttons" style = {{    
+                    display: "flex",
+                    justifyContent: "space-evenly",
+                    alignItems: "center",
+                  }}
+                  >
+                    <img src={facebook} style = {{ height: 75 }} className="image" alt="facebook-provider-img" onClick={() => { this.props.facebookAuth(); this.props.history.push('/events_create') } }/>
+                    <img src={google} style = {{ height: 75 }} className="image" alt="google-provider-img" onClick={() => { this.props.googleAuth(); this.props.history.push('/events_create') } }/>
+                    <img src={twitter} style = {{ height: 75 }} className="image" alt="twitter-provider-img" onClick={() => { this.props.twitterAuth(); this.props.history.push('/events_create') } }/>
+                  </div>
+                </Popup>
+              </li>
             </ul>
           </nav>
         </header>
@@ -70,7 +89,25 @@ class LandingPage extends React.Component {
           <h2>Let's Get Tacos</h2>
           <p>Where friends don't let friends get tacos alone</p>
           <ul className="actions special">
-            <li><a href="/" className="button primary">Get Started</a></li>
+            <li>
+              <Popup 
+                trigger={<a href="#" className="button primary">Get Started</a>}
+                modal
+                closeOnDocumentClick                  
+              >
+                <h3 style = {{ textAlign: "center", color: "black" }}>Login With</h3>
+                <div className = "provider-buttons" style = {{    
+                  display: "flex",
+                  justifyContent: "space-evenly",
+                  alignItems: "center",
+                }}
+                >
+                  <img src={facebook} style = {{ height: 75 }} className="image" alt="facebook-provider-img" onClick={() => { this.props.facebookAuth(); this.props.history.push('/events_create') } }/>
+                  <img src={google} style = {{ height: 75 }} className="image" alt="google-provider-img" onClick={() => { this.props.googleAuth(); this.props.history.push('/events_create') } }/>
+                  <img src={twitter} style = {{ height: 75 }} className="image" alt="twitter-provider-img" onClick={() => { this.props.twitterAuth(); this.props.history.push('/events_create') } }/>
+                </div>
+              </Popup>
+            </li>            
             <li><a href="#learn-more" className="button">Learn More</a></li>
           </ul>
         </section>
@@ -121,10 +158,10 @@ class LandingPage extends React.Component {
   
               <section className="box special">
                 <span className="image featured"><img src="images/pic02.jpg" alt="" /></span>
-                <h3>Sed lorem adipiscing</h3>
+                <h3>Marshall Lanners</h3>
                 <p>Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
                 <ul className="actions special">
-                  <li><a href="/" className="button alt">Learn More</a></li>
+                  <li><a href="https://github.com/lanners-marshall" target="_blank" className="button alt">Github</a></li>
                 </ul>
               </section>
   
@@ -133,10 +170,10 @@ class LandingPage extends React.Component {
   
               <section className="box special">
                 <span className="image featured"><img src="images/pic03.jpg" alt="" /></span>
-                <h3>Accumsan integer</h3>
+                <h3>Benny Oseguera</h3>
                 <p>Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
                 <ul className="actions special">
-                  <li><a href="/" className="button alt">Learn More</a></li>
+                  <li><a href="https://github.com/bennyo27" target="_blank" className="button alt">Github</a></li>
                 </ul>
               </section>
   
@@ -148,10 +185,10 @@ class LandingPage extends React.Component {
   
               <section className="box special">
                 <span className="image featured"><img src="images/pic02.jpg" alt="" /></span>
-                <h3>Sed lorem adipiscing</h3>
+                <h3>Jonathan Laluces</h3>
                 <p>Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
                 <ul className="actions special">
-                  <li><a href="/" className="button alt">Learn More</a></li>
+                  <li><a href="https://github.com/jlaluces123" target="_blank" className="button alt">Github</a></li>
                 </ul>
               </section>
   
@@ -160,10 +197,10 @@ class LandingPage extends React.Component {
   
               <section className="box special">
                 <span className="image featured"><img src="images/pic03.jpg" alt="" /></span>
-                <h3>Accumsan integer</h3>
+                <h3>Max David Metelus</h3>
                 <p>Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
                 <ul className="actions special">
-                  <li><a href="/" className="button alt">Learn More</a></li>
+                  <li><a href="https://github.com/Mdmetelus" target="_blank" className="button alt">Github</a></li>
                 </ul>
               </section>
   
@@ -174,12 +211,9 @@ class LandingPage extends React.Component {
   
   
         <footer id="footer">
-          <ul className="icons">
-            <li><a href="/" className="icon fa-twitter"><span className="label">Twitter</span></a></li>
-            <li><a href="/" className="icon fa-facebook"><span className="label">Facebook</span></a></li>
-            <li><a href="/" className="icon fa-instagram"><span className="label">Instagram</span></a></li>
-            <li><a href="/" className="icon fa-github"><span className="label">Github</span></a></li>          
-            <li><a href="/" className="icon fa-google-plus"><span className="label">Google+</span></a></li>
+          <ul className="icons">            
+            <li><a href="https://www.instagram.com/searchfortheperfecttaco/" target="_blank" className="icon fa-instagram"><span className="label">Instagram</span></a></li>
+            <li><a href="https://github.com/Lambda-School-Labs/labs10-taco-run" target="_blank" className="icon fa-github"><span className="label">Github</span></a></li>                      
           </ul>
           <ul className="copyright">
             <li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
