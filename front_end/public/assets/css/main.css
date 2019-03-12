@@ -2321,9 +2321,9 @@
 				}
 
 		.box.special {
-			text-align: center;
-			margin-bottom: 300px;
+			text-align: center;			
 		}
+
 
 		.box .image.featured {
 			border-radius: 0;
@@ -2864,6 +2864,7 @@
 
 	#page-wrapper {
 		padding-top: 3em;
+		background-color: crimson;
 	}
 
 	body.landing #page-wrapper {

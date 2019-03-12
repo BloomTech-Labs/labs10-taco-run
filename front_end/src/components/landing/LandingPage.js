@@ -1,4 +1,4 @@
-import './custom.css'
+// import './custom.css'
 
 import React from 'react';
 import yelp from './img/yelp.jpg'
