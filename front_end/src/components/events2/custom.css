@@ -79,6 +79,11 @@
 	border-radius: 4px;
 }
 
+.mapSingle {
+	display: flex;
+	margin-top: 20px;
+}
+
 .reactSelect {
 	z-index: 99;
 	color:black;
@@ -133,6 +138,9 @@
 }
 
 @media only screen and (max-width: 600px) {
+	.mapSingle{
+		flex-direction: column-reverse;
+	}
 	.flexList {
 		flex-direction: column;
 	}

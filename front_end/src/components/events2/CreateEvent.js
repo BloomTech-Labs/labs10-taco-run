@@ -16,7 +16,7 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import { MapDiv, YelpDiv } from "./create_event_css.js";
+import { MapDiv, YelpDiv, MapDiv2 } from "./create_event_css.js";
 import Select from 'react-select'
 import SelectUSState from 'react-select-us-states';
 
@@ -83,6 +83,12 @@ const styles = theme => ({
   media: {
     height: 140,
   },
+  noHref: {
+    textDecoration: 'none'
+  },
+  margL: {
+    marginLeft: "1%"
+  }
 });
 
 const TacoLocation = ({ text }) => <div>{text}</div>;
@@ -115,7 +121,7 @@ class CreateEvent extends React.Component {
       venue: "",
       usState: "",
       usCity: '',
-      singleVenue: ''
+      singleVenue: '',
     };
     this.setNewValue = this.setNewValue.bind(this);
   }
@@ -391,53 +397,56 @@ class CreateEvent extends React.Component {
 
         <Paper className={`${classes.root2} paperVenues`} elevation={1}>
 
-          <Typography variant="h5" className={`${classes.bottom} centerText`}>
-            Look Up Specific Venue
-          </Typography>
+          <div className="containSingle">
+            <Typography variant="h5" className={`${classes.bottom} centerText`}>
+              Look Up Specific Venue
+            </Typography>
 
-          <TextField
-            id="outlined-name"
-            label="Venue Name"
-            className={classes.textField}
-            value={this.state.byName}
-            onChange={this.handleChange}
-            margin="normal"
-            variant="outlined"
-            name="venueName"
-          />
+            <TextField
+              id="outlined-name"
+              label="Venue Name"
+              className={classes.textField}
+              value={this.state.byName}
+              onChange={this.handleChange}
+              margin="normal"
+              variant="outlined"
+              name="venueName"
+            />
 
-          <TextField
-            id="outlined-name"
-            label="City"
-            className={classes.textField}
-            value={this.state.usCity}
-            onChange={this.handleChange}
-            margin="normal"
-            variant="outlined"
-            name="usCity"
-          />
+            <TextField
+              id="outlined-name"
+              label="City"
+              className={classes.textField}
+              value={this.state.usCity}
+              onChange={this.handleChange}
+              margin="normal"
+              variant="outlined"
+              name="usCity"
+            />
 
-          <TextField
-            id="outlined-name"
-            label="street"
-            className={classes.textField}
-            value={this.state.street}
-            onChange={this.handleChange}
-            margin="normal"
-            variant="outlined"
-            name="street"
-          />
+            <TextField
+              id="outlined-name"
+              label="street"
+              className={classes.textField}
+              value={this.state.street}
+              onChange={this.handleChange}
+              margin="normal"
+              variant="outlined"
+              name="street"
+            />
 
-          <SelectUSState onChange={this.setNewValue}/><br />
-
-          <Button variant="contained" onClick={this.searchSingle}>
-            Search
-          </Button>
+            <SelectUSState onChange={this.setNewValue} className="bottom_marg"/><br />
+            <div className="bottom_marg">
+              <Button variant="contained" onClick={this.searchSingle}>
+                Search
+              </Button>
+            </div>
+          </div>
 
           <div>
             {this.state.show_map2 ? (
-              <div>
-                <MapDiv>
+              <div className="mapSingle">
+                <MapDiv2>
                   <GoogleMapReact
                     bootstrapURLKeys={{ key: firebase.functions().app_.options_.googlekey }}
                     defaultZoom={16}
@@ -449,30 +458,29 @@ class CreateEvent extends React.Component {
                     lng={this.state.singleVenue.lon}
                   />
                   </GoogleMapReact>
-                </MapDiv>
+                </MapDiv2>
 
                 <Card>
-                  <CardActionArea>
-                    <CardMedia
-                      className={classes.media}
-                      image={this.state.singleVenue.image_url}
-                      title="venue picture"
-                    />
-                    <CardContent>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        {this.state.singleVenue.name}
-                      </Typography>
-                      <Typography component="p">
-                        Location: {this.state.singleVenue.address}<br/>
-                        Rating: {this.state.singleVenue.rating}<br/>
-                        Price: {this.state.singleVenue.price}<br/>
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
+                  <a href={this.state.singleVenue.url} target="_blank" className={classes.noHref}>
+                    <CardActionArea>
+                      <CardMedia
+                        className={`${classes.media}`}
+                        image={this.state.singleVenue.image_url}
+                        title="venue picture"
+                      />
+                      <CardContent>
+                        <Typography gutterBottom variant="h5" component="h2">
+                          {this.state.singleVenue.name}
+                        </Typography>
+                        <Typography component="p">
+                          Location: {this.state.singleVenue.address}<br/>
+                          Rating: {this.state.singleVenue.rating}<br/>
+                          Price: {this.state.singleVenue.price}<br/>
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+                  </a>
                     <CardActions>
-                      <Button size="small" color="primary">
-                        <a href={this.state.singleVenue.url} className="noUnderline">View on Yelp</a>
-                      </Button>
                       <Button size="small" color="primary">
                         Set as Location
                       </Button>
@@ -486,26 +494,29 @@ class CreateEvent extends React.Component {
         </Paper>
 
         <Paper className={`${classes.root2} paperVenues`} elevation={1}>
+            <div className="mapMany">
+              <Typography variant="h5" className={`${classes.bottom} centerText`}>
+                  Lookup Top Venues
+              </Typography>
 
-            <Typography variant="h5" className={`${classes.bottom} centerText`}>
-                Lookup Top Venues
-            </Typography>
-
-            <form className={classes.container} noValidate autoComplete="off">
-              <TextField
-                id="outlined-name"
-                label="by City"
-                className={classes.textField}
-                value={this.state.byCity}
-                onChange={this.handleChange}
-                margin="normal"
-                variant="outlined"
-                name="byCity"
-              />
-            </form>
-            <Button variant="contained" onClick={this.searchMap}>
-              Search
-            </Button>
+              <form className={classes.container} noValidate autoComplete="off">
+                <TextField
+                  id="outlined-name"
+                  label="by City"
+                  className={classes.textField}
+                  value={this.state.byCity}
+                  onChange={this.handleChange}
+                  margin="normal"
+                  variant="outlined"
+                  name="byCity"
+                />
+              </form>
+              <div className="bottom_marg">
+                <Button variant="contained" onClick={this.searchMap}>
+                  Search
+                </Button>
+              </div>
+            </div>
 
             {this.state.show_map ? (
                 <MapDiv>

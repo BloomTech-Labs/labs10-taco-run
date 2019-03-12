@@ -79,5 +79,14 @@ export const MapDiv = styled.div`
   margin: 0 auto;
   margin-top: 40px;
   width: 98%;
-  margin-bottom: 15px;
+  margin-bottom: 15px; 
+`
+
+export const MapDiv2 = styled(MapDiv)`
+  height: 317px;
+  margin: 0 auto;
+  width: 50%;
+  @media only screen and (max-width: 600px) {
+    width: 100%;  
+  }
 `
