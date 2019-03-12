@@ -21,6 +21,8 @@ router.post("", (req, res) => {
     invite_only,
     posters_pic
   } = req.body;
+
+  console.log(req.body)
   
   /* first we check to see if the event already exists*/
   db("events")
@@ -95,29 +97,35 @@ router.post("", (req, res) => {
                                 isPending: true
                               })
                               .then(res7 => {
+                                console.log(res7)
                                 res.status(200).json(res7);
                               });
                           }
                         })
                         .catch(err => {
+                          console.log(err)
                           res.status(500).json(err);
                         });
                     })
                     .catch(err => {
+                      console.log(err)
                       res.status(500).json(err);
                     });
                 }
               })
               .catch(err => {
+                console.log(err)
                 res.status(500).json(err);
               });
           })
           .catch(err => {
+            console.log(err)
             res.status(500).json(err);
           });
       }
     })
     .catch(err => {
+      console.log(err)
       res.status(500).json(err);
     });
 });
