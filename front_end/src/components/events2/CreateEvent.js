@@ -23,6 +23,8 @@ import { withAlert } from 'react-alert';
 
 import taco_buddies from './t_friends.jpg';
 
+import Modal from 'react-awesome-modal';
+
 import {
   MuiPickersUtilsProvider,
   TimePicker,
@@ -70,27 +72,22 @@ const styles = theme => ({
     width: '100%',
     margin: '0 auto'
   },
-  root2: {
-    ...theme.mixins.gutters(),
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
-    maxWidth: '700px',
-    width: '100%',
-    margin: '20px auto 70px auto',
-  },
   bottom: {
-    marginBottom: 0
+    marginBottom: 0,
+    marginTop: 10
   },
   media: {
-    height: 140,
+    height: 40,
   },
   noHref: {
     textDecoration: 'none'
   },
   margL: {
     marginLeft: "1%"
-  },
+  }
 });
+
+//root2
 
 const TacoLocation = ({ text }) => <div>{text}</div>;
 
@@ -126,7 +123,8 @@ class CreateEvent extends React.Component {
       value: 0,
       selected_venue: "",
       setVenue: '',
-      bottom_0: "moreBottom"
+      bottom_0: "moreBottom",
+      visible : false
     };
     this.setNewValue = this.setNewValue.bind(this);
   }
@@ -306,7 +304,6 @@ class CreateEvent extends React.Component {
       })
     } else {
       this.setState({
-        setVenue: '',
         bottom_0: "",
         value: value,
         show_map2: false,
@@ -321,6 +318,18 @@ class CreateEvent extends React.Component {
     this.setState({
       setVenue: obj
     })
+  }
+
+  openModal() {
+    this.setState({
+        visible : true
+    });
+  }
+
+  closeModal() {
+    this.setState({
+        visible : false
+    });
   }
 
   render() {
@@ -360,7 +369,7 @@ class CreateEvent extends React.Component {
     }
 
     return (
-      <div className="create-event-full-wrapper bottomPadding">
+      <div className="create-event-full-wrapper pageBottom">
         <div className="navigation-wrapper">
           <DrawerBar />
         </div>
@@ -436,26 +445,27 @@ class CreateEvent extends React.Component {
             </CreateEventWrapper>
 
             <div className="venueBtns">
-              <Button onClick={() => {this.setVenues(0)}}>No Venue</Button>
-              <Button onClick={() => {this.setVenues(1)}}>Lookup Venue</Button>
-              <Button onClick={() => {this.setVenues(2)}}>Search Venues by City</Button>
+              <Button onClick={() => {this.setVenues(0)}}>Remove Venue</Button>
+              <Button onClick={() => {this.setVenues(1); this.openModal()}}>Lookup Venue</Button>
+              <Button onClick={() => {this.setVenues(2); this.openModal()}}>Search Venues by City</Button>
             </div>
 
             {this.state.setVenue ? (
               <Typography variant="h5" className="centerText">
-                - {this.state.setVenue.name} set as venue -
+                - Venue, {this.state.setVenue.name} -
               </Typography>
             ) : null}
 
-          </Paper>
-        </div>
+            <section>
+      <Modal visible={this.state.visible} className="modal-body" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+
 
 
         {this.state.value === 0 ? (null) 
           : this.state.value === 1 ? (
-
-          <Paper className={`${classes.root2} paperVenues`} elevation={1}>
+          <div>
             <div className="containSingle">
+            <p className="xbutton" onClick={() => {this.closeModal()}}>X</p>
               <Typography variant="h5" className={`${classes.bottom} centerText`}>
                 Look Up Specific Venue
               </Typography>
@@ -539,7 +549,7 @@ class CreateEvent extends React.Component {
                       </CardActionArea>
                     </a>
                       <CardActions>
-                        <Button size="small" color="primary" onClick={() => {this.setVenue(this.state.singleVenue)}}>
+                        <Button size="small" color="primary" onClick={() => {this.setVenue(this.state.singleVenue); this.closeModal()}}>
                           Set as Location
                         </Button>
                     </CardActions>
@@ -548,7 +558,7 @@ class CreateEvent extends React.Component {
 
               ) : null }
             </div>
-          </Paper>
+          </div>
 
             )
           : this.state.value === 2 ? (
@@ -652,6 +662,25 @@ class CreateEvent extends React.Component {
           )
           : null
         }
+
+
+
+
+
+
+
+
+
+
+
+                </Modal>
+            </section>
+
+          </Paper>
+        </div>
+
+
+        
       </div>
     );
   }

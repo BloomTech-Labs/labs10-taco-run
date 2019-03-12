@@ -83,10 +83,12 @@ export const MapDiv = styled.div`
 `
 
 export const MapDiv2 = styled(MapDiv)`
-  height: 317px;
+  height: 239px;
   margin: 0 auto;
   width: 50%;
+  margin-right: 1%;
   @media only screen and (max-width: 600px) {
     width: 100%;  
+    height: 85px
   }
 `

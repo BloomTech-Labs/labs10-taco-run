@@ -5,6 +5,8 @@
 	margin-top: 50px;
 }
 
+containSingle
+
 .noHref = {
 	text-decoration: none;
 }
@@ -13,6 +15,8 @@
 	max-width: 600px;
 	width: 100%;
 	margin: 0 auto;
+	padding: 2%;
+	padding-right: 5%;
 }
 
 .nameField {
@@ -47,10 +51,6 @@
 
 .test {
 	background-color: red;
-}
-
-.paperVenues {
-	margin-bottom: 100px;
 }
 
 .mapMany {
