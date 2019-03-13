@@ -219,7 +219,10 @@ class DrawerBar extends React.Component {
               >
               <Tooltip title="Events Dashboard">
                 <IconButton aria-label="Events Dashboard">
-                  <HomeIcon className = {classes.navHome}/>
+                  <HomeIcon 
+                    className = {classes.navHome} 
+                    onClick = {() => { this.props.history.push("/events") }}
+                  />
                 </IconButton>
               </Tooltip>                
                 Let's Get Tacos                
