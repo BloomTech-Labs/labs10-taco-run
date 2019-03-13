@@ -1,5 +1,4 @@
 import './custom.css'
-import "./assets/css/main.css";
 
 import React from 'react';
 import yelp from './img/yelp.jpg'
