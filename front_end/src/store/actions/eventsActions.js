@@ -57,6 +57,7 @@ export const getEvent = id => dispatch => {
 export const createEvent = (event, id) => {
   return dispatch => {
     dispatch({ type: EVENTS_CREATE_START });
+    console.log('about to post event')
     axios
       .post(`https://production-taco.herokuapp.com/events`, event)
       .then(() => {
@@ -67,6 +68,8 @@ export const createEvent = (event, id) => {
             )}`
           )
           .then(res => {
+            console.log('finished posting event \n')
+            console.log(res.data)
             dispatch({
               type: EVENTS_CREATE_COMPLETE,
               payload: res.data

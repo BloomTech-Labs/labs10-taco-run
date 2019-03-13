@@ -10,20 +10,7 @@ const db = require("../config.js");
 //-------------------------------------------
 
 router.post("", (req, res) => {
-  const {
-    name,
-    date,
-    location,
-    venue,
-    author,
-    user_id,
-    posters_email,
-    invite_only,
-    posters_pic
-  } = req.body;
-
-  console.log(req.body)
-  
+  const {name, date, location, venue, author, user_id, posters_email, invite_only, posters_pic, url, price, raiting, img_url, lon, lat } = req.body;
   /* first we check to see if the event already exists*/
   db("events")
     .where({ name, posters_email })
@@ -31,103 +18,27 @@ router.post("", (req, res) => {
       // Create event
       if (res1.length === 0) {
         db("events")
-          .insert({
-            name,
-            date,
-            location,
-            venue,
-            author,
-            user_id,
-            posters_email,
-            posters_pic,
-            invite_only
-          })
+        .insert({name, date, location, venue, author, user_id, posters_email, invite_only, posters_pic, url, price, raiting, img_url, lon, lat})
+        .then(() => {
+          db("events")
+          .where({name, date })
+          .first()
           .then(res2 => {
-            // Get event id
-            db("events")
-              .where({
-                name,
-                date,
-                location,
-                venue,
-                author,
-                user_id,
-                posters_email,
-                invite_only
-              })
-              .then(res3 => {
-                var event_id = res3[0].id;
-                // if invite only is true then only set relationship for said user
-                if (invite_only === true) {
-                  db("users_events")
-                    .insert({
-                      user_id,
-                      event_id: event_id,
-                      isPending: false
-                    })
-                    .then(res4 => {
-                      console.log("res4");
-                      res.status(200).json(res4);
-                    })
-                    .catch(err => {
-                      res.status(500).json(err);
-                    });
-                } else {
-                  console.log("invite only is false", user_id);
-                  db("users_friends")
-                    .join("users", "users.id", "=", "users_friends.friends_id")
-                    .where("users_friends.user_id", user_id)
-                    .then(res5 => {
-                      // Insert into user
-                      db("users_events")
-                        .insert({
-                          user_id,
-                          event_id: event_id,
-                          isPending: false
-                        })
-                        .then(res6 => {
-                          // For every friend of user create relationship
-                          for (let i = 0; i < res5.length; i++) {
-                            const id = res5[i].friends_id;
-                            console.log(id, event_id);
-                            db("users_events")
-                              .insert({
-                                user_id: id,
-                                event_id: event_id,
-                                isPending: true
-                              })
-                              .then(res7 => {
-                                console.log(res7)
-                                res.status(200).json(res7);
-                              });
-                          }
-                        })
-                        .catch(err => {
-                          console.log(err)
-                          res.status(500).json(err);
-                        });
-                    })
-                    .catch(err => {
-                      console.log(err)
-                      res.status(500).json(err);
-                    });
-                }
-              })
-              .catch(err => {
-                console.log(err)
-                res.status(500).json(err);
-              });
+            let id = res2.id
+            db("users_events")
+            .insert({user_id, event_id: id, isPending: false})
+            .then(res3 => {
+              return res.status(200).json(res3)
+            })
           })
-          .catch(err => {
-            console.log(err)
-            res.status(500).json(err);
-          });
+        })
+        .catch(error => {
+          return res.status(500).json(error)
+        })
+      } else {
+        return res.status(200).json({msg: 'event already exists'})
       }
-    })
-    .catch(err => {
-      console.log(err)
-      res.status(500).json(err);
-    });
+    });  
 });
 
 //READ

@@ -8,9 +8,8 @@ import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/core/styles";
 import DateFnsUtils from "@date-io/date-fns";
 
+//address
 
-
-//
 
 import firebase from 'firebase';
 import axios from 'axios';
@@ -99,8 +98,6 @@ const styles = theme => ({
   }
 });
 
-//root2
-
 const TacoLocation = ({ text }) => <div>{text}</div>;
 
 class CreateEvent extends React.Component {
@@ -181,7 +178,6 @@ class CreateEvent extends React.Component {
     if (this.state.setVenue){
       event_obj = this.state.setVenue
       let venue = this.state.setVenue.name
-
       event_obj.name = this.state.content
       event_obj.venue = venue
       event_obj.date = this.state.selectedDate
@@ -190,6 +186,7 @@ class CreateEvent extends React.Component {
       event_obj.posters_email = this.props.auth.email
       event_obj.posters_pic = this.props.auth.photoURL
       event_obj.invite_only = this.state.invite_only
+      event_obj.raiting = this.state.setVenue.rating
     } else {
       event_obj = {
         name: this.state.content,
@@ -204,9 +201,7 @@ class CreateEvent extends React.Component {
       }
     }
 
-    console.log(event_obj)
-
-    this.props.createEvent(event_obj);
+    this.props.createEvent(event_obj, Number(localStorage.getItem("user_id")));
     this.props.history.push("/events");
   };
 
@@ -303,11 +298,11 @@ class CreateEvent extends React.Component {
           .then(res => {
             let singleVenue = {
               name: res.data.name,
-              image_url: res.data.image_url,
+              img_url: res.data.image_url,
               rating: res.data.rating,
               url: res.data.url,
               price: res.data.price,
-              address: `${res.data.location.display_address[0]} ${res.data.location.display_address[1]}`,
+              location: `${res.data.location.display_address[0]} ${res.data.location.display_address[1]}`,
               lat: res.data.coordinates.latitude,
               lon: res.data.coordinates.longitude
             }
@@ -460,9 +455,7 @@ class CreateEvent extends React.Component {
                       <FormControlLabel
                         control={
                           <Switch
-                            
                             onChange={this.handleSwitchChange}
-                            
                           />
                         }
                         label="Invite Friends"
@@ -567,7 +560,7 @@ class CreateEvent extends React.Component {
                             {this.state.singleVenue.name}
                           </Typography>
                           <Typography component="p">
-                            Location: {this.state.singleVenue.address}<br/>
+                            Location: {this.state.singleVenue.location}<br/>
                             Rating: {this.state.singleVenue.rating}<br/>
                             Price: {this.state.singleVenue.price}<br/>
                           </Typography>

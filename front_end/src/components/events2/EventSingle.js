@@ -152,10 +152,6 @@ const styles = theme => ({
 });
 
 
-
-//search
-
-
 const image = {
   border: '1px solid #ccc',
   background: '#fefefe',
