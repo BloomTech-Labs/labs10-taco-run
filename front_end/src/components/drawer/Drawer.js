@@ -56,7 +56,9 @@ const styles = theme => ({
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen
-    })
+    }),
+    backgroundColor: "darkred",
+    opacity: "0.9"
   },
   appBarShift: {
     marginLeft: drawerWidth,
@@ -105,14 +107,17 @@ const styles = theme => ({
     flexDirection: "row",
     width: "100%",
     [theme.breakpoints.down("xs")]: {
-      justifyContent: "center"
+      // justifyContent: "center"
     }
   },
-  rightText: {
-    marginRight: 25,
+  rightText: {    
     [theme.breakpoints.down("xs")]: {
-      display: "none"
+      display: "none",
+      marginRight: 0
     }
+  },
+  navSeparate: {
+    display: "flex"
   },
   toolbar: {
     display: "flex",
@@ -209,20 +214,24 @@ class DrawerBar extends React.Component {
               >
                 Let's Get Tacos
               </Typography>
-              <Typography
-                className={classes.rightText}
-                variant="h6"
-                color="inherit"
-                noWrap
-              >
-                {this.props.auth.displayName}
-                <Button
-                  aria-owns={anchorEl ? "simple-menu" : undefined}
-                  aria-haspopup="true"
-                  onClick={this.handleClick}
+              <div className = {classes.navSeparate}>
+                <Typography
+                  className={classes.rightText}
+                  variant="h6"
+                  color="inherit"
+                  noWrap
                 >
-                  <i className="fas fa-user-circle" />
-                </Button>
+                  {this.props.auth.displayName}
+                </Typography>
+                  <Button
+                    aria-owns={anchorEl ? "simple-menu" : undefined}
+                    aria-haspopup="true"
+                    onClick={this.handleClick}
+                    style = {{ fontSize: "1.5rem" }}
+                  >
+                    <i className="fas fa-user-circle" />
+                  </Button>
+              </div>              
                 <Menu
                   id="simple-menu"
                   anchorEl={anchorEl}
@@ -244,8 +253,7 @@ class DrawerBar extends React.Component {
                     Profile Settings
                   </MenuItem>
                   <MenuItem onClick={this.logOut}>Logout</MenuItem>
-                </Menu>
-              </Typography>
+                </Menu>              
             </div>
           </Toolbar>
           {/* Holds the sandwich bar icon and text from Typography */}
