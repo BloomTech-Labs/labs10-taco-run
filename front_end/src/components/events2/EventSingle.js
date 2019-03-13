@@ -198,6 +198,8 @@ class EventSingle extends React.Component {
     search: "",
     email: '',
     show_attending: false,
+    currentPageComment: 1,
+    comments_per_page: 4
   };
 
   fileSelect = (event) => {
@@ -210,6 +212,12 @@ class EventSingle extends React.Component {
   handleClick = (event) => {
     this.setState({
       currentPage: Number(event.target.id)
+    })
+  }
+
+  handleClick2 = (event) => {
+    this.setState({
+      currentPageComment: Number(event.target.id)
     })
   }
 
@@ -342,9 +350,8 @@ class EventSingle extends React.Component {
     })
   }
 
-  createComment = event => {
-    event.preventDefault();
-
+  createComment = () => {
+    
     if (this.state.content.length > 300) {
       this.props.alert.show("max content length 300")
     }
@@ -367,9 +374,20 @@ class EventSingle extends React.Component {
     this.props.makeComment(comment, this.props.match.params.id);
 
     this.setState({
-      content: ""
+      content: "",
     });
+
   };
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.comments.length > 0){
+      if ((nextProps.comments.length -1) % 4 === 0){
+        this.setState({
+          currentPageComment: ((nextProps.comments.length - 1) / 4 ) + 1
+        })
+      }
+    }
+  }
 
   commentUpdate = event => {
     event.preventDefault();
@@ -540,8 +558,9 @@ class EventSingle extends React.Component {
 
   render() {       
     const { classes } = this.props;
-    console.log(this.state)
+
     console.log(this.props)
+    console.log(this.state)
 
     const bull = <span className={classes.bullet}>•</span>;
 
@@ -568,6 +587,33 @@ class EventSingle extends React.Component {
       );
     });
 
+    const {comments} = this.props
+    const {currentPageComment, comments_per_page} = this.state
+    const indexOfLastComment = currentPageComment * comments_per_page
+    const indexOfFirstComment = indexOfLastComment - comments_per_page
+    const currentComments = comments.slice(indexOfFirstComment, indexOfLastComment);
+    const commentPageNumbers = []
+
+    let createComment = <Button variant="contained" color="primary" onClick={() =>{this.createComment()}}>Submit Comment</Button>
+
+
+    for (let i = 1; i <= Math.ceil(comments.length / comments_per_page); i++) {
+      commentPageNumbers.push(i);
+    }
+
+    const renderCommentPageNums = commentPageNumbers.map(number => {
+      return (
+        <button
+          key={number}
+          id={number}
+          onClick={this.handleClick2}
+          className="buttonPag"
+        >
+          {number}
+        </button>
+      )
+    })
+
     return (
       <div>
         <DrawerBar />
@@ -583,8 +629,6 @@ class EventSingle extends React.Component {
             ) : null}
 
             {this.state.show_update ? (
-
-
 
             <div className="container">
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -859,8 +903,8 @@ class EventSingle extends React.Component {
             
 
             <div className="event-discussion container">
-              
-              {this.props.comments.map(comment => {
+              { renderCommentPageNums }
+              {currentComments.map(comment => {
                 if (comment !== undefined) {
                   return (
                     <FlexDiv key = {comment.id} >
@@ -953,7 +997,7 @@ class EventSingle extends React.Component {
                   />
                 </form>
                 <input type="file" className="spacing" onChange={this.fileSelect}></input><br/>
-                <Button variant="contained" color="primary" onClick={this.createComment}>Submit Comment</Button>
+                {createComment}
               </Paper>
 
             </div>
