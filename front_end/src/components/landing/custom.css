@@ -1,3 +1,36 @@
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,300italic,400italic");
+
+.header-logo {
+	font: inherit;
+	color: black;
+	font-weight: 300;
+	line-height: 1em;
+	margin: 0 0 0.5em 0;
+}
+
+.banner-paragraph {
+	color: white;
+}
+
+.paragraph-element {
+	margin: 0 0 2em 0;
+	color: black;
+	font-size: 1rem;
+}
+
+.learn-more-header {
+	color: black;
+}
+
+.description-header {
+	color: black;
+}
+
+.description-paragraph {
+	color: black;
+	font-size: 1.4rem;
+}
+
 .popup-content {
 	position: relative;
 	background: rgb(255, 255, 255);
