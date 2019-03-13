@@ -23,7 +23,7 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-// import HomeIcon from '@material-ui/icons/Home';
+import HomeIcon from '@material-ui/icons/Home';
 import SvgIcon from "@material-ui/core/SvgIcon";
 
 // --> Boilerplate import from Material-UI reference
@@ -33,6 +33,7 @@ import classNames from "classnames";
 import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import Tooltip from '@material-ui/core/Tooltip';
 
 /* This is the boilerplate styling from the Material-UI reference I used */
 const drawerWidth = 240;
@@ -117,7 +118,11 @@ const styles = theme => ({
     }
   },
   navSeparate: {
-    display: "flex"
+    display: "flex",
+    alignItems: "center",
+  },
+  navHome: {
+    cursor: "pointer",    
   },
   toolbar: {
     display: "flex",
@@ -210,10 +215,15 @@ class DrawerBar extends React.Component {
                 onClick={() => {
                   this.props.history.push("/events");
                 }}
-                style={{ marginLeft: "10px" }}
+                style={{ marginLeft: "10px", display: "flex", alignItems: "center" }}
               >
-                Let's Get Tacos
-              </Typography>
+              <Tooltip title="Events Dashboard">
+                <IconButton aria-label="Events Dashboard">
+                  <HomeIcon className = {classes.navHome}/>
+                </IconButton>
+              </Tooltip>                
+                Let's Get Tacos                
+              </Typography>              
               <div className = {classes.navSeparate}>
                 <Typography
                   className={classes.rightText}
