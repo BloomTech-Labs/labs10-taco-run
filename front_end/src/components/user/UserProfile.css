@@ -35,6 +35,10 @@
   display: block;
 }
 
+.profile-personal-container {
+  background-color: "#fff";
+}
+
 .profile-preferences {
   align-self: center;
   margin: 0 auto;

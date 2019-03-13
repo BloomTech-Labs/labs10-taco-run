@@ -34,6 +34,7 @@ import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 
 // Select imports
+import ReactDOM from "react-dom";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -206,9 +207,9 @@ class UsersProfile extends React.Component {
     // fetchFriends
     this.props.fetchFriends(this.props.match.params.id);
     // Select material ui
-    // this.setState({
-    //   labelWidth: ReactDOM.findDOMNode(this.InputLabelRef).offsetWidth
-    // });
+    this.setState({
+      labelWidth: ReactDOM.findDOMNode(this.InputLabelRef).offsetWidth
+    });
   }
 
   render() {
@@ -297,7 +298,6 @@ class UsersProfile extends React.Component {
                 )}
               </div>
             </div>
-
             {this.state.tabValue === 0 && (
               <form className={classes.root} autoComplete="off">
                 <FormControl variant="outlined" className={classes.formControl}>
@@ -340,6 +340,7 @@ class UsersProfile extends React.Component {
                 </FormControl>
               </form>
             )}
+
             <div className="profile-personal-container">
               {/* Tabs */}
               <div className={classes.root}>
