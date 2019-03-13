@@ -62,7 +62,11 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import Icon from "@material-ui/core/Icon";
 import Divider from "@material-ui/core/Divider";
 
+// Button Import
 import Button from "@material-ui/core/Button";
+
+// Card Import for Styling
+import Card from "@material-ui/core/Card";
 
 function TabContainer(props) {
   return (
@@ -150,7 +154,10 @@ const styles = theme => ({
   profileDetails: {
     display: "flex",
     flexDirection: "column",
+    padding: "20px",
+    textAlign: "center",
     width: "90%",
+
     [theme.breakpoints.up("md")]: {
       // marginRight: "100px"
     },
@@ -164,9 +171,7 @@ const styles = theme => ({
     }
   },
   evenWidth: {
-    [theme.breakpoints.up("sm")]: {
-      width: "50%"
-    }
+    [theme.breakpoints.down("sm")]: {}
   }
 });
 
