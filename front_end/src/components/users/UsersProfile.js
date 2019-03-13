@@ -73,13 +73,14 @@ TabContainer.propTypes = {
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
+
     display: "flex",
     flexWrap: "wrap"
   },
   // For select
   formControl: {
     margin: theme.spacing.unit,
+    height: "40px",
     minWidth: 100
   },
   selectEmpty: {
@@ -94,6 +95,9 @@ const styles = theme => ({
     width: 200,
     height: 200
   },
+  justifyTabs: {
+    justifyContent: "center"
+  },
   // Profile container
   profileContainer: {
     [theme.breakpoints.up("md")]: {
@@ -104,6 +108,7 @@ const styles = theme => ({
   profileDetails: {
     display: "flex",
     flexDirection: "column",
+    textAlign: "center",
     [theme.breakpoints.up("md")]: {
       marginRight: "100px"
     }
@@ -111,6 +116,17 @@ const styles = theme => ({
   profileFunctions: {
     [theme.breakpoints.up("md")]: {
       width: "800px"
+    }
+  },
+  root_81: {
+    padding: 0,
+    width: "100%",
+    textAlign: "center",
+    margin: "0 10px",
+    [theme.breakpoints.up("sm")]: {
+      display: "flex",
+      flexDirection: "row",
+      flexWrap: "wrap"
     }
   }
 });
@@ -239,27 +255,25 @@ class UsersProfile extends React.Component {
               <Typography>
                 Street or Gourmet: {this.props.user.street_gourmet}
               </Typography>{" "}
-              <FlexEnd>
-                {this.props.friendFlag ? (
-                  <Button
-                    variant="contained"
-                    onClick={event => {
-                      event.preventDefault();
-                      let ids = {
-                        user_id: parseInt(localStorage.getItem("user_id")),
-                        friends_id: this.props.match.params.id
-                      };
-                      this.props.deleteFriend(ids, ids.friends_id);
-                    }}
-                  >
-                    Unfriend
-                  </Button>
-                ) : (
-                  <Button variant="contained" onClick={this.friendAdd}>
-                    Add as friend
-                  </Button>
-                )}
-              </FlexEnd>
+              {this.props.friendFlag ? (
+                <Button
+                  variant="contained"
+                  onClick={event => {
+                    event.preventDefault();
+                    let ids = {
+                      user_id: parseInt(localStorage.getItem("user_id")),
+                      friends_id: this.props.match.params.id
+                    };
+                    this.props.deleteFriend(ids, ids.friends_id);
+                  }}
+                >
+                  Unfriend
+                </Button>
+              ) : (
+                <Button variant="contained" onClick={this.friendAdd}>
+                  Add as friend
+                </Button>
+              )}
             </div>
           </div>
 
@@ -344,10 +358,14 @@ class UsersProfile extends React.Component {
             <div className="profile-personal-container">
               {/* Tabs */}
               <div className={classes.root}>
-                <AppBar position="static">
-                  <Tabs value={tabValue} onChange={this.handleChangeTabs}>
-                    <Tab label="Favorite" />
-                    <Tab label="Friends" />
+                <AppBar position="static" style={{ justifyContent: "center" }}>
+                  <Tabs
+                    value={tabValue}
+                    onChange={this.handleChangeTabs}
+                    classes={{ flexContainer: classes.justifyTabs }}
+                  >
+                    <Tab label="Favorite" style={{ width: "50%" }} />
+                    <Tab label="Friends" style={{ width: "50%" }} />
                   </Tabs>
                 </AppBar>
                 {tabValue === 0 && (
@@ -409,7 +427,7 @@ class UsersProfile extends React.Component {
                 {tabValue === 1 && (
                   <TabContainer>
                     {/* Friends Tab */}
-                    <List>
+                    <List classes={{ root: classes.root_81 }}>
                       {this.props.friends.map(friend => {
                         return (
                           <Link to={`/user/${friend.id}`}>
