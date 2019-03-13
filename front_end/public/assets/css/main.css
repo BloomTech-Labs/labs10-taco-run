@@ -2080,7 +2080,7 @@
 	input[type="password"],
 	input[type="email"],
 	select,
-	textarea {
+	/* textarea {
 		-moz-appearance: none;
 		-webkit-appearance: none;
 		-ms-appearance: none;
@@ -2094,7 +2094,7 @@
 		padding: 0 1em;
 		text-decoration: none;
 		width: 100%;
-	}
+	} */
 
 		input[type="text"]:invalid,
 		input[type="password"]:invalid,
@@ -2139,9 +2139,9 @@
 	input[type="text"],
 	input[type="password"],
 	input[type="email"],
-	select {
+	/* select {
 		height: 3em;
-	}
+	} */
 
 	textarea {
 		padding: 0.75em 1em;
