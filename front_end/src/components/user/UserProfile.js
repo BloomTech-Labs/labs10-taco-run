@@ -132,7 +132,10 @@ const styles = theme => ({
     }
   }, 
   userName: {
-    fontSize: "1.9rem"
+    fontSize: "1.9rem",
+    [theme.breakpoints.up("md")]: {
+      fontSize: "3rem"
+    }
   },
   // Profile container
   profileContainer: {
