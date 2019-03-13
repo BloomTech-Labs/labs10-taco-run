@@ -69,6 +69,8 @@ import IconButton from "@material-ui/core/IconButton";
 import Icon from "@material-ui/core/Icon";
 import DeleteIcon from '@material-ui/icons/Delete';
 
+import Modal from 'react-awesome-modal';
+
 import './custom.css'
 import './custom_event_single.css'
 
@@ -199,8 +201,21 @@ class EventSingle extends React.Component {
     email: '',
     show_attending: false,
     currentPageComment: 1,
-    comments_per_page: 4
+    comments_per_page: 4,
+    visible : false
   };
+
+  openModal2() {
+    this.setState({
+        visible : true
+    });
+  }
+
+  closeModal() {
+    this.setState({
+        visible : false
+    });
+  }
 
   fileSelect = (event) => {
     // console.log(event.target.files[0]);
@@ -255,7 +270,6 @@ class EventSingle extends React.Component {
       console.log(error)
     })
   }
-
 
   componentDidMount() {
     this.props.getComments(this.props.match.params.id);
@@ -587,6 +601,8 @@ class EventSingle extends React.Component {
       );
     });
 
+    const directions = "<- previous comments"
+
     const {comments} = this.props
     const {currentPageComment, comments_per_page} = this.state
     const indexOfLastComment = currentPageComment * comments_per_page
@@ -618,15 +634,6 @@ class EventSingle extends React.Component {
       <div>
         <DrawerBar />
         <div className="container">
-
-          {this.state.posted_by === this.props.auth.displayName ? (
-            <div className="container">
-              <Button variant="contained" color="primary" onClick={this.switchForm}>
-                Invite/Location
-              </Button>
-            </div>
-
-            ) : null}
 
             {this.state.show_update ? (
 
@@ -871,10 +878,187 @@ class EventSingle extends React.Component {
               </div>
             </div>
 
-            <div className="btnAttending container">
-              <Button variant="contained" onClick={this.showAttending} className={classes.btnAttending}>
-                Show Attending
-              </Button>
+            <div className="flexButtonsSingle container">
+              <div className="btnAttending">
+                <Button variant="contained" onClick={this.showAttending} className={classes.btnAttending}>
+                  Show Attending
+                </Button>
+              </div>
+              <div className="spaceingM">
+                {this.state.email === this.props.auth.email ? (
+                  <section>
+                    <Button  variant="contained" color="primary" onClick={() => this.openModal2()} className={classes.btnAttending}>
+                      Update
+                    </Button>
+
+                    <Modal visible={this.state.visible}  height="300" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                      <div className="container">
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                          <Grid
+                            container
+                            className={`${classes.grid} formTop`}
+                            justify="space-evenly"
+                          >
+                          
+                            <DatePicker
+                              required
+                              margin="normal"
+                              label="Date picker"
+                              value={this.state.selectedDate}
+                              onChange={this.handleDateChange}
+                            />
+
+                            <TimePicker
+                              required
+                              margin="normal"
+                              label="Time picker"
+                              value={this.state.selectedDate}
+                              onChange={this.handleDateChange}
+                            />                       
+                          
+                            <TextField                      
+                              id="standard-name"
+                              name = "city_location" // --> needs a name attribute so it'll load correctly
+                              label="Search taco places by city"
+                              className={classes.textField}
+                              value={this.state.city_location}
+                              onChange={this.handleChange}
+                              type = "text"
+                              margin="normal"
+                            /> 
+
+                            <Button 
+                              variant="contained" 
+                              className={classes.marginT}
+                              onClick={() => {this.searchMap(this.state.city_location)}}
+                            >
+                              Search
+                            </Button>
+                          </Grid>
+
+                          <div className={classes.search}>
+                            <div className={classes.searchIcon}>
+                              {/* <SearchIcon onSubmit = {this.handleSubmitUsers}/> */}
+                            </div>
+                            <form
+                              className={classes.container}
+                              noValidate
+                              autoComplete="off"
+                              onSubmit={this.handleSubmitUsers}
+                            >
+                              <TextField
+                                id="standard-search"
+                                label="Invite More People"
+                                type="search"
+                                className={classes.textField}
+                                margin="normal"
+                                value={this.state.search}
+                                onChange={this.handleSearchChange}
+                              />
+                            </form> 
+                            <div id="results" ref={node => (this.node = node)}>
+                              <List>
+                                {this.props.users.map(result => {
+                                  if (result !== undefined) {
+                                    return (
+                                      <Link key = {result.name} to={`user/${result.id}`}>
+                                        <ListItem className="resultsDisplay">
+                                          <ListItemAvatar className="location-picture">
+                                            <Avatar src={result.user_pic} />
+                                          </ListItemAvatar>
+                                          <ListItemText primary={result.name} />
+                                          <IconButton aria-label="Add">
+                                          <Icon onClick={this.handleInvite} id={result.id}>
+                                            +
+                                          </Icon>
+                                        </IconButton>                                    
+                                        </ListItem>
+                                        <Divider />
+                                      </Link>
+                                    );
+                                  }
+                                })}
+                              </List>
+                            </div>                     
+                          </div>
+
+                          {this.state.show_map ? (
+                            <MapDiv>
+                              <GoogleMapReact
+                                bootstrapURLKeys={{
+                                  key: firebase.functions().app_.options_.googlekey
+                                }}
+                                defaultZoom={this.state.zoom}
+                                defaultCenter={{ lat: this.state.lat_av, lng: this.state.lon_av }}
+                              >
+                                {this.state.destinations.map((d, i) => {
+                                  return <TacoLocation lat={d.lat} lng={d.lon} text={d.name} key={i} />;
+                                })}
+                              </GoogleMapReact>
+                            </MapDiv>
+                          ) : null}
+
+                        <div class="flex1">
+                          {currentTacos.map((t, idx) => {
+                            return (
+
+                        <Card className="card">
+                          <CardActionArea>
+                            <CardMedia
+                              className={classes.media}
+                              image={t.image_url}
+                              title="venue picture"
+                            />
+                            <CardContent>
+                              <Typography gutterBottom variant="h5" component="h2">
+                                {t.name}
+                              </Typography>
+                              <Typography component="p">
+                                Location:{" "}
+                                {`${t.location.display_address[0]} ${
+                                  t.location.display_address[1]
+                                }`}<br/>
+                                Rating: {t.rating}<br/>
+                                Price: {t.price}<br/>
+                              </Typography>
+                            </CardContent>
+                          </CardActionArea>
+                            <CardActions>
+                              <Button size="small" color="primary">
+                                <a href={t.url} className="noUnderline">View on Yelp</a>
+                              </Button>
+                              <Button size="small" color="primary" 
+                                onClick={() => {this.addVenue(
+                                  {
+                                    lat: t.coordinates.latitude,
+                                    lon: t.coordinates.longitude,
+                                    venue: t.name,
+                                    img_url: t.image_url,
+                                    location: `${t.location.display_address[0]} ${
+                                      t.location.display_address[1]
+                                    }`,
+                                    raiting: t.rating,
+                                    price: t.price,
+                                    url: t.url
+                                  }
+                                )}}
+                              >
+                                Add Location
+                              </Button>
+                          </CardActions>
+                        </Card>
+
+                            )
+                          })}
+                        </div>
+                        </MuiPickersUtilsProvider>
+                        {renderPageNumbers}
+                      </div>
+                    </Modal>
+
+                  </section>
+                ) : null}
+              </div>
             </div>
 
             
@@ -903,6 +1087,9 @@ class EventSingle extends React.Component {
             
 
             <div className="event-discussion container">
+              <Typography variant="h5" gutterBottom>
+                {directions}
+              </Typography>
               { renderCommentPageNums }
               {currentComments.map(comment => {
                 if (comment !== undefined) {
