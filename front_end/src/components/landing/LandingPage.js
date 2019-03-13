@@ -27,8 +27,8 @@ const styles = theme => ({
   providerButton: {
     height: 75,    
     [theme.breakpoints.down("sm")]: {
-      height: 45
-    }
+      height: 45,      
+    }    
   }
 });
 
