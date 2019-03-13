@@ -70,6 +70,7 @@ import Icon from "@material-ui/core/Icon";
 import DeleteIcon from '@material-ui/icons/Delete';
 
 import './custom.css'
+import './custom_event_single.css'
 
 const styles = theme => ({
   root: {
@@ -118,8 +119,9 @@ const styles = theme => ({
     fontSize: '18px'
   },
   card: {
-    maxWidth: 600,
-    marginTop: 15
+    width: "100%",
+    marginTop: 15,
+    height: 355
   },
   margRight: {
     marginRight: "1%"
@@ -133,7 +135,8 @@ const styles = theme => ({
     height: 60,
   },
   cardSmall: {
-    minWidth: '300px'
+    maxWidth: '150px',
+    width: '100%',
   },
   commentBtn: {
     minWidth: 150,
@@ -148,14 +151,17 @@ const styles = theme => ({
   formComment: {
     maxWidth: 500,
     width: "100%"
+  },
+  btnAttending: {
+    margin: '15px 0'
   }
 });
-
 
 const image = {
   border: '1px solid #ccc',
   background: '#fefefe',
-  marginBottom: 5
+  marginBottom: 5,
+  marginTop: 5
 }
 
 const TacoLocation = ({ text }) => <div className="taco">{text}</div>;
@@ -190,7 +196,8 @@ class EventSingle extends React.Component {
     currentPage: 1,
     tacosPerPage: 6,
     search: "",
-    email: ''
+    email: '',
+    show_attending: false,
   };
 
   fileSelect = (event) => {
@@ -338,6 +345,10 @@ class EventSingle extends React.Component {
   createComment = event => {
     event.preventDefault();
 
+    if (this.state.content.length > 300) {
+      this.props.alert.show("max content length 300")
+    }
+
     let today = new Date().toDateString();
     let comment = {
       content: this.state.content,
@@ -408,6 +419,12 @@ class EventSingle extends React.Component {
     ) : (
       this.setState({ modalOpened: false })
     )
+  }
+
+  showAttending = () => {
+    this.setState({
+      show_attending: !this.state.show_attending
+    })
   }
 
   handleDateChange = date => {
@@ -557,7 +574,7 @@ class EventSingle extends React.Component {
         <div className="container">
 
           {this.state.posted_by === this.props.auth.displayName ? (
-            <div className="container spacingBottom">
+            <div className="container">
               <Button variant="contained" color="primary" onClick={this.switchForm}>
                 Invite/Location
               </Button>
@@ -746,11 +763,11 @@ class EventSingle extends React.Component {
 
             ) :
 
-        <div>
-          {this.state.loaded && (this.state.lat !== 0 || this.state.lon !== 0) ? (
-            <div className = "state-loaded-wrapper">
-               <div className = "map-div-wrapper">
-                <MapDiv>
+          <div>
+            <div className="singleFlex container">
+              {this.state.loaded && (this.state.lat !== 0 || this.state.lon !== 0) ? (
+
+                <div className="singleMapDiv">
                   <GoogleMapReact
                     bootstrapURLKeys={{ key: firebase.functions().app_.options_.googlekey }}
                     defaultZoom={16}
@@ -762,55 +779,40 @@ class EventSingle extends React.Component {
                     lng={this.state.lon}
                   />
                   </GoogleMapReact>
-                </MapDiv>
-              </div> 
-            </div>
-            ) : null} 
-            <div className="container">
-              <div className="flexCardBtn">
-                <div className="joinBtnDiv">
-                  <Button variant="contained" color="primary" onClick={this.addFav} className={classes.cardBtn}>
-                    Add location to favorites
-                  </Button>
                 </div>
-                <div className="topMarg">
-                  <Button variant="contained" color="secondary" onClick={this.leaveEvent} className={classes.cardBtn}>
-                    Leave Event
-                  </Button>
-                </div>
-              </div>
 
-              {this.state.location ? (
-                <Card className={classes.card}>
-                  <CardActionArea>
-                    <CardMedia
-                      className={classes.media}
-                      image={this.state.img_url}
-                      title="venue picture"
-                    />
-                    <CardContent>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        {this.state.venue}
-                      </Typography>
-                      <Typography component="p" className={classes.pstyle}>
-                        <Moment format="dddd, MMMM Do YYYY, h:mm:ss a">
-                          {this.state.date}
-                        </Moment><br/>
-                        Location {this.state.location}<br/>
-                        posted by: {this.state.posted_by}<br />
-                        price: {this.state.price}<br />
-                        raiting: {this.state.raiting}<br />
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
-                  <CardActions>
-                    <Button size="small" color="primary" >
-                      <a href={this.state.url} className="noUnderline">Yelp Link</a>
-                    </Button>
-                  </CardActions>
-                </Card>
+              ) : null} 
 
-                ) : 
+              <div>
+
+                {this.state.location ? (
+                  <Card className={classes.card}>
+                    <CardActionArea>
+                      <a href={this.state.url} className="noHref" target="_blank">
+                        <CardMedia
+                          className={classes.media}
+                          image={this.state.img_url}
+                          title="venue picture"
+                        />
+                        <CardContent>
+                          <Typography gutterBottom variant="h5" component="h2">
+                            {this.state.venue}
+                          </Typography>
+                          <Typography component="p" className={classes.pstyle}>
+                            <Moment format="dddd, MMMM Do YYYY, h:mm:ss a">
+                              {this.state.date}
+                            </Moment><br/>
+                            Location {this.state.location}<br/>
+                            posted by: {this.state.posted_by}<br />
+                            price: {this.state.price}<br />
+                            rating: {this.state.raiting}<br />
+                          </Typography>
+                        </CardContent>
+                      </a>
+                    </CardActionArea>
+                  </Card>
+
+                  ) : 
                   <div className="attendeesDiv spacingTop">
                   <Card className={classes.cardSmall}>
                     <CardContent>
@@ -821,81 +823,82 @@ class EventSingle extends React.Component {
                     </CardContent>
                   </Card>
                   </div>
-            }
-              
-
-
-            </div>
-
-            <h2 className="event-invited-title attendingh2">Attending</h2>
-            <div className="event-invited container attendeesDiv">
-              
-              {this.state.attending.map(attendee => {
-                if (attendee !== undefined) {
-                  return (
-                    <Card className={classes.cardSmall} key={attendee.id}>
-                      <CardContent>
-                        <Avatar alt="Remy Sharp" src={attendee.user_pic} className={classes.bigAvatar} />
-                        <Typography variant="h5" component="h2">
-                        {attendee.name}
-                        </Typography>
-                      </CardContent>
-                      <CardActions>
-                        <Button size="small" onClick={() => {this.props.history.push(`/user/${attendee.id}`)}}>View Profile</Button>
-                      </CardActions>
-                    </Card>
-                  );
                 }
-                return "map completed";
-              })}
+              </div>
             </div>
 
+            <div className="btnAttending container">
+              <Button variant="contained" onClick={this.showAttending} className={classes.btnAttending}>
+                Show Attending
+              </Button>
+            </div>
 
+            
+              {this.state.show_attending ? (
+                <div className="flexAttending container bottomSpace">
+                  {this.state.attending.map(attendee => {
+                    if (attendee !== undefined) {
+                      return (
+                        <Card className={`${classes.cardSmall} hoverClick`} key={attendee.id}>
+                          <CardContent onClick={() => {this.props.history.push(`/user/${attendee.id}`)}}>
+                            <div className="singleCenter">
+                              <Avatar alt="Remy Sharp" src={attendee.user_pic} className={classes.bigAvatar} />
+                              <Typography variant="body1" gutterBottom>
+                                {attendee.name}
+                              </Typography>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      );
+                    }
+                    return "map completed";
+                  })}
+                </div>
+                ) : null 
+              }
+            
 
-            <h2 className="event-discussion-title attendingh2">Discussion</h2>
             <div className="event-discussion container">
               
               {this.props.comments.map(comment => {
                 if (comment !== undefined) {
                   return (
                     <FlexDiv key = {comment.id} >
-                      <Card className={`${classes.card} ${classes.noTop}`}>
+                      <Card className={`${classes.noTop} maxCard`}>
                         <CardContent>
-                          <Typography component="p">
-                            posted on - {comment.date}
+                          <Typography variant="subtitle1" className="hoverClick" gutterBottom onClick={() => {this.commentDelete(comment.id)}}>
+                            X
                           </Typography>
-                          <Typography variant="h5" component="h2">
-                          {comment.posted_by}
-                          </Typography>
-                          <Avatar alt="Remy Sharp" src={comment.posters_pic}className={classes.bigAvatar} />
-                          <Typography component="p" className={classes.pstyle}>
-                            {comment.content}
-                          </Typography>
-                          {comment.pic_url ? (
-                            <Image
-                              src={comment.pic_url}
-                              width={220}
-                              height={220}
-                              style={image}
-                            />
-                            ) : null
-                          }
+                          <div className="commentFlex">
+                            <div className="halfWidth">
+                              <Typography component="p">
+                                posted on - {comment.date}
+                              </Typography>
+                              <Typography variant="h5" component="h2">
+                              {comment.posted_by}
+                              </Typography>
+                              <Avatar alt="Remy Sharp" src={comment.posters_pic}className={classes.bigAvatar} />
+                            </div>
+                            <div className="halfWidth">
+                              <Typography component="p" className={classes.pstyle}>
+                                {comment.content}
+                              </Typography>
+                              {comment.pic_url ? (
+                                <Image
+                                  src={comment.pic_url}
+                                  width={220}
+                                  height={220}
+                                  style={image}
+                                />
+                                ) : null
+                              }
+                            </div>
+                          </div>
                         </CardContent>
                       </Card>
 
                         {this.props.user.email === comment.posters_email ? (
                           <div className="flexCommentBtn">
-                            <div className="deleteCommentBtn">
-                              <Button 
-                                variant="contained" 
-                                color="secondary"
-                                onClick={() => {this.commentDelete(comment.id)}}
-                                className={classes.commentBtn}
-                               >
-                                Delete
-                              <DeleteIcon className={classes.rightIcon} />
-                              </Button>
-                            </div>
                             <Popup
                               trigger={<div ><Button variant="contained" color="primary" className={classes.commentBtn}>Edit Comment</Button></div>}
                               position="top center"
@@ -919,10 +922,8 @@ class EventSingle extends React.Component {
                               <p className="formSubmit" onClick={this.commentUpdate} id={comment.id}>Submit</p>
                             </div>
                             </Popup>
-
-
                           </div>
-                        ) : null }
+                        ) : <div></div> }
 
                     </FlexDiv>
                   );
@@ -975,5 +976,6 @@ const mapStateToProps = state => {
     users: state.userReducer.users 
   };
 };
+
 
 export default connect(mapStateToProps,{getEvent,updateEvent,getComments,fetchUser,makeComment,deleteComment,updateComment, fetchFriends, searchUsers, inviteEvent})(withStyles(styles)(withAlert()(EventSingle)));

@@ -8,9 +8,6 @@ import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/core/styles";
 import DateFnsUtils from "@date-io/date-fns";
 
-//address
-
-
 import firebase from 'firebase';
 import axios from 'axios';
 import GoogleMapReact from 'google-map-react';
@@ -451,14 +448,6 @@ class CreateEvent extends React.Component {
                         label="Time picker"
                         value={selectedDate}
                         onChange={this.handleDateChange}
-                      />
-                      <FormControlLabel
-                        control={
-                          <Switch
-                            onChange={this.handleSwitchChange}
-                          />
-                        }
-                        label="Invite Friends"
                       />
                     </div>
                   </Grid>
