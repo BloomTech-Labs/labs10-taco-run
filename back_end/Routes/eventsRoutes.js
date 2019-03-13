@@ -10,20 +10,7 @@ const db = require("../config.js");
 //-------------------------------------------
 
 router.post("", (req, res) => {
-  const {
-    name,
-    date,
-    location,
-    venue,
-    author,
-    user_id,
-    posters_email,
-    invite_only,
-    posters_pic
-  } = req.body;
-
-  console.log(req.body)
-  
+  const {name, date, location, venue, author, user_id, posters_email, invite_only, posters_pic, url, price, raiting, img_url, lon, lat } = req.body;
   /* first we check to see if the event already exists*/
   db("events")
     .where({ name, posters_email })
@@ -31,17 +18,7 @@ router.post("", (req, res) => {
       // Create event
       if (res1.length === 0) {
         db("events")
-          .insert({
-            name,
-            date,
-            location,
-            venue,
-            author,
-            user_id,
-            posters_email,
-            posters_pic,
-            invite_only
-          })
+          .insert({name, date, location, venue, author, user_id, posters_email, invite_only, posters_pic, url, price, raiting, img_url, lon, lat})
           .then(res2 => {
             // Get event id
             db("events")

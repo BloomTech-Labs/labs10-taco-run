@@ -99,8 +99,6 @@ const styles = theme => ({
   }
 });
 
-//root2
-
 const TacoLocation = ({ text }) => <div>{text}</div>;
 
 class CreateEvent extends React.Component {
@@ -182,6 +180,7 @@ class CreateEvent extends React.Component {
       event_obj = this.state.setVenue
       let venue = this.state.setVenue.name
 
+
       event_obj.name = this.state.content
       event_obj.venue = venue
       event_obj.date = this.state.selectedDate
@@ -203,8 +202,6 @@ class CreateEvent extends React.Component {
         venue: '',
       }
     }
-
-    console.log(event_obj)
 
     this.props.createEvent(event_obj);
     this.props.history.push("/events");
@@ -307,7 +304,7 @@ class CreateEvent extends React.Component {
               rating: res.data.rating,
               url: res.data.url,
               price: res.data.price,
-              address: `${res.data.location.display_address[0]} ${res.data.location.display_address[1]}`,
+              location: `${res.data.location.display_address[0]} ${res.data.location.display_address[1]}`,
               lat: res.data.coordinates.latitude,
               lon: res.data.coordinates.longitude
             }
@@ -567,7 +564,7 @@ class CreateEvent extends React.Component {
                             {this.state.singleVenue.name}
                           </Typography>
                           <Typography component="p">
-                            Location: {this.state.singleVenue.address}<br/>
+                            Location: {this.state.singleVenue.location}<br/>
                             Rating: {this.state.singleVenue.rating}<br/>
                             Price: {this.state.singleVenue.price}<br/>
                           </Typography>
