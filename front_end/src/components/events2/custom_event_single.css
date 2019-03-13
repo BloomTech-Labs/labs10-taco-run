@@ -72,6 +72,12 @@
 		display: flex;
 		justify-content: center
 	}
+	.commentFlex {
+		flex-direction: column;
+	}
+	.halfWidth {
+		width: 98%;
+	}
 }
 
 /*
