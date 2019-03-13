@@ -23,7 +23,7 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-// import HomeIcon from '@material-ui/icons/Home';
+import HomeIcon from '@material-ui/icons/Home';
 import SvgIcon from "@material-ui/core/SvgIcon";
 
 // --> Boilerplate import from Material-UI reference
@@ -33,6 +33,7 @@ import classNames from "classnames";
 import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import Tooltip from '@material-ui/core/Tooltip';
 
 /* This is the boilerplate styling from the Material-UI reference I used */
 const drawerWidth = 240;
@@ -56,7 +57,9 @@ const styles = theme => ({
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen
-    })
+    }),
+    backgroundColor: "darkred",
+    opacity: "0.9"
   },
   appBarShift: {
     marginLeft: drawerWidth,
@@ -105,14 +108,21 @@ const styles = theme => ({
     flexDirection: "row",
     width: "100%",
     [theme.breakpoints.down("xs")]: {
-      justifyContent: "center"
+      // justifyContent: "center"
     }
   },
-  rightText: {
-    marginRight: 25,
+  rightText: {    
     [theme.breakpoints.down("xs")]: {
-      display: "none"
+      display: "none",
+      marginRight: 0
     }
+  },
+  navSeparate: {
+    display: "flex",
+    alignItems: "center",
+  },
+  navHome: {
+    cursor: "pointer",    
   },
   toolbar: {
     display: "flex",
@@ -205,24 +215,36 @@ class DrawerBar extends React.Component {
                 onClick={() => {
                   this.props.history.push("/events");
                 }}
-                style={{ marginLeft: "10px" }}
+                style={{ marginLeft: "10px", display: "flex", alignItems: "center" }}
               >
-                Let's Get Tacos
-              </Typography>
-              <Typography
-                className={classes.rightText}
-                variant="h6"
-                color="inherit"
-                noWrap
-              >
-                {this.props.auth.displayName}
-                <Button
-                  aria-owns={anchorEl ? "simple-menu" : undefined}
-                  aria-haspopup="true"
-                  onClick={this.handleClick}
+              <Tooltip title="Events Dashboard">
+                <IconButton aria-label="Events Dashboard">
+                  <HomeIcon 
+                    className = {classes.navHome} 
+                    onClick = {() => { this.props.history.push("/events") }}
+                  />
+                </IconButton>
+              </Tooltip>                
+                Let's Get Tacos                
+              </Typography>              
+              <div className = {classes.navSeparate}>
+                <Typography
+                  className={classes.rightText}
+                  variant="h6"
+                  color="inherit"
+                  noWrap
                 >
-                  <i className="fas fa-user-circle" />
-                </Button>
+                  {this.props.auth.displayName}
+                </Typography>
+                  <Button
+                    aria-owns={anchorEl ? "simple-menu" : undefined}
+                    aria-haspopup="true"
+                    onClick={this.handleClick}
+                    style = {{ fontSize: "1.5rem" }}
+                  >
+                    <i className="fas fa-user-circle" />
+                  </Button>
+              </div>              
                 <Menu
                   id="simple-menu"
                   anchorEl={anchorEl}
@@ -244,8 +266,7 @@ class DrawerBar extends React.Component {
                     Profile Settings
                   </MenuItem>
                   <MenuItem onClick={this.logOut}>Logout</MenuItem>
-                </Menu>
-              </Typography>
+                </Menu>              
             </div>
           </Toolbar>
           {/* Holds the sandwich bar icon and text from Typography */}
