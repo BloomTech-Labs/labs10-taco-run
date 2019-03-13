@@ -1,5 +1,5 @@
 @import url("font-awesome.min.css");
-@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,300italic,400italic");
+/* @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,300italic,400italic"); */
 
 /*
 	Alpha by HTML5 UP
@@ -26,7 +26,7 @@
 		padding: 0;
 		border: 0;
 		font-size: 100%;
-		font: inherit;
+		/* font: inherit; */
 		vertical-align: baseline;
 	}
 
@@ -122,8 +122,8 @@
 		-webkit-transition: color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
 		-ms-transition: color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
 		transition: color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
-		border-bottom: dotted 1px;
-		color: #e89980;
+		/* border-bottom: dotted 1px;
+		color: #e89980; */
 		text-decoration: none;
 	}
 
@@ -2064,9 +2064,9 @@
 
 /* Form */
 
-	form {
+	/* form {
 		margin: 0 0 2em 0;
-	}
+	} */
 
 	label {
 		color: #646464;
