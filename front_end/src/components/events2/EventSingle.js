@@ -70,6 +70,7 @@ import Icon from "@material-ui/core/Icon";
 import DeleteIcon from '@material-ui/icons/Delete';
 
 import './custom.css'
+import './custom_event_single.css'
 
 const styles = theme => ({
   root: {
@@ -118,8 +119,9 @@ const styles = theme => ({
     fontSize: '18px'
   },
   card: {
-    maxWidth: 600,
-    marginTop: 15
+    width: "100%",
+    marginTop: 15,
+    height: 330
   },
   margRight: {
     marginRight: "1%"
@@ -133,7 +135,8 @@ const styles = theme => ({
     height: 60,
   },
   cardSmall: {
-    minWidth: '300px'
+    maxWidth: '150px',
+    width: '100%',
   },
   commentBtn: {
     minWidth: 150,
@@ -148,13 +151,11 @@ const styles = theme => ({
   formComment: {
     maxWidth: 500,
     width: "100%"
+  },
+  btnAttending: {
+    margin: '15px 0'
   }
 });
-
-
-
-//search
-
 
 const image = {
   border: '1px solid #ccc',
@@ -750,11 +751,11 @@ class EventSingle extends React.Component {
 
             ) :
 
-        <div>
-          {this.state.loaded && (this.state.lat !== 0 || this.state.lon !== 0) ? (
-            <div className = "state-loaded-wrapper">
-               <div className = "map-div-wrapper">
-                <MapDiv>
+          <div>
+            <div className="singleFlex">
+              {this.state.loaded && (this.state.lat !== 0 || this.state.lon !== 0) ? (
+
+                <div className="singleMapDiv">
                   <GoogleMapReact
                     bootstrapURLKeys={{ key: firebase.functions().app_.options_.googlekey }}
                     defaultZoom={16}
@@ -766,55 +767,40 @@ class EventSingle extends React.Component {
                     lng={this.state.lon}
                   />
                   </GoogleMapReact>
-                </MapDiv>
-              </div> 
-            </div>
-            ) : null} 
-            <div className="container">
-              <div className="flexCardBtn">
-                <div className="joinBtnDiv">
-                  <Button variant="contained" color="primary" onClick={this.addFav} className={classes.cardBtn}>
-                    Add location to favorites
-                  </Button>
                 </div>
-                <div className="topMarg">
-                  <Button variant="contained" color="secondary" onClick={this.leaveEvent} className={classes.cardBtn}>
-                    Leave Event
-                  </Button>
-                </div>
-              </div>
 
-              {this.state.location ? (
-                <Card className={classes.card}>
-                  <CardActionArea>
-                    <CardMedia
-                      className={classes.media}
-                      image={this.state.img_url}
-                      title="venue picture"
-                    />
-                    <CardContent>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        {this.state.venue}
-                      </Typography>
-                      <Typography component="p" className={classes.pstyle}>
-                        <Moment format="dddd, MMMM Do YYYY, h:mm:ss a">
-                          {this.state.date}
-                        </Moment><br/>
-                        Location {this.state.location}<br/>
-                        posted by: {this.state.posted_by}<br />
-                        price: {this.state.price}<br />
-                        raiting: {this.state.raiting}<br />
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
-                  <CardActions>
-                    <Button size="small" color="primary" >
-                      <a href={this.state.url} className="noUnderline">Yelp Link</a>
-                    </Button>
-                  </CardActions>
-                </Card>
+              ) : null} 
 
-                ) : 
+              <div>
+
+                {this.state.location ? (
+                  <Card className={classes.card}>
+                    <CardActionArea>
+                      <a href={this.state.url} className="noHref" target="_blank">
+                        <CardMedia
+                          className={classes.media}
+                          image={this.state.img_url}
+                          title="venue picture"
+                        />
+                        <CardContent>
+                          <Typography gutterBottom variant="h5" component="h2">
+                            {this.state.venue}
+                          </Typography>
+                          <Typography component="p" className={classes.pstyle}>
+                            <Moment format="dddd, MMMM Do YYYY, h:mm:ss a">
+                              {this.state.date}
+                            </Moment><br/>
+                            Location {this.state.location}<br/>
+                            posted by: {this.state.posted_by}<br />
+                            price: {this.state.price}<br />
+                            rating: {this.state.raiting}<br />
+                          </Typography>
+                        </CardContent>
+                      </a>
+                    </CardActionArea>
+                  </Card>
+
+                  ) : 
                   <div className="attendeesDiv spacingTop">
                   <Card className={classes.cardSmall}>
                     <CardContent>
@@ -825,28 +811,28 @@ class EventSingle extends React.Component {
                     </CardContent>
                   </Card>
                   </div>
-            }
-              
-
-
+                }
+              </div>
             </div>
 
-            <h2 className="event-invited-title attendingh2">Attending</h2>
-            <div className="event-invited container attendeesDiv">
+            <Button variant="contained" className={classes.btnAttending}>
+              Show Attending
+            </Button>
+
+            <div className="flexAttending">
               
               {this.state.attending.map(attendee => {
                 if (attendee !== undefined) {
                   return (
-                    <Card className={classes.cardSmall} key={attendee.id}>
-                      <CardContent>
-                        <Avatar alt="Remy Sharp" src={attendee.user_pic} className={classes.bigAvatar} />
-                        <Typography variant="h5" component="h2">
-                        {attendee.name}
-                        </Typography>
+                    <Card className={`${classes.cardSmall} hoverClick`} key={attendee.id}>
+                      <CardContent onClick={() => {this.props.history.push(`/user/${attendee.id}`)}}>
+                        <div className="singleCenter">
+                          <Avatar alt="Remy Sharp" src={attendee.user_pic} className={classes.bigAvatar} />
+                          <Typography variant="body1" gutterBottom>
+                            {attendee.name}
+                          </Typography>
+                        </div>
                       </CardContent>
-                      <CardActions>
-                        <Button size="small" onClick={() => {this.props.history.push(`/user/${attendee.id}`)}}>View Profile</Button>
-                      </CardActions>
                     </Card>
                   );
                 }

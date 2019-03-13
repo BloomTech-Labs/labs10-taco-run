@@ -179,8 +179,6 @@ class CreateEvent extends React.Component {
     if (this.state.setVenue){
       event_obj = this.state.setVenue
       let venue = this.state.setVenue.name
-
-
       event_obj.name = this.state.content
       event_obj.venue = venue
       event_obj.date = this.state.selectedDate

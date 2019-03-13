@@ -1,0 +1,68 @@
+.singleFlex {
+	display: flex;
+	flex-direction: row-reverse;
+}
+
+.singleMapDiv {
+	border: solid black 1px;
+  height: 330px;
+  max-width: 400px;
+  margin: 0 auto;
+  width: 100%;
+  margin-top: 14px;
+  padding-bottom: 5px;
+}
+
+.noHref {
+	text-decoration: none;
+}
+
+.hoverClick {
+	margin-right:1%;
+}
+
+.singleCenter {
+	display:flex;
+	justify-content: center;
+	flex-direction:column;
+	align-items: center;
+}
+
+.hoverClick:hover{
+	cursor: pointer;
+}
+
+.flexAttending {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.spacingTopBtn {
+	margin-top: 10px;
+}
+
+@media only screen and (max-width:600px) {
+	.singleFlex {
+		flex-direction:column-reverse;
+	}
+	.singleMapDiv {
+		max-width: 800px;
+	}
+	.flexAttending {
+		justify-content: center;
+	}
+}
+
+/*
+                <div className="flexCardBtn">
+                  <div className="joinBtnDiv">
+                    <Button variant="contained" color="primary" onClick={this.addFav} className={classes.cardBtn}>
+                      Add location to favorites
+                    </Button>
+                  </div>
+                  <div className="topMarg">
+                    <Button variant="contained" color="secondary" onClick={this.leaveEvent} className={classes.cardBtn}>
+                      Leave Event
+                    </Button>
+                  </div>
+                </div>*/
