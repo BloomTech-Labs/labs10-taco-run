@@ -64,7 +64,7 @@ class LandingPage extends React.Component {
                   modal
                   closeOnDocumentClick                  
                 >
-                  <h3 style = {{ textAlign: "center" }}>Login With</h3>
+                  <h3 style = {{ textAlign: "center", color: "black" }}>Login With</h3>
                   <div className = "provider-buttons" style = {{    
                     display: "flex",
                     justifyContent: "space-evenly",

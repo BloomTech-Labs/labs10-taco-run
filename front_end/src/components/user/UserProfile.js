@@ -152,7 +152,7 @@ const styles = theme => ({
   },
   evenWidth: {
     [theme.breakpoints.up("sm")]: {
-      width: "50%"
+      // width: "50%"
     }
   }
 });
