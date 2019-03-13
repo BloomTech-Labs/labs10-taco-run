@@ -121,7 +121,7 @@ const styles = theme => ({
   card: {
     width: "100%",
     marginTop: 15,
-    height: 330
+    height: 355
   },
   margRight: {
     marginRight: "1%"
@@ -195,7 +195,8 @@ class EventSingle extends React.Component {
     currentPage: 1,
     tacosPerPage: 6,
     search: "",
-    email: ''
+    email: '',
+    show_attending: false,
   };
 
   fileSelect = (event) => {
@@ -343,6 +344,10 @@ class EventSingle extends React.Component {
   createComment = event => {
     event.preventDefault();
 
+    if (this.state.content.length > 128) {
+      this.props.alert.show("max content length 128")
+    }
+
     let today = new Date().toDateString();
     let comment = {
       content: this.state.content,
@@ -413,6 +418,12 @@ class EventSingle extends React.Component {
     ) : (
       this.setState({ modalOpened: false })
     )
+  }
+
+  showAttending = () => {
+    this.setState({
+      show_attending: !this.state.show_attending
+    })
   }
 
   handleDateChange = date => {
@@ -562,7 +573,7 @@ class EventSingle extends React.Component {
         <div className="container">
 
           {this.state.posted_by === this.props.auth.displayName ? (
-            <div className="container spacingBottom">
+            <div className="container">
               <Button variant="contained" color="primary" onClick={this.switchForm}>
                 Invite/Location
               </Button>
@@ -752,7 +763,7 @@ class EventSingle extends React.Component {
             ) :
 
           <div>
-            <div className="singleFlex">
+            <div className="singleFlex container">
               {this.state.loaded && (this.state.lat !== 0 || this.state.lon !== 0) ? (
 
                 <div className="singleMapDiv">
@@ -815,42 +826,48 @@ class EventSingle extends React.Component {
               </div>
             </div>
 
-            <Button variant="contained" className={classes.btnAttending}>
-              Show Attending
-            </Button>
-
-            <div className="flexAttending">
-              
-              {this.state.attending.map(attendee => {
-                if (attendee !== undefined) {
-                  return (
-                    <Card className={`${classes.cardSmall} hoverClick`} key={attendee.id}>
-                      <CardContent onClick={() => {this.props.history.push(`/user/${attendee.id}`)}}>
-                        <div className="singleCenter">
-                          <Avatar alt="Remy Sharp" src={attendee.user_pic} className={classes.bigAvatar} />
-                          <Typography variant="body1" gutterBottom>
-                            {attendee.name}
-                          </Typography>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  );
-                }
-                return "map completed";
-              })}
+            <div className="btnAttending container">
+              <Button variant="contained" onClick={this.showAttending} className={classes.btnAttending}>
+                Show Attending
+              </Button>
             </div>
 
+            
+              {this.state.show_attending ? (
+                <div className="flexAttending container bottomSpace">
+                  {this.state.attending.map(attendee => {
+                    if (attendee !== undefined) {
+                      return (
+                        <Card className={`${classes.cardSmall} hoverClick`} key={attendee.id}>
+                          <CardContent onClick={() => {this.props.history.push(`/user/${attendee.id}`)}}>
+                            <div className="singleCenter">
+                              <Avatar alt="Remy Sharp" src={attendee.user_pic} className={classes.bigAvatar} />
+                              <Typography variant="body1" gutterBottom>
+                                {attendee.name}
+                              </Typography>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      );
+                    }
+                    return "map completed";
+                  })}
+                </div>
+                ) : null 
+              }
+            
 
-
-            <h2 className="event-discussion-title attendingh2">Discussion</h2>
             <div className="event-discussion container">
               
               {this.props.comments.map(comment => {
                 if (comment !== undefined) {
                   return (
                     <FlexDiv key = {comment.id} >
-                      <Card className={`${classes.card} ${classes.noTop}`}>
+                      <Card className={`${classes.noTop}`}>
                         <CardContent>
+                          <Typography variant="subtitle1" className="hoverClick" gutterBottom onClick={() => {this.commentDelete(comment.id)}}>
+                            X
+                          </Typography>
                           <Typography component="p">
                             posted on - {comment.date}
                           </Typography>
@@ -868,24 +885,13 @@ class EventSingle extends React.Component {
                               height={220}
                               style={image}
                             />
-                            ) : null
+                            ) : <div>hello</div>
                           }
                         </CardContent>
                       </Card>
 
                         {this.props.user.email === comment.posters_email ? (
                           <div className="flexCommentBtn">
-                            <div className="deleteCommentBtn">
-                              <Button 
-                                variant="contained" 
-                                color="secondary"
-                                onClick={() => {this.commentDelete(comment.id)}}
-                                className={classes.commentBtn}
-                               >
-                                Delete
-                              <DeleteIcon className={classes.rightIcon} />
-                              </Button>
-                            </div>
                             <Popup
                               trigger={<div ><Button variant="contained" color="primary" className={classes.commentBtn}>Edit Comment</Button></div>}
                               position="top center"
@@ -967,3 +973,17 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps,{getEvent,updateEvent,getComments,fetchUser,makeComment,deleteComment,updateComment, fetchFriends, searchUsers, inviteEvent})(withStyles(styles)(withAlert()(EventSingle)));
+
+
+
+// <div className="deleteCommentBtn">
+//                               <Button 
+//                                 variant="contained" 
+//                                 color="secondary"
+//                                 onClick={() => {this.commentDelete(comment.id)}}
+//                                 className={classes.commentBtn}
+//                                >
+//                                 Delete
+//                               <DeleteIcon className={classes.rightIcon} />
+//                               </Button>
+//                             </div>
