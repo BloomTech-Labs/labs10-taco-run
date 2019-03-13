@@ -113,7 +113,7 @@ class CreateEvent extends React.Component {
       selectedDate: new Date(),
       author: "",
       user_id: "",
-      checkedInvite: false,
+      checkedInvite: true,
       checkedNoInvite: true,
       invite_only: false,
       posters_email: "",

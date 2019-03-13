@@ -22,7 +22,7 @@ export const fetchFriends = id => {
           if (
             res.data[i].friends_id === parseInt(localStorage.getItem("user_id"))
           ) {
-            dispatch({
+            return dispatch({
               type: FRIENDS_FETCH_COMPLETE,
               payload: res.data,
               friendFlag: true
@@ -47,7 +47,7 @@ export const addFriend = friend => {
     dispatch({ type: FRIEND_ADD_START });
     axios
       .post(`https://production-taco.herokuapp.com/users_friends`, friend)
-      .then(() => {
+      .then(res => {
         axios
           .get(
             `https://production-taco.herokuapp.com/users_friends/${localStorage.getItem(
@@ -55,10 +55,21 @@ export const addFriend = friend => {
             )}`
           )
           .then(res => {
-            dispatch({
-              type: FRIEND_ADD_COMPLETE,
-              payload: res.data
-            });
+            for (let i = 0; i < res.data.length; i++) {
+              if (res.data[i].friends_id === friend.data.friends_id) {
+                return dispatch({
+                  type: FRIEND_ADD_COMPLETE,
+                  payload: res.data,
+                  friendFlag: true
+                });
+              } else {
+                dispatch({
+                  type: FRIEND_ADD_COMPLETE,
+                  payload: res.data,
+                  friendFlag: false
+                });
+              }
+            }
           });
       })
       .catch(err => {
@@ -74,7 +85,7 @@ export const deleteFriend = ids => {
       .delete(`https://production-taco.herokuapp.com/users_friends`, {
         data: ids
       })
-      .then(() => {
+      .then(res => {
         axios
           .get(
             `https://production-taco.herokuapp.com/users_friends/${localStorage.getItem(
@@ -82,10 +93,21 @@ export const deleteFriend = ids => {
             )}`
           )
           .then(res => {
-            dispatch({
-              type: FRIEND_DELETE_COMPLETE,
-              payload: res.data
-            });
+            for (let i = 0; i < res.data.length; i++) {
+              if (res.data[i].friends_id === ids.friends_id) {
+                return dispatch({
+                  type: FRIEND_DELETE_COMPLETE,
+                  payload: res.data,
+                  friendFlag: true
+                });
+              } else {
+                dispatch({
+                  type: FRIEND_DELETE_COMPLETE,
+                  payload: res.data,
+                  friendFlag: false
+                });
+              }
+            }
           });
       })
       .catch(error => {
