@@ -40,7 +40,7 @@ class LandingPage extends React.Component {
   
         <header id="header" className="alt">
           <h1 className = "header-logo"><a href="/">Let's Get Tacos</a> by Labs 10 Taco Run Team</h1>
-          <nav id="nav">
+          <nav id="nav" style = {{ top: "-3px" }}>
             <ul>            
               <li>              
                 <ul>
@@ -64,7 +64,7 @@ class LandingPage extends React.Component {
                   modal
                   closeOnDocumentClick                  
                 >
-                  <h3 style = {{ textAlign: "center" }}>Login With</h3>
+                  <h3 style = {{ textAlign: "center", color: "black" }}>Login With</h3>
                   <div className = "provider-buttons" style = {{    
                     display: "flex",
                     justifyContent: "space-evenly",
