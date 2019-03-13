@@ -70,7 +70,7 @@ import Card from "@material-ui/core/Card";
 
 function TabContainer(props) {
   return (
-    <Typography component="div" style={{ padding: 8 * 3 }}>
+    <Typography component="div" style={{ padding: 8 * 3, width: "100%" }}>
       {props.children}
     </Typography>
   );
@@ -118,8 +118,8 @@ const styles = theme => ({
   },
   bigAvatar: {
     margin: 10,
-    width: 200,
-    height: 200
+    width: 100,
+    height: 100
   },
   justifyTabs: {
     justifyContent: "center"
@@ -134,12 +134,21 @@ const styles = theme => ({
       flexDirection: "row",
       flexWrap: "wrap"
     }
+  }, 
+  userName: {
+    fontSize: "1.9rem",
+    [theme.breakpoints.up("md")]: {
+      fontSize: "3rem"
+    }
   },
   // Profile container
   profileContainer: {
     [theme.breakpoints.up("md")]: {
       display: "flex",
-      maxWidth: "1000px"
+      maxWidth: "1000px",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
     }
   },
   profileDetails: {
@@ -147,8 +156,13 @@ const styles = theme => ({
     flexDirection: "column",
     padding: "20px",
     textAlign: "center",
+    width: "90%",
+
     [theme.breakpoints.up("md")]: {
-      marginRight: "100px"
+      // marginRight: "100px"
+    },
+    [theme.breakpoints.down("sm")]: {
+      width: "100%"
     }
   },
   profileFunctions: {
@@ -266,22 +280,13 @@ class UserProfile extends React.Component {
         <Container className={classes.profileContainer}>
           <div className={classes.profileDetails}>
             <div className="profile-header">
-              <Typography variant="h3" className="profile-name">
-                {this.props.user.name}
-              </Typography>
               <Avatar
                 src={this.props.user.user_pic}
                 className={classes.bigAvatar}
               />
-            </div>
-            <div className="profile-preferences">
-              <Typography>
-                Tortilla preference: {this.props.user.hard_or_soft}
-              </Typography>
-              <Typography>Spiciness: {this.props.user.heat_pref}</Typography>
-              <Typography>
-                Street or Gourmet: {this.props.user.street_gourmet}
-              </Typography>
+              <Typography variant="h3" className="profile-name" classes = {{ root: classes.userName }}>
+                {this.props.user.name}
+              </Typography>              
               <Button
                 variant="contained"
                 onClick={() => {
@@ -290,6 +295,15 @@ class UserProfile extends React.Component {
               >
                 Edit Profile
               </Button>
+            </div>
+            <div className="profile-preferences">
+              <Typography>
+                Tortilla preference: {this.props.user.hard_or_soft}
+              </Typography>
+              <Typography>Spiciness: {this.props.user.heat_pref}</Typography>
+              <Typography>
+                Street or Gourmet: {this.props.user.street_gourmet}
+              </Typography>              
             </div>
           </div>
 

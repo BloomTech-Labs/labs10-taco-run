@@ -47,14 +47,28 @@
 
 .profile-name {
   font-size: 3em;
+  text-align: center;
 }
 
 .profile-header {
   width: 100%;
   display: flex;
-  justify-content: center;
-  flex-direction: column-reverse;
+  justify-content: space-evenly;
+  flex-direction: row;
   align-items: center;
+}
+
+@media screen and (max-width: 500px) {
+
+  .profile-header {
+    flex-direction: column;
+    padding-bottom: 10%;
+  }
+
+  .profile-name {
+    font-size: 1.9rem;
+  }
+
 }
 
 .profile-search {
