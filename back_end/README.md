@@ -16,21 +16,54 @@
 
 ---
 
-Endpoint URL's
-Production:
-https://production-taco.herokuapp.com/
-Local:
-http://localhost:5555/
+|Endpoint URL's| ----|
+| Production: | https://production-taco.herokuapp.com/ |
+| Local: | http://localhost:5555/ |
+---
+---
+ | Endpoint Number | Description Details Index: |
+|1. | [Details](#GET/users) |
+|2. | [Details](#POST/users) |
+|3. | [Details](#GET/users/:id) |
+|4. | [Details](#GET/users/:id/info) |
+|5. | [Details](#UPDATE/users/:id) |
+|6. | [Details](#UPDATE/users/:id/prem) |
+|7.|  [Details](#DELETE/users/:id) |
+|8. | [Details](#POST/payments) |
+|9. | [Details](#POST/favorites) |
+|10. | [Details](#GET/favorites/:id) |
+|11. | [Details](GET/favorites/search/:term) |
+|12. | [Details](#DELETE/favorites/:id) |
+|13. | [Details](#POST/events) |
+|14. | [Details](#GET/events) |
+|15. | [Details](#GET/events/:id) |
+|16. | [Details](#GET/events/:id/comments) |
+|17. | [Details](#UPDATE/events) |
+|18. | [Details](#POST/users_friends) |
+|19. | [Details](#GET/users_friends/:id) |
+|20. | [Details](#DELETE/users_friends/) |
+|21. | [Details](#POST/users_events) |
+|22. | [Details](#UPDATE/users_events/accept) |
+|23. | [Details](#DELETE/users_events/decline) |
+|24. | [Details](#GET/users_events/:id) |
+|25. | [Details](#GET/search/:term) |
+|26. |  |
+|27.  |  |
+|28.   |  |
+|29.   |  |
+|30.   |  |
 ---
 
+
 ---
-#### Endpoints
+
+## Endpoints:
 
 | Method | Endpoint      | Description                                                                    | Body Details #                  |
 | ------ | ------------- | ----------------------------------------------------------------------------- | --------------------- |
 | GET    | /users | If the user is logged in, respond with an array of all the user objects contained in the database. If the user is not logged in repond with the err code. | 1. |
 | POST    | /users | Creates a `user` using the information sent inside the `body` of the request. Name and email fields are manditory. Id is automatically incremented. | 2. |
-| GET    | /users/search | If the user is logged in, respond with an array of all the users contained in the database. If the user is not logged in repond with the err code. Get users based off search term using fuse.js for fuzzy search. | 22. |
+| GET    | /users/search | If the user is logged in, respond with an array of all the users contained in the database. If the user is not logged in repond with the err code. Get users based off search term using fuse.js for fuzzy search. | 25. |
 | GET    | users/:id | If the user is logged in, respond with an array of all the events contained in the database for a user. If the user is not logged in repond with the err code. | 3. |
 | GET    | /users/:id/info | If the user is logged in, respond with an object of all the users info contained in the database. If the user is not logged in repond with the err code. | 4. |
 | PUT    | /users/:id | If the user is logged in, responds with an object with the users entry that has been updated. If the user is not logged-in or does not contain the entry respond with the err code. | 5. |
@@ -60,39 +93,6 @@ http://localhost:5555/
 
 ---
 
----
- | Endpoint Number | Description Details Index: |
-1.[Details](#GET/users)
-2.[Details](#POST/users)
-3.[Details](#GET/users/:id)
-4.[Details](#GET/users/:id/info)
-5.[Details](#UPDATE/users/:id)
-6.[Details](#UPDATE/users/:id/prem)
-7.[Details](#DELETE/users/:id)
-8.[Details](#POST/payments)
-9.[Details](#POST/favorites)
-10.[Details](#GET/favorites/:id)
-11.[Details](GET/favorites/search/:term)
-12.[Details](#DELETE/favorites/:id)
-13.[Details](#POST/events)
-14.[Details](#GET/events)
-15.[Details](#GET/events/:id)
-16.[Details](#GET/events/:id/comments)
-17.[Details](#UPDATE/events)
-18.[Details](#POST/users_friends)
-19.[Details](#GET/users_friends/:id)
-20.[Details](#DELETE/users_friends/)
-21.[Details](#POST/users_events)
-22.[Details](#UPDATE/users_events/accept)
-23.[Details](#DELETE/users_events/decline)
-24.[Details](#GET/users_events/:id)
-25.[Details](#GET/search/:term)
-26.
-27.
-28.
-29.
-30.
----
 
 
 Endpoints local=http://localhost:5555/
@@ -392,6 +392,7 @@ if no value for the favorite, returns and ampty array.
 ## Technologies and Frameworks Used
 ###
 - Dependencies
+    - bcryptjs [View Dependency]()
     - body-parser [View Dependency]()
     - cors [View Dependency]()
     - dotenv [View Dependency]()
@@ -466,30 +467,3 @@ Automatically restarts the server on save making production more efficient. | [V
 
 ### Sqlite3
 
-```
- "bcryptjs": "^2.4.3",
-    "body-parser": "^1.18.3",
-    "cors": "^2.8.5",
-    "dotenv": "^6.2.0",
-    "express": "^4.16.4",
-    "faker": "^4.1.0",
-    "fuse.js": "^3.4.2",
-    "helmet": "^3.15.0",
-    "heroku": "^7.19.4",
-    "jsonwebtoken": "^8.4.0",
-    "knex": "^0.16.3",
-    "morgan": "^1.9.1",
-    "multer": "^1.4.1",
-    "path": "^0.12.7",
-    "pg": "^7.8.0",
-    "sqlite3": "^4.0.6",
-    "stripe": "^6.25.1",
-    "url": "^0.11.0"
-
-    "devDependencies": {
-    "cross-env": "^5.2.0",
-    "jest": "^24.0.0",
-    "nodemon": "^1.18.9",
-    "supertest": "^3.4.2"
-  }
-  ```
