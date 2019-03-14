@@ -15,7 +15,7 @@ class Billing extends React.Component {
   }
 
   onToken = (token) => {
-    console.log(token);
+    
     fetch('https://production-taco.herokuapp.com/payments', {
       method: 'POST',
       body: JSON.stringify(token),
@@ -47,7 +47,7 @@ class Billing extends React.Component {
     let id = localStorage.getItem("user_id")
     axios.get(`https://production-taco.herokuapp.com/users/${id}/info`)
     .then(response => {
-      console.log(response)
+      
       this.setState({
         usersEmail: response.data.email,
         isPrem: response.data.isPremium,
@@ -63,7 +63,7 @@ class Billing extends React.Component {
   */
 
   render() {
-    console.log(this.props)
+    
     return (
       <div>
         {this.state.loading ? (

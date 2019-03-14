@@ -203,7 +203,7 @@ class EventList extends React.Component {
       date: this.state.editDate,
       id: parseInt(event.target.id)
     };
-    console.log(obj);
+    
     this.props.updateEvent(obj);
     this.setState({
       showEdit: false
@@ -230,8 +230,7 @@ class EventList extends React.Component {
     // For tabs
     const { classes } = this.props;
     const { tabValue } = this.state;
-    console.log(this.props);
-    console.log(this.state);
+    
     const bull = <span className={classes.bullet}>•</span>;
 
     return (

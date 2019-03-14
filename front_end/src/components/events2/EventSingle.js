@@ -198,7 +198,7 @@ class EventSingle extends React.Component {
   };
 
   fileSelect = (event) => {
-    // console.log(event.target.files[0]);
+    
     this.setState({
       picture: event.target.files[0]
     })
@@ -231,7 +231,7 @@ class EventSingle extends React.Component {
       this.setState({
         pic_url: res.data.secure_url
       })
-      console.log(res)
+      
     })
     .then(() => {
       comment.pic_url = this.state.pic_url
@@ -257,8 +257,7 @@ class EventSingle extends React.Component {
   getEventInfoSingle = () => {
     axios.get(`https://production-taco.herokuapp.com/events/${this.props.match.params.id}`)
     .then(res => {
-      console.log('res on user here \n')
-      console.log(res)
+      
 
       let lat,lon
 
@@ -300,10 +299,10 @@ class EventSingle extends React.Component {
 
   leaveEvent = event => {
     event.preventDefault();
-    console.log('connected')
+    
     // let user_id = parseInt(localStorage.getItem("user_id"))
     let obj =  {data: { user_id: parseInt(localStorage.getItem("user_id")), event_id: parseInt(this.props.match.params.id)}}
-    console.log(obj)
+    
     axios.delete('https://production-taco.herokuapp.com/users_events', obj)
     .then(res => {
       if (res.data.msg){
@@ -321,12 +320,12 @@ class EventSingle extends React.Component {
 
   attendEvent = event => {
     event.preventDefault();
-    console.log('connected')
+    
     let obj = { user_id: parseInt(localStorage.getItem("user_id")), event_id: parseInt(this.props.match.params.id)}
-    console.log(obj)
+    
     axios.post('https://production-taco.herokuapp.com/users_events', obj)
     .then(res => {
-      console.log(res)
+      
       this.getEventInfoSingle()
       if (res.data.msg){
         this.props.alert.show(res.data.msg)
@@ -394,7 +393,7 @@ class EventSingle extends React.Component {
 
     axios.post('https://production-taco.herokuapp.com/favorites', obj)
     .then(res => {
-      // console.log(res)
+      
       if (res.data.msg){
         this.props.alert.show(res.data.msg)
       } else {
@@ -424,7 +423,7 @@ class EventSingle extends React.Component {
 
   handleSwitchChange = name => event => {
     this.setState({ [name]: event.target.checked });
-    console.log(`${[name]}: ${event.target.checked}`);
+    
   };
 
   switchForm = () => {
@@ -453,7 +452,7 @@ class EventSingle extends React.Component {
         }
       )
       .then(res => {
-        console.log(res);
+        
 
         let destinations = [];
         let obj;
@@ -488,7 +487,7 @@ class EventSingle extends React.Component {
       })
       .catch(error => {
         //this.props.alert.show("invalid city");
-        console.log(error);
+        
         this.setState({
           city_location: ""
         });
@@ -527,8 +526,7 @@ class EventSingle extends React.Component {
 
   render() {       
     const { classes } = this.props;
-    console.log(this.state)
-    console.log(this.props)
+    
 
     const bull = <span className={classes.bullet}>•</span>;
 

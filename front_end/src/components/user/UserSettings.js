@@ -161,7 +161,7 @@ class UserSettings extends React.Component {
     axios
       .get(`https://production-taco.herokuapp.com/users/${id}/info`)
       .then(response => {
-        console.log(response);
+        
         this.setState({
           name: response.data.name,
           phone: response.data.phone
@@ -216,7 +216,7 @@ class UserSettings extends React.Component {
     // axios
     //   .put(`https://production-taco.herokuapp.com/users/${id}`, edited_user)
     //   .then(response => {
-    //     console.log(response);
+    //     
     //     this.setState({
     //       selectedOption1: "",
     //       selectedOption2: "",
