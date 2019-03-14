@@ -22,6 +22,8 @@ import { withAlert } from 'react-alert';
 
 import taco_buddies from './t_friends.jpg';
 
+import taco_pic from './taco.png'
+
 import Modal from 'react-awesome-modal';
 
 import {
@@ -100,8 +102,14 @@ const styles = theme => ({
   },
   spaceTop: {
     marginTop: 10
+  },
+  biggerFontCreate: {
+    fontSize: "16px",
+    marginTop: 5
   }
 });
+
+//datepicker
 
 const TacoLocation = ({ text }) => <div>{text}</div>;
 
@@ -691,16 +699,11 @@ class CreateEvent extends React.Component {
             <Button
               variant="contained"
               size="small"
-              className={classes.button}
+              className={`${classes.button} ${classes.biggerFontCreate}`}
               onClick={this.handleSubmit}
             >
 
-            <SaveIcon
-              className={classNames(
-                classes.leftIcon,
-                classes.iconSmall
-              )}
-            />
+            <img src={taco_pic} className="tacopicCreate"/>
             Create
             </Button>
           </div>
@@ -720,3 +723,6 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, {createEvent})(withStyles(styles)(withAlert()(CreateEvent)));
+
+
+//create

@@ -197,6 +197,7 @@ const image = {
   marginTop: 5
 }
 
+//post a comment
 
 const TacoLocation = ({ text }) => <div className="taco">{text}</div>;
 
@@ -781,7 +782,7 @@ class EventSingle extends React.Component {
     const currentComments = comments.slice(indexOfFirstComment, indexOfLastComment);
     const commentPageNumbers = []
 
-    let createComment = <Button variant="contained" color="primary" onClick={() =>{this.createComment()}}>Submit Comment</Button>
+    let createComment = <Button variant="contained" onClick={() =>{this.createComment()}}>Submit Comment</Button>
 
     for (let i = 1; i <= Math.ceil(comments.length / comments_per_page); i++) {
       commentPageNumbers.push(i);
@@ -899,11 +900,11 @@ class EventSingle extends React.Component {
                       <Modal width="650" visible={this.state.visible}  height={this.state.height} effect="fadeInUp" onClickAway={() => this.closeModal()}>
                         <div>
                           <div className="btnAttending">
-                            <Button  variant="contained" color="primary" onClick={() => {this.setForms(0)}} className={classes.btnAttendingSmall}>
+                            <Button  variant="contained" onClick={() => {this.setForms(0)}} className={classes.btnAttendingSmall}>
                               By City Search
                             </Button>
 
-                            <Button  variant="contained" color="primary" onClick={() => {this.setForms(1)}} className={classes.btnAttendingSmall}>
+                            <Button  variant="contained" onClick={() => {this.setForms(1)}} className={classes.btnAttendingSmall}>
                               By Venue Lookup
                             </Button>
                           </div>
@@ -1332,3 +1333,6 @@ const mapStateToProps = state => {
 
 
 export default connect(mapStateToProps,{getEvent,updateEvent,getComments,fetchUser,makeComment,deleteComment,updateComment, fetchFriends, searchUsers, inviteEvent})(withStyles(styles)(withAlert()(EventSingle)));
+
+
+//by city search

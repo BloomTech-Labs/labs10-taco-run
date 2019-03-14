@@ -35,6 +35,8 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Tooltip from '@material-ui/core/Tooltip';
 
+import './custom.css'
+
 /* This is the boilerplate styling from the Material-UI reference I used */
 const drawerWidth = 240;
 
@@ -208,7 +210,7 @@ class DrawerBar extends React.Component {
         >
           {/* Navigation bar */}
           <Toolbar disableGutters={!this.state.isOpen}>
-            <div className={classes.topText}>
+            <div className={`${classes.topText} hoverclass`}>
               <Typography
                 variant="h6"
                 color="inherit"
@@ -216,12 +218,12 @@ class DrawerBar extends React.Component {
                 onClick={() => {
                   this.props.history.push("/events");
                 }}
-                style={{ marginLeft: "10px", display: "flex", alignItems: "center" }}
+                className="letsGetTacos"
               >
               <Tooltip title="Events Dashboard">
-                <IconButton aria-label="Events Dashboard">
+                <IconButton aria-label="Events Dashboard" >
                   <HomeIcon 
-                    className = {classes.navHome} 
+                    className = {`${classes.navHome}`} 
                     onClick = {() => { this.props.history.push("/events") }}
                   />
                 </IconButton>
