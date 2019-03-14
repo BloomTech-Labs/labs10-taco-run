@@ -41,9 +41,49 @@
 	border-radius: 10px;
 }
 
+.backgroundImage {
+	background-image: url("./img/Benny3.jpg");
+	background-size: cover;
+	height: 271px;
+	width: 385px;
+	background-position: center;
+}
+
+.backgroundImage2 {
+	background-image: url("./img/Max385.jpg");
+	background-size: cover;
+	height: 271px;
+	width: 385px;
+	background-position: center;
+}
+
+.backgroundImage3 {
+	background-image: url("./img/Jonathan.jpg");
+	background-size: cover;
+	height: 271px;
+	width: 385px;
+	background-position: center;
+}
+
+.backgroundImage4 {
+	background-image: url("./img/Marshall.jpg");
+	background-size: cover;
+	height: 271px;
+	width: 385px;
+	background-position: center;
+}
+
+/* .twoColumn {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+} */
+
 /* .provider-button {
 	height: 75px;
 }
+
 
 @media screen and (max-width: 300) {
 	.provider-button {
