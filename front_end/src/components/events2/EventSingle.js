@@ -502,7 +502,7 @@ class EventSingle extends React.Component {
 
   searchSingle = (event) => {
     this.setState({
-      height: "660"
+      height: "560"
     }, () => {
     let key = firebase.functions().app_.options_.yelpkey;
     let {byName, street, usState, usCity}  = this.state
@@ -1136,10 +1136,9 @@ class EventSingle extends React.Component {
                 </div>
                 ) : null 
               }
-            
 
             <div className="event-discussion container">
-              <Typography variant="h5" gutterBottom>
+              <Typography variant="subtitle1" gutterBottom>
                 {directions}
               </Typography>
               { renderCommentPageNums }
@@ -1183,7 +1182,7 @@ class EventSingle extends React.Component {
                         {this.props.user.email === comment.posters_email ? (
                           <div className="flexCommentBtn">
                             <Popup
-                              trigger={<div ><Button variant="contained" color="primary" className={classes.commentBtn}>Edit Comment</Button></div>}
+                              trigger={<div ><Button variant="outlined" className={classes.commentBtn}>Edit Comment</Button></div>}
                               position="top center"
                             >
                             <div className="popupDiv">
