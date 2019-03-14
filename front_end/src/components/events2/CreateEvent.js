@@ -42,6 +42,8 @@ import PropTypes from 'prop-types';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
+import Input from '@material-ui/core/Input';
+
 const styles = theme => ({
   grid: {
     width: "100%",
@@ -92,6 +94,12 @@ const styles = theme => ({
     marginRight: theme.spacing.unit,
     width: "94%",
     marginLeft: '3%'
+  },
+  input: {
+    margin: theme.spacing.unit,
+  },
+  spaceTop: {
+    marginTop: 10
   }
 });
 
@@ -469,6 +477,9 @@ class CreateEvent extends React.Component {
             <section>
       <Modal visible={this.state.visible} className="modal-body" effect="fadeInUp" onClickAway={() => this.closeModal()}>
 
+
+
+
         {this.state.value === 0 ? (null) 
           : this.state.value === 1 ? (
           <div>
@@ -478,10 +489,11 @@ class CreateEvent extends React.Component {
                 Look Up Specific Venue
               </Typography>
 
-              <TextField
+              <Input
+                placeholder="venue"
                 id="outlined-name"
                 label="Venue Name"
-                className={classes.textField}
+                className={`${classes.textField} ${classes.spaceTop}`}
                 value={this.state.byName}
                 onChange={this.handleChange}
                 margin="normal"
@@ -489,7 +501,8 @@ class CreateEvent extends React.Component {
                 name="byName"
               />
 
-              <TextField
+              <Input
+                placeholder="city"
                 id="outlined-name"
                 label="City"
                 className={classes.textField}
@@ -500,7 +513,8 @@ class CreateEvent extends React.Component {
                 name="usCity"
               />
 
-              <TextField
+              <Input
+                placeholder="street"
                 id="outlined-name"
                 label="street"
                 className={classes.textField}
@@ -509,6 +523,7 @@ class CreateEvent extends React.Component {
                 margin="normal"
                 variant="outlined"
                 name="street"
+                
               />
 
               <SelectUSState onChange={this.setNewValue} className="bottom_marg"/><br />

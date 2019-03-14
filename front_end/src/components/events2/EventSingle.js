@@ -29,7 +29,7 @@ import "./create_event.css"
 import GoogleMapReact from 'google-map-react';
 // import SearchBox from 'react-google-maps'
 
-import { MapDiv, YelpDiv } from "./create_event_css.js";
+import { CreateEventWrapper, FlexForm, OverFlow, MapDiv, YelpDiv, MapDiv2 } from "./create_event_css.js";
 import { withAlert } from 'react-alert';
 import DrawerBar from "../drawer/Drawer";
 
@@ -68,11 +68,17 @@ import ListItemText from "@material-ui/core/ListItemText";
 import IconButton from "@material-ui/core/IconButton";
 import Icon from "@material-ui/core/Icon";
 import DeleteIcon from '@material-ui/icons/Delete';
+import Input from '@material-ui/core/Input';
 
 import Modal from 'react-awesome-modal';
 
+
+
+import SelectUSState from 'react-select-us-states';
+
 import './custom.css'
 import './custom_event_single.css'
+
 
 const styles = theme => ({
   root: {
@@ -88,7 +94,7 @@ const styles = theme => ({
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
-    width: "100%",
+    width: "96%",
   },
   button: {
     margin: theme.spacing.unit,
@@ -118,7 +124,12 @@ const styles = theme => ({
   },
   pstyle: {
     lineHeight: 1.4,
-    fontSize: '18px'
+    fontSize: '18px',
+    width: 200
+  },
+  pstyle2: {
+    lineHeight: 1.4,
+    fontSize: '18px',
   },
   card: {
     width: "100%",
@@ -156,6 +167,21 @@ const styles = theme => ({
   },
   btnAttending: {
     margin: '15px 0'
+  },
+  btnAttendingSmall: {
+    marginTop: '10px'
+  },
+  noHref: {
+    textDecoration: 'none'
+  },
+  media2: {
+    height: 40
+  },
+  input: {
+    margin: theme.spacing.unit,
+  },
+  spaceTop: {
+    marginTop: 10
   }
 });
 
@@ -166,55 +192,133 @@ const image = {
   marginTop: 5
 }
 
+
 const TacoLocation = ({ text }) => <div className="taco">{text}</div>;
 
 class EventSingle extends React.Component {
-  state = {
-    content: "",
-    editComment: "",
-    venue: '',
-    date: '',
-    location: '',
-    posted_by: '',
-    price: '',
-    raiting: '',
-    url: '',
-    img_url: '',
-    attending: [],
-    loaded: false,
-    picture: '',
-    pic_url: '',
-    show_update: false,
-    modalOpened: false,
-    show_map: false,
-    checkedInvite: false,
-    selectedDate: new Date(),
-    city_location: "",
-    taco_places: [],
-    destinations: [],
-    zoom: 13,
-    lat_av: 0,
-    lon_av: 0,
-    currentPage: 1,
-    tacosPerPage: 6,
-    search: "",
-    email: '',
-    show_attending: false,
-    currentPageComment: 1,
-    comments_per_page: 4,
-    visible : false
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      content: "",
+      editComment: "",
+      venue: '',
+      date: '',
+      location: '',
+      posted_by: '',
+      price: '',
+      raiting: '',
+      url: '',
+      img_url: '',
+      attending: [],
+      loaded: false,
+      picture: '',
+      pic_url: '',
+      modalOpened: false,
+      show_map: false,
+      checkedInvite: false,
+      selectedDate: new Date(),
+      city_location: "",
+      taco_places: [],
+      destinations: [],
+      zoom: 13,
+      lat_av: 0,
+      lon_av: 0,
+      currentPage: 1,
+      tacosPerPage: 6,
+      search: "",
+      email: '',
+      show_attending: false,
+      currentPageComment: 1,
+      comments_per_page: 4,
+      visible : false,
+      byName: '',
+      street: '',
+      usState: '',
+      usCity: '',
+      form1: false,
+      form2: false,
+      height: "300",
+      vUpdated: false 
+    };
+    this.setNewValue = this.setNewValue.bind(this);
+  }
+
+  setForms = (input) => {
+    if (input === 0){
+      this.setState({
+        form1: true,
+        form2: false,
+        byName: '',
+        street: '',
+        usState: '',
+        usCity: '',
+        show_map: false,
+        taco_places: [],
+        show_map2: false,
+        height: "300",
+        visible: false,
+      }, () => {this.setState({visible: true})})
+    }
+    if (input === 1){
+      this.setState({
+        form1: false,
+        form2: true,
+        byName: '',
+        street: '',
+        usState: '',
+        usCity: '',
+        show_map: false,
+        taco_places: [],
+        show_map2: false,
+        height: "300",
+        visible: false,
+      }, () => {this.setState({visible: true})})
+    }
+  }
+
+  switchVenue = () => {
+    this.setState({
+      changeVenue: !this.state.changeVenue,
+      show_attending: false
+    })
+  }
+
+  setNewValue(state) {
+    this.setState({
+      usState: state
+    })
+  }
 
   openModal2() {
     this.setState({
-        visible : true
+      visible : true,
+      show_map: false,
+      current_tacos: [],
+      form1: true,
+      form2: false
     });
   }
 
   closeModal() {
     this.setState({
-        visible : false
-    });
+      visible : false,
+      taco_places: [],
+      loaded: false,
+      location: '',
+      byName: '',
+      usCity: '',
+      street: '',
+      show_map2: false,
+      height: "300",
+      vUpdated: false
+    }, () => {this.getEventInfoSingle()});
+  }
+
+  addVenue = (obj) => {
+    this.props.updateEvent(obj, this.props.match.params.id)
+    this.setState({
+      vUpdated: true
+    })
   }
 
   fileSelect = (event) => {
@@ -278,38 +382,42 @@ class EventSingle extends React.Component {
     this.getEventInfoSingle()
   }
 
-
   getEventInfoSingle = () => {
-    axios.get(`https://production-taco.herokuapp.com/events/${this.props.match.params.id}`)
-    .then(res => {
-      console.log('res on user here \n')
-      console.log(res)
+    this.setState({
+      loaded: false
+    }, () => {
 
-      let lat,lon
+      axios.get(`https://production-taco.herokuapp.com/events/${this.props.match.params.id}`)
+      .then(res => {
+        console.log('res on user here \n')
+        console.log(res)
 
-      if (!res.data.lat || !res.data.lon){
-        lat = 0
-        lon = 0
-      } else {
-        lat = parseFloat(res.data.lat)
-        lon = parseFloat(res.data.lon)
-      }
+        let lat,lon
 
-      this.setState({
-        venue: res.data.venue,
-        date: res.data.date,
-        location: res.data.location,
-        posted_by: res.data.posted_by,
-        price: res.data.price,
-        raiting: res.data.raiting,
-        url: res.data.url,
-        img_url: res.data.img_url,
-        lat: lat,
-        lon: lon,
-        attending: res.data.users,
-        checkedInvite: res.data.invite_only,
-        loaded: true,
-        email: res.data.email,
+        if (!res.data.lat || !res.data.lon){
+          lat = 0
+          lon = 0
+        } else {
+          lat = parseFloat(res.data.lat)
+          lon = parseFloat(res.data.lon)
+        }
+
+        this.setState({
+          venue: res.data.venue,
+          date: res.data.date,
+          location: res.data.location,
+          posted_by: res.data.posted_by,
+          price: res.data.price,
+          raiting: res.data.raiting,
+          url: res.data.url,
+          img_url: res.data.img_url,
+          lat: lat,
+          lon: lon,
+          attending: res.data.users,
+          checkedInvite: res.data.invite_only,
+          loaded: true,
+          email: res.data.email,
+        })
       })
     })
   }
@@ -321,7 +429,6 @@ class EventSingle extends React.Component {
   handleEdit = event => {
     this.setState({ editComment: event.target.value });
   };
-
 
   leaveEvent = event => {
     event.preventDefault();
@@ -393,6 +500,63 @@ class EventSingle extends React.Component {
 
   };
 
+  searchSingle = (event) => {
+    this.setState({
+      height: "660"
+    }, () => {
+    let key = firebase.functions().app_.options_.yelpkey;
+    let {byName, street, usState, usCity}  = this.state
+    let url = `https://api.yelp.com/v3/businesses/matches?name=${byName}&address1=${street}&city=${usCity}&state=${usState}&country=US`
+    console.log(url)
+     axios
+      .get(
+        `${"https://cors-anywhere.herokuapp.com/"}${url}`,
+        {
+          headers: {
+            Authorization: `Bearer ${key}`
+          }
+        }
+      )
+      .then(res => {
+        console.log(res)
+        let id = res.data.businesses[0].id
+        let url = `https://api.yelp.com/v3/businesses/${id}`
+        axios
+          .get(
+            `${"https://cors-anywhere.herokuapp.com/"}${url}`,
+            {
+              headers: {
+                Authorization: `Bearer ${key}`
+              }
+            }
+          )
+          .then(res => {
+            let singleVenue = {
+              venue: res.data.name,
+              img_url: res.data.image_url,
+              raiting: res.data.rating,
+              url: res.data.url,
+              price: res.data.price,
+              location: `${res.data.location.display_address[0]} ${res.data.location.display_address[1]}`,
+              lat: res.data.coordinates.latitude,
+              lon: res.data.coordinates.longitude
+            }
+
+            this.setState({
+              singleVenue: singleVenue,
+              show_map2: true,
+            })
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      })
+      .catch(error => {
+        console.log(error)
+      }) 
+    })
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.comments.length > 0){
       if ((nextProps.comments.length -1) % 4 === 0){
@@ -455,7 +619,8 @@ class EventSingle extends React.Component {
 
   showAttending = () => {
     this.setState({
-      show_attending: !this.state.show_attending
+      show_attending: !this.state.show_attending,
+      changeVenue: false
     })
   }
 
@@ -472,17 +637,14 @@ class EventSingle extends React.Component {
     console.log(`${[name]}: ${event.target.checked}`);
   };
 
-  switchForm = () => {
-    this.setState({
-      show_update: !this.state.show_update,
-    }, () => {this.getEventInfoSingle()})
-  }
+  //venue updated
 
   searchMap = event => {
 
     this.setState({
       show_map: false,
-      taco_places: []
+      taco_places: [],
+      height: "660"
     }, () => {
 
     let key = firebase.functions().app_.options_.yelpkey;
@@ -528,7 +690,7 @@ class EventSingle extends React.Component {
           destinations: destinations,
           lat_av: av_lat,
           lon_av: av_lon,
-          show_map: true
+          show_map: true,
         });
       })
       .catch(error => {
@@ -540,14 +702,6 @@ class EventSingle extends React.Component {
       });
     })
   };
-
-  addVenue = (obj) => {
-    this.props.updateEvent(obj, this.props.match.params.id)
-    this.setState({
-      loaded: false
-    })
-    this.props.alert.show(`${obj.venue} set as venue`)
-  }
 
   handleSearchChange = e => {
     this.setState({ search: [e.target.value] });    
@@ -612,7 +766,6 @@ class EventSingle extends React.Component {
 
     let createComment = <Button variant="contained" color="primary" onClick={() =>{this.createComment()}}>Submit Comment</Button>
 
-
     for (let i = 1; i <= Math.ceil(comments.length / comments_per_page); i++) {
       commentPageNumbers.push(i);
     }
@@ -635,185 +788,6 @@ class EventSingle extends React.Component {
         <DrawerBar />
         <div className="container">
 
-            {this.state.show_update ? (
-
-            <div className="container">
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <Grid
-                  container
-                  className={`${classes.grid} formTop`}
-                  justify="space-evenly"
-                >
-                
-                  <DatePicker
-                    required
-                    margin="normal"
-                    label="Date picker"
-                    value={this.state.selectedDate}
-                    onChange={this.handleDateChange}
-                  />
-
-                  <TimePicker
-                    required
-                    margin="normal"
-                    label="Time picker"
-                    value={this.state.selectedDate}
-                    onChange={this.handleDateChange}
-                  />
-
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        checked={this.state.checkedInvite}
-                        onChange={this.handleSwitchChange('checkedInvite')}
-                        value= {this.state.checkedInvite}
-                      />
-                    }
-                    label="Invite Only"
-                  />
-               
-                
-                  <TextField                      
-                    id="standard-name"
-                    name = "city_location" // --> needs a name attribute so it'll load correctly
-                    label="Search taco places by city"
-                    className={classes.textField}
-                    value={this.state.city_location}
-                    onChange={this.handleChange}
-                    type = "text"
-                    margin="normal"
-                  /> 
-
-                  <Button 
-                    variant="contained" 
-                    className={classes.marginT}
-                    onClick={() => {this.searchMap(this.state.city_location)}}
-                  >
-                    Search
-                  </Button>
-                </Grid>
-
-                <div className={classes.search}>
-                  <div className={classes.searchIcon}>
-                    {/* <SearchIcon onSubmit = {this.handleSubmitUsers}/> */}
-                  </div>
-                  <form
-                    className={classes.container}
-                    noValidate
-                    autoComplete="off"
-                    onSubmit={this.handleSubmitUsers}
-                  >
-                    <TextField
-                      id="standard-search"
-                      label="Invite More People"
-                      type="search"
-                      className={classes.textField}
-                      margin="normal"
-                      value={this.state.search}
-                      onChange={this.handleSearchChange}
-                    />
-                  </form> 
-                  <div id="results" ref={node => (this.node = node)}>
-                    <List>
-                      {this.props.users.map(result => {
-                        if (result !== undefined) {
-                          return (
-                            <Link key = {result.name} to={`user/${result.id}`}>
-                              <ListItem className="resultsDisplay">
-                                <ListItemAvatar className="location-picture">
-                                  <Avatar src={result.user_pic} />
-                                </ListItemAvatar>
-                                <ListItemText primary={result.name} />
-                                <IconButton aria-label="Add">
-                                <Icon onClick={this.handleInvite} id={result.id}>
-                                  +
-                                </Icon>
-                              </IconButton>                                    
-                              </ListItem>
-                              <Divider />
-                            </Link>
-                          );
-                        }
-                      })}
-                    </List>
-                  </div>                     
-                </div>
-
-                {this.state.show_map ? (
-                  <MapDiv>
-                    <GoogleMapReact
-                      bootstrapURLKeys={{
-                        key: firebase.functions().app_.options_.googlekey
-                      }}
-                      defaultZoom={this.state.zoom}
-                      defaultCenter={{ lat: this.state.lat_av, lng: this.state.lon_av }}
-                    >
-                      {this.state.destinations.map((d, i) => {
-                        return <TacoLocation lat={d.lat} lng={d.lon} text={d.name} key={i} />;
-                      })}
-                    </GoogleMapReact>
-                  </MapDiv>
-                ) : null}
-
-              <div class="flex1">
-                {currentTacos.map((t, idx) => {
-                  return (
-
-              <Card className="card">
-                <CardActionArea>
-                  <CardMedia
-                    className={classes.media}
-                    image={t.image_url}
-                    title="venue picture"
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      {t.name}
-                    </Typography>
-                    <Typography component="p">
-                      Location:{" "}
-                      {`${t.location.display_address[0]} ${
-                        t.location.display_address[1]
-                      }`}<br/>
-                      Rating: {t.rating}<br/>
-                      Price: {t.price}<br/>
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-                  <CardActions>
-                    <Button size="small" color="primary">
-                      <a href={t.url} className="noUnderline">View on Yelp</a>
-                    </Button>
-                    <Button size="small" color="primary" 
-                      onClick={() => {this.addVenue(
-                        {
-                          lat: t.coordinates.latitude,
-                          lon: t.coordinates.longitude,
-                          venue: t.name,
-                          img_url: t.image_url,
-                          location: `${t.location.display_address[0]} ${
-                            t.location.display_address[1]
-                          }`,
-                          raiting: t.rating,
-                          price: t.price,
-                          url: t.url
-                        }
-                      )}}
-                    >
-                      Add Location
-                    </Button>
-                </CardActions>
-              </Card>
-
-                  )
-                })}
-              </div>
-              </MuiPickersUtilsProvider>
-              {renderPageNumbers}
-            </div>
-
-            ) :
-
           <div>
             <div className="singleFlex container">
               {this.state.loaded && (this.state.lat !== 0 || this.state.lon !== 0) ? (
@@ -835,7 +809,6 @@ class EventSingle extends React.Component {
               ) : null} 
 
               <div>
-
                 {this.state.location ? (
                   <Card className={classes.card}>
                     <CardActionArea>
@@ -849,7 +822,7 @@ class EventSingle extends React.Component {
                           <Typography gutterBottom variant="h5" component="h2">
                             {this.state.venue}
                           </Typography>
-                          <Typography component="p" className={classes.pstyle}>
+                          <Typography component="p" className={classes.pstyle2}>
                             <Moment format="dddd, MMMM Do YYYY, h:mm:ss a">
                               {this.state.date}
                             </Moment><br/>
@@ -883,183 +856,262 @@ class EventSingle extends React.Component {
                 <Button variant="contained" onClick={this.showAttending} className={classes.btnAttending}>
                   Show Attending
                 </Button>
-              </div>
-              <div className="spaceingM">
                 {this.state.email === this.props.auth.email ? (
-                  <section>
-                    <Button  variant="contained" color="primary" onClick={() => this.openModal2()} className={classes.btnAttending}>
-                      Update
-                    </Button>
+                  <Button variant="contained" onClick={() => {this.openModal2()}} className={classes.btnAttending}>
+                    Change Venue
+                  </Button>
+                ) : null }
+              </div>
 
-                    <Modal visible={this.state.visible}  height="300" effect="fadeInUp" onClickAway={() => this.closeModal()}>
-                      <div className="container">
-                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                          <Grid
-                            container
-                            className={`${classes.grid} formTop`}
-                            justify="space-evenly"
-                          >
-                          
-                            <DatePicker
-                              required
-                              margin="normal"
-                              label="Date picker"
-                              value={this.state.selectedDate}
-                              onChange={this.handleDateChange}
-                            />
-
-                            <TimePicker
-                              required
-                              margin="normal"
-                              label="Time picker"
-                              value={this.state.selectedDate}
-                              onChange={this.handleDateChange}
-                            />                       
-                          
-                            <TextField                      
-                              id="standard-name"
-                              name = "city_location" // --> needs a name attribute so it'll load correctly
-                              label="Search taco places by city"
-                              className={classes.textField}
-                              value={this.state.city_location}
-                              onChange={this.handleChange}
-                              type = "text"
-                              margin="normal"
-                            /> 
-
-                            <Button 
-                              variant="contained" 
-                              className={classes.marginT}
-                              onClick={() => {this.searchMap(this.state.city_location)}}
-                            >
-                              Search
+                <div>
+                  <div>
+                    <section>
+                      <Modal width="650" visible={this.state.visible}  height={this.state.height} effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                        <div>
+                          <div className="btnAttending">
+                            <Button  variant="contained" color="primary" onClick={() => {this.setForms(0)}} className={classes.btnAttendingSmall}>
+                              By City Search
                             </Button>
-                          </Grid>
 
-                          <div className={classes.search}>
-                            <div className={classes.searchIcon}>
-                              {/* <SearchIcon onSubmit = {this.handleSubmitUsers}/> */}
-                            </div>
-                            <form
-                              className={classes.container}
-                              noValidate
-                              autoComplete="off"
-                              onSubmit={this.handleSubmitUsers}
+                            <Button  variant="contained" color="primary" onClick={() => {this.setForms(1)}} className={classes.btnAttendingSmall}>
+                              By Venue Lookup
+                            </Button>
+                          </div>
+                          {this.state.vUpdated ? (
+                            
+                            <Typography className="updateTextSingle" variant="subtitle1" gutterBottom>
+                              venue updated
+                            </Typography>
+                            
+                          ) : null}
+                        </div>
+
+                        {this.state.form1 ? (
+                          <div className="container">
+                          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                            <Grid
+                              container
+                              className={`${classes.grid} formTop`}
+                              justify="space-evenly"
                             >
-                              <TextField
-                                id="standard-search"
-                                label="Invite More People"
-                                type="search"
+
+                              <TextField                      
+                                id="standard-name"
+                                name = "city_location" // --> needs a name attribute so it'll load correctly
+                                label="Search taco places by city"
                                 className={classes.textField}
+                                value={this.state.city_location}
+                                onChange={this.handleChange}
+                                type = "text"
                                 margin="normal"
-                                value={this.state.search}
-                                onChange={this.handleSearchChange}
                               />
-                            </form> 
-                            <div id="results" ref={node => (this.node = node)}>
-                              <List>
-                                {this.props.users.map(result => {
-                                  if (result !== undefined) {
-                                    return (
-                                      <Link key = {result.name} to={`user/${result.id}`}>
-                                        <ListItem className="resultsDisplay">
-                                          <ListItemAvatar className="location-picture">
-                                            <Avatar src={result.user_pic} />
-                                          </ListItemAvatar>
-                                          <ListItemText primary={result.name} />
-                                          <IconButton aria-label="Add">
-                                          <Icon onClick={this.handleInvite} id={result.id}>
-                                            +
-                                          </Icon>
-                                        </IconButton>                                    
-                                        </ListItem>
-                                        <Divider />
-                                      </Link>
-                                    );
-                                  }
+                              <Button 
+                                variant="contained" 
+                                className={classes.marginT}
+                                onClick={() => {this.searchMap(this.state.city_location)}}
+                              >
+                                Search
+                              </Button>
+                            </Grid>
+
+                            <div className="cityLocations">
+                              {this.state.show_map ? (
+                                <MapDiv>
+                                  <GoogleMapReact
+                                    bootstrapURLKeys={{
+                                      key: firebase.functions().app_.options_.googlekey
+                                    }}
+                                    defaultZoom={this.state.zoom}
+                                    defaultCenter={{ lat: this.state.lat_av, lng: this.state.lon_av }}
+                                  >
+                                    {this.state.destinations.map((d, i) => {
+                                      return <TacoLocation lat={d.lat} lng={d.lon} text={d.name} key={i} />;
+                                    })}
+                                  </GoogleMapReact>
+                                </MapDiv>
+                              ) : null}
+                            
+
+                              <div class="flex1">
+                                {currentTacos.map((t, idx) => {
+                                  return (
+                                    <Card className="card">
+                                      <a href={t.url} target="_blank" className={classes.noHref}>
+                                        <CardActionArea>
+                                          <CardMedia
+                                            className={classes.media}
+                                            image={t.image_url}
+                                            title="venue picture"
+                                          />
+                                          <CardContent>
+                                            <Typography gutterBottom variant="h5" component="h2">
+                                              {t.name}
+                                            </Typography>
+                                            <Typography component="p">
+                                              Location:{" "}
+                                              {`${t.location.display_address[0]} ${
+                                                t.location.display_address[1]
+                                              }`}<br/>
+                                              Rating: {t.rating}<br/>
+                                              Price: {t.price}<br/>
+                                            </Typography>
+                                          </CardContent>
+                                        </CardActionArea>
+                                      </a>
+                                      <CardActions>
+                                        <Button size="small" color="primary" 
+                                          onClick={() => {this.addVenue(
+                                            {
+                                              lat: t.coordinates.latitude,
+                                              lon: t.coordinates.longitude,
+                                              venue: t.name,
+                                              img_url: t.image_url,
+                                              location: `${t.location.display_address[0]} ${
+                                                t.location.display_address[1]
+                                              }`,
+                                              raiting: t.rating,
+                                              price: t.price,
+                                              url: t.url
+                                            }
+                                          )}}
+                                        >
+                                          Add Location
+                                        </Button>
+                                      </CardActions>
+                                    </Card>
+                                  )
                                 })}
-                              </List>
-                            </div>                     
+                                </div>
+                              </div>
+                            </MuiPickersUtilsProvider>
+                            {renderPageNumbers}
                           </div>
 
-                          {this.state.show_map ? (
-                            <MapDiv>
-                              <GoogleMapReact
-                                bootstrapURLKeys={{
-                                  key: firebase.functions().app_.options_.googlekey
-                                }}
-                                defaultZoom={this.state.zoom}
-                                defaultCenter={{ lat: this.state.lat_av, lng: this.state.lon_av }}
-                              >
-                                {this.state.destinations.map((d, i) => {
-                                  return <TacoLocation lat={d.lat} lng={d.lon} text={d.name} key={i} />;
-                                })}
-                              </GoogleMapReact>
-                            </MapDiv>
-                          ) : null}
+                        ) : null } {/* -------- end of form one ------*/}
 
-                        <div class="flex1">
-                          {currentTacos.map((t, idx) => {
-                            return (
+                        {this.state.form2 ? (
 
-                        <Card className="card">
-                          <CardActionArea>
-                            <CardMedia
-                              className={classes.media}
-                              image={t.image_url}
-                              title="venue picture"
-                            />
-                            <CardContent>
-                              <Typography gutterBottom variant="h5" component="h2">
-                                {t.name}
-                              </Typography>
-                              <Typography component="p">
-                                Location:{" "}
-                                {`${t.location.display_address[0]} ${
-                                  t.location.display_address[1]
-                                }`}<br/>
-                                Rating: {t.rating}<br/>
-                                Price: {t.price}<br/>
-                              </Typography>
-                            </CardContent>
-                          </CardActionArea>
-                            <CardActions>
-                              <Button size="small" color="primary">
-                                <a href={t.url} className="noUnderline">View on Yelp</a>
-                              </Button>
-                              <Button size="small" color="primary" 
-                                onClick={() => {this.addVenue(
-                                  {
-                                    lat: t.coordinates.latitude,
-                                    lon: t.coordinates.longitude,
-                                    venue: t.name,
-                                    img_url: t.image_url,
-                                    location: `${t.location.display_address[0]} ${
-                                      t.location.display_address[1]
-                                    }`,
-                                    raiting: t.rating,
-                                    price: t.price,
-                                    url: t.url
-                                  }
-                                )}}
-                              >
-                                Add Location
-                              </Button>
-                          </CardActions>
-                        </Card>
+                          
 
-                            )
-                          })}
+                      <div className="container">
+                        <div className="singleLookup">
+
+                          <Input
+                            placeholder="venue"
+                            id="outlined-name"
+                            label="Venue Name"
+                            className={`${classes.textField} ${classes.spaceTop}`}
+                            value={this.state.byName}
+                            onChange={this.handleChange}
+                            margin="normal"
+                            variant="outlined"
+                            name="byName"
+                          />
+
+                          <Input
+                            placeholder="city"
+                            id="outlined-name"
+                            label="City"
+                            className={classes.textField}
+                            value={this.state.usCity}
+                            onChange={this.handleChange}
+                            margin="normal"
+                            variant="outlined"
+                            name="usCity"
+                          />
+
+                          <Input
+                            placeholder="street"
+                            id="outlined-name"
+                            label="street"
+                            className={classes.textField}
+                            value={this.state.street}
+                            onChange={this.handleChange}
+                            margin="normal"
+                            variant="outlined"
+                            name="street"
+                            
+                          />
+
+                          <SelectUSState onChange={this.setNewValue} className="bottom_marg"/><br />
+                          <div className="bottom_marg">
+                            <Button variant="contained" onClick={this.searchSingle}>
+                              Search
+                            </Button>
+                          </div>
                         </div>
-                        </MuiPickersUtilsProvider>
-                        {renderPageNumbers}
-                      </div>
-                    </Modal>
 
-                  </section>
-                ) : null}
-              </div>
-            </div>
+                        <div>
+                          {this.state.show_map2 ? (
+                            <div className="mapSingle singleLookupUpdate">
+                              <MapDiv2>
+                                <GoogleMapReact
+                                  bootstrapURLKeys={{ key: firebase.functions().app_.options_.googlekey }}
+                                  defaultZoom={16}
+                                  defaultCenter={{lat: this.state.singleVenue.lat, lng: this.state.singleVenue.lon}}
+                                >
+                                <TacoLocation
+                                  text={this.state.singleVenue.name}
+                                  lat={this.state.singleVenue.lat}
+                                  lng={this.state.singleVenue.lon}
+                                />
+                                </GoogleMapReact>
+                              </MapDiv2>
+{/* --------------------------------------------------------------------------*/}
+                              <Card>
+                                <a href={this.state.singleVenue.url} target="_blank" className={classes.noHref}>
+                                  <CardActionArea>
+                                    <CardMedia
+                                      className={`${classes.media2}`}
+                                      image={this.state.singleVenue.img_url}
+                                      title="venue picture"
+                                    />
+                                    <CardContent>
+                                      <Typography gutterBottom variant="h5" component="h2">
+                                        {this.state.singleVenue.name}
+                                      </Typography>
+                                      <Typography component="p">
+                                        Location: {this.state.singleVenue.location}<br/>
+                                        Rating: {this.state.singleVenue.rating}<br/>
+                                        Price: {this.state.singleVenue.price}<br/>
+                                      </Typography>
+                                    </CardContent>
+                                  </CardActionArea>
+                                </a>
+                                  <CardActions>
+                                    <Button size="small" color="primary" onClick={() => {this.addVenue(this.state.singleVenue)}}>
+                                      Set as Location
+                                    </Button>
+                                </CardActions>
+                              </Card>
+                            </div>
+                          ) : null }
+                        </div>
+                      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        ) : null} {/* -------- end of form one ------*/}
+
+                      </Modal>
+
+                    </section>
+
+                    </div>                  
+                  </div>
+                </div>
 
             
               {this.state.show_attending ? (
@@ -1111,7 +1163,7 @@ class EventSingle extends React.Component {
                               <Avatar alt="Remy Sharp" src={comment.posters_pic}className={classes.bigAvatar} />
                             </div>
                             <div className="halfWidth">
-                              <Typography component="p" className={classes.pstyle}>
+                              <Typography component="p" className={`${classes.pstyle} halfWidth`}>
                                 {comment.content}
                               </Typography>
                               {comment.pic_url ? (
@@ -1189,7 +1241,7 @@ class EventSingle extends React.Component {
 
             </div>
           </div>
-        }
+        
         </div>
       </div>
     )
@@ -1210,3 +1262,81 @@ const mapStateToProps = state => {
 
 
 export default connect(mapStateToProps,{getEvent,updateEvent,getComments,fetchUser,makeComment,deleteComment,updateComment, fetchFriends, searchUsers, inviteEvent})(withStyles(styles)(withAlert()(EventSingle)));
+
+
+
+{/* -------------------By Venue-----------Modal----Update----------------------------------*/} 
+
+
+/*
+
+
+
+
+<div className="containSingle">
+                            <p className="xbutton" onClick={() => {this.closeModal()}}>X</p>
+                            <Typography variant="h5" className={`${classes.bottom} centerText`}>
+                              Look Up Specific Venue
+                            </Typography>
+
+                            <TextField
+                              id="outlined-name"
+                              label="Venue Name"
+                              className={classes.textField}
+                              value={this.state.byName}
+                              onChange={this.handleChange}
+                              margin="normal"
+                              variant="outlined"
+                              name="byName"
+                            />
+
+                            <TextField
+                              id="outlined-name"
+                              label="City"
+                              className={classes.textField}
+                              value={this.state.usCity}
+                              onChange={this.handleChange}
+                              margin="normal"
+                              variant="outlined"
+                              name="usCity"
+                            />
+
+                            <TextField
+                              id="outlined-name"
+                              label="street"
+                              className={classes.textField}
+                              value={this.state.street}
+                              onChange={this.handleChange}
+                              margin="normal"
+                              variant="outlined"
+                              name="street"
+                            />
+
+                            <SelectUSState onChange={this.setNewValue} className="bottom_marg"/><br />
+                            <div className="bottom_marg">
+                              <Button variant="contained" onClick={this.searchSingle}>
+                                Search
+                              </Button>
+                            </div>
+                          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+*/
+
+
+
+
+
+
+
+

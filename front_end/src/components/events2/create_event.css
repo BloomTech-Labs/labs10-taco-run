@@ -9,6 +9,11 @@
 	text-decoration: none;
 }
 
+.updateTextSingle {
+	text-align: center;
+	margin-top: 10px;
+}
+
 .removeVenue {
 	font-size: 16px;
 }
