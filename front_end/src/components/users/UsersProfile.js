@@ -73,7 +73,7 @@ TabContainer.propTypes = {
 const styles = theme => ({
   root: {
     flexGrow: 1,
-
+    flexDirection: "column",
     display: "flex",
     flexWrap: "wrap"
   },
@@ -92,8 +92,11 @@ const styles = theme => ({
   },
   bigAvatar: {
     margin: 10,
-    width: 200,
-    height: 200
+    width: 100,
+    height: 100
+  },
+  evenWidth: {
+    [theme.breakpoints.up("sm")]: { width: "50%" }
   },
   justifyTabs: {
     justifyContent: "center"
@@ -102,15 +105,24 @@ const styles = theme => ({
   profileContainer: {
     [theme.breakpoints.up("md")]: {
       display: "flex",
-      maxWidth: "1000px"
+      maxWidth: "1000px",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center"
     }
   },
   profileDetails: {
     display: "flex",
     flexDirection: "column",
+    padding: "20px",
     textAlign: "center",
+    width: "90%",
+
     [theme.breakpoints.up("md")]: {
-      marginRight: "100px"
+      // marginRight: "100px"
+    },
+    [theme.breakpoints.down("sm")]: {
+      width: "100%"
     }
   },
   profileFunctions: {
@@ -222,10 +234,6 @@ class UsersProfile extends React.Component {
     this.props.fetchFavorites(this.props.match.params.id);
     // fetchFriends
     this.props.fetchFriends(this.props.match.params.id);
-    // Select material ui
-    this.setState({
-      labelWidth: ReactDOM.findDOMNode(this.InputLabelRef).offsetWidth
-    });
   }
 
   render() {
@@ -239,22 +247,14 @@ class UsersProfile extends React.Component {
         <Container className={classes.profileContainer}>
           <div className={classes.profileDetails}>
             <div className="profile-header">
-              <Typography className="profile-name" variant="h3">
-                {this.props.user.name}
-              </Typography>
+              {" "}
               <Avatar
                 src={this.props.user.user_pic}
                 className={classes.bigAvatar}
               />
-            </div>
-            <div className="profile-preferences">
-              <Typography>
-                Tortilla preference: {this.props.user.hard_or_soft}
+              <Typography className="profile-name" variant="h3">
+                {this.props.user.name}
               </Typography>
-              <Typography>Spiciness: {this.props.user.heat_pref}</Typography>
-              <Typography>
-                Street or Gourmet: {this.props.user.street_gourmet}
-              </Typography>{" "}
               {this.props.friendFlag ? (
                 <Button
                   variant="contained"
@@ -274,6 +274,15 @@ class UsersProfile extends React.Component {
                   Add as friend
                 </Button>
               )}
+            </div>
+            <div className="profile-preferences">
+              <Typography>
+                Tortilla preference: {this.props.user.hard_or_soft}
+              </Typography>
+              <Typography>Spiciness: {this.props.user.heat_pref}</Typography>
+              <Typography>
+                Street or Gourmet: {this.props.user.street_gourmet}
+              </Typography>{" "}
             </div>
           </div>
 
@@ -312,53 +321,17 @@ class UsersProfile extends React.Component {
                 )}
               </div>
             </div>
-            {this.state.tabValue === 0 && (
-              <form className={classes.root} autoComplete="off">
-                <FormControl variant="outlined" className={classes.formControl}>
-                  <InputLabel
-                    ref={ref => {
-                      this.InputLabelRef = ref;
-                    }}
-                    htmlFor="outlined-age-simple"
-                  >
-                    Location
-                  </InputLabel>
-                  <Select
-                    value={this.state.value}
-                    onChange={this.handleSelect}
-                    input={
-                      <OutlinedInput
-                        labelWidth={this.state.labelWidth}
-                        name="age"
-                        id="outlined-age-simple"
-                      />
-                    }
-                  >
-                    <MenuItem value="All">
-                      <em>All</em>
-                    </MenuItem>
-                    {this.props.favorites.map(favorite => {
-                      if (favorite !== undefined) {
-                        return (
-                          <MenuItem
-                            className={`location-${favorite.location}`}
-                            value={`${favorite.location}`}
-                          >
-                            {favorite.location}
-                          </MenuItem>
-                        );
-                      }
-                      return "Favorites map completed";
-                    })}
-                  </Select>
-                </FormControl>
-              </form>
-            )}
 
             <div className="profile-personal-container">
               {/* Tabs */}
               <div className={classes.root}>
-                <AppBar position="static" style={{ justifyContent: "center" }}>
+                <AppBar
+                  position="static"
+                  style={{
+                    justifyContent: "center",
+                    backgroundColor: "#9f0808"
+                  }}
+                >
                   <Tabs
                     value={tabValue}
                     onChange={this.handleChangeTabs}
@@ -430,7 +403,10 @@ class UsersProfile extends React.Component {
                     <List classes={{ root: classes.root_81 }}>
                       {this.props.friends.map(friend => {
                         return (
-                          <Link to={`/user/${friend.id}`}>
+                          <Link
+                            to={`/user/${friend.id}`}
+                            className={classes.evenWidth}
+                          >
                             <ListItem className="resultsDisplay">
                               <ListItemAvatar className="location-picture">
                                 <Avatar src={friend.user_pic} />

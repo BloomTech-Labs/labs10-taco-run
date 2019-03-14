@@ -134,7 +134,7 @@ const styles = theme => ({
       flexDirection: "row",
       flexWrap: "wrap"
     }
-  }, 
+  },
   userName: {
     fontSize: "1.9rem",
     [theme.breakpoints.up("md")]: {
@@ -148,7 +148,7 @@ const styles = theme => ({
       maxWidth: "1000px",
       flexDirection: "column",
       justifyContent: "center",
-      alignItems: "center",
+      alignItems: "center"
     }
   },
   profileDetails: {
@@ -171,8 +171,8 @@ const styles = theme => ({
     }
   },
   evenWidth: {
-    [theme.breakpoints.down("sm")]: {}
-  },
+    [theme.breakpoints.up("sm")]: { width: "50%" }
+  }
 });
 
 //^^^^^^^^^^Material UI ABOVE^^^^^^^^^^^^^^^
@@ -249,7 +249,7 @@ class UserProfile extends React.Component {
     this.props.addFriend(obj, cid);
   };
 
-  favorite
+  favorite;
 
   componentDidMount() {
     // fetchUser
@@ -286,9 +286,13 @@ class UserProfile extends React.Component {
                 src={this.props.user.user_pic}
                 className={classes.bigAvatar}
               />
-              <Typography variant="h3" className="profile-name" classes = {{ root: classes.userName }}>
+              <Typography
+                variant="h3"
+                className="profile-name"
+                classes={{ root: classes.userName }}
+              >
                 {this.props.user.name}
-              </Typography>              
+              </Typography>
               <Button
                 variant="contained"
                 onClick={() => {
@@ -305,7 +309,7 @@ class UserProfile extends React.Component {
               <Typography>Spiciness: {this.props.user.heat_pref}</Typography>
               <Typography>
                 Street or Gourmet: {this.props.user.street_gourmet}
-              </Typography>              
+              </Typography>
             </div>
           </div>
 
@@ -474,7 +478,13 @@ class UserProfile extends React.Component {
             <div className="profile-personal-container">
               {/* Tabs */}
               <div className={classes.root}>
-                <AppBar position="static" style={{ justifyContent: "center", backgroundColor: "#9f0808" }}>
+                <AppBar
+                  position="static"
+                  style={{
+                    justifyContent: "center",
+                    backgroundColor: "#9f0808"
+                  }}
+                >
                   <Tabs
                     value={tabValue}
                     onChange={this.handleChangeTabs}
