@@ -129,17 +129,3 @@
 		width: 98%;
 	}
 }
-
-/*
-                <div className="flexCardBtn">
-                  <div className="joinBtnDiv">
-                    <Button variant="contained" color="primary" onClick={this.addFav} className={classes.cardBtn}>
-                      Add location to favorites
-                    </Button>
-                  </div>
-                  <div className="topMarg">
-                    <Button variant="contained" color="secondary" onClick={this.leaveEvent} className={classes.cardBtn}>
-                      Leave Event
-                    </Button>
-                  </div>
-                </div>*/

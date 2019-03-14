@@ -38,15 +38,16 @@ class App extends Component {
               <Route exact path="/user/:id" component={UsersProfile} />
             </Switch>
             <Fab
-              color="primary"
               aria-label="Add"
               style={{
                 bottom: "20px",
                 right: "20px",
                 overflow: "hidden",
-                position: "fixed"
+                position: "fixed",
+                backgroundColor: "#9f0808"
               }}
               onClick={() => {
+                window.location.reload();
                 this.props.history.push("/events_create");
               }}
             >

@@ -300,7 +300,8 @@ class EventSingle extends React.Component {
       show_map: false,
       current_tacos: [],
       form1: true,
-      form2: false
+      form2: false,
+      height: "300",
     });
   }
 
@@ -314,7 +315,7 @@ class EventSingle extends React.Component {
       usCity: '',
       street: '',
       show_map2: false,
-      height: "300",
+      height: "",
       vUpdated: false
     }, () => {this.getEventInfoSingle()});
   }
@@ -799,6 +800,8 @@ class EventSingle extends React.Component {
       )
     })
 
+    //show attending
+
     return (
       <div>
         <DrawerBar />
@@ -877,6 +880,11 @@ class EventSingle extends React.Component {
                 <Button variant="contained" onClick={this.showAttending} className={`${classes.btnAttending} ${classes.margRSingle}`}>
                   Show Attending
                 </Button>
+
+                <Button variant="contained" onClick={this.addFav} className={`${classes.btnAttending} ${classes.margRSingle}`}>
+                  Add to Favorites
+                </Button>
+
 
                 {this.state.email === this.props.auth.email ? (
                   <Button variant="outlined" onClick={() => {this.openModal2()}} className={classes.btnAttending}>

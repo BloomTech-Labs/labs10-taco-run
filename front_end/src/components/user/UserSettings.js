@@ -120,6 +120,9 @@ const styles = theme => ({
       paddingRight: 10
     }
   },
+  redish: {
+    backgroundColor: "#9f0808"
+  },
   columnUp: {
     [theme.breakpoints.up("sm")]: {
       flexDirection: "column"
@@ -129,6 +132,8 @@ const styles = theme => ({
     }
   }
 });
+
+//billing
 
 function TabContainer(props) {
   return (
@@ -238,7 +243,7 @@ class UserSettings extends React.Component {
           <ContainForm>
             <div className={classes.root}>
               <AppBar position="static">
-                <Tabs tabvalue={tabvalue} classes = {{ flexContainer: classes.justifyTabs }} onChange={this.handleTabChange}>
+                <Tabs tabvalue={tabvalue} classes = {{ flexContainer: `${classes.justifyTabs} ${classes.redish}` }} onChange={this.handleTabChange}>
                   <Tab label="Profile" style = {{ width: "50%" }} />
                   <Tab label="Billing" style = {{ width: "50%" }} />                  
                 </Tabs>
