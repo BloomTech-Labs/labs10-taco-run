@@ -57,6 +57,7 @@ export const getEvent = id => dispatch => {
 export const createEvent = (event, id) => {
   return dispatch => {
     dispatch({ type: EVENTS_CREATE_START });
+    console.log('about to post event')
     axios
       .post(`https://production-taco.herokuapp.com/events`, event)
       .then(() => {
@@ -67,6 +68,8 @@ export const createEvent = (event, id) => {
             )}`
           )
           .then(res => {
+            console.log('finished posting event \n')
+            console.log(res.data)
             dispatch({
               type: EVENTS_CREATE_COMPLETE,
               payload: res.data
@@ -104,7 +107,7 @@ export const deleteEvent = id => {
   };
 };
 
-export const updateEvent = (event, id) => {
+export const updateEvent = (event, id, cb) => {
   return dispatch => {
     dispatch({ type: EVENT_UPDATE_START });
     axios
@@ -112,7 +115,7 @@ export const updateEvent = (event, id) => {
       .then(() => {
         axios.get("https://production-taco.herokuapp.com/events").then(res2 => {
           dispatch({ type: EVENT_UPDATE_COMPLETE, payload: res2.data });
-        });
+        }, () => {cb()});
       })
       .catch(err => {
         dispatch({
@@ -171,3 +174,7 @@ export const inviteEvent = inviteObject => dispatch => {
       dispatch({ type: EVENTS_INVITE_ERROR, payload: err });
     });
 };
+
+
+
+
