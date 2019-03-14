@@ -9,6 +9,11 @@ import facebook from './img/facebook.png'
 import google from './img/google.png'
 import twitter from './img/twitter.png'
 
+import Jonathan from "./img/Jonathan.jpg";
+import Marshall from "./img/Marshall.jpg";
+import MaxDavid from "./img/MaxDavid.jpg";
+import Benny from "./img/Benny2.jpg";
+
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -149,11 +154,11 @@ class LandingPage extends React.Component {
             </div>
           </section>
   
-          <div className="row">
+          <div className="row twoColumn">
             <div className="col-6 col-12-narrower">
   
               <section className="box special">
-                <span className="image featured"><img src="images/pic02.jpg" alt="" /></span>
+                <span className="image featured backgroundImage4"></span>
                 <h3>Marshall Lanners</h3>
                 <p className = "paragraph-element">Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
                 <ul className="actions special">
@@ -165,7 +170,7 @@ class LandingPage extends React.Component {
             <div className="col-6 col-12-narrower">
   
               <section className="box special">
-                <span className="image featured"><img src="images/pic03.jpg" alt="" /></span>
+                <span className="image featured backgroundImage"></span>
                 <h3>Benny Oseguera</h3>
                 <p className = "paragraph-element">Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
                 <ul className="actions special">
@@ -176,11 +181,11 @@ class LandingPage extends React.Component {
             </div>
           </div>
   
-          <div className="row">
+          <div className="row twoColumn">
             <div className="col-6 col-12-narrower">
   
               <section className="box special">
-                <span className="image featured"><img src="images/pic02.jpg" alt="" /></span>
+                <span className="image featured backgroundImage3"></span>
                 <h3>Jonathan Laluces</h3>
                 <p className = "paragraph-element">Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
                 <ul className="actions special">
@@ -192,7 +197,7 @@ class LandingPage extends React.Component {
             <div className="col-6 col-12-narrower">
   
               <section className="box special">
-                <span className="image featured"><img src="images/pic03.jpg" alt="" /></span>
+                <span className="image featured backgroundImage2"></span>
                 <h3>Max David Metelus</h3>
                 <p className = "paragraph-element">Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
                 <ul className="actions special">
