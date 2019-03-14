@@ -179,8 +179,6 @@ class DrawerBar extends React.Component {
   logOut = event => {
     event.preventDefault();
     firebase.auth().signOut();
-    window.location.reload();
-    this.props.history.push("/");
   };
 
   handleClick = event => {
