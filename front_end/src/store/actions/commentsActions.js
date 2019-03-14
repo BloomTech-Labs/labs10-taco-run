@@ -22,14 +22,14 @@ export const getComments = id => {
     axios
       .get(`https://production-taco.herokuapp.com/events/${id}/comments`)
       .then(res => {
-        console.log(res.data);
+        
         dispatch({
           type: COMMENTS_GET_COMPLETE,
           payload: res.data.comments_info
         });
       })
       .catch(err => {
-        console.log("getComments", err);
+        
         dispatch({ type: COMMENTS_GET_ERROR, payload: err });
       });
   };
@@ -61,7 +61,7 @@ export const updateComment = changes => {
     axios
       .put(`https://production-taco.herokuapp.com/comments`, changes)
       .then(res => {
-        console.log(res.config);
+        
         axios
           .get(
             `https://production-taco.herokuapp.com/events/${
@@ -88,7 +88,7 @@ export const deleteComment = (ids, cid) => {
     axios
       .delete(`https://production-taco.herokuapp.com/comments`, ids)
       .then(res => {
-        console.log(res);
+        
         dispatch({
           type: DELETE_COMMENT_COMPLETE,
           payload: res.data,
