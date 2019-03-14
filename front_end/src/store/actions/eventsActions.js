@@ -175,3 +175,7 @@ export const inviteEvent = inviteObject => dispatch => {
       dispatch({ type: EVENTS_INVITE_ERROR, payload: err });
     });
 };
+
+
+
+

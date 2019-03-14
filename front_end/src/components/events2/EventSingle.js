@@ -182,6 +182,13 @@ const styles = theme => ({
   },
   spaceTop: {
     marginTop: 10
+  },
+  search: {
+    marginTop: -5,
+    marginBottom: 15
+  },
+  margRSingle: {
+    marginRight: '10px'
   }
 });
 
@@ -637,8 +644,6 @@ class EventSingle extends React.Component {
     console.log(`${[name]}: ${event.target.checked}`);
   };
 
-  //venue updated
-
   searchMap = event => {
 
     this.setState({
@@ -721,7 +726,20 @@ class EventSingle extends React.Component {
       user_id: this.props.users[0].id,
       event_id: this.props.match.params.id
     };
-    this.props.inviteEvent(inviteObject);
+
+    axios
+    .post(`https://production-taco.herokuapp.com/users_events/`, inviteObject)
+    .then(res => {
+      console.log(res.data)
+      if (res.data.msg){
+        this.props.alert.show('you already invited user to event')
+      } else {
+        this.props.alert.show('user invited to event')
+      }
+    })
+    .catch(error => {
+      console.log(error)
+    })
   };
 
   render() {       
@@ -837,27 +855,33 @@ class EventSingle extends React.Component {
                   </Card>
 
                   ) : 
-                  <div className="attendeesDiv spacingTop">
-                  <Card className={classes.cardSmall}>
-                    <CardContent>
-                      <Typography variant="h5" component="h2">
-                      No Location <br/>
-                      Currently Set
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                  </div>
+                  null
                 }
               </div>
             </div>
 
+            {this.state.location === "" && this.state.loaded === true ? (
+              <div className="attendeesDiv spacingTop">
+                <Card className={classes.cardSmall}>
+                  <CardContent>
+                    <Typography variant="h5" component="h2">
+                    No Location <br/>
+                    Currently Set
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </div>
+            ) : null }
+
+
             <div className="flexButtonsSingle container">
               <div className="btnAttending">
-                <Button variant="contained" onClick={this.showAttending} className={classes.btnAttending}>
+                <Button variant="contained" onClick={this.showAttending} className={`${classes.btnAttending} ${classes.margRSingle}`}>
                   Show Attending
                 </Button>
+
                 {this.state.email === this.props.auth.email ? (
-                  <Button variant="contained" onClick={() => {this.openModal2()}} className={classes.btnAttending}>
+                  <Button variant="outlined" onClick={() => {this.openModal2()}} className={classes.btnAttending}>
                     Change Venue
                   </Button>
                 ) : null }
@@ -1093,7 +1117,8 @@ class EventSingle extends React.Component {
 
 
 
-
+// No Location 
+// Currently Set
 
 
 
@@ -1138,6 +1163,61 @@ class EventSingle extends React.Component {
               }
 
             <div className="event-discussion container">
+
+
+                              {this.state.email === this.props.auth.email ? (
+
+                      <div className={classes.search}>
+                              <div className={classes.searchIcon}>
+                                {/* <SearchIcon onSubmit = {this.handleSubmitUsers}/> */}
+                              </div>
+                              <form
+                                className={classes.container}
+                                noValidate
+                                autoComplete="off"
+                                onSubmit={this.handleSubmitUsers}
+                              >
+                                <TextField
+                                  id="standard-search"
+                                  label="Send Invites"
+                                  type="search"
+                                  className={classes.textField}
+                                  margin="normal"
+                                  value={this.state.search}
+                                  onChange={this.handleSearchChange}
+                                />
+                              </form> 
+                              <div id="results" ref={node => (this.node = node)}>
+                                <List>
+                                  {this.props.users.map(result => {
+                                    if (result !== undefined) {
+                                      return (
+                                        <div>
+                                          <ListItem className="resultsDisplay">
+                                            <ListItemAvatar className="location-picture">
+                                              <Avatar src={result.user_pic} />
+                                            </ListItemAvatar>
+                                            <ListItemText primary={result.name} />
+                                            <IconButton aria-label="Add">
+                                            <Icon onClick={this.handleInvite} id={result.id}>
+                                              +
+                                            </Icon>
+                                          </IconButton>                                    
+                                          </ListItem>
+                                          <Divider />
+                                        </div>
+                                      );
+                                    }
+                                  })}
+                                </List>
+                              </div>                     
+                            </div>
+
+
+                  ) : null}
+
+
+
               <Typography variant="subtitle1" gutterBottom>
                 {directions}
               </Typography>
@@ -1264,7 +1344,7 @@ export default connect(mapStateToProps,{getEvent,updateEvent,getComments,fetchUs
 
 
 
-{/* -------------------By Venue-----------Modal----Update----------------------------------*/} 
+{/* -------------------By Venue----Show Attending--Edit Comment-----Modal----Update----------------------------------*/} 
 
 
 /*
