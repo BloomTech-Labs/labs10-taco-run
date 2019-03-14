@@ -23,30 +23,30 @@
 ---
  | Endpoint Number | Description Details Index: |
 |1. | [Details](#GET/users) |
-|2. | [Details](#POST/users)
-|3. | [Details](#GET/users/:id)
-|4. | [Details](#GET/users/:id/info)
-|5. | [Details](#UPDATE/users/:id)
-|6. | [Details](#UPDATE/users/:id/prem)
-|7.|  [Details](#DELETE/users/:id)
-|8. | [Details](#POST/payments)
-|9. | [Details](#POST/favorites)
-|10. | [Details](#GET/favorites/:id)
-|11. | [Details](GET/favorites/search/:term)
-|12. | [Details](#DELETE/favorites/:id)
-|13. | [Details](#POST/events)
-|14. | [Details](#GET/events)
-|15. | [Details](#GET/events/:id)
-|16. | [Details](#GET/events/:id/comments)
-|17. | [Details](#UPDATE/events)
-|18. | [Details](#POST/users_friends)
-|19. | [Details](#GET/users_friends/:id)
-|20. | [Details](#DELETE/users_friends/)
-|21. | [Details](#POST/users_events)
-|22. | [Details](#UPDATE/users_events/accept)
-|23. | [Details](#DELETE/users_events/decline)
-|24. | [Details](#GET/users_events/:id)
-|25. | [Details](#GET/search/:term)
+|2. | [Details](#POST/users) |
+|3. | [Details](#GET/users/:id) |
+|4. | [Details](#GET/users/:id/info) |
+|5. | [Details](#UPDATE/users/:id) |
+|6. | [Details](#UPDATE/users/:id/prem) |
+|7.|  [Details](#DELETE/users/:id) |
+|8. | [Details](#POST/payments) |
+|9. | [Details](#POST/favorites) |
+|10. | [Details](#GET/favorites/:id) |
+|11. | [Details](GET/favorites/search/:term) |
+|12. | [Details](#DELETE/favorites/:id) |
+|13. | [Details](#POST/events) |
+|14. | [Details](#GET/events) |
+|15. | [Details](#GET/events/:id) |
+|16. | [Details](#GET/events/:id/comments) |
+|17. | [Details](#UPDATE/events) |
+|18. | [Details](#POST/users_friends) |
+|19. | [Details](#GET/users_friends/:id) |
+|20. | [Details](#DELETE/users_friends/) |
+|21. | [Details](#POST/users_events) |
+|22. | [Details](#UPDATE/users_events/accept) |
+|23. | [Details](#DELETE/users_events/decline) |
+|24. | [Details](#GET/users_events/:id) |
+|25. | [Details](#GET/search/:term) |
 |26.
 |27.
 28.
