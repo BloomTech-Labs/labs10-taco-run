@@ -72,8 +72,6 @@ import Input from '@material-ui/core/Input';
 
 import Modal from 'react-awesome-modal';
 
-
-
 import SelectUSState from 'react-select-us-states';
 
 import './custom.css'
@@ -1081,7 +1079,7 @@ class EventSingle extends React.Component {
                                 />
                                 </GoogleMapReact>
                               </MapDiv2>
-{/* --------------------------------------------------------------------------*/}
+
                               <Card>
                                 <a href={this.state.singleVenue.url} target="_blank" className={classes.noHref}>
                                   <CardActionArea>
@@ -1112,21 +1110,6 @@ class EventSingle extends React.Component {
                           ) : null }
                         </div>
                       </div>
-
-
-
-
-
-// No Location 
-// Currently Set
-
-
-
-
-
-
-
-
 
                         ) : null} {/* -------- end of form one ------*/}
 
@@ -1341,81 +1324,3 @@ const mapStateToProps = state => {
 
 
 export default connect(mapStateToProps,{getEvent,updateEvent,getComments,fetchUser,makeComment,deleteComment,updateComment, fetchFriends, searchUsers, inviteEvent})(withStyles(styles)(withAlert()(EventSingle)));
-
-
-
-{/* -------------------By Venue----Show Attending--Edit Comment-----Modal----Update----------------------------------*/} 
-
-
-/*
-
-
-
-
-<div className="containSingle">
-                            <p className="xbutton" onClick={() => {this.closeModal()}}>X</p>
-                            <Typography variant="h5" className={`${classes.bottom} centerText`}>
-                              Look Up Specific Venue
-                            </Typography>
-
-                            <TextField
-                              id="outlined-name"
-                              label="Venue Name"
-                              className={classes.textField}
-                              value={this.state.byName}
-                              onChange={this.handleChange}
-                              margin="normal"
-                              variant="outlined"
-                              name="byName"
-                            />
-
-                            <TextField
-                              id="outlined-name"
-                              label="City"
-                              className={classes.textField}
-                              value={this.state.usCity}
-                              onChange={this.handleChange}
-                              margin="normal"
-                              variant="outlined"
-                              name="usCity"
-                            />
-
-                            <TextField
-                              id="outlined-name"
-                              label="street"
-                              className={classes.textField}
-                              value={this.state.street}
-                              onChange={this.handleChange}
-                              margin="normal"
-                              variant="outlined"
-                              name="street"
-                            />
-
-                            <SelectUSState onChange={this.setNewValue} className="bottom_marg"/><br />
-                            <div className="bottom_marg">
-                              <Button variant="contained" onClick={this.searchSingle}>
-                                Search
-                              </Button>
-                            </div>
-                          </div>
-
-
-
-
-
-
-
-
-
-
-
-
-*/
-
-
-
-
-
-
-
-

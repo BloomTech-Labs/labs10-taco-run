@@ -39,8 +39,8 @@ class LandingPage extends React.Component {
       <div id="page-wrapper">
   
         <header id="header" className="alt">
-          <h1><a href="/">Let's Get Tacos</a> by Labs 10 Taco Run Team</h1>
-          <nav id="nav">
+          <h1 className = "header-logo"><a href="/">Let's Get Tacos</a> by Labs 10 Taco Run Team</h1>
+          <nav id="nav" style = {{ top: "-3px" }}>
             <ul>            
               <li>              
                 <ul>
@@ -64,7 +64,7 @@ class LandingPage extends React.Component {
                   modal
                   closeOnDocumentClick                  
                 >
-                  <h3 style = {{ textAlign: "center" }}>Login With</h3>
+                  <h3 style = {{ textAlign: "center", color: "black" }}>Login With</h3>
                   <div className = "provider-buttons" style = {{    
                     display: "flex",
                     justifyContent: "space-evenly",
@@ -83,8 +83,8 @@ class LandingPage extends React.Component {
   
       
         <section id="banner">
-          <h2>Let's Get Tacos</h2>
-          <p>Where friends don't let friends get tacos alone</p>
+          <h2 className = "description-header">Let's Get Tacos</h2>
+          <p className = "banner-paragraph">Where friends don't let friends get tacos alone</p>
           <ul className="actions special">
             <li>
               <Popup 
@@ -114,10 +114,10 @@ class LandingPage extends React.Component {
   
           <section className="box special">
             <header className="major">
-              <h2>Eating tacos is not an activity done alone
+              <h2 className = "description-header">Eating tacos is not an activity done alone
               <br />
               We made it easy to create an event with all your closest friends</h2>
-              <p>Don't have a group ready to devour some tacos? That's okay, here at Let's Get Tacos<br />
+              <p className = "description-paragraph">Don't have a group ready to devour some tacos? That's okay, here at Let's Get Tacos<br />
               you can meet other Taco-Lovers from all over the world</p>
             </header>
             <span className="image featured"><img src="images/pic01.jpg" alt="" /></span>
@@ -127,25 +127,25 @@ class LandingPage extends React.Component {
             <div className="features-row">
               <section>
                 <span className="icon major fa-bolt accent2"></span>
-                <h3>Fast And Easy To Use</h3>
-                <p>Tired from the hassle of coordinating a meetup? We make the process fast and simple, all you need is to give the meetup a name, place, and empty stomachs.</p>
+                <h3 className = "learn-more-header">Fast And Easy To Use</h3>
+                <p className = "paragraph-element">Tired from the hassle of coordinating a meetup? We make the process fast and simple, all you need is to give the meetup a name, place, and empty stomachs.</p>
               </section>
               <section>
                 <span className="icon major fa-bookmark accent3"></span>
-                <h3>Keep Track of Those Extra Yummy Tacos</h3>
-                <p>Ate at a taco place that fits that made your taste buds jump for joy? Sweet, because now you can keep track on your profile all the taco places that are worth remembering for next time.</p>
+                <h3 className = "learn-more-header">Keep Track of Your Favorites</h3>
+                <p className = "paragraph-element">Ate at a taco place that fits that made your taste buds jump for joy? Sweet, because now you can keep track on your profile all the taco places that are worth remembering for next time.</p>
               </section>
             </div>
             <div className="features-row">
               <section>
                 <span className="icon major fa-map-marker accent4"></span>
-                <h3>The Latest in Location Technology</h3>
-                <p>Find specific taco-serving restaurants, read ratings, and read reviews of restaurants to ensure you pick the most authentic taco restaurants the world has to offer</p>
+                <h3 className = "learn-more-header">Using Yelp and Google Maps</h3>
+                <p className = "paragraph-element">Find specific taco-serving restaurants, read ratings, and read reviews of restaurants to ensure you pick the most authentic taco restaurants the world has to offer</p>
               </section>
               <section>
                 <span className="icon major fa-comments accent5"></span>
-                <h3>Tacos Together</h3>
-                <p>Don't hold those feelings of excitement and anticipation back! Chat in the comment sections of events you plan on going to, and even share pictures as well!</p>
+                <h3 className = "learn-more-header">Tacos Together</h3>
+                <p className = "paragraph-element">Don't hold those feelings of excitement and anticipation back! Chat in the comment sections of events you plan on going to, and even share pictures as well!</p>
               </section>
             </div>
           </section>
@@ -156,7 +156,7 @@ class LandingPage extends React.Component {
               <section className="box special">
                 <span className="image featured"><img src="images/pic02.jpg" alt="" /></span>
                 <h3>Marshall Lanners</h3>
-                <p>Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
+                <p className = "paragraph-element">Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
                 <ul className="actions special">
                   <li><a href="https://github.com/lanners-marshall" target="_blank" className="button alt">Github</a></li>
                 </ul>
@@ -168,7 +168,7 @@ class LandingPage extends React.Component {
               <section className="box special">
                 <span className="image featured"><img src="images/pic03.jpg" alt="" /></span>
                 <h3>Benny Oseguera</h3>
-                <p>Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
+                <p className = "paragraph-element">Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
                 <ul className="actions special">
                   <li><a href="https://github.com/bennyo27" target="_blank" className="button alt">Github</a></li>
                 </ul>
@@ -183,7 +183,7 @@ class LandingPage extends React.Component {
               <section className="box special">
                 <span className="image featured"><img src="images/pic02.jpg" alt="" /></span>
                 <h3>Jonathan Laluces</h3>
-                <p>Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
+                <p className = "paragraph-element">Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
                 <ul className="actions special">
                   <li><a href="https://github.com/jlaluces123" target="_blank" className="button alt">Github</a></li>
                 </ul>
@@ -195,7 +195,7 @@ class LandingPage extends React.Component {
               <section className="box special">
                 <span className="image featured"><img src="images/pic03.jpg" alt="" /></span>
                 <h3>Max David Metelus</h3>
-                <p>Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
+                <p className = "paragraph-element">Integer volutpat ante et accumsan commophasellus sed aliquam feugiat lorem aliquet ut enim rutrum phasellus iaculis accumsan dolore magna aliquam veroeros.</p>
                 <ul className="actions special">
                   <li><a href="https://github.com/Mdmetelus" target="_blank" className="button alt">Github</a></li>
                 </ul>

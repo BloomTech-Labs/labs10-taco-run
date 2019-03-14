@@ -132,7 +132,7 @@ export const acceptEvent = obj => {
     .then(() => {
       axios.get(`https://production-taco.herokuapp.com/users_events/${obj.user_id}`)
       .then(res => {
-        console.log(res)
+        
         dispatch({type: EVENTS_GET_COMPLETE, payload: res.data})
       })
     })
@@ -150,12 +150,12 @@ export const declineEvent = obj => {
     .then(() => {
       axios.get(`https://production-taco.herokuapp.com/users_events/${obj.user_id}`)
       .then(res => {
-        console.log(res)
+        
         dispatch({type: EVENTS_GET_COMPLETE, payload: res.data})
       })
     })
     .catch(error => {
-      console.log(error)
+      
       dispatch({ type: EVENTS_GET_ERROR, payload: error });
     })
   }
@@ -166,12 +166,11 @@ export const inviteEvent = inviteObject => dispatch => {
   axios
     .post(`https://production-taco.herokuapp.com/users_events/`, inviteObject)
     .then(response => {
-      console.log("response in inviteEvent is: \n");
-      console.log(response);
+      
       dispatch({ type: EVENTS_INVITE_COMPLETE, payload: response.data });
     })
     .catch(err => {
-      console.log(err);
+      
       dispatch({ type: EVENTS_INVITE_ERROR, payload: err });
     });
 };

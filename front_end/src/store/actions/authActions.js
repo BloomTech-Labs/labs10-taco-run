@@ -30,7 +30,7 @@ export const facebookAuth = () => {
 			dispatch({type: "FACEBOOK_SUCCESS"})
 		})
 		.catch(error => {
-			console.log(error)
+			
 			dispatch({type: 'FACEBOOK_ERROR', payload: error.message})
 		})
 	}

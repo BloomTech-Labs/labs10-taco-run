@@ -115,7 +115,7 @@ class CreateEvent extends React.Component {
       selectedDate: new Date(),
       author: "",
       user_id: "",
-      checkedInvite: false,
+      checkedInvite: true,
       checkedNoInvite: true,
       invite_only: false,
       posters_email: "",
@@ -264,7 +264,7 @@ class CreateEvent extends React.Component {
         });
       })
       .catch(error => {
-        console.log(error);
+        
         this.setState({
           city_location: ""
         });
@@ -277,7 +277,7 @@ class CreateEvent extends React.Component {
     let key = firebase.functions().app_.options_.yelpkey;
     let {byName, street, usState, usCity}  = this.state
     let url = `https://api.yelp.com/v3/businesses/matches?name=${byName}&address1=${street}&city=${usCity}&state=${usState}&country=US`
-    console.log(url)
+    
      axios
       .get(
         `${"https://cors-anywhere.herokuapp.com/"}${url}`,
@@ -288,7 +288,7 @@ class CreateEvent extends React.Component {
         }
       )
       .then(res => {
-        console.log(res)
+        
         let id = res.data.businesses[0].id
         let url = `https://api.yelp.com/v3/businesses/${id}`
         axios
@@ -358,7 +358,7 @@ class CreateEvent extends React.Component {
   }
 
   setVenue = (obj) => {
-    console.log(obj)
+    
     this.props.alert.show(`${obj.name} set as venue`)
     this.setState({
       setVenue: obj
@@ -385,7 +385,7 @@ class CreateEvent extends React.Component {
     const currentTacos = taco_places.slice(indexOfFirstTaco, indexOfLastTaco);
     const pageNumbers = [];
 
-    //console.log(this.state)
+    
 
     for (let i = 1; i <= Math.ceil(taco_places.length / tacosPerPage); i++) {
       pageNumbers.push(i);
@@ -404,7 +404,7 @@ class CreateEvent extends React.Component {
       );
     });
 
-    console.log(this.state)
+    
 
     function TabContainer(props) {
       return (
