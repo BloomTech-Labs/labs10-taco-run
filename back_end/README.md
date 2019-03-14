@@ -47,11 +47,11 @@
 |23. | [Details](#DELETE/users_events/decline) |
 |24. | [Details](#GET/users_events/:id) |
 |25. | [Details](#GET/search/:term) |
-|26.
-|27.
-28.
-29.
-30.
+|26. |  |
+|27.  |  |
+|28.   |  |
+|29.   |  |
+|30.   |  |
 ---
 
 
@@ -63,7 +63,7 @@
 | ------ | ------------- | ----------------------------------------------------------------------------- | --------------------- |
 | GET    | /users | If the user is logged in, respond with an array of all the user objects contained in the database. If the user is not logged in repond with the err code. | 1. |
 | POST    | /users | Creates a `user` using the information sent inside the `body` of the request. Name and email fields are manditory. Id is automatically incremented. | 2. |
-| GET    | /users/search | If the user is logged in, respond with an array of all the users contained in the database. If the user is not logged in repond with the err code. Get users based off search term using fuse.js for fuzzy search. | 22. |
+| GET    | /users/search | If the user is logged in, respond with an array of all the users contained in the database. If the user is not logged in repond with the err code. Get users based off search term using fuse.js for fuzzy search. | 25. |
 | GET    | users/:id | If the user is logged in, respond with an array of all the events contained in the database for a user. If the user is not logged in repond with the err code. | 3. |
 | GET    | /users/:id/info | If the user is logged in, respond with an object of all the users info contained in the database. If the user is not logged in repond with the err code. | 4. |
 | PUT    | /users/:id | If the user is logged in, responds with an object with the users entry that has been updated. If the user is not logged-in or does not contain the entry respond with the err code. | 5. |
