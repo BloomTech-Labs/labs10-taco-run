@@ -73,7 +73,6 @@ class LandingPage extends React.Component {
                   >
                     <img src={facebook}  className = {classes.providerButton} alt="facebook-provider-img" onClick={() => { this.props.facebookAuth(); this.props.history.push('/events_create') } }/>
                     <img src={google}  className = {classes.providerButton} alt="google-provider-img" onClick={() => { this.props.googleAuth(); this.props.history.push('/events_create') } }/>
-                    <img src={twitter}  className = {classes.providerButton} alt="twitter-provider-img" onClick={() => { this.props.twitterAuth(); this.props.history.push('/events_create') } }/>
                   </div>
                 </Popup>
               </li>
