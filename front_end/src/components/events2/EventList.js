@@ -154,6 +154,9 @@ const styles = theme => ({
     [theme.breakpoints.down("xs")]: {
       textAlign: "center"
     }
+  },
+  redish: {
+    backgroundColor: '#9f0808'
   }
 });
 
@@ -244,7 +247,7 @@ class EventList extends React.Component {
                 <Tabs
                   value={tabValue}
                   onChange={this.handleChangeTabs}
-                  classes={{ flexContainer: classes.tabBar }}
+                  classes={{ flexContainer: `${classes.tabBar} ${classes.redish}` }}
                 >
                   <Tab label="Upcoming" className={classes.tabs} />
                   <Tab
@@ -290,7 +293,7 @@ class EventList extends React.Component {
                               </Fab>
                             ) : null}
                             <Paper
-                              className={`${classes.paper} flexList`}
+                              className={`${classes.paper} flexList hoverpoint`}
                               onClick={() => {
                                 this.props.history.push(`/events/${event.id}`);
                               }}

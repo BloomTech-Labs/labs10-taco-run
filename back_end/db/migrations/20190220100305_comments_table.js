@@ -3,7 +3,7 @@ exports.up = function(knex, Promise) {
     tbl.increments()
 
     tbl
-      .string('content', 128)
+      .string('content', 300)
       .notNullable()
 
     tbl

@@ -172,7 +172,7 @@ const styles = theme => ({
   },
   evenWidth: {
     [theme.breakpoints.down("sm")]: {}
-  }
+  },
 });
 
 //^^^^^^^^^^Material UI ABOVE^^^^^^^^^^^^^^^
@@ -248,6 +248,8 @@ class UserProfile extends React.Component {
     let cid = obj.data.user_id;
     this.props.addFriend(obj, cid);
   };
+
+  favorite
 
   componentDidMount() {
     // fetchUser
@@ -472,7 +474,7 @@ class UserProfile extends React.Component {
             <div className="profile-personal-container">
               {/* Tabs */}
               <div className={classes.root}>
-                <AppBar position="static" style={{ justifyContent: "center" }}>
+                <AppBar position="static" style={{ justifyContent: "center", backgroundColor: "#9f0808" }}>
                   <Tabs
                     value={tabValue}
                     onChange={this.handleChangeTabs}
