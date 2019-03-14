@@ -2,6 +2,7 @@ import React from 'react';
 import StripeCheckout from "react-stripe-checkout";
 import axios from "axios";
 import { withAlert } from 'react-alert'
+import "./Billing.css";
 
 class Billing extends React.Component {
   constructor(){
@@ -74,16 +75,18 @@ class Billing extends React.Component {
             <p>all paid for the year enjoy</p>
         ) : 
           <div className = "stripe-checkout-wrapper">
-            <h1>Upgrade Account here</h1>
-            <p>
-              for only 10 dollars we can have your account upgraded
-              to invite over 10 people to a taco event
-            </p>
-            <StripeCheckout
-              email={this.state.usersEmail}
-              stripeKey="pk_test_1vnAsV5hSHEMk2DhNgXO4eum"
-              token={this.onToken}
-            />      
+            <div className = "pricing-info even-width">
+              - You can ....
+              <StripeCheckout
+                email={this.state.usersEmail}
+                stripeKey="pk_test_1vnAsV5hSHEMk2DhNgXO4eum"
+                token={this.onToken}
+              />  
+            </div>
+
+            <div className = "pricing-left even-width">
+              I will be on the left. $20 / mo
+            </div>                                       
           </div>
         }
         </div>

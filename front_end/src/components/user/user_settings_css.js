@@ -23,11 +23,7 @@ export const ProfileForm = styled.form`
 	}
 `
 export const ContainForm = styled.div`
-	max-width: 800px;
-	margin: 40px auto;
-	width: 96%;
-	border: solid black 1px;
-	padding: 2%;
+	padding-top: 5%;
 	@media (max-width: 645px) {
 		margin-top: 20px;
 	}

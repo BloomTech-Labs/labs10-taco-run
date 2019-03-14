@@ -127,12 +127,15 @@ const styles = theme => ({
     [theme.breakpoints.up("md")]: {
       flexDirection: "row"
     }
+  },
+  body1: {
+    width: "100%"
   }
 });
 
 function TabContainer(props) {
   return (
-    <Typography component="div" style={{ padding: 8 * 3 }}>
+    <Typography component="div">
       {props.children}
     </Typography>
   );
@@ -300,7 +303,9 @@ class UserSettings extends React.Component {
               {tabvalue === 1 && (
                 <TabContainer
                   onClick={this.switchToBilling}
-                  className={this.state.selected[0]}
+                  className={classNames(
+                    this.state.selected[0],                    
+                  )}                 
                 >
                   <Billing />
                 </TabContainer>
