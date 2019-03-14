@@ -105,7 +105,7 @@ const styles = theme => ({
     margin: 0,
     marginLeft: 0,
     marginRight: 0,
-    backgroundColor: "grey",
+    // backgroundColor: "grey",
     width: "100%",
     height: 40,
     [theme.breakpoints.up("sm")]: {
@@ -287,6 +287,7 @@ class UserSettings extends React.Component {
                     <Button
                       variant="contained"
                       size="small"
+                      color="primary" 
                       className={classes.button}
                       onClick={this.submitEdit}
                     >
