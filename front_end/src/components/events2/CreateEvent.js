@@ -8,10 +8,6 @@ import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/core/styles";
 import DateFnsUtils from "@date-io/date-fns";
 
-
-
-//
-
 import firebase from 'firebase';
 import axios from 'axios';
 import GoogleMapReact from 'google-map-react';
@@ -45,6 +41,8 @@ import Switch from "@material-ui/core/Switch";
 import PropTypes from 'prop-types';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+
+import Input from '@material-ui/core/Input';
 
 const styles = theme => ({
   grid: {
@@ -96,10 +94,14 @@ const styles = theme => ({
     marginRight: theme.spacing.unit,
     width: "94%",
     marginLeft: '3%'
+  },
+  input: {
+    margin: theme.spacing.unit,
+  },
+  spaceTop: {
+    marginTop: 10
   }
 });
-
-//root2
 
 const TacoLocation = ({ text }) => <div>{text}</div>;
 
@@ -181,7 +183,6 @@ class CreateEvent extends React.Component {
     if (this.state.setVenue){
       event_obj = this.state.setVenue
       let venue = this.state.setVenue.name
-
       event_obj.name = this.state.content
       event_obj.venue = venue
       event_obj.date = this.state.selectedDate
@@ -190,6 +191,7 @@ class CreateEvent extends React.Component {
       event_obj.posters_email = this.props.auth.email
       event_obj.posters_pic = this.props.auth.photoURL
       event_obj.invite_only = this.state.invite_only
+      event_obj.raiting = this.state.setVenue.rating
     } else {
       event_obj = {
         name: this.state.content,
@@ -204,9 +206,7 @@ class CreateEvent extends React.Component {
       }
     }
 
-    console.log(event_obj)
-
-    this.props.createEvent(event_obj);
+    this.props.createEvent(event_obj, Number(localStorage.getItem("user_id")));
     this.props.history.push("/events");
   };
 
@@ -303,11 +303,11 @@ class CreateEvent extends React.Component {
           .then(res => {
             let singleVenue = {
               name: res.data.name,
-              image_url: res.data.image_url,
+              img_url: res.data.image_url,
               rating: res.data.rating,
               url: res.data.url,
               price: res.data.price,
-              address: `${res.data.location.display_address[0]} ${res.data.location.display_address[1]}`,
+              location: `${res.data.location.display_address[0]} ${res.data.location.display_address[1]}`,
               lat: res.data.coordinates.latitude,
               lon: res.data.coordinates.longitude
             }
@@ -457,16 +457,6 @@ class CreateEvent extends React.Component {
                         value={selectedDate}
                         onChange={this.handleDateChange}
                       />
-                      <FormControlLabel
-                        control={
-                          <Switch
-                            
-                            onChange={this.handleSwitchChange}
-                            
-                          />
-                        }
-                        label="Invite Friends"
-                      />
                     </div>
                   </Grid>
                 </MuiPickersUtilsProvider>
@@ -487,6 +477,9 @@ class CreateEvent extends React.Component {
             <section>
       <Modal visible={this.state.visible} className="modal-body" effect="fadeInUp" onClickAway={() => this.closeModal()}>
 
+
+
+
         {this.state.value === 0 ? (null) 
           : this.state.value === 1 ? (
           <div>
@@ -496,10 +489,11 @@ class CreateEvent extends React.Component {
                 Look Up Specific Venue
               </Typography>
 
-              <TextField
+              <Input
+                placeholder="venue"
                 id="outlined-name"
                 label="Venue Name"
-                className={classes.textField}
+                className={`${classes.textField} ${classes.spaceTop}`}
                 value={this.state.byName}
                 onChange={this.handleChange}
                 margin="normal"
@@ -507,7 +501,8 @@ class CreateEvent extends React.Component {
                 name="byName"
               />
 
-              <TextField
+              <Input
+                placeholder="city"
                 id="outlined-name"
                 label="City"
                 className={classes.textField}
@@ -518,7 +513,8 @@ class CreateEvent extends React.Component {
                 name="usCity"
               />
 
-              <TextField
+              <Input
+                placeholder="street"
                 id="outlined-name"
                 label="street"
                 className={classes.textField}
@@ -527,6 +523,7 @@ class CreateEvent extends React.Component {
                 margin="normal"
                 variant="outlined"
                 name="street"
+                
               />
 
               <SelectUSState onChange={this.setNewValue} className="bottom_marg"/><br />
@@ -567,7 +564,7 @@ class CreateEvent extends React.Component {
                             {this.state.singleVenue.name}
                           </Typography>
                           <Typography component="p">
-                            Location: {this.state.singleVenue.address}<br/>
+                            Location: {this.state.singleVenue.location}<br/>
                             Rating: {this.state.singleVenue.rating}<br/>
                             Price: {this.state.singleVenue.price}<br/>
                           </Typography>
